@@ -3,13 +3,13 @@ const router = express.Router();
 const helper = require("../helpers/helper");
 const db = require("../helpers/database");
 
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res, _) {
 	res.send({
 		"message": "Welcome",
 	});
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req, res, _) => {
 	if (req.body.hasOwnProperty("username") === false || !req.body["username"]) {
 		return res.send(helper.invalid_response("Invalid username"));
 	}

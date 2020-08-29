@@ -9,9 +9,10 @@ const DB = {
 	connect() {
 		con = mysql.createConnection({
 			host: process.env.MYSQL_HOST,
+			port: process.env.MYSQL_PORT,
 			user: process.env.MYSQL_USER,
 			password: process.env.MYSQL_PASSWORD,
-			database: process.env.MYSQL_DB
+			database: process.env.MYSQL_DATABASE
 		});
 	},
 
@@ -61,7 +62,7 @@ const DB = {
 	},
 
 	async getUserData(userID) {
-		const query = `SELECT id, name, email, username, active FROM ${TABLES.User} WHERE id = '${userID}'`;
+		const query = `SELECT id, name, email, username, active FROM ${TABLES.User} WHERE id = ${userID}`;
 		return await this.getResultSet(query, false, true)
 	},
 

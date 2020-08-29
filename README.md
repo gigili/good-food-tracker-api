@@ -11,17 +11,19 @@ This repository is for the back end API built with Nodejs & Express
 ### How do I get set up? ###
 
 To get started on development follow these steps:
-* Create MySQL database
-    * Import `.mysql` from `SQL_Dump/dump.sql`
-* Rename `.env.example` to `.env`
-    * Add your values to the `.env` file
-* Run `npm install`
-* To start the dev version of the server run: `npm run dev`  
+* Rename `.env.example` to `.env`;
+    * Add your values to the `.env` file;
+* Run `npm install`;
+* Create `MySQL` database;
+    * Run `db-migrate up` to run all database migrations;
+* To start the dev version of the server run: `npm run dev`;
+* Visit `localhost:3000` to see if everything works;
  
 ### Contribution guidelines ###
 
-* Keep code clean and simple
-* Always use branches and pull requests when making changes to the codebase
+* Keep code clean and simple;
+* **DO NOT** alter the database directly, use migrations;
+* Always use branches and pull requests when making changes to the codebase;
 
 ### Who do I talk to? ###
 
