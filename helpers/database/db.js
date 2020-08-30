@@ -1,9 +1,5 @@
 const mysql = require('mysql');
 
-const TABLES = {
-	"User": "user"
-};
-
 let con = undefined;
 const DB = {
 	connect() {
@@ -60,16 +56,6 @@ const DB = {
 			}
 		});
 	},
-
-	async getUserData(userID) {
-		const query = `SELECT id, name, email, username, active FROM ${TABLES.User} WHERE id = ${userID}`;
-		return await this.getResultSet(query, false, true)
-	},
-
-	async login(username = "", password = "") {
-		const query = `SELECT id FROM ${TABLES.User} WHERE username = '${username}' AND password = '${password}'`
-		return await this.getResultSet(query, false, true);
-	}
 }
 
 module.exports = DB;
