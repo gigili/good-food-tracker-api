@@ -19,10 +19,10 @@ const Helper = {
 	decode_token(token = "") {
 		return jwt.decode(token);
 	},
-	invalid_response(message){
+	invalid_response(message = "", data = null){
 		return {
 			"success": false,
-			"rows": [],
+			"rows": data || [],
 			"error" : { message }
 		}
 	}

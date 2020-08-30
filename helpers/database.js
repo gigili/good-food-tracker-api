@@ -31,7 +31,6 @@ const DB = {
 			});
 		});
 	},
-
 	async getResultSet(sql, isProcedure = false, returnSingleRecord = false) {
 		if (isProcedure) {
 			sql = `call ${sql}`;
@@ -60,12 +59,10 @@ const DB = {
 			}
 		});
 	},
-
 	async getUserData(userID) {
 		const query = `SELECT id, name, email, username, active FROM ${TABLES.User} WHERE id = ${userID}`;
 		return await this.getResultSet(query, false, true)
 	},
-
 	async login(username = "", password = "") {
 		const query = `SELECT id FROM ${TABLES.User} WHERE username = '${username}' AND password = '${password}'`
 		return await this.getResultSet(query, false, true);
