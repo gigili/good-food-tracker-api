@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const helper = require("../helpers/helper");
-const db = require("../helpers/database");
+const dbUtils = require("../helpers/database/dbUtils");
 const validation = require("../helpers/validation");
 
 router.get('/', function (req, res, _) {
@@ -19,7 +19,7 @@ router.post("/login", async (req, res, _) => {
 		return res.status(400).send(helper.invalid_response("Invalid password"));
 	}
 
-	const loginResult = await db.login(req.body["username"], req.body["password"]);
+	const loginResult = await dbUtils.login(req.body["username"], req.body["password"]);
 
 	if (loginResult.success === false) {
 		return res.status(400).send(helper.invalid_response("Login operation failed."))
@@ -29,7 +29,7 @@ router.post("/login", async (req, res, _) => {
 		return res.status(400).send(helper.invalid_response("Account doesn't exist."))
 	}
 
-	const user = await db.getUserData(loginResult.rows.id);
+	const user = await dbUtils.getUserData(loginResult.rows.id);
 	if (user.hasOwnProperty("rows") === false || user.rows.hasOwnProperty("id") === false) {
 		return res.status(400).send(helper.invalid_response("Account doesn't exist."))
 	}
@@ -48,23 +48,23 @@ router.post("/register", async (req, res, _) => {
 	const nameValidationMessages = validation.validate(name, "Name", [
 		"required",
 		{"min_length": 5}
-	], true).validate();
+	], true);
 
 	const emailValidationMessages = validation.validate(email, "E-mail", [
 		"required",
 		{"min_length": 5},
 		"valid_email"
-	], true).validate();
+	], true);
 
 	const usernameValidationMessages = validation.validate(username, "Username", [
 		"required",
 		{"min_length": 3},
-	], true).validate();
+	], true);
 
 	const passwordValidationMessages = validation.validate(password, "Password", [
 		"required",
 		{"min_length": 10},
-	], true).validate();
+	], true);
 
 	if(nameValidationMessages.length > 0){
 		return res.status(400).send(helper.invalid_response(nameValidationMessages));
@@ -82,7 +82,16 @@ router.post("/register", async (req, res, _) => {
 		return res.status(400).send(helper.invalid_response(passwordValidationMessages));
 	}
 
-	return res.status(500).send(helper.invalid_response("NOT IMPLEMENTED!", req.body));
+	const result = await dbUtils.registerUser({name, email, username, password});
+
+	if(result === true){
+		return res.status(201).send({
+			"success": true,
+			"message": "Account created successfully"
+		});
+	}
+
+	return res.status(400).send(helper.invalid_response(result));
 });
 
 module.exports = router;
