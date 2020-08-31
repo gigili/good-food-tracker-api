@@ -48,8 +48,8 @@ const DB = {
 				"success": false,
 				"rows": [],
 				"total": 0,
+				"message": error.message,
 				"error": {
-					"message": error.message,
 					"code": error.code,
 					"stack": error.stack
 				}

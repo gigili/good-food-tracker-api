@@ -6,7 +6,7 @@ const Helper = {
 		const expiresAt = (Math.floor(Date.now() / 1000) + 7200);
 		const tokenData = {
 			algorithm: "HS256",
-			issuer: "stella-food-tracker",
+			issuer: "good-food-tracker",
 			iat: Math.floor(Date.now() / 1000),
 			expiresIn: expiresAt
 		}
@@ -22,8 +22,8 @@ const Helper = {
 	invalid_response(message = "", data = null){
 		return {
 			"success": false,
-			"rows": data || [],
-			"error" : { message }
+			"data": data || [],
+			"message" :  message
 		}
 	}
 }
