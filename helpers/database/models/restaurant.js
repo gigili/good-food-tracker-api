@@ -43,6 +43,11 @@ const restaurant = {
 		return await db.getResultSet(insertQuery);
 	},
 
+	async get(restaurantID = 0) {
+		const query = `SELECT * FROM ${dbUtils.getTables().Restaurant} WHERE id = ${restaurantID}`;
+		return await db.getResultSet(query, false, true);
+	},
+
 	async update(data = {}) {
 		const id = data.restaurantID || null;
 		const name = data.name;
@@ -53,7 +58,7 @@ const restaurant = {
 		const geo_lat = parseFloat(data.geo_lat) || null;
 		const geo_long = parseFloat(data.geo_long) || null;
 
-		if(id === null || id < 1 ){
+		if (id === null || id < 1) {
 			return helper.invalid_response("Missing ID field");
 		}
 
