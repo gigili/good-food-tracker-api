@@ -39,7 +39,10 @@ router.post("/login", async (req, res, _) => {
 	}
 
 	const tokenData = helper.generate_token(user.rows);
-	return res.status(200).send(tokenData);
+	return res.status(200).send({
+		"success": true,
+		"data": tokenData
+	});
 });
 
 router.post("/register", async (req, res, _) => {

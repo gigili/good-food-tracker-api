@@ -5,6 +5,7 @@ const logger = require('morgan');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
+const restaurantRouter = require('./routes/restaurant');
 const app = express();
 
 app.use(logger('dev'));
@@ -14,5 +15,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/restaurant', restaurantRouter);
 
 module.exports = app;

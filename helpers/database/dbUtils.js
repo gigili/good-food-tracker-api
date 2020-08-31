@@ -1,7 +1,8 @@
 const db = require("./db");
 
 const TABLES = {
-	"User": "user"
+	"User": "user",
+	"Restaurant": "restaurant",
 };
 
 const dbUtils = {
@@ -12,11 +13,6 @@ const dbUtils = {
 
 	async login(username = "", password = "") {
 		const query = `SELECT id FROM ${TABLES.User} WHERE username = '${username}' AND password = '${password}'`
-		return await db.getResultSet(query, false, true);
-	},
-
-	async findUser(searchTerm) {
-		const query = `SELECT id, name, email, username, active FROM ${TABLES.User} WHERE username LIKE '%${searchTerm}%' OR email LIKE '%${searchTerm}%'`;
 		return await db.getResultSet(query, false, true);
 	},
 
@@ -44,6 +40,10 @@ const dbUtils = {
 		}
 
 		return true;
+	},
+
+	getTables(){
+		return TABLES;
 	}
 }
 
