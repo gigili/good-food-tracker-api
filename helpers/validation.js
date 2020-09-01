@@ -2,10 +2,10 @@ const Validation = {
 	validate(validationFields = [], singleError = false) {
 		const errors = [];
 
-		for(const param of validationFields){
-			this.value = param[0];
-			this.label = param[1];
-			this.params = param[2];
+		for(const {value, label, params} of validationFields){
+			this.value = value;
+			this.label = label;
+			this.params = params;
 
 			this.singleError = singleError;
 			this.params.forEach((rule) => {
@@ -24,7 +24,7 @@ const Validation = {
 				}
 			});
 		}
-		console.log("errors", errors);
+
 		//TODO: Refactor so it doesn't run all validations first if only the first error should be returned
 		return (this.singleError === true) ? ((errors.length > 0) ? errors[0] : []) : errors;
 	},
