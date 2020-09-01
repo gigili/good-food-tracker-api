@@ -1,26 +1,31 @@
 const Validation = {
-	validate(value, label, params = [], singleError = false) {
-		this.value = value;
-		this.label = label;
-		this.params = params;
-		this.singleError = singleError;
-
+	validate(validationFields = [], singleError = false) {
 		const errors = [];
-		this.params.forEach((rule) => {
-			if (typeof rule === "string") {
-				const result = this[rule]();
-				if (result !== true) {
-					errors.push(result);
-				}
-			} else if (typeof rule === "object") {
-				const method = Object.keys(rule)[0];
-				const result = this[method](rule[method]);
 
-				if (result !== true) {
-					errors.push(result);
+		for(const param of validationFields){
+			this.value = param[0];
+			this.label = param[1];
+			this.params = param[2];
+
+			this.singleError = singleError;
+			this.params.forEach((rule) => {
+				if (typeof rule === "string") {
+					const result = this[rule]();
+					if (result !== true) {
+						errors.push(result);
+					}
+				} else if (typeof rule === "object") {
+					const method = Object.keys(rule)[0];
+					const result = this[method](rule[method]);
+
+					if (result !== true) {
+						errors.push(result);
+					}
 				}
-			}
-		});
+			});
+		}
+		console.log("errors", errors);
+		//TODO: Refactor so it doesn't run all validations first if only the first error should be returned
 		return (this.singleError === true) ? ((errors.length > 0) ? errors[0] : []) : errors;
 	},
 

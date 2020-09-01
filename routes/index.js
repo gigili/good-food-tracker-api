@@ -11,12 +11,13 @@ router.get('/', function (req, res, _) {
 });
 
 router.post("/login", async (req, res, _) => {
-	if (req.body.hasOwnProperty("username") === false || !req.body["username"]) {
-		return res.status(400).send(helper.invalid_response("Invalid username"));
-	}
+	const validationResults = validation.validate([
+		[req.body.username, 'Username', ['required', {"min_length": 3}]],
+		[req.body.password, 'Password', ['required', {"min_length": 10}]],
+	]);
 
-	if (req.body.hasOwnProperty("password") === false || !req.body["password"]) {
-		return res.status(400).send(helper.invalid_response("Invalid password"));
+	if (validationResults.length > 0) {
+		return res.status(400).send(helper.invalid_response(validationResults));
 	}
 
 	const loginResult = await dbUtils.login(req.body["username"], req.body["password"]);
@@ -48,46 +49,20 @@ router.post("/login", async (req, res, _) => {
 router.post("/register", async (req, res, _) => {
 	const {name, email, username, password} = req.body
 
-	const nameValidationMessages = validation.validate(name, "Name", [
-		"required",
-		{"min_length": 5}
+	const validationResults = validation.validate([
+		[name, "Name", ["required", {"min_length": 5}]],
+		[email, "E-mail", ["required", {"min_length": 5}, "valid_email"]],
+		[username, "Username", ["required", {"min_length": 3}]],
+		[password, "Password", ["required", {"min_length": 10}]]
 	], true);
 
-	const emailValidationMessages = validation.validate(email, "E-mail", [
-		"required",
-		{"min_length": 5},
-		"valid_email"
-	], true);
-
-	const usernameValidationMessages = validation.validate(username, "Username", [
-		"required",
-		{"min_length": 3},
-	], true);
-
-	const passwordValidationMessages = validation.validate(password, "Password", [
-		"required",
-		{"min_length": 10},
-	], true);
-
-	if(nameValidationMessages.length > 0){
-		return res.status(400).send(helper.invalid_response(nameValidationMessages));
-	}
-
-	if(emailValidationMessages.length > 0){
-		return res.status(400).send(helper.invalid_response(emailValidationMessages));
-	}
-
-	if(usernameValidationMessages.length > 0){
-		return res.status(400).send(helper.invalid_response(usernameValidationMessages));
-	}
-
-	if(passwordValidationMessages.length > 0){
-		return res.status(400).send(helper.invalid_response(passwordValidationMessages));
+	if (validationResults.length > 1) {
+		return res.status(400).send(helper.invalid_response(validationResults));
 	}
 
 	const result = await dbUtils.registerUser({name, email, username, password});
 
-	if(result === true){
+	if (result === true) {
 		return res.status(201).send({
 			"success": true,
 			"message": "Account created successfully"
