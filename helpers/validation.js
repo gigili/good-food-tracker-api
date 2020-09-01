@@ -2,7 +2,7 @@ const Validation = {
 	validate(validationFields = [], singleError = false) {
 		const errors = [];
 
-		for(const {value, label, params} of validationFields){
+		for(const [value, label, params] of validationFields){
 			this.value = value;
 			this.label = label;
 			this.params = params;
