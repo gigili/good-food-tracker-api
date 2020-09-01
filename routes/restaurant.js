@@ -11,7 +11,7 @@ router.get('/', async (req, res, _) => {
 	const data = await restaurantModel.list(startLimit, endLimit);
 
 	if (data.success === false) {
-		return res.status(500).send(helper.invalid_response(""));
+		return res.status(500).send(helper.invalid_response("Unable to load the list of restaurants"));
 	}
 
 	res.send({
@@ -25,7 +25,7 @@ router.get('/', async (req, res, _) => {
 router.post('/', async (req, res, _) => {
 	const name = req.body.name;
 
-	const nameValidation = validation.validate(name, "Name", ["required", {"min_length": 3}]);
+	const nameValidation = validation.validate([name, "Name", ["required", {"min_length": 3}]]);
 
 	if (nameValidation.length > 0) {
 		return res.status(400).send(helper.invalid_response(nameValidation));
@@ -46,11 +46,11 @@ router.post('/', async (req, res, _) => {
 router.get('/:restaurantID', async (req, res, _) => {
 	const data = await restaurantModel.get(req.params.restaurantID || 0);
 
-	if(data.success === false){
+	if (data.success === false) {
 		return res.status(500).send(helper.invalid_response("Unable to load restaurant"));
 	}
 
-	if(data.rows.hasOwnProperty("id") === false || data.rows.id < 1){
+	if (data.rows.hasOwnProperty("id") === false || data.rows.id < 1) {
 		return res.status(404).send(helper.invalid_response("Restaurant not found"));
 	}
 
@@ -64,7 +64,7 @@ router.get('/:restaurantID', async (req, res, _) => {
 router.patch('/:restaurantID', async (req, res, _) => {
 	const name = req.body.name;
 
-	const nameValidation = validation.validate(name, "Name", ["required", {"min_length": 3}]);
+	const nameValidation = validation.validate([name, "Name", ["required", {"min_length": 3}]]);
 
 	if (nameValidation.length > 0) {
 		return res.status(400).send(helper.invalid_response(nameValidation));
@@ -87,7 +87,7 @@ router.patch('/:restaurantID', async (req, res, _) => {
 router.delete('/:restaurantID', async (req, res, _) => {
 	const data = await restaurantModel.delete(req.params.restaurantID || 0);
 
-	if(data.success === false){
+	if (data.success === false) {
 		return res.status(500).send(helper.invalid_response("Unable to delete the restaurant"));
 	}
 
