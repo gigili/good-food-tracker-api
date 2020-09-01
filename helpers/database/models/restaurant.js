@@ -6,7 +6,7 @@ const restaurant = {
 	async list(startLimit = 0, endLimit = process.env.PER_PAGE) {
 		const restaurants = await db.getResultSet(`SELECT * FROM ${dbUtils.getTables().Restaurant} LIMIT ${startLimit},${endLimit}`);
 		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${dbUtils.getTables().Restaurant}`, false, true);
-
+		
 		return {
 			"success": (restaurants.success && restaurants.success),
 			"restaurants": restaurants.rows,
@@ -14,7 +14,7 @@ const restaurant = {
 		}
 	},
 
-	async create(data = {}) {
+	create(data = {}) {
 		const name = data.name;
 		let address = data.address || null;
 		let city = data.city || null;
@@ -40,15 +40,15 @@ const restaurant = {
 			VALUES('${name}', ${address}, ${city}, ${phone}, '${delivery}', ${geo_lat}, ${geo_long});
 		`;
 
-		return await db.getResultSet(insertQuery);
+		return db.getResultSet(insertQuery);
 	},
 
-	async get(restaurantID = 0) {
+	get(restaurantID = 0) {
 		const query = `SELECT * FROM ${dbUtils.getTables().Restaurant} WHERE id = ${restaurantID}`;
-		return await db.getResultSet(query, false, true);
+		return db.getResultSet(query, false, true);
 	},
 
-	async update(data = {}) {
+	update(data = {}) {
 		const id = data.restaurantID || null;
 		const name = data.name;
 		let address = data.address || null;
@@ -87,12 +87,12 @@ const restaurant = {
 			WHERE id = ${id};
 		`;
 
-		return await db.getResultSet(updateQuery);
+		return db.getResultSet(updateQuery);
 	},
 
-	async delete(id = 0) {
+	delete(id = 0) {
 		const deleteQuery = `DELETE FROM ${dbUtils.getTables().Restaurant} WHERE id = ${id}`;
-		return await db.getResultSet(deleteQuery);
+		return db.getResultSet(deleteQuery);
 	}
 }
 

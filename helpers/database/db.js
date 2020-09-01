@@ -28,12 +28,12 @@ const DB = {
 		});
 	},
 
-	async getResultSet(sql, isProcedure = false, returnSingleRecord = false) {
+	getResultSet(sql, isProcedure = false, returnSingleRecord = false) {
 		if (isProcedure) {
 			sql = `call ${sql}`;
 		}
 
-		return await this.execute(sql).then(result => {
+		return this.execute(sql).then(result => {
 			let res = JSON.parse(JSON.stringify(result));
 			res = (returnSingleRecord === true) ? res[0] : res;
 			res = (typeof res === "undefined") ? [] : res;
