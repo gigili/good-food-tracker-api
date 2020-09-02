@@ -1,4 +1,5 @@
 const db = require("./db");
+const translate = require("../translation");
 
 const TABLES = {
 	User: "user",
@@ -22,21 +23,21 @@ const dbUtils = {
 
 		if (userData.success === true && userData.rows.hasOwnProperty("id") && userData.rows.id > 0) {
 			if (userData.rows.username === user.username) {
-				return `Username is taken.`;
+				return translate("username_taken");
 			}
 
 			if (userData.rows.email === user.email) {
-				return `Email is already in use.`;
+				return translate("email_in_use");
 			}
 
-			return `Account already exists.`;
+			return translate("account_already_exists");
 		}
 
 		const insertUserQuery = `INSERT INTO ${TABLES.User} (name,email,username,password,active) VALUES('${user.name}', '${user.email}', '${user.username}', '${user.password}', '1')`;
 		const result = await db.getResultSet(insertUserQuery);
 
 		if (result.success === false) {
-			return `Unable to create a new user account`;
+			return translate("unable_to_create_account");
 		}
 
 		return true;

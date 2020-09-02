@@ -3,10 +3,12 @@ const router = express.Router();
 const helper = require("../helpers/helper");
 const dbUtils = require("../helpers/database/dbUtils");
 const validation = require("../helpers/validation");
+const translate = require("../helpers/translation");
+
 
 router.get('/', function (req, res, _) {
 	res.send({
-		"message": "Welcome",
+		"message": translate("welcome"),
 	});
 });
 
@@ -23,20 +25,20 @@ router.post("/login", async (req, res, _) => {
 	const loginResult = await dbUtils.login(req.body["username"], req.body["password"]);
 
 	if (loginResult.success === false) {
-		return res.status(400).send(helper.invalid_response("Login operation failed."))
+		return res.status(400).send(helper.invalid_response(translate("login_failed")))
 	}
 
 	if (loginResult.hasOwnProperty("rows") === false || loginResult.rows.hasOwnProperty("id") === false) {
-		return res.status(400).send(helper.invalid_response("Account doesn't exist."))
+		return res.status(400).send(helper.invalid_response(translate("account_doesnt_exist")));
 	}
 
 	const user = await dbUtils.getUserData(loginResult.rows.id);
 	if (user.hasOwnProperty("rows") === false || user.rows.hasOwnProperty("id") === false) {
-		return res.status(400).send(helper.invalid_response("Account doesn't exist."))
+		return res.status(400).send(helper.invalid_response(translate("account_doesnt_exist")))
 	}
 
 	if (parseInt(user.rows.active) === 0) {
-		return res.status(400).send(helper.invalid_response("Account is not active. Contact application administrator."))
+		return res.status(400).send(helper.invalid_response(translate("account_not_active")))
 	}
 
 	const tokenData = helper.generate_token(user.rows);
@@ -65,7 +67,7 @@ router.post("/register", async (req, res, _) => {
 	if (result === true) {
 		return res.status(201).send({
 			"success": true,
-			"message": "Account created successfully"
+			"message": translate("account_created_success")
 		});
 	}
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const restaurantModel = require("../helpers/database/models/restaurant");
 const helper = require("../helpers/helper");
 const validation = require("../helpers/validation");
+const translate = require("../helpers/translation");
 
 router.get('/', async (req, res, _) => {
 	const startLimit = req.body.start || 0;
@@ -11,7 +12,7 @@ router.get('/', async (req, res, _) => {
 	const data = await restaurantModel.list(startLimit, endLimit);
 
 	if (data.success === false) {
-		return res.status(500).send(helper.invalid_response("Unable to load the list of restaurants"));
+		return res.status(500).send(helper.invalid_response(translate("unable_to_load_restaurants")));
 	}
 
 	res.send({
@@ -34,12 +35,12 @@ router.post('/', async (req, res, _) => {
 	const result = await restaurantModel.create(req.body);
 
 	if (result.success === false) {
-		return res.status(500).send(helper.invalid_response("Unable to create a new restaurant"));
+		return res.status(500).send(helper.invalid_response(translate("unable_to_create_restaurant")));
 	}
 
 	res.status(201).send({
 		"success": true,
-		"message": "Restaurant created successfully"
+		"message": translate("restaurant_created_success")
 	});
 });
 
@@ -47,11 +48,11 @@ router.get('/:restaurantID', async (req, res, _) => {
 	const data = await restaurantModel.get(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
-		return res.status(500).send(helper.invalid_response("Unable to load restaurant"));
+		return res.status(500).send(helper.invalid_response(translate("unable_to_load_restaurant")));
 	}
 
 	if (data.rows.hasOwnProperty("id") === false || data.rows.id < 1) {
-		return res.status(404).send(helper.invalid_response("Restaurant not found"));
+		return res.status(404).send(helper.invalid_response(translate("restaurant_not_found")));
 	}
 
 	res.send({
@@ -75,12 +76,12 @@ router.patch('/:restaurantID', async (req, res, _) => {
 
 	const result = await restaurantModel.update(data);
 	if (result.success === false) {
-		return res.status(500).send(helper.invalid_response("Unable to update restaurant"));
+		return res.status(500).send(helper.invalid_response(translate("unable_to_update_restaurant")));
 	}
 
 	res.status(200).send({
 		"success": true,
-		"message": "Restaurant updated successfully"
+		"message": translate("restaurant_update_success")
 	});
 });
 
@@ -88,13 +89,13 @@ router.delete('/:restaurantID', async (req, res, _) => {
 	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
-		return res.status(500).send(helper.invalid_response("Unable to delete the restaurant"));
+		return res.status(500).send(helper.invalid_response(translate("unable_to_delete_restaurant")));
 	}
 
 	res.send({
 		"success": data.success,
 		"data": [],
-		"message": "Restaurant deleted successfully"
+		"message": translate("restaurant_delete_success")
 	});
 });
 
