@@ -44,7 +44,7 @@ router.post('/', async (req, res, _) => {
 });
 
 router.get('/:restaurantID', async (req, res, _) => {
-	const data = await restaurantModel.get(req.params.restaurantID || 0);
+	const data = await restaurantModel.get(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
 		return res.status(500).send(helper.invalid_response("Unable to load restaurant"));
@@ -85,7 +85,7 @@ router.patch('/:restaurantID', async (req, res, _) => {
 });
 
 router.delete('/:restaurantID', async (req, res, _) => {
-	const data = await restaurantModel.delete(req.params.restaurantID || 0);
+	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
 		return res.status(500).send(helper.invalid_response("Unable to delete the restaurant"));
