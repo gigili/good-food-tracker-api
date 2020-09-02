@@ -1,8 +1,10 @@
+const translate = require("./translation");
+
 const Validation = {
 	validate(validationFields = [], singleError = false) {
 		const errors = [];
 
-		for(const [value, label, params] of validationFields){
+		for (const [value, label, params] of validationFields) {
 			this.value = value;
 			this.label = label;
 			this.params = params;
@@ -31,7 +33,7 @@ const Validation = {
 
 	required() {
 		if (typeof this.value === "undefined" || this.value === null || this.value.length === 0) {
-			return `${this.label} field is required.`;
+			return translate('validation_error_required_field').format(this.label);
 		}
 
 		return true;
@@ -39,7 +41,7 @@ const Validation = {
 
 	min_length(length = 3) {
 		if (!this.value || this.value.length < length) {
-			return `Minimum length for the ${this.label} field is ${length} characters.`;
+			return translate("validation_error_minimum_length").format([this.label, length]);
 		}
 
 		return true;
@@ -47,7 +49,7 @@ const Validation = {
 
 	max_length(length = 3) {
 		if (!this.value || this.value.length > length) {
-			return `Maximum length for the ${this.label} field is ${length} characters.`;
+			return translate("validation_error_max_length").format([this.label, length]);
 		}
 
 		return true;
@@ -56,16 +58,18 @@ const Validation = {
 	valid_email() {
 		const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (!this.value || this.value.match(emailRegex) === null) {
-			return `Invalid email address.`;
+			return translate("validation_error_email");
 		}
 
 		return true;
 	},
 
-	is_number(){
-		if(isNaN(this.value)){
-			return `Value for the field ${this.label} must be a number.`;
+	is_number() {
+		if (isNaN(this.value)) {
+			return translate("validation_error_not_a_number").format(this.label);
 		}
+
+		return true;
 	},
 }
 
