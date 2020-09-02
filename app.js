@@ -20,9 +20,11 @@ String.prototype.format = String.prototype.format || function () {
 
 const indexRouter = require('./routes/index');
 const restaurantRouter = require('./routes/restaurant');
+const profileRoutes = require('./routes/profile');
+
 const app = express();
 
-if(parseInt(process.env.DEVELOPMENT) === 1) {
+if (parseInt(process.env.DEVELOPMENT) === 1) {
 	const logger = require('morgan');
 	app.use(logger('dev'));
 }
@@ -34,5 +36,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/restaurant', restaurantRouter);
+app.use('/profile', profileRoutes);
 
 module.exports = app;

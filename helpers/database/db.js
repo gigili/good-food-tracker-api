@@ -1,6 +1,12 @@
 const mysql = require('mysql');
 
 let con = undefined;
+
+const TABLES = {
+	User: "user",
+	Restaurant: "restaurant",
+};
+
 const DB = {
 	connect() {
 		con = mysql.createConnection({
@@ -56,6 +62,10 @@ const DB = {
 			}
 		});
 	},
+
+	getTables() {
+		return TABLES;
+	}
 }
 
 module.exports = DB;
