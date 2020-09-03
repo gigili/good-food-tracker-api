@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const restaurantModel = require("../helpers/database/models/restaurant");
 const helper = require("../helpers/helper");
 const validation = require("../helpers/validation");
 const translate = require("../helpers/translation");
 
-router.get('/', async (req, res, _) => {
+router.get("/", async (req, res, _) => {
 	const startLimit = req.body.start || 0;
 	const endLimit = req.body.limit || process.env.PER_PAGE;
 
@@ -23,28 +23,7 @@ router.get('/', async (req, res, _) => {
 	});
 });
 
-router.post('/', helper.authenticateToken, async (req, res, _) => {
-	const name = req.body.name;
-
-	const nameValidation = validation.validate([name, translate("name"), ["required", {"min_length": 3}]]);
-
-	if (nameValidation.length > 0) {
-		return res.status(400).send(helper.invalid_response(nameValidation));
-	}
-
-	const result = await restaurantModel.create(req.body);
-
-	if (result.success === false) {
-		return res.status(500).send(helper.invalid_response(translate("unable_to_create_restaurant")));
-	}
-
-	res.status(201).send({
-		"success": true,
-		"message": translate("restaurant_created_success")
-	});
-});
-
-router.get('/:restaurantID', async (req, res, _) => {
+router.get("/:restaurantID", async (req, res, _) => {
 	const data = await restaurantModel.get(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
@@ -62,10 +41,31 @@ router.get('/:restaurantID', async (req, res, _) => {
 	});
 });
 
-router.patch('/:restaurantID', helper.authenticateToken, async (req, res, _) => {
+router.post("/", helper.authenticateToken, async (req, res, _) => {
 	const name = req.body.name;
 
-	const nameValidation = validation.validate([name, translate("name"), ["required", {"min_length": 3}]]);
+	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
+
+	if (nameValidation.length > 0) {
+		return res.status(400).send(helper.invalid_response(nameValidation));
+	}
+
+	const result = await restaurantModel.create(req.body);
+
+	if (result.success === false) {
+		return res.status(500).send(helper.invalid_response(translate("unable_to_create_restaurant")));
+	}
+
+	res.status(201).send({
+		"success": true,
+		"message": translate("restaurant_created_success")
+	});
+});
+
+router.patch("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
+	const name = req.body.name;
+
+	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
 
 	if (nameValidation.length > 0) {
 		return res.status(400).send(helper.invalid_response(nameValidation));
@@ -85,7 +85,7 @@ router.patch('/:restaurantID', helper.authenticateToken, async (req, res, _) => 
 	});
 });
 
-router.delete('/:restaurantID', helper.authenticateToken, async (req, res, _) => {
+router.delete("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
 	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
