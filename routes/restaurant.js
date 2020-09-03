@@ -6,8 +6,8 @@ const validation = require("../helpers/validation");
 const translate = require("../helpers/translation");
 
 router.get("/", async (req, res, _) => {
-	const startLimit = req.body.start || 0;
-	const endLimit = req.body.limit || process.env.PER_PAGE;
+	const startLimit = req.query.start || 0;
+	const endLimit = req.query.limit || process.env.PER_PAGE;
 
 	const data = await restaurantModel.list(startLimit, endLimit);
 
