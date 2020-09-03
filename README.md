@@ -29,3 +29,27 @@ To get started on development follow these steps:
 
 * If you have any question you can contact Igor Ilić @ igorilicbl@gmail.com
 * If you have found a bug or want to ask for a new feature, open a new issue
+
+### Features ###
+List of currently completed or still being developed feature: 
+
+* [x] Login 
+* [x] Register
+* [x] User profile
+    * [x] Get user profile information
+    * [x] Update user profile information
+    * [x] Delete user profile
+* [x] Restaurants
+    * [x] List of all the restaurants
+    * [x] Add / edit restaurant
+    * [x] Delete restaurant
+* [ ] City
+    * [ ] List of cities 
+    * [ ] Add / edit city
+    * [ ] Delete city
+* [ ] Reviews
+    * [ ] List of users reviews (personal / public)
+    * [ ] List of all public reviews for a restaurant from everyone 
+    * [ ] Add / edit your review
+    * [ ] Delete your own review
+    * [ ] Rate other users reviews (helpful / not helpful) 
