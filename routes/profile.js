@@ -4,6 +4,7 @@ const userModel = require("../helpers/database/models/user");
 const helper = require("../helpers/helper");
 const translate = require("../helpers/translation");
 const validation = require("../helpers/validation");
+const fs = require("fs");
 
 router.get("/:userID", helper.authenticateToken, async (req, res, _) => {
 	const user = await userModel.get(req.params["userID"] || "");
@@ -33,6 +34,11 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 		const image = req.files.image;
 		const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
 		const imagePath = `/images/user/${data.userID}.${extension}`;
+
+		if(fs.existsSync("./public/images/user") === false){
+			fs.mkdirSync("./public/images/user");
+		}
+
 		const uploadResult = await image.mv(`./public/${imagePath}`).then(() => true).catch(() => false);
 		if (uploadResult === true) {
 			Object.assign(data, {image: imagePath});
