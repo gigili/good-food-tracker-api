@@ -19,6 +19,7 @@
   "unable_to_update_restaurant": "unable to update restaurant.",
   "unable_to_delete_restaurant": "unable to delete the restaurant.",
   "unable_to_update_profile": "unable to update update user profile",
+  "unable_to_delete_profile" : "unable to delete user profile",
   "restaurant_created_success": "restaurant created successfully.",
   "restaurant_not_found": "restaurant not found.",
   "restaurant_update_success": "restaurant updated successfully.",
@@ -28,7 +29,8 @@
   "username": "username",
   "password": "password",
   "user_profile_update_success": "user profile updated successfully",
+  "user_profile_deleted_success" : "user account deleted successfully",
   "invalid_token": "invalid token",
   "not_authorized" : "you are not authorized to perform this action",
-  "unable_to_upload_profile_image": "unable to upload profile imge"
+  "unable_to_upload_profile_image": "unable to upload profile image"
 }

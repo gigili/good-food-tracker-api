@@ -50,5 +50,9 @@ module.exports = {
 		query += ` WHERE guid = '${data.userID}'`;
 
 		return db.getResultSet(query);
+	},
+	delete(guid) {
+		const query = `DELETE FROM ${db.getTables().User} WHERE guid = '${guid}'`;
+		return db.getResultSet(query)
 	}
 };

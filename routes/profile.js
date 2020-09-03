@@ -57,4 +57,22 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 	});
 });
 
+router.delete("/:userID", helper.authenticateToken, async (req, res, _) => {
+	if (req.params["userID"] !== req["user"]["guid"]) {
+		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
+	}
+
+	const guid = req.user.guid;
+	const result = await userModel.delete(guid);
+	const success = result.success;
+	const statusCode = success === true ? 200 : 500;
+	const message = success === true ? translate("user_profile_deleted_success") : translate("unable_to_delete_profile");
+
+	res.status(statusCode).send({
+		"success": success,
+		"data": [],
+		"message": message
+	});
+});
+
 module.exports = router;
