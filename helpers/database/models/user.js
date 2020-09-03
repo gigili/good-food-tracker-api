@@ -34,7 +34,7 @@ module.exports = {
 	},
 
 	get(userID) {
-		const query = `SELECT id, guid, name, email, username, active FROM ${db.getTables().User} WHERE guid = '${userID}'`;
+		const query = `SELECT id, guid, name, email, username, image, active FROM ${db.getTables().User} WHERE guid = '${userID}'`;
 		return db.getResultSet(query, false, true);
 	},
 
