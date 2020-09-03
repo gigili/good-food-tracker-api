@@ -23,7 +23,7 @@ router.get('/', async (req, res, _) => {
 	});
 });
 
-router.post('/', async (req, res, _) => {
+router.post('/', helper.authenticateToken, async (req, res, _) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([name, translate("name"), ["required", {"min_length": 3}]]);
@@ -62,7 +62,7 @@ router.get('/:restaurantID', async (req, res, _) => {
 	});
 });
 
-router.patch('/:restaurantID', async (req, res, _) => {
+router.patch('/:restaurantID', helper.authenticateToken, async (req, res, _) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([name, translate("name"), ["required", {"min_length": 3}]]);
@@ -85,7 +85,7 @@ router.patch('/:restaurantID', async (req, res, _) => {
 	});
 });
 
-router.delete('/:restaurantID', async (req, res, _) => {
+router.delete('/:restaurantID', helper.authenticateToken, async (req, res, _) => {
 	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {

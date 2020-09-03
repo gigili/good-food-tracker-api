@@ -27,5 +27,7 @@
   "email": "e-mail",
   "username": "username",
   "password": "password",
-  "user_profile_update_success": "user profile updated successfully"
+  "user_profile_update_success": "user profile updated successfully",
+  "invalid_token": "invalid token",
+  "not_authorized" : "you are not authorized to perform this action"
 }
