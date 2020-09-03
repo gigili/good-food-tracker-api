@@ -148,3 +148,6 @@ dist
 .pnp.*
 
 build
+
+#Ignore user profile images
+public/images/user/

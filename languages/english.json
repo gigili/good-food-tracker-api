@@ -29,5 +29,6 @@
   "password": "password",
   "user_profile_update_success": "user profile updated successfully",
   "invalid_token": "invalid token",
-  "not_authorized" : "you are not authorized to perform this action"
+  "not_authorized" : "you are not authorized to perform this action",
+  "unable_to_upload_profile_image": "unable to upload profile imge"
 }

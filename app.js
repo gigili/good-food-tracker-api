@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const fileUpload = require("express-fileupload");
 require('dotenv').config();
 
 String.prototype.format = String.prototype.format || function () {
@@ -32,6 +33,9 @@ if (parseInt(process.env.DEVELOPMENT) === 1) {
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(fileUpload({
+	limits: { fileSize: 5 * 1024 * 1024 }, //5MB File limit
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
