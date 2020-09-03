@@ -1,11 +1,10 @@
 const db = require("../db");
-const dbUtils = require("../dbUtils");
 const helper = require("../../../helpers/helper");
 
 const restaurant = {
 	async list(startLimit = 0, endLimit = process.env.PER_PAGE) {
-		const restaurants = await db.getResultSet(`SELECT * FROM ${dbUtils.getTables().Restaurant} LIMIT ${startLimit},${endLimit}`);
-		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${dbUtils.getTables().Restaurant}`, false, true);
+		const restaurants = await db.getResultSet(`SELECT * FROM ${db.getTables().Restaurant} LIMIT ${startLimit},${endLimit}`);
+		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.getTables().Restaurant}`, false, true);
 		
 		return {
 			"success": (restaurants.success && restaurants.success),
@@ -36,7 +35,7 @@ const restaurant = {
 		}
 
 		const insertQuery = `
-			INSERT INTO ${dbUtils.getTables().Restaurant} (name, address, city, phone, delivery, geo_lat, geo_long)
+			INSERT INTO ${db.getTables().Restaurant} (name, address, city, phone, delivery, geo_lat, geo_long)
 			VALUES('${name}', ${address}, ${city}, ${phone}, '${delivery}', ${geo_lat}, ${geo_long});
 		`;
 
@@ -44,7 +43,7 @@ const restaurant = {
 	},
 
 	get(restaurantID = 0) {
-		const query = `SELECT * FROM ${dbUtils.getTables().Restaurant} WHERE id = ${restaurantID}`;
+		const query = `SELECT * FROM ${db.getTables().Restaurant} WHERE id = ${restaurantID}`;
 		return db.getResultSet(query, false, true);
 	},
 
@@ -75,7 +74,7 @@ const restaurant = {
 		}
 
 		const updateQuery = `
-			UPDATE ${dbUtils.getTables().Restaurant} 
+			UPDATE ${db.getTables().Restaurant} 
 			SET
 				name = '${name}', 
 				address = ${address}, 
@@ -91,7 +90,7 @@ const restaurant = {
 	},
 
 	delete(id = 0) {
-		const deleteQuery = `DELETE FROM ${dbUtils.getTables().Restaurant} WHERE id = ${id}`;
+		const deleteQuery = `DELETE FROM ${db.getTables().Restaurant} WHERE id = ${id}`;
 		return db.getResultSet(deleteQuery);
 	}
 }

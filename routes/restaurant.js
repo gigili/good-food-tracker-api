@@ -23,10 +23,10 @@ router.get('/', async (req, res, _) => {
 	});
 });
 
-router.post('/', async (req, res, _) => {
+router.post('/', helper.authenticateToken, async (req, res, _) => {
 	const name = req.body.name;
 
-	const nameValidation = validation.validate([name, "Name", ["required", {"min_length": 3}]]);
+	const nameValidation = validation.validate([name, translate("name"), ["required", {"min_length": 3}]]);
 
 	if (nameValidation.length > 0) {
 		return res.status(400).send(helper.invalid_response(nameValidation));
@@ -62,10 +62,10 @@ router.get('/:restaurantID', async (req, res, _) => {
 	});
 });
 
-router.patch('/:restaurantID', async (req, res, _) => {
+router.patch('/:restaurantID', helper.authenticateToken, async (req, res, _) => {
 	const name = req.body.name;
 
-	const nameValidation = validation.validate([name, "Name", ["required", {"min_length": 3}]]);
+	const nameValidation = validation.validate([name, translate("name"), ["required", {"min_length": 3}]]);
 
 	if (nameValidation.length > 0) {
 		return res.status(400).send(helper.invalid_response(nameValidation));
@@ -85,7 +85,7 @@ router.patch('/:restaurantID', async (req, res, _) => {
 	});
 });
 
-router.delete('/:restaurantID', async (req, res, _) => {
+router.delete('/:restaurantID', helper.authenticateToken, async (req, res, _) => {
 	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
