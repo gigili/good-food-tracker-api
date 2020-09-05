@@ -5,8 +5,8 @@ const Validation = {
 	label: "",
 	params: [],
 	singleError: false,
-	validate(validationFields: any[] = [], singleError: boolean = false): any {
-		const errors: any[] = [];
+	validate(validationFields: any[] = [], singleError: boolean = false): string | string[] {
+		const errors: string[] = [];
 
 		for (const [value, label, params] of validationFields) {
 			this.value = value;
@@ -35,7 +35,7 @@ const Validation = {
 		return this.singleError ? ((errors.length > 0) ? errors[0] : []) : errors;
 	},
 
-	required() {
+	required(): string | boolean {
 		if (typeof this.value === "undefined" || this.value === null || this.value.length === 0) {
 			return translate('validation_error_required_field').format(this.label);
 		}
@@ -43,7 +43,7 @@ const Validation = {
 		return true;
 	},
 
-	min_length(length = 3) {
+	min_length(length = 3): string | boolean {
 		if (!this.value || this.value.length < length) {
 			return translate("validation_error_minimum_length").format([this.label, length]);
 		}
@@ -51,7 +51,7 @@ const Validation = {
 		return true;
 	},
 
-	max_length(length = 3) {
+	max_length(length = 3): string | boolean {
 		if (!this.value || this.value.length > length) {
 			return translate("validation_error_max_length").format([this.label, length]);
 		}
@@ -59,7 +59,7 @@ const Validation = {
 		return true;
 	},
 
-	valid_email() {
+	valid_email(): string | boolean {
 		const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (!this.value || this.value.match(emailRegex) === null) {
 			return translate("validation_error_email");
@@ -68,7 +68,7 @@ const Validation = {
 		return true;
 	},
 
-	is_number() {
+	is_number(): string | boolean {
 		if (isNaN(Number(this.value))) {
 			return translate("validation_error_not_a_number").format(this.label);
 		}

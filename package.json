@@ -11,8 +11,8 @@
   "private": true,
   "scripts": {
     "build": "tsc --project ./",
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node build/bin/www.js",
+    "dev": "nodemon bin/www.ts"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

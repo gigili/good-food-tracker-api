@@ -26,7 +26,7 @@ String.prototype.format = String.prototype.format || function (this: string): st
 const indexRouter = require('./routes/index');
 const restaurantRouter = require('./routes/restaurant');
 const profileRoutes = require('./routes/profile');
-
+// @ts-ignore
 const app = express();
 
 if (parseInt(process.env.DEVELOPMENT || "0") === 1) {
