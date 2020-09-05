@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+export {};
 
 /**
  * Module dependencies.
  */
-// @ts-ignore
+
 const app = require('../app');
 const debug = require('debug')('good-food-tracker:server');
 const http = require('http');

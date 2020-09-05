@@ -1,11 +1,15 @@
+export {};
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const fileUpload = require("express-fileupload");
 require('dotenv').config();
 
-declare interface String {
-	format(str: string): string;
+declare  global {
+	interface String {
+		format(str: string): string;
+	}
 }
 
 String.prototype.format = String.prototype.format || function (this: string): string {
@@ -15,8 +19,10 @@ String.prototype.format = String.prototype.format || function (this: string): st
 		const args = ("string" === t || "number" === t) ? Array.prototype.slice.call(arguments) : arguments[0];
 
 		for (let key in args) {
-			const replaceValue = (key && args.hasOwnProperty(key)) ? args[key] : "";
-			str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), replaceValue.toString());
+			if(args.hasOwnProperty(key)) {
+				const replaceValue = args[key];
+				str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), replaceValue.toString());
+			}
 		}
 	}
 
@@ -26,7 +32,7 @@ String.prototype.format = String.prototype.format || function (this: string): st
 const indexRouter = require('./routes/index');
 const restaurantRouter = require('./routes/restaurant');
 const profileRoutes = require('./routes/profile');
-// @ts-ignore
+
 const app = express();
 
 if (parseInt(process.env.DEVELOPMENT || "0") === 1) {
