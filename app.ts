@@ -4,14 +4,18 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require("express-fileupload");
 require('dotenv').config();
 
-String.prototype.format = String.prototype.format || function () {
+declare interface String {
+	format(str: string): string;
+}
+
+String.prototype.format = String.prototype.format || function (this: string): string {
 	let str = this.toString();
 	if (arguments.length) {
 		const t = typeof arguments[0];
 		const args = ("string" === t || "number" === t) ? Array.prototype.slice.call(arguments) : arguments[0];
 
 		for (let key in args) {
-			const replaceValue = (key && args.hasOwnProperty(key) === true) ? args[key] : "";
+			const replaceValue = (key && args.hasOwnProperty(key)) ? args[key] : "";
 			str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), replaceValue.toString());
 		}
 	}
@@ -25,7 +29,7 @@ const profileRoutes = require('./routes/profile');
 
 const app = express();
 
-if (parseInt(process.env.DEVELOPMENT) === 1) {
+if (parseInt(process.env.DEVELOPMENT || "0") === 1) {
 	const logger = require('morgan');
 	app.use(logger('dev'));
 }
@@ -34,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(fileUpload({
-	limits: { fileSize: 5 * 1024 * 1024 }, //5MB File limit
+	limits: {fileSize: 5 * 1024 * 1024}, //5MB File limit
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+	"module": "commonjs",
+	"target": "es6",
+	"sourceMap": true,
+	"strict": true,
+	"outDir": "./build",
+	"esModuleInterop": true,
+	"rootDir": "./",
+	"allowJs": true
+  },
+  "exclude": [
+	"build",
+	"node_modules",
+	"migrations",
+	".github",
+	".idea"
+  ]
+}

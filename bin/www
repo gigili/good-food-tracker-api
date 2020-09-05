@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-const app = require('../app');
-const debug = require('debug')('stella:server');
+const app = require('../build/app');
+const debug = require('debug')('good-food-tracker:server');
 const http = require('http');
 
 /**

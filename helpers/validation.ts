@@ -1,8 +1,12 @@
 const translate = require("./translation");
 
 const Validation = {
-	validate(validationFields = [], singleError = false) {
-		const errors = [];
+	value: "",
+	label: "",
+	params: [],
+	singleError: false,
+	validate(validationFields: any[] = [], singleError: boolean = false): any {
+		const errors: any[] = [];
 
 		for (const [value, label, params] of validationFields) {
 			this.value = value;
@@ -10,15 +14,15 @@ const Validation = {
 			this.params = params;
 
 			this.singleError = singleError;
-			this.params.forEach((rule) => {
+			this.params.forEach((rule: any) => {
 				if (typeof rule === "string") {
-					const result = this[rule]();
+					const result = (this as any)[rule]();
 					if (result !== true) {
 						errors.push(result);
 					}
 				} else if (typeof rule === "object") {
-					const method = Object.keys(rule)[0];
-					const result = this[method](rule[method]);
+					const method = Object.keys(rule)[0] as string;
+					const result = (this as any)[method](rule[method]);
 
 					if (result !== true) {
 						errors.push(result);
@@ -28,7 +32,7 @@ const Validation = {
 		}
 
 		//TODO: Refactor so it doesn't run all validations first if only the first error should be returned
-		return (this.singleError === true) ? ((errors.length > 0) ? errors[0] : []) : errors;
+		return this.singleError ? ((errors.length > 0) ? errors[0] : []) : errors;
 	},
 
 	required() {
@@ -65,7 +69,7 @@ const Validation = {
 	},
 
 	is_number() {
-		if (isNaN(this.value)) {
+		if (isNaN(Number(this.value))) {
 			return translate("validation_error_not_a_number").format(this.label);
 		}
 
