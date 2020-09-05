@@ -38,7 +38,6 @@ router.post("/login", async (req, res, _) => {
 		return res.status(400).send(helper.invalid_response(translate("account_doesnt_exist")));
 	}
 
-
 	if (parseInt(user.rows.active) === 0) {
 		return res.status(400).send(helper.invalid_response(translate("account_not_active")));
 	}
