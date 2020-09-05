@@ -22,7 +22,8 @@ const Helper = {
 		Object.assign(tokenData, {user: data});
 		return {token: jwt.sign(data, privateKey), expires: expiresAt};
 	},
-	authenticateToken(req, res, next) {
+
+	authenticateToken(req, res, next, requiredPower = null) {
 		// Gather the jwt access token from the request header
 		const authHeader = req.headers["authorization"];
 		const token = authHeader && authHeader.split(" ")[1];
@@ -30,6 +31,16 @@ const Helper = {
 
 		jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
 			if (err) return res.status(401).send({"success": false, "message": translate("invalid_token")});
+
+			if (requiredPower !== null) {
+				if (requiredPower > user.power) {
+					return res.status(401).send({
+						"success": false,
+						"message": translate("not_authorized")
+					});
+				}
+			}
+
 			req.user = user;
 			next(); // pass the execution off to whatever request the client intended
 		});
@@ -41,7 +52,7 @@ const Helper = {
 	ltrim(str, chr) {
 		const rgxTrim = (!chr) ? new RegExp("^\\s+") : new RegExp("^" + chr + "+");
 		return str.replace(rgxTrim, "");
-	}
+	},
 };
 
 

@@ -38,6 +38,13 @@ router.post("/login", async (req, res, _) => {
 		return res.status(400).send(helper.invalid_response(translate("account_doesnt_exist")));
 	}
 
+	const rolesResult = await userModel.getRoles(user.rows["guid"]);
+	if (rolesResult.success === true) {
+		if (rolesResult.rows.hasOwnProperty("name") === true) {
+			Object.assign(user.rows, {power: rolesResult.rows.power});
+		}
+	}
+
 	if (parseInt(user.rows.active) === 0) {
 		return res.status(400).send(helper.invalid_response(translate("account_not_active")));
 	}

@@ -5,6 +5,7 @@ const helper = require("../helpers/helper");
 const translate = require("../helpers/translation");
 const validation = require("../helpers/validation");
 const fs = require("fs");
+const ROLES = require("../helpers/roles");
 
 router.get("/:userID", helper.authenticateToken, async (req, res, _) => {
 	const user = await userModel.get(req.params["userID"] || "");
@@ -64,11 +65,12 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 });
 
 router.delete("/:userID", helper.authenticateToken, async (req, res, _) => {
-	if (req.params["userID"] !== req["user"]["guid"]) {
+	if (req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
+
 	}
 
-	const guid = req.user.guid;
+	const guid = req.params.userID;
 	const result = await userModel.delete(guid);
 	const success = result.success;
 	const statusCode = success === true ? 200 : 500;

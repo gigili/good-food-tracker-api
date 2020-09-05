@@ -5,6 +5,7 @@ let con = undefined;
 const TABLES = {
 	User: "user",
 	Restaurant: "restaurant",
+	Role: "role"
 };
 
 const DB = {

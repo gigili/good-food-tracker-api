@@ -10,7 +10,7 @@ const restaurant = {
 
 		const restaurants = await db.getResultSet(`SELECT * FROM ${db.getTables().Restaurant} LIMIT ?,?`, params);
 		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.getTables().Restaurant}`, null, false, true);
-		
+
 		return {
 			"success": (restaurants.success && restaurants.success),
 			"restaurants": restaurants.rows,
@@ -70,7 +70,12 @@ const restaurant = {
 		return db.getResultSet(updateQuery, [name, address, city, phone, delivery, geo_lat, geo_long], id);
 	},
 
-	delete(id = 0) {
+	async delete(id = "") {
+		const restaurant = await this.get(id);
+		if (restaurant.rows.hasOwnProperty("guid") === false) {
+			return {"success": false};
+		}
+		
 		const deleteQuery = `DELETE FROM ${db.getTables().Restaurant} WHERE guid = ?`;
 		return db.getResultSet(deleteQuery, [id]);
 	}
