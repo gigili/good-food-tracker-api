@@ -38,7 +38,7 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 		const imagePath = `/images/user/${data["userID"]}.${extension}`;
 
 		if (fs.existsSync("./public/images/user") === false) {
-			fs.mkdirSync("./public/images/user");
+			fs.mkdirSync("./public/images/user", {recursive: true});
 		}
 
 		const uploadResult = await image.mv(`./public/${imagePath}`).then(() => true).catch(() => false);

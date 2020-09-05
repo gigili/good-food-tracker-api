@@ -28,7 +28,7 @@ const Helper = {
 
 	authenticateToken(req: Request, res: Response, next: NextFunction, requiredPower: number | null = null) {
 		// Gather the jwt access token from the request header
-		const authHeader = req.headers.get("authorization");
+		const authHeader = req.headers["authorization"];
 		const token = authHeader && authHeader.split(" ")[1];
 		// @ts-ignore
 		if (token == null) return res.status(401).send({"success": false, "message": translate("invalid_token")});
