@@ -35,7 +35,7 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 		const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
 		const imagePath = `/images/user/${data.userID}.${extension}`;
 
-		if(fs.existsSync("./public/images/user") === false){
+		if (fs.existsSync("./public/images/user") === false) {
 			fs.mkdirSync("./public/images/user");
 		}
 

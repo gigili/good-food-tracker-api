@@ -51,7 +51,6 @@ router.post("/", helper.authenticateToken, async (req, res, _) => {
 	}
 
 	const result = await restaurantModel.create(req.body);
-
 	if (result.success === false) {
 		return res.status(500).send(helper.invalid_response(translate("unable_to_create_restaurant")));
 	}

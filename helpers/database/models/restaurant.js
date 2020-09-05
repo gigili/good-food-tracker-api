@@ -3,14 +3,19 @@ const helper = require("../../../helpers/helper");
 
 const restaurant = {
 	async list(startLimit = 0, endLimit = process.env.PER_PAGE) {
-		const restaurants = await db.getResultSet(`SELECT * FROM ${db.getTables().Restaurant} LIMIT ${startLimit},${endLimit}`);
-		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.getTables().Restaurant}`, false, true);
+		const params = [
+			parseInt(startLimit.toString()),
+			parseInt(endLimit)
+		];
+
+		const restaurants = await db.getResultSet(`SELECT * FROM ${db.getTables().Restaurant} LIMIT ?,?`, params);
+		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.getTables().Restaurant}`, null, false, true);
 		
 		return {
 			"success": (restaurants.success && restaurants.success),
 			"restaurants": restaurants.rows,
 			"total": count.rows["cnt"] || 0
-		}
+		};
 	},
 
 	create(data = {}) {
@@ -22,29 +27,17 @@ const restaurant = {
 		const geo_lat = parseFloat(data.geo_lat) || null;
 		const geo_long = parseFloat(data.geo_long) || null;
 
-		if (address !== null) {
-			address = `'${address}'`;
-		}
-
-		if (city !== null) {
-			city = `'${city}'`;
-		}
-
-		if (phone !== null) {
-			phone = `'${phone}'`;
-		}
-
 		const insertQuery = `
 			INSERT INTO ${db.getTables().Restaurant} (name, address, city, phone, delivery, geo_lat, geo_long)
-			VALUES('${name}', ${address}, ${city}, ${phone}, '${delivery}', ${geo_lat}, ${geo_long});
+			VALUES(?, ?, ?, ?, ?, ?, ?);
 		`;
 
-		return db.getResultSet(insertQuery);
+		return db.getResultSet(insertQuery, [name, address, city, phone, delivery, geo_lat, geo_long]);
 	},
 
 	get(restaurantID = 0) {
-		const query = `SELECT * FROM ${db.getTables().Restaurant} WHERE id = ${restaurantID}`;
-		return db.getResultSet(query, false, true);
+		const query = `SELECT * FROM ${db.getTables().Restaurant} WHERE guid = ?`;
+		return db.getResultSet(query, [restaurantID], false, true);
 	},
 
 	update(data = {}) {
@@ -61,38 +54,26 @@ const restaurant = {
 			return helper.invalid_response("Missing ID field");
 		}
 
-		if (address !== null) {
-			address = `'${address}'`;
-		}
-
-		if (city !== null) {
-			city = `'${city}'`;
-		}
-
-		if (phone !== null) {
-			phone = `'${phone}'`;
-		}
-
 		const updateQuery = `
 			UPDATE ${db.getTables().Restaurant} 
 			SET
-				name = '${name}', 
-				address = ${address}, 
-				city = ${city}, 
-				phone = ${phone}, 
-				delivery = '${delivery.toString()}', 
-				geo_lat = ${geo_lat}, 
-				geo_long = ${geo_long}
-			WHERE id = ${id};
+				name = ?, 
+				address = ?, 
+				city = ?, 
+				phone = ?, 
+				delivery = ?, 
+				geo_lat = ?, 
+				geo_long = ?
+			WHERE guid = ?;
 		`;
 
-		return db.getResultSet(updateQuery);
+		return db.getResultSet(updateQuery, [name, address, city, phone, delivery, geo_lat, geo_long], id);
 	},
 
 	delete(id = 0) {
-		const deleteQuery = `DELETE FROM ${db.getTables().Restaurant} WHERE id = ${id}`;
-		return db.getResultSet(deleteQuery);
+		const deleteQuery = `DELETE FROM ${db.getTables().Restaurant} WHERE guid = ?`;
+		return db.getResultSet(deleteQuery, [id]);
 	}
-}
+};
 
 module.exports = restaurant;

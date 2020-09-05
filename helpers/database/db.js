@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 let con = undefined;
 
@@ -18,28 +18,27 @@ const DB = {
 		});
 	},
 
-	execute(sql) {
+	execute(sql, params = null) {
 		if (typeof con === "undefined") {
 			this.connect();
 		}
 
 		return new Promise((resolve, reject) => {
-			con.query(sql, function (err, result) {
-				if (err) {
-					return reject(err);
-				}
-
-				return resolve(result);
-			});
+			if (params !== null) {
+				con.query(sql, params, (err, result) => err ? reject(err) : resolve(result));
+			} else {
+				con.query(sql, (err, result) => err ? reject(err) : resolve(result));
+			}
 		});
 	},
 
-	getResultSet(sql, isProcedure = false, returnSingleRecord = false) {
+	getResultSet(sql, params = [], isProcedure = false, returnSingleRecord = false) {
 		if (isProcedure) {
 			sql = `call ${sql}`;
 		}
 
-		return this.execute(sql).then(result => {
+		const exec = params !== null ? this.execute(sql, params) : this.execute(sql);
+		return exec.then(result => {
 			let res = JSON.parse(JSON.stringify(result));
 			res = (returnSingleRecord === true) ? res[0] : res;
 			res = (typeof res === "undefined") ? [] : res;
@@ -48,7 +47,7 @@ const DB = {
 				"success": true,
 				"rows": res,
 				"total": result.length
-			}
+			};
 		}).catch(error => {
 			return {
 				"success": false,
@@ -59,13 +58,13 @@ const DB = {
 					"code": error.code,
 					"stack": error.stack
 				}
-			}
+			};
 		});
 	},
 
 	getTables() {
 		return TABLES;
 	}
-}
+};
 
 module.exports = DB;
