@@ -3,9 +3,10 @@ const router = express.Router();
 const restaurantModel = require("../helpers/database/models/restaurant");
 const helper = require("../helpers/helper");
 const validation = require("../helpers/validation");
+const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", async (req, res, _) => {
+router.get("/", helper.authenticateToken, async (req, res, _) => {
 	const startLimit = req.query.start || 0;
 	const endLimit = req.query.limit || process.env.PER_PAGE;
 
@@ -23,7 +24,7 @@ router.get("/", async (req, res, _) => {
 	});
 });
 
-router.get("/:restaurantID", async (req, res, _) => {
+router.get("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
 	const data = await restaurantModel.get(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
@@ -84,7 +85,9 @@ router.patch("/:restaurantID", helper.authenticateToken, async (req, res, _) => 
 	});
 });
 
-router.delete("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
+router.delete("/:restaurantID", (req, res, nx) => {
+	helper.authenticateToken(req, res, nx, ROLES.Admin);
+}, async (req, res, _) => {
 	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {

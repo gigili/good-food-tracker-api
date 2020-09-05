@@ -30,7 +30,7 @@ module.exports = {
 			return translate("account_already_exists");
 		}
 
-		const registerParams = [user.name, user.email, user.username, user.password, '1'];
+		const registerParams = [user.name, user.email, user.username, user.password, "1"];
 		const insertUserQuery = `INSERT INTO ${db.getTables().User} (name,email,username,password,active) VALUES(?, ?, ?, ?, ?)`;
 		const result = await db.getResultSet(insertUserQuery, registerParams);
 
@@ -41,9 +41,17 @@ module.exports = {
 		return true;
 	},
 
+	getRoles(userID) {
+		return db.getResultSet(`
+			SELECT r.name, r.power FROM ${db.getTables().User} AS u
+			LEFT JOIN ${db.getTables().Role} AS r ON r.id = u.roleID
+			WHERE u.guid = ?  
+		`, [userID], false, true);
+	},
+
 	get(userID) {
 		const query = `SELECT id, guid, name, email, username, image, active FROM ${db.getTables().User} WHERE guid = ?`;
-		return db.getResultSet(query, [userID],false, true);
+		return db.getResultSet(query, [userID], false, true);
 	},
 
 	update(data = {}) {

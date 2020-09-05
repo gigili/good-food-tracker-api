@@ -1,0 +1,13 @@
+CREATE TABLE role(
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL,
+	power INT NOT NULL DEFAULT 0
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO role (name, power) VALUE ('User', 1);
+INSERT INTO role (name, power) VALUE ('Moderator', 30);
+INSERT INTO role (name, power) VALUE ('Administrator', 60);
+INSERT INTO role (name, power) VALUE ('SuperAdmin', 99999);
+
+ALTER TABLE user ADD COLUMN roleID INT NULL DEFAULT 1 AFTER image;
+ALTER TABLE user ADD CONSTRAINT FK_User_Role FOREIGN KEY(roleID) REFERENCES role (id) ON UPDATE CASCADE ON DELETE SET NULL;
