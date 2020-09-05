@@ -1,14 +1,15 @@
+import {Connection} from "mysql";
+
 const mysql = require("mysql");
 
-let con = undefined;
-
-const TABLES = {
-	User: "user",
-	Restaurant: "restaurant",
-	Role: "role"
-};
+let con: Connection;
 
 const DB = {
+	TABLES: {
+		User: "user",
+		Restaurant: "restaurant",
+		Role: "role"
+	},
 	connect() {
 		con = mysql.createConnection({
 			host: process.env.MYSQL_HOST,
@@ -19,7 +20,7 @@ const DB = {
 		});
 	},
 
-	execute(sql, params = null) {
+	execute(sql: string, params: any[] | null = null) {
 		if (typeof con === "undefined") {
 			this.connect();
 		}
@@ -33,15 +34,15 @@ const DB = {
 		});
 	},
 
-	getResultSet(sql, params = [], isProcedure = false, returnSingleRecord = false) {
+	getResultSet(sql: string, params: any[] | null, isProcedure: boolean = false, returnSingleRecord: boolean = false): Promise<object> {
 		if (isProcedure) {
 			sql = `call ${sql}`;
 		}
 
 		const exec = params !== null ? this.execute(sql, params) : this.execute(sql);
-		return exec.then(result => {
+		return exec.then((result: [] | any) => {
 			let res = JSON.parse(JSON.stringify(result));
-			res = (returnSingleRecord === true) ? res[0] : res;
+			res = returnSingleRecord ? res[0] : res;
 			res = (typeof res === "undefined") ? [] : res;
 
 			return {
@@ -49,7 +50,7 @@ const DB = {
 				"rows": res,
 				"total": result.length
 			};
-		}).catch(error => {
+		}).catch((error: object | any) => {
 			return {
 				"success": false,
 				"rows": [],
@@ -62,10 +63,6 @@ const DB = {
 			};
 		});
 	},
-
-	getTables() {
-		return TABLES;
-	}
 };
 
 module.exports = DB;

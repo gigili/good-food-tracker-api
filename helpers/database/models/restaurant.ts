@@ -1,15 +1,16 @@
+export {};
 const db = require("../db");
 const helper = require("../../../helpers/helper");
 
 const restaurant = {
-	async list(startLimit = 0, endLimit = process.env.PER_PAGE) {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<object> {
 		const params = [
 			parseInt(startLimit.toString()),
-			parseInt(endLimit)
+			parseInt(endLimit.toString())
 		];
 
-		const restaurants = await db.getResultSet(`SELECT * FROM ${db.getTables().Restaurant} LIMIT ?,?`, params);
-		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.getTables().Restaurant}`, null, false, true);
+		const restaurants = await db.getResultSet(`SELECT * FROM ${db.TABLES.Restaurant} LIMIT ?,?`, params);
+		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.TABLES.Restaurant}`, null, false, true);
 
 		return {
 			"success": (restaurants.success && restaurants.success),
@@ -18,44 +19,61 @@ const restaurant = {
 		};
 	},
 
-	create(data = {}) {
-		const name = data.name;
+	create(data: {
+		name?: string,
+		address?: string,
+		city?: string,
+		phone?: string,
+		delivery?: string,
+		geo_lat?: number,
+		geo_long?: number
+	} = {}): Promise<object> {
+		const name = data["name"];
 		let address = data.address || null;
 		let city = data.city || null;
 		let phone = data.phone || null;
 		const delivery = data.delivery || "0";
-		const geo_lat = parseFloat(data.geo_lat) || null;
-		const geo_long = parseFloat(data.geo_long) || null;
+		const geo_lat = data.geo_lat || null;
+		const geo_long = data.geo_long || null;
 
 		const insertQuery = `
-			INSERT INTO ${db.getTables().Restaurant} (name, address, city, phone, delivery, geo_lat, geo_long)
+			INSERT INTO ${db.TABLES.Restaurant} (name, address, city, phone, delivery, geo_lat, geo_long)
 			VALUES(?, ?, ?, ?, ?, ?, ?);
 		`;
 
 		return db.getResultSet(insertQuery, [name, address, city, phone, delivery, geo_lat, geo_long]);
 	},
 
-	get(restaurantID = 0) {
-		const query = `SELECT * FROM ${db.getTables().Restaurant} WHERE guid = ?`;
+	get(restaurantID: string): Promise<object> {
+		const query = `SELECT * FROM ${db.TABLES.Restaurant} WHERE guid = ?`;
 		return db.getResultSet(query, [restaurantID], false, true);
 	},
 
-	update(data = {}) {
+	update(data: {
+		restaurantID?: string,
+		name?: string,
+		address?: string,
+		city?: string,
+		phone?: string,
+		delivery?: string,
+		geo_lat?: number,
+		geo_long?: number
+	} = {}): Promise<object> {
 		const id = data.restaurantID || null;
 		const name = data.name;
 		let address = data.address || null;
 		let city = data.city || null;
 		let phone = data.phone || null;
 		const delivery = data.delivery || "0";
-		const geo_lat = parseFloat(data.geo_lat) || null;
-		const geo_long = parseFloat(data.geo_long) || null;
+		const geo_lat = data.geo_lat || null;
+		const geo_long = data.geo_long || null;
 
-		if (id === null || id < 1) {
+		if (!id) {
 			return helper.invalid_response("Missing ID field");
 		}
 
 		const updateQuery = `
-			UPDATE ${db.getTables().Restaurant} 
+			UPDATE ${db.TABLES.Restaurant} 
 			SET
 				name = ?, 
 				address = ?, 
@@ -70,13 +88,15 @@ const restaurant = {
 		return db.getResultSet(updateQuery, [name, address, city, phone, delivery, geo_lat, geo_long], id);
 	},
 
-	async delete(id = "") {
+	async delete(id: string = "") : Promise<object> {
 		const restaurant = await this.get(id);
-		if (restaurant.rows.hasOwnProperty("guid") === false) {
+
+		//@ts-ignore
+		if (!restaurant.rows.hasOwnProperty("guid")) {
 			return {"success": false};
 		}
-		
-		const deleteQuery = `DELETE FROM ${db.getTables().Restaurant} WHERE guid = ?`;
+
+		const deleteQuery = `DELETE FROM ${db.TABLES.Restaurant} WHERE guid = ?`;
 		return db.getResultSet(deleteQuery, [id]);
 	}
 };

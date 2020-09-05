@@ -1,16 +1,19 @@
+import {NextFunction} from "express";
+import {VerifyErrors} from "jsonwebtoken";
+
 const jwt = require("jsonwebtoken");
 const privateKey = process.env.JWT_SECRET;
 const translate = require("./translation");
 
 const Helper = {
-	invalid_response(message = "", data = null) {
+	invalid_response(message = "", data = null): object {
 		return {
 			"success": false,
 			"data": data || [],
 			"message": message
 		};
 	},
-	generate_token(data = {}) {
+	generate_token(data: object = {}): object {
 		const expiresAt = (Math.floor(Date.now() / 1000) + 7200);
 		const tokenData = {
 			algorithm: "HS256",
@@ -23,17 +26,21 @@ const Helper = {
 		return {token: jwt.sign(data, privateKey), expires: expiresAt};
 	},
 
-	authenticateToken(req, res, next, requiredPower = null) {
+	authenticateToken(req: Request, res: Response, next: NextFunction, requiredPower: number | null = null) {
 		// Gather the jwt access token from the request header
 		const authHeader = req.headers["authorization"];
 		const token = authHeader && authHeader.split(" ")[1];
+		// @ts-ignore
 		if (token == null) return res.status(401).send({"success": false, "message": translate("invalid_token")});
 
-		jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+		jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors | null, user?: object) => {
+			// @ts-ignore
 			if (err) return res.status(401).send({"success": false, "message": translate("invalid_token")});
 
-			if (requiredPower !== null) {
+			if (requiredPower !== null && user) {
+				// @ts-ignore
 				if (requiredPower > user.power) {
+					// @ts-ignore
 					return res.status(401).send({
 						"success": false,
 						"message": translate("not_authorized")
@@ -41,15 +48,16 @@ const Helper = {
 				}
 			}
 
+			// @ts-ignore
 			req.user = user;
 			next(); // pass the execution off to whatever request the client intended
 		});
 	},
-	rtrim(str, chr) {
+	rtrim(str: string, chr: string): string {
 		const rgxTrim = (!chr) ? new RegExp("\\s+$") : new RegExp(chr + "+$");
 		return str.replace(rgxTrim, "");
 	},
-	ltrim(str, chr) {
+	ltrim(str: string, chr: string): string {
 		const rgxTrim = (!chr) ? new RegExp("^\\s+") : new RegExp("^" + chr + "+");
 		return str.replace(rgxTrim, "");
 	},
