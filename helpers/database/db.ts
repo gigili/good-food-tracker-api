@@ -42,8 +42,8 @@ const DB = {
 		const exec = params !== null ? this.execute(sql, params) : this.execute(sql);
 		return exec.then((result: [] | any) => {
 			let res = JSON.parse(JSON.stringify(result));
-			res = (typeof res === "undefined") ? [] : res;
 			res = returnSingleRecord ? res[0] : res;
+			res = (typeof res === "undefined") ? [] : res;
 
 			return {
 				"success": true,

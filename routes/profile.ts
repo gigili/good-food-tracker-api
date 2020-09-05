@@ -1,3 +1,4 @@
+export {};
 const express = require("express");
 const router = express.Router();
 const userModel = require("../helpers/database/models/user");
@@ -34,7 +35,7 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 	if (req.files && Object.keys(req.files).length > 0) {
 		const image = req.files.image;
 		const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
-		const imagePath = `/images/user/${data.userID}.${extension}`;
+		const imagePath = `/images/user/${data["userID"]}.${extension}`;
 
 		if (fs.existsSync("./public/images/user") === false) {
 			fs.mkdirSync("./public/images/user");
