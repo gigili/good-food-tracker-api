@@ -1,4 +1,8 @@
+import {UploadedFile} from "express-fileupload";
+import {NextFunction, Request, Response} from "express";
+
 export {};
+
 const express = require("express");
 const router = express.Router();
 const userModel = require("../helpers/database/models/user");
@@ -8,7 +12,7 @@ const validation = require("../helpers/validation");
 const fs = require("fs");
 const ROLES = require("../helpers/roles");
 
-router.get("/:userID", helper.authenticateToken, async (req, res, _) => {
+router.get("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const user = await userModel.get(req.params["userID"] || "");
 
 	if (user.rows.length === 0) {
@@ -22,7 +26,7 @@ router.get("/:userID", helper.authenticateToken, async (req, res, _) => {
 	});
 });
 
-router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
+router.patch("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	if (req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
 	}
@@ -33,7 +37,7 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 	Object.assign(data, {"userID": req.params["userID"]});
 
 	if (req.files && Object.keys(req.files).length > 0) {
-		const image = req.files.image;
+		const image = req.files.image as UploadedFile;
 		const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
 		const imagePath = `/images/user/${data["userID"]}.${extension}`;
 
@@ -65,10 +69,9 @@ router.patch("/:userID", helper.authenticateToken, async (req, res, _) => {
 	});
 });
 
-router.delete("/:userID", helper.authenticateToken, async (req, res, _) => {
+router.delete("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	if (req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
-
 	}
 
 	const guid = req.params.userID;

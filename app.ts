@@ -6,12 +6,6 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require("express-fileupload");
 require('dotenv').config();
 
-declare  global {
-	interface String {
-		format(str: string): string;
-	}
-}
-
 String.prototype.format = String.prototype.format || function (this: string): string {
 	let str = this.toString();
 	if (arguments.length) {

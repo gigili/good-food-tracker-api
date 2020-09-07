@@ -1,5 +1,9 @@
 declare namespace Express {
-	export interface Request {
-		user?: object,
+	interface Request {
+		user?: { power: number };
 	}
+}
+
+declare interface String {
+	format(str: string | any[]): string;
 }

@@ -5,11 +5,11 @@
 	"outDir": "./build",
 	"esModuleInterop": true,
 	"rootDir": "./",
-	"allowJs": true
+	"allowJs": true,
+	"typeRoots": [
+	  "custom.d.ts"
+	]
   },
-  "include": [
-	"*.d.ts"
-  ],
   "exclude": [
 	"build",
 	"node_modules",

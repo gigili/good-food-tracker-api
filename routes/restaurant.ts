@@ -1,4 +1,6 @@
 export {};
+import {NextFunction, Request, Response} from "express";
+
 const express = require("express");
 const router = express.Router();
 const restaurantModel = require("../helpers/database/models/restaurant");
@@ -7,7 +9,7 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", helper.authenticateToken, async (req, res, _) => {
+router.get("/", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit = req.query.start || 0;
 	const endLimit = req.query.limit || process.env.PER_PAGE;
 
@@ -25,7 +27,7 @@ router.get("/", helper.authenticateToken, async (req, res, _) => {
 	});
 });
 
-router.get("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
+router.get("/:restaurantID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const data = await restaurantModel.get(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {
@@ -43,7 +45,7 @@ router.get("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
 	});
 });
 
-router.post("/", helper.authenticateToken, async (req, res, _) => {
+router.post("/", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -63,7 +65,7 @@ router.post("/", helper.authenticateToken, async (req, res, _) => {
 	});
 });
 
-router.patch("/:restaurantID", helper.authenticateToken, async (req, res, _) => {
+router.patch("/:restaurantID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -88,7 +90,7 @@ router.patch("/:restaurantID", helper.authenticateToken, async (req, res, _) => 
 
 router.delete("/:restaurantID", (req, res, nx) => {
 	helper.authenticateToken(req, res, nx, ROLES.Admin);
-}, async (req, res, _) => {
+}, async (req: Request, res: Response, _: NextFunction) => {
 	const data = await restaurantModel.delete(req.params["restaurantID"] || 0);
 
 	if (data.success === false) {

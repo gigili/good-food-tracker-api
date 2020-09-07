@@ -5,7 +5,7 @@ const Validation = {
 	label: "",
 	params: [],
 	singleError: false,
-	validate(validationFields: any[] = [], singleError: boolean = false): string | string[] {
+	validate(validationFields: any[], singleError: boolean = false): string | string[] {
 		const errors: string[] = [];
 
 		for (const [value, label, params] of validationFields) {

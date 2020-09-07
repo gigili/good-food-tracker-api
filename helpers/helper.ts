@@ -1,4 +1,5 @@
 import {VerifyErrors} from "jsonwebtoken";
+import {NextFunction, Request, Response} from "express";
 
 const jwt = require("jsonwebtoken");
 const privateKey = process.env.JWT_SECRET;
@@ -25,7 +26,7 @@ const Helper = {
 		return {token: jwt.sign(data, privateKey), expires: expiresAt};
 	},
 
-	authenticateToken(req, res, next, requiredPower: number | null = null) {
+	authenticateToken(req: Request, res: Response, next: NextFunction, requiredPower: number | null = null) {
 		const authHeader = req.headers["authorization"];
 		const token = authHeader && authHeader.split(" ")[1];
 

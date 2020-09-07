@@ -1,4 +1,6 @@
 export {};
+import {NextFunction, Request, Response} from "express";
+
 const express = require("express");
 const router = express.Router();
 const helper = require("../helpers/helper");
@@ -6,13 +8,13 @@ const validation = require("../helpers/validation");
 const translate = require("../helpers/translation");
 const userModel = require("../helpers/database/models/user");
 
-router.get("/", function (req, res, _) {
+router.get("/", function (req: Request, res: Response, _: NextFunction) {
 	res.send({
 		"message": translate("welcome"),
 	});
 });
 
-router.post("/login", async (req, res, _) => {
+router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 	const userModel = require("../helpers/database/models/user");
 
 	const validationResults = validation.validate([
@@ -57,7 +59,7 @@ router.post("/login", async (req, res, _) => {
 	});
 });
 
-router.post("/register", async (req, res, _) => {
+router.post("/register", async (req: Request, res: Response, _: NextFunction) => {
 	const {name, email, username, password} = req.body;
 
 	const validationResults = validation.validate([
