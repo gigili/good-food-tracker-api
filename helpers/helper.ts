@@ -1,4 +1,3 @@
-import {NextFunction} from "express";
 import {VerifyErrors} from "jsonwebtoken";
 
 const jwt = require("jsonwebtoken");
@@ -26,21 +25,19 @@ const Helper = {
 		return {token: jwt.sign(data, privateKey), expires: expiresAt};
 	},
 
-	authenticateToken(req: Request, res: Response, next: NextFunction, requiredPower: number | null = null) {
-		// Gather the jwt access token from the request header
+	authenticateToken(req, res, next, requiredPower: number | null = null) {
 		const authHeader = req.headers["authorization"];
 		const token = authHeader && authHeader.split(" ")[1];
-		// @ts-ignore
-		if (token == null) return res.status(401).send({"success": false, "message": translate("invalid_token")});
 
-		jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors | null, user?: object) => {
-			// @ts-ignore
+		if (token == null) {
+			return res.status(401).send({"success": false, "message": translate("invalid_token")});
+		}
+
+		jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors | null, user?: { power: number }) => {
 			if (err) return res.status(401).send({"success": false, "message": translate("invalid_token")});
 
 			if (requiredPower !== null && user) {
-				// @ts-ignore
 				if (requiredPower > user.power) {
-					// @ts-ignore
 					return res.status(401).send({
 						"success": false,
 						"message": translate("not_authorized")
@@ -48,15 +45,16 @@ const Helper = {
 				}
 			}
 
-			// @ts-ignore
 			req.user = user;
 			next(); // pass the execution off to whatever request the client intended
 		});
 	},
+
 	rtrim(str: string, chr: string): string {
 		const rgxTrim = (!chr) ? new RegExp("\\s+$") : new RegExp(chr + "+$");
 		return str.replace(rgxTrim, "");
 	},
+
 	ltrim(str: string, chr: string): string {
 		const rgxTrim = (!chr) ? new RegExp("^\\s+") : new RegExp("^" + chr + "+");
 		return str.replace(rgxTrim, "");

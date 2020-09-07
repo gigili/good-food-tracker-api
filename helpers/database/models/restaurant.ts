@@ -91,7 +91,6 @@ const restaurant = {
 	async delete(id: string = "") : Promise<object> {
 		const restaurant = await this.get(id);
 
-		//@ts-ignore
 		if (!restaurant.rows.hasOwnProperty("guid")) {
 			return {"success": false};
 		}
