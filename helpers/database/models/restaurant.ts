@@ -53,7 +53,7 @@ const restaurant = {
 		restaurantID?: string,
 		name?: string,
 		address?: string,
-		city?: string,
+		cityID?: string,
 		phone?: string,
 		delivery?: string,
 		geo_lat?: number,
@@ -62,7 +62,7 @@ const restaurant = {
 		const id = data.restaurantID || null;
 		const name = data.name;
 		let address = data.address || null;
-		let city = data.city || null;
+		let cityID = data.cityID || null;
 		let phone = data.phone || null;
 		const delivery = data.delivery || "0";
 		const geo_lat = data.geo_lat || null;
@@ -72,20 +72,8 @@ const restaurant = {
 			return helper.invalid_response("Missing ID field");
 		}
 
-		const updateQuery = `
-			UPDATE ${db.TABLES.Restaurant} 
-			SET
-				name = ?, 
-				address = ?, 
-				city = ?, 
-				phone = ?, 
-				delivery = ?, 
-				geo_lat = ?, 
-				geo_long = ?
-			WHERE guid = ?;
-		`;
-
-		return db.getResultSet(updateQuery, [name, address, city, phone, delivery, geo_lat, geo_long], id);
+		const updateQuery = `UPDATE ${db.TABLES.Restaurant} SET name = ?, address = ?, cityID = ?, phone = ?, delivery = ?, geo_lat = ?, geo_long = ? WHERE guid = ?;`;
+		return db.getResultSet(updateQuery.toString(), [name, address, cityID, phone, delivery, geo_lat, geo_long, id]);
 	},
 
 	async delete(id: string = "") : Promise<object> {

@@ -11,9 +11,9 @@
   "private": true,
   "scripts": {
     "build": "tsc --project ./",
-    "start": "node build/bin/www.js",
-    "dev": "nodemon bin/www.ts",
-	"copy": "find ./languages/ -name '*.json' -type f -exec cp --parents {} ./build \\; && find ./public/ -type f -exec cp --parents {} ./build \\;"
+    "start": "node build/app.js",
+    "dev": "nodemon ./app.ts",
+    "copy": "find ./languages/ -name '*.json' -type f -exec cp --parents {} ./build \\; && find ./public/ -type f -exec cp --parents {} ./build \\;"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

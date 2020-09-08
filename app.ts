@@ -1,33 +1,18 @@
-export {};
-
+const debug = require('debug')('good-food-tracker:server');
+const http = require('http');
+const port = normalizePort(process.env.PORT || '3000');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const fileUpload = require("express-fileupload");
 require('dotenv').config();
 
-String.prototype.format = String.prototype.format || function (this: string): string {
-	let str = this.toString();
-	if (arguments.length) {
-		const t = typeof arguments[0];
-		const args = ("string" === t || "number" === t) ? Array.prototype.slice.call(arguments) : arguments[0];
-
-		for (let key in args) {
-			if(args.hasOwnProperty(key)) {
-				const replaceValue = args[key];
-				str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), replaceValue.toString());
-			}
-		}
-	}
-
-	return str;
-};
-
 const indexRouter = require('./routes/index');
 const restaurantRouter = require('./routes/restaurant');
 const profileRoutes = require('./routes/profile');
 
 const app = express();
+app.set('port', port);
 
 if (parseInt(process.env.DEVELOPMENT || "0") === 1) {
 	const logger = require('morgan');
@@ -46,4 +31,56 @@ app.use('/', indexRouter);
 app.use('/restaurant', restaurantRouter);
 app.use('/profile', profileRoutes);
 
-module.exports = app;
+const server = http.createServer(app);
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+//module.exports = app;
+
+function normalizePort(val){
+	const port = parseInt(val.toString(), 10);
+
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
+
+	if (port >= 0) {
+		// port number
+		return port;
+	}
+
+	return false;
+}
+function onError(error){
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
+
+	const bind = typeof port === 'string'
+		? 'Pipe ' + port
+		: 'Port ' + port;
+
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
+}
+function onListening(){
+	const addr = server.address();
+	const bind = typeof addr === 'string'
+		? 'pipe ' + addr
+		: 'port ' + addr.port;
+	debug('Listening on ' + bind);
+}

@@ -70,7 +70,7 @@ router.patch("/:userID", helper.authenticateToken, async (req: Request, res: Res
 });
 
 router.delete("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	if (req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
+	if (req["user"].power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
 	}
 

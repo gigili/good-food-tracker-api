@@ -46,7 +46,7 @@ const Helper = {
 				}
 			}
 
-			req.user = user;
+			req["user"] = user;
 			next(); // pass the execution off to whatever request the client intended
 		});
 	},
@@ -60,6 +60,22 @@ const Helper = {
 		const rgxTrim = (!chr) ? new RegExp("^\\s+") : new RegExp("^" + chr + "+");
 		return str.replace(rgxTrim, "");
 	},
+	format(c: string, arg: string | string []): string {
+		let str = c.toString();
+		if (arg.length) {
+			const t = typeof arg[0];
+			const args = ("string" === t || "number" === t) ? Array.prototype.slice.call(arguments) : arguments[0];
+
+			for (let key in args) {
+				if (args.hasOwnProperty(key)) {
+					const replaceValue = args[key];
+					str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), replaceValue.toString());
+				}
+			}
+		}
+
+		return str;
+	}
 };
 
 

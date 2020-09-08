@@ -6,6 +6,7 @@
 	"esModuleInterop": true,
 	"rootDir": "./",
 	"allowJs": true,
+	"types": ["./custom.d.ts", "node", "express", "custom", "request"],
 	"typeRoots": [
 	  "custom.d.ts"
 	]
