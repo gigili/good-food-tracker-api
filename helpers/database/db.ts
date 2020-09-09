@@ -8,7 +8,8 @@ const DB = {
 	TABLES: {
 		User: "user",
 		Restaurant: "restaurant",
-		Role: "role"
+		Role: "role",
+		City: "city"
 	},
 	connect() {
 		con = mysql.createConnection({
