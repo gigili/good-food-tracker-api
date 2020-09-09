@@ -10,8 +10,9 @@ const restaurant = {
 		];
 
 		const restaurants = await db.getResultSet(`
-			SELECT r.*, city.name as cityName FROM ${db.TABLES.Restaurant} AS r
-			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id 
+			SELECT r.*, city.name as cityName, country.name as countryName FROM ${db.TABLES.Restaurant} AS r
+			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id
+			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id 
 			LIMIT ?,?
 		`, params);
 		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.TABLES.Restaurant}`, null, false, true);
@@ -25,9 +26,10 @@ const restaurant = {
 
 	get(restaurantID: string): Promise<object> {
 		const query = `
-			SELECT r.*, city.name as cityName FROM ${db.TABLES.Restaurant} AS r
+			SELECT r.*, city.name as cityName, country.name as countryName FROM ${db.TABLES.Restaurant} AS r
 			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id
-			WHERE guid = ?
+			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id
+			WHERE r.guid = ?
 		`;
 		return db.getResultSet(query, [restaurantID], false, true);
 	},

@@ -6,10 +6,11 @@ let con: Connection;
 
 const DB = {
 	TABLES: {
-		User: "user",
+		City: "city",
+		Country: "country",
 		Restaurant: "restaurant",
 		Role: "role",
-		City: "city"
+		User: "user"
 	},
 	connect() {
 		con = mysql.createConnection({

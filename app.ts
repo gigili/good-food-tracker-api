@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const restaurantRouter = require('./routes/restaurant');
 const profileRoutes = require('./routes/profile');
 const cityRoutes = require('./routes/city');
+const countryRoutes = require('./routes/country');
 
 const app = express();
 
@@ -32,5 +33,6 @@ app.use('/', indexRouter);
 app.use('/restaurant', restaurantRouter);
 app.use('/profile', profileRoutes);
 app.use('/city', cityRoutes);
+app.use('/country', countryRoutes);
 
 module.exports = app;
