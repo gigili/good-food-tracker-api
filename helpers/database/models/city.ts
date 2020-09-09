@@ -9,7 +9,11 @@ const city = {
 			parseInt(endLimit.toString())
 		];
 
-		const cities = await db.getResultSet(`SELECT * FROM ${db.TABLES.City} LIMIT ?,?`, params);
+		const cities = await db.getResultSet(`
+			SELECT city.*, country.name AS countryName FROM ${db.TABLES.City} AS city
+			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id
+			LIMIT ?,?
+		`, params);
 		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.TABLES.City}`, null, false, true);
 
 		return {
@@ -20,7 +24,11 @@ const city = {
 	},
 
 	get(cityID: number): Promise<object> {
-		const query = `SELECT * FROM ${db.TABLES.City} WHERE id = ?`;
+		const query = `
+		 	SELECT city.*, country.name AS countryName FROM ${db.TABLES.City} AS city
+			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id
+		 	WHERE city.id = ?
+		 `;
 		return db.getResultSet(query, [cityID], false, true);
 	},
 
