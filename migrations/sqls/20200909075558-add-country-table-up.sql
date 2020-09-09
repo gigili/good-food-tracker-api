@@ -44,6 +44,6 @@ VALUES ("Afghanistan","AF"),("Albania","AL"),("Algeria","DZ"),("American Samoa",
 ("Turks and Caicos Islands","TC"),("Tuvalu","TV"),("U.S. Virgin Islands","VI"),("Uganda","UG"),("Ukraine","UA"),
 ("United Arab Emirates","AE"),("United Kingdom","GB"),("United States","US"),("Uruguay","UY"),("Uzbekistan","UZ"),
 ("Vanuatu","VU"),("Vatican","VA"),("Venezuela","VE"),("Vietnam","VN"),("Wallis and Futuna","WF"),("Western Sahara","EH"),
-("Yemen","YE"),("Zambia","ZM"),("Zimbabwe","ZW");
+("Yemen","YE"),("Zambia","ZM"),("Zimbabwe","ZW"),("Other", "XX");
 
 ALTER TABLE city ADD CONSTRAINT FK_City_Country FOREIGN KEY(countryID) REFERENCES country(id) ON UPDATE CASCADE ON DELETE CASCADE;

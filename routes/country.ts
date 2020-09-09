@@ -45,7 +45,9 @@ router.get("/:countryID", helper.authenticateToken, async (req: Request, res: Re
 	});
 });
 
-router.post("/", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.post("/", (req: Request, res: Response, nx: NextFunction) => {
+	helper.authenticateToken(req, res, nx, ROLES.Admin);
+}, async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -65,7 +67,9 @@ router.post("/", helper.authenticateToken, async (req: Request, res: Response, _
 	});
 });
 
-router.patch("/:countryID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.patch("/:countryID", (req: Request, res: Response, nx: NextFunction) => {
+	helper.authenticateToken(req, res, nx, ROLES.Admin);
+}, async (req: Request, res: Response, _: NextFunction) => {
 	const {name, code} = req.body;
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
 
