@@ -43,10 +43,14 @@ List of currently completed or still being developed feature:
     * [x] List of all the restaurants
     * [x] Add / edit restaurant
     * [x] Delete restaurant
-* [ ] City
-    * [ ] List of cities 
-    * [ ] Add / edit city
-    * [ ] Delete city
+* [x] City
+    * [x] List of cities 
+    * [x] Add / edit city
+    * [x] Delete city
+* [ ] Country
+    * [ ] List of countries 
+    * [ ] Add / edit country
+    * [ ] Delete country
 * [ ] Reviews
     * [ ] List of users reviews (personal / public)
     * [ ] List of all public reviews for a restaurant from everyone 
