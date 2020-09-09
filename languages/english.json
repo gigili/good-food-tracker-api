@@ -50,5 +50,6 @@
   "country_not_found": "requested country not found.",
   "country_created_success": "country created successfully.",
   "country_update_success": "country updated successfully.",
-  "country_delete_success": "country deleted successfully."
+  "country_delete_success": "country deleted successfully.",
+  "unable_to_load_reviews": "unable to load review."
 }
