@@ -9,7 +9,11 @@ const restaurant = {
 			parseInt(endLimit.toString())
 		];
 
-		const restaurants = await db.getResultSet(`SELECT * FROM ${db.TABLES.Restaurant} LIMIT ?,?`, params);
+		const restaurants = await db.getResultSet(`
+			SELECT r.*, city.name as cityName FROM ${db.TABLES.Restaurant} AS r
+			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id 
+			LIMIT ?,?
+		`, params);
 		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.TABLES.Restaurant}`, null, false, true);
 
 		return {
@@ -19,10 +23,19 @@ const restaurant = {
 		};
 	},
 
+	get(restaurantID: string): Promise<object> {
+		const query = `
+			SELECT r.*, city.name as cityName FROM ${db.TABLES.Restaurant} AS r
+			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id
+			WHERE guid = ?
+		`;
+		return db.getResultSet(query, [restaurantID], false, true);
+	},
+
 	create(data: {
 		name?: string,
 		address?: string,
-		city?: string,
+		cityID?: number,
 		phone?: string,
 		delivery?: string,
 		geo_lat?: number,
@@ -30,30 +43,25 @@ const restaurant = {
 	} = {}): Promise<object> {
 		const name = data["name"];
 		let address = data.address || null;
-		let city = data.city || null;
+		let cityID = data.cityID || null;
 		let phone = data.phone || null;
 		const delivery = data.delivery || "0";
 		const geo_lat = data.geo_lat || null;
 		const geo_long = data.geo_long || null;
 
 		const insertQuery = `
-			INSERT INTO ${db.TABLES.Restaurant} (name, address, city, phone, delivery, geo_lat, geo_long)
+			INSERT INTO ${db.TABLES.Restaurant} (name, address, cityID, phone, delivery, geo_lat, geo_long)
 			VALUES(?, ?, ?, ?, ?, ?, ?);
 		`;
 
-		return db.getResultSet(insertQuery, [name, address, city, phone, delivery, geo_lat, geo_long]);
-	},
-
-	get(restaurantID: string): Promise<object> {
-		const query = `SELECT * FROM ${db.TABLES.Restaurant} WHERE guid = ?`;
-		return db.getResultSet(query, [restaurantID], false, true);
+		return db.getResultSet(insertQuery, [name, address, cityID, phone, delivery, geo_lat, geo_long]);
 	},
 
 	update(data: {
 		restaurantID?: string,
 		name?: string,
 		address?: string,
-		cityID?: string,
+		cityID?: number,
 		phone?: string,
 		delivery?: string,
 		geo_lat?: number,
@@ -76,7 +84,7 @@ const restaurant = {
 		return db.getResultSet(updateQuery.toString(), [name, address, cityID, phone, delivery, geo_lat, geo_long, id]);
 	},
 
-	async delete(id: string = "") : Promise<object> {
+	async delete(id: string = ""): Promise<object> {
 		const restaurant = await this.get(id);
 
 		if (!restaurant.rows.hasOwnProperty("guid")) {
