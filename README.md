@@ -47,10 +47,10 @@ List of currently completed or still being developed feature:
     * [x] List of cities 
     * [x] Add / edit city
     * [x] Delete city
-* [ ] Country
-    * [ ] List of countries 
-    * [ ] Add / edit country
-    * [ ] Delete country
+* [x] Country
+    * [x] List of countries 
+    * [x] Add / edit country
+    * [x] Delete country
 * [ ] Reviews
     * [ ] List of users reviews (personal / public)
     * [ ] List of all public reviews for a restaurant from everyone 
