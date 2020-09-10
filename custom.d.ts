@@ -1,6 +1,7 @@
 declare namespace Express {
 	interface Request {
 		user?: { power: number };
+		lang?: string
 	}
 }
 

@@ -51,5 +51,8 @@
   "country_created_success": "country created successfully.",
   "country_update_success": "country updated successfully.",
   "country_delete_success": "country deleted successfully.",
-  "unable_to_load_reviews": "unable to load review."
+  "unable_to_load_reviews": "unable to load review.",
+  "invalid_user_provided": "invalid user provided",
+  "unable_to_load_review": "there was an error while trying to load a review",
+  "review_not_found": "review not found"
 }

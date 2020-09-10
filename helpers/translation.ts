@@ -4,6 +4,7 @@ const language = "english";
 const translationValues = JSON.parse(fs.readFileSync(`languages/${language}.json`, 'utf8'));
 
 module.exports = function translate(key: string = "", capitalizeFirstLetter: boolean = true): string {
+	console.log();
 	if (key.trim().length === 0) {
 		return "";
 	}

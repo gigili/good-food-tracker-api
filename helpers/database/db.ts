@@ -9,6 +9,8 @@ const DB = {
 		City: "city",
 		Country: "country",
 		Restaurant: "restaurant",
+		Review: "review",
+		ReviewImage: "review_image",
 		Role: "role",
 		User: "user"
 	},
