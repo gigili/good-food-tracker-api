@@ -32,27 +32,27 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 		return res.status(400).send(utilities.invalid_response(translate("login_failed")));
 	}
 
-	if (!loginResult.hasOwnProperty("rows") || !loginResult.rows.hasOwnProperty("guid")) {
+	if (!loginResult.hasOwnProperty("data") || !loginResult.data.hasOwnProperty("guid")) {
 		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
-	const user = await userModel.get(loginResult.rows["guid"]);
-	if (!user.hasOwnProperty("rows") || !user.rows.hasOwnProperty("guid")) {
+	const user = await userModel.get(loginResult.data["guid"]);
+	if (!user.hasOwnProperty("data") || !user.data.hasOwnProperty("guid")) {
 		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
-	const rolesResult = await userModel.getRoles(user.rows["guid"]);
+	const rolesResult = await userModel.getRoles(user.data["guid"]);
 	if (rolesResult.success) {
-		if (rolesResult.rows.hasOwnProperty("name")) {
-			Object.assign(user.rows, {power: rolesResult.rows.power});
+		if (rolesResult.data.hasOwnProperty("name")) {
+			Object.assign(user.data, {power: rolesResult.data.power});
 		}
 	}
 
-	if (parseInt(user.rows.active) === 0) {
+	if (parseInt(user.data.active) === 0) {
 		return res.status(400).send(utilities.invalid_response(translate("account_not_active")));
 	}
 
-	const tokenData = utilities.generate_token(user.rows);
+	const tokenData = utilities.generate_token(user.data);
 	return res.status(200).send({
 		"success": true,
 		"data": tokenData

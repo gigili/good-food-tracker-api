@@ -1,13 +1,14 @@
 import {VerifyErrors} from "jsonwebtoken";
 import {NextFunction, Response} from "express";
 import {Request} from "./interfaces/request";
+import {ResultSet} from "./interfaces/database";
 
 const jwt = require("jsonwebtoken");
 const privateKey = process.env.JWT_SECRET;
 const translate = require("./translation");
 
 const Utilities = {
-	invalid_response(message = "", data = null): object {
+	invalid_response(message = "", data = null): ResultSet {
 		return {
 			"success": false,
 			"data": data || [],

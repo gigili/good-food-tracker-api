@@ -1,4 +1,4 @@
-import {DbResultSet} from "../../interfaces/database"
+import {ResultSet} from "../../interfaces/database"
 
 export {};
 
@@ -7,7 +7,7 @@ const translate = require("../../translation");
 const db = require("../db");
 
 module.exports = {
-	login(username: string = "", password: string = ""): Promise<DbResultSet> {
+	login(username: string = "", password: string = ""): Promise<ResultSet> {
 		const params = [username, password];
 		const query = `SELECT id, guid FROM ${db.TABLES.User} WHERE username = ? AND password = ?`;
 		return db.getResultSet(query, params, false, true);
@@ -22,12 +22,12 @@ module.exports = {
 		const userQuery = `SELECT id, name, email, username, active FROM ? WHERE username = ? OR email = ?`;
 		const userData = await db.getResultSet(userQuery, params, false, true);
 
-		if (userData.success && userData.rows.hasOwnProperty("id") && userData.rows.id > 0) {
-			if (userData.rows.username === user.username) {
+		if (userData.success && userData.data.hasOwnProperty("id") && userData.data.id > 0) {
+			if (userData.data.username === user.username) {
 				return translate("username_taken");
 			}
 
-			if (userData.rows.email === user.email) {
+			if (userData.data.email === user.email) {
 				return translate("email_in_use");
 			}
 
@@ -45,7 +45,7 @@ module.exports = {
 		return true;
 	},
 
-	getRoles(userID: string): Promise<DbResultSet> {
+	getRoles(userID: string): Promise<ResultSet> {
 		return db.getResultSet(`
 			SELECT r.name, r.power FROM ${db.TABLES.User} AS u
 			LEFT JOIN ${db.TABLES.Role} AS r ON r.id = u.roleID
@@ -53,12 +53,12 @@ module.exports = {
 		`, [userID], false, true);
 	},
 
-	get(userID: string): Promise<DbResultSet> {
+	get(userID: string): Promise<ResultSet> {
 		const query = `SELECT id, guid, name, email, username, image, active FROM ${db.TABLES.User} WHERE guid = ?`;
 		return db.getResultSet(query, [userID], false, true);
 	},
 
-	update(data: object | any = {}): Promise<DbResultSet> {
+	update(data: object | any = {}): Promise<ResultSet> {
 		const params = [];
 		let query = `UPDATE ${db.TABLES.User} SET `;
 		for (const key in data) {
@@ -77,7 +77,7 @@ module.exports = {
 		return db.getResultSet(query, params);
 	},
 
-	delete(guid: string): Promise<DbResultSet> {
+	delete(guid: string): Promise<ResultSet> {
 		const query = `DELETE FROM ${db.TABLES.User} WHERE guid = ?`;
 		return db.getResultSet(query, [guid]);
 	}

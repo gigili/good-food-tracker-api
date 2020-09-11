@@ -1,5 +1,6 @@
-export {};
 import {NextFunction, Request, Response} from "express";
+
+export {};
 
 const express = require("express");
 const router = express.Router();
@@ -28,19 +29,19 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 });
 
 router.get("/:cityID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await cityModel.get(parseInt(req.params["cityID"]));
+	const city = await cityModel.get(parseInt(req.params["cityID"]));
 
-	if (!data.success) {
+	if (!city.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_city")));
 	}
 
-	if (!data.rows.hasOwnProperty("id") || data.rows.id < 1) {
+	if (!city.data.hasOwnProperty("id") || city.data.id < 1) {
 		return res.status(404).send(utilities.invalid_response(translate("city_not_found")));
 	}
 
 	res.send({
-		"success": data.success,
-		"data": data.rows,
+		"success": city.success,
+		"data": city.data,
 		"message": ""
 	});
 });

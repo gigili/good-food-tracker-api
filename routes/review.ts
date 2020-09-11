@@ -39,7 +39,7 @@ router.get("/:reviewID", utilities.authenticateToken, async (req: Request, res: 
 		return res.status(400).send(utilities.invalid_response(review));
 	} else if (!review.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_review")));
-	} else if (review.success && !review.rows.hasOwnProperty("guid")) {
+	} else if (review.success && !review.data.hasOwnProperty("guid")) {
 		return res.status(404).send(utilities.invalid_response(translate("review_not_found")));
 	}
 

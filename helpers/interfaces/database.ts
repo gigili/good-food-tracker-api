@@ -1,7 +1,6 @@
-export interface DbResultSet {
+export interface ResultSet {
 	success: boolean,
-	rows?: any[],
-	data?: any[],
+	data: any[] | object,
 	total?: number,
 	message?: string,
 	error?: {

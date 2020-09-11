@@ -28,19 +28,19 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 });
 
 router.get("/:countryID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await countryModel.get(parseInt(req.params["countryID"]));
+	const countries = await countryModel.get(parseInt(req.params["countryID"]));
 
-	if (!data.success) {
+	if (!countries.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_country")));
 	}
 
-	if (!data.rows.hasOwnProperty("id") || data.rows.id < 1) {
+	if (!countries.data.hasOwnProperty("id") || countries.data.id < 1) {
 		return res.status(404).send(utilities.invalid_response(translate("country_not_found")));
 	}
 
 	res.send({
-		"success": data.success,
-		"data": data.rows,
+		"success": countries.success,
+		"data": countries.data,
 		"message": ""
 	});
 });

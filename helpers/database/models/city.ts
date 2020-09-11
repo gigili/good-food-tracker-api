@@ -1,4 +1,4 @@
-import {DbResultSet} from "../../interfaces/database"
+import {ResultSet} from "../../interfaces/database"
 
 export {};
 const db = require("../db");
@@ -6,7 +6,7 @@ const utilities = require("../../utilities");
 const translate = require("../../translation")
 
 const city = {
-	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<DbResultSet> {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet> {
 		const params = [
 			parseInt(startLimit.toString()),
 			parseInt(endLimit.toString())
@@ -21,12 +21,12 @@ const city = {
 
 		return {
 			"success": (cities.success && cities.success),
-			"data": cities.rows,
-			"total": count.rows["cnt"] || 0
+			"data": cities.data,
+			"total": count.data.cnt || 0
 		};
 	},
 
-	get(cityID: number): Promise<DbResultSet> {
+	get(cityID: number): Promise<ResultSet> {
 		const query = `
 		 	SELECT city.*, country.name AS countryName FROM ${db.TABLES.City} AS city
 			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id
@@ -35,13 +35,13 @@ const city = {
 		return db.getResultSet(query, [cityID], false, true);
 	},
 
-	create(data: { name?: string, countryID?: number } = {}): Promise<DbResultSet> {
+	create(data: { name?: string, countryID?: number } = {}): Promise<ResultSet> {
 		const {name, countryID} = data;
 		const insertQuery = `INSERT INTO ${db.TABLES.City} (name, countryID) VALUES(?, ?);`;
 		return db.getResultSet(insertQuery, [name, countryID || null]);
 	},
 
-	update(data: { cityID?: number, name?: string, countryID?: number } = {}): Promise<DbResultSet> {
+	update(data: { cityID?: number, name?: string, countryID?: number } = {}): Promise<ResultSet> {
 		const {cityID, name, countryID} = data;
 
 		if (!cityID) {
@@ -52,11 +52,11 @@ const city = {
 		return db.getResultSet(updateQuery.toString(), [name, countryID || null, cityID]);
 	},
 
-	async delete(id: number): Promise<DbResultSet> {
+	async delete(id: number): Promise<ResultSet> {
 		const restaurant = await this.get(id);
 
-		if (restaurant.rows && !restaurant.rows.hasOwnProperty("id")) {
-			return {"success": false};
+		if (restaurant.data && !restaurant.data.hasOwnProperty("id")) {
+			return utilities.invalid_response(translate("missing_id_field"));
 		}
 
 		const deleteQuery = `DELETE FROM ${db.TABLES.City} WHERE id = ?`;

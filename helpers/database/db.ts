@@ -1,5 +1,5 @@
 import {Connection} from "mysql";
-import {DbResultSet} from "../interfaces/database";
+import {ResultSet} from "../interfaces/database";
 
 const mysql = require("mysql");
 
@@ -39,7 +39,7 @@ const DB = {
 		});
 	},
 
-	getResultSet(sql: string, params: any[] | null, isProcedure: boolean = false, returnSingleRecord: boolean = false): Promise<DbResultSet> {
+	getResultSet(sql: string, params: any[] | null, isProcedure: boolean = false, returnSingleRecord: boolean = false): Promise<ResultSet> {
 		if (isProcedure) {
 			sql = `call ${sql}`;
 		}
@@ -52,13 +52,13 @@ const DB = {
 
 			return {
 				"success": true,
-				"rows": res,
+				"data": res,
 				"total": result.length
 			};
 		}).catch((error: object | any) => {
 			return {
 				"success": false,
-				"rows": [],
+				"data": [],
 				"total": 0,
 				"message": error.message,
 				"error": {

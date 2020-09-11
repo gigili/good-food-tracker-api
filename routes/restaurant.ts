@@ -28,19 +28,19 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 });
 
 router.get("/:restaurantID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await restaurantModel.get(req.params["restaurantID"] || "");
+	const restaurant = await restaurantModel.get(req.params["restaurantID"] || "");
 
-	if (!data.success) {
+	if (!restaurant.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_restaurant")));
 	}
 
-	if (!data.rows.hasOwnProperty("id") || data.rows.id < 1) {
+	if (!restaurant.data.hasOwnProperty("id") || restaurant.data.id < 1) {
 		return res.status(404).send(utilities.invalid_response(translate("restaurant_not_found")));
 	}
 
 	res.send({
-		"success": data.success,
-		"data": data.rows,
+		"success": restaurant.success,
+		"data": restaurant.data,
 		"message": ""
 	});
 });

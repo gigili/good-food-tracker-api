@@ -16,13 +16,13 @@ const ROLES = require("../helpers/roles");
 router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const user = await userModel.get(req.params["userID"] || "");
 
-	if (user.rows.length === 0) {
+	if (user.data.length === 0) {
 		return res.status(404).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
 	res.send({
 		"success": user.success,
-		"data": user.rows,
+		"data": user.data,
 		"message": ""
 	});
 });
