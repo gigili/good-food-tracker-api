@@ -1,6 +1,7 @@
 export {};
 const db = require("../db");
-const helper = require("../../../helpers/helper");
+const utilities = require("../../utilities");
+const translate = require("../../translation");
 
 const restaurant = {
 	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<object> {
@@ -79,7 +80,7 @@ const restaurant = {
 		const geo_long = data.geo_long || null;
 
 		if (!id) {
-			return helper.invalid_response("Missing ID field");
+			return utilities.invalid_response(translate("missing_id_field"));
 		}
 
 		const updateQuery = `UPDATE ${db.TABLES.Restaurant} SET name = ?, address = ?, cityID = ?, phone = ?, delivery = ?, geo_lat = ?, geo_long = ? WHERE guid = ?;`;

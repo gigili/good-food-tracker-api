@@ -1,6 +1,7 @@
 export {};
 const db = require("../db");
-const helper = require("../../../helpers/helper");
+const utilities = require("../../utilities");
+const translate = require("../../translation");
 
 const country = {
 	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<object> {
@@ -34,7 +35,7 @@ const country = {
 		const {countryID, name, code} = data;
 
 		if (!countryID) {
-			return helper.invalid_response("Missing ID field");
+			return utilities.invalid_response(translate("missing_id_field"));
 		}
 
 		const updateQuery = `UPDATE ${db.TABLES.Country} SET name = ?, code = ? WHERE id = ?;`;

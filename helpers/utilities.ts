@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const privateKey = process.env.JWT_SECRET;
 const translate = require("./translation");
 
-const Helper = {
+const Utilities = {
 	invalid_response(message = "", data = null): object {
 		return {
 			"success": false,
@@ -79,4 +79,4 @@ const Helper = {
 };
 
 
-module.exports = Helper;
+module.exports = Utilities;

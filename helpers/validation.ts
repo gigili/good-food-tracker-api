@@ -1,5 +1,5 @@
 const translate = require("./translation");
-const helper = require("./helper");
+const utilities = require("./utilities");
 
 const Validation = {
 	value: "",
@@ -38,7 +38,7 @@ const Validation = {
 
 	required(): string | boolean {
 		if (typeof this.value === "undefined" || this.value === null || this.value.length === 0) {
-			return helper.format(translate('validation_error_required_field'), this.label);
+			return utilities.format(translate('validation_error_required_field'), this.label);
 		}
 
 		return true;
@@ -46,7 +46,7 @@ const Validation = {
 
 	min_length(length = 3): string | boolean {
 		if (!this.value || this.value.length < length) {
-			return helper.format(translate("validation_error_minimum_length"), [this.label, length]);
+			return utilities.format(translate("validation_error_minimum_length"), [this.label, length]);
 		}
 
 		return true;
@@ -54,7 +54,7 @@ const Validation = {
 
 	max_length(length = 3): string | boolean {
 		if (!this.value || this.value.length > length) {
-			return helper.format(translate("validation_error_max_length"), [this.label, length]);
+			return utilities.format(translate("validation_error_max_length"), [this.label, length]);
 		}
 
 		return true;
@@ -71,7 +71,7 @@ const Validation = {
 
 	is_number(): string | boolean {
 		if (isNaN(Number(this.value))) {
-			return helper.format(translate("validation_error_not_a_number"), this.label);
+			return utilities.format(translate("validation_error_not_a_number"), this.label);
 		}
 
 		return true;

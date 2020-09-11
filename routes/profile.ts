@@ -6,17 +6,17 @@ export {};
 const express = require("express");
 const router = express.Router();
 const userModel = require("../helpers/database/models/user");
-const helper = require("../helpers/helper");
+const utilities = require("../helpers/utilities");
 const translate = require("../helpers/translation");
 const validation = require("../helpers/validation");
 const fs = require("fs");
 const ROLES = require("../helpers/roles");
 
-router.get("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const user = await userModel.get(req.params["userID"] || "");
 
 	if (user.rows.length === 0) {
-		return res.status(404).send(helper.invalid_response(translate("account_doesnt_exist")));
+		return res.status(404).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
 	res.send({
@@ -26,9 +26,9 @@ router.get("/:userID", helper.authenticateToken, async (req: Request, res: Respo
 	});
 });
 
-router.patch("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	if (req.params["userID"] !== req["user"]["guid"]) {
-		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
+		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
 
 	const {name, email} = req.body;
@@ -57,7 +57,7 @@ router.patch("/:userID", helper.authenticateToken, async (req: Request, res: Res
 	], true);
 
 	if (validationResult.length > 0) {
-		return res.status(400).send(helper.invalid_response(validationResult));
+		return res.status(400).send(utilities.invalid_response(validationResult));
 	}
 
 	const result = await userModel.update(data);
@@ -69,9 +69,9 @@ router.patch("/:userID", helper.authenticateToken, async (req: Request, res: Res
 	});
 });
 
-router.delete("/:userID", helper.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.delete("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	if (req["user"].power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
-		return res.status(401).send(helper.invalid_response(translate("not_authorized")));
+		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
 
 	const guid = req.params.userID;

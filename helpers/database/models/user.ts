@@ -1,6 +1,6 @@
 export {};
 
-const helper = require("../../helper");
+const utilities = require("../../utilities");
 const translate = require("../../translation");
 const db = require("../db");
 
@@ -68,7 +68,7 @@ module.exports = {
 			}
 		}
 
-		query = helper.rtrim(query, ", ");
+		query = utilities.rtrim(query, ", ");
 		query += ` WHERE guid = ?`;
 		params.push(data.userID);
 
