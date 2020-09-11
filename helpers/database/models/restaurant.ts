@@ -1,10 +1,12 @@
+import {DbResultSet} from "../../interfaces/database"
+
 export {};
 const db = require("../db");
 const utilities = require("../../utilities");
 const translate = require("../../translation");
 
 const restaurant = {
-	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<object> {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<DbResultSet> {
 		const params = [
 			parseInt(startLimit.toString()),
 			parseInt(endLimit.toString())
@@ -20,12 +22,12 @@ const restaurant = {
 
 		return {
 			"success": (restaurants.success && restaurants.success),
-			"restaurants": restaurants.rows,
+			"data": restaurants.rows,
 			"total": count.rows["cnt"] || 0
 		};
 	},
 
-	get(restaurantID: string): Promise<object> {
+	get(restaurantID: string): Promise<DbResultSet> {
 		const query = `
 			SELECT r.*, city.name as cityName, country.name as countryName FROM ${db.TABLES.Restaurant} AS r
 			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id
@@ -43,7 +45,7 @@ const restaurant = {
 		delivery?: string,
 		geo_lat?: number,
 		geo_long?: number
-	} = {}): Promise<object> {
+	} = {}): Promise<DbResultSet> {
 		const name = data["name"];
 		let address = data.address || null;
 		let cityID = data.cityID || null;
@@ -69,7 +71,7 @@ const restaurant = {
 		delivery?: string,
 		geo_lat?: number,
 		geo_long?: number
-	} = {}): Promise<object> {
+	} = {}): Promise<DbResultSet> {
 		const id = data.restaurantID || null;
 		const name = data.name;
 		let address = data.address || null;
@@ -87,10 +89,10 @@ const restaurant = {
 		return db.getResultSet(updateQuery.toString(), [name, address, cityID, phone, delivery, geo_lat, geo_long, id]);
 	},
 
-	async delete(id: string = ""): Promise<object> {
+	async delete(id: string = ""): Promise<DbResultSet> {
 		const restaurant = await this.get(id);
 
-		if (!restaurant.rows.hasOwnProperty("guid")) {
+		if (restaurant.rows && !restaurant.rows.hasOwnProperty("guid")) {
 			return {"success": false};
 		}
 

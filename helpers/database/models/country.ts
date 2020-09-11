@@ -1,10 +1,12 @@
+import {DbResultSet} from "../../interfaces/database"
+
 export {};
 const db = require("../db");
 const utilities = require("../../utilities");
 const translate = require("../../translation");
 
 const country = {
-	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<object> {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<DbResultSet> {
 		const params = [
 			parseInt(startLimit.toString()),
 			parseInt(endLimit.toString())
@@ -20,18 +22,18 @@ const country = {
 		};
 	},
 
-	get(countryID: number): Promise<object> {
+	get(countryID: number): Promise<DbResultSet> {
 		const query = `SELECT * FROM ${db.TABLES.Country} WHERE id = ?`;
 		return db.getResultSet(query, [countryID], false, true);
 	},
 
-	create(data: { countryID?: number, name?: string, code?: string } = {}): Promise<object> {
+	create(data: { countryID?: number, name?: string, code?: string } = {}): Promise<DbResultSet> {
 		const {name, countryID, code} = data;
 		const insertQuery = `INSERT INTO ${db.TABLES.Country} (name, code ) VALUES(?, ?);`;
 		return db.getResultSet(insertQuery, [name, code, countryID]);
 	},
 
-	update(data: { countryID?: number, name?: string, code?: string } = {}): Promise<object> {
+	update(data: { countryID?: number, name?: string, code?: string } = {}): Promise<DbResultSet> {
 		const {countryID, name, code} = data;
 
 		if (!countryID) {
@@ -42,10 +44,10 @@ const country = {
 		return db.getResultSet(updateQuery.toString(), [name, code, countryID]);
 	},
 
-	async delete(id: number): Promise<object> {
+	async delete(id: number): Promise<DbResultSet> {
 		const restaurant = await this.get(id);
 
-		if (!restaurant.rows.hasOwnProperty("id")) {
+		if (restaurant.rows && !restaurant.rows.hasOwnProperty("id")) {
 			return {"success": false};
 		}
 

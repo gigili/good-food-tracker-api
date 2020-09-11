@@ -1,5 +1,6 @@
 import {UploadedFile} from "express-fileupload";
-import {NextFunction, Request, Response} from "express";
+import {NextFunction, Response} from "express";
+import {Request} from "../helpers/interfaces/request";
 
 export {};
 
@@ -27,26 +28,26 @@ router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Re
 });
 
 router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	if (req.params["userID"] !== req["user"]["guid"]) {
+	if (!req.user || req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
 
 	const {name, email} = req.body;
-	const data = {name, email};
+	const data: { name: string, email: string, userID?: number } = {name, email};
 
-	Object.assign(data, {"userID": req.params["userID"]});
+	Object.assign(data, {userID: req.params["userID"]});
 
 	if (req.files && Object.keys(req.files).length > 0) {
 		const image = req.files.image as UploadedFile;
 		const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
 		const imagePath = `/images/user/${data["userID"]}.${extension}`;
 
-		if (fs.existsSync("./public/images/user") === false) {
+		if (!fs.existsSync("./public/images/user")) {
 			fs.mkdirSync("./public/images/user", {recursive: true});
 		}
 
 		const uploadResult = await image.mv(`./public/${imagePath}`).then(() => true).catch(() => false);
-		if (uploadResult === true) {
+		if (uploadResult) {
 			Object.assign(data, {image: imagePath});
 		}
 	}
@@ -65,20 +66,20 @@ router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: 
 	res.send({
 		"success": result.success,
 		"data": [],
-		"message": result.success === true ? translate("user_profile_update_success") : translate("unable_to_update_profile")
+		"message": result.success ? translate("user_profile_update_success") : translate("unable_to_update_profile")
 	});
 });
 
 router.delete("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	if (req["user"].power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
+	if (!req.user || req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
 
 	const guid = req.params.userID;
 	const result = await userModel.delete(guid);
 	const success = result.success;
-	const statusCode = success === true ? 200 : 500;
-	const message = success === true ? translate("user_profile_deleted_success") : translate("unable_to_delete_profile");
+	const statusCode = success ? 200 : 500;
+	const message = success ? translate("user_profile_deleted_success") : translate("unable_to_delete_profile");
 
 	res.status(statusCode).send({
 		"success": success,

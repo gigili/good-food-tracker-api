@@ -1,4 +1,5 @@
 import {NextFunction, Request, Response} from "express";
+import {Globals} from "./helpers/Globals";
 
 export {};
 
@@ -34,16 +35,17 @@ app.use(fileUpload({
 
 app.use(function (req: Request, res: Response, next: NextFunction) {
 	let langOptions = [req.body.lang, req.query.lang, req.params.lang];
-	let lang = "english";
+	let lang: string = "english";
 
 	for (const x of langOptions) {
-		if (typeof x !== "undefined" && x !== null) {
+		if (typeof x !== "undefined" && x !== null && x !== "") {
 			lang = x;
 			break;
 		}
 	}
 
-	req["lang"] = lang;
+	Object.assign(req, {lang});
+	Globals.getInstance().language = lang;
 	next();
 })
 

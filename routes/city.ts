@@ -10,12 +10,12 @@ const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
 router.get("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	const startLimit = req.query.start || 0;
-	const endLimit = req.query.limit || process.env.PER_PAGE;
+	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
+	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 
 	const data = await cityModel.list(startLimit, endLimit);
 
-	if (data.success === false) {
+	if (!data.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_cities")));
 	}
 
@@ -28,13 +28,13 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 });
 
 router.get("/:cityID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await cityModel.get(req.params["cityID"] || 0);
+	const data = await cityModel.get(parseInt(req.params["cityID"]));
 
-	if (data.success === false) {
+	if (!data.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_city")));
 	}
 
-	if (data.rows.hasOwnProperty("id") === false || data.rows.id < 1) {
+	if (!data.rows.hasOwnProperty("id") || data.rows.id < 1) {
 		return res.status(404).send(utilities.invalid_response(translate("city_not_found")));
 	}
 
@@ -57,7 +57,7 @@ router.post("/", (req: Request, res: Response, nx: NextFunction) => {
 	}
 
 	const result = await cityModel.create(req.body);
-	if (result.success === false) {
+	if (!result.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_create_city")));
 	}
 
@@ -79,11 +79,12 @@ router.patch("/:cityID", (req: Request, res: Response, nx: NextFunction) => {
 
 	const data = {
 		name: name,
-		cityID: req.params["cityID"]
+		cityID: parseInt(req.params["cityID"]),
+		countryID: parseInt(req.params["countyID"])
 	}
 
 	const result = await cityModel.update(data);
-	if (result.success === false) {
+	if (!result.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_update_city")));
 	}
 
@@ -93,12 +94,12 @@ router.patch("/:cityID", (req: Request, res: Response, nx: NextFunction) => {
 	});
 });
 
-router.delete("/:cityID", (req, res, nx) => {
+router.delete("/:cityID", (req: Request, res: Response, nx: NextFunction) => {
 	utilities.authenticateToken(req, res, nx, ROLES.Admin);
 }, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await cityModel.delete(req.params["cityID"] || 0);
+	const data = await cityModel.delete(parseInt(req.params["cityID"]));
 
-	if (data.success === false) {
+	if (!data.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_delete_city")));
 	}
 

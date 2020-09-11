@@ -1,14 +1,16 @@
+import {DbResultSet} from "../../interfaces/database"
+
 export {};
 const db = require("../db");
 const userModel = require("./user");
 const translate = require("../../translation");
 
 const review = {
-	async list(userGuid: string, startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<object> {
+	async list(userGuid: string, startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<DbResultSet> {
 		const user = await userModel.get(userGuid);
 		const userID = user.rows.id || null;
 
-		if (user.success === false || userID === null) {
+		if (!user.success || userID === null) {
 			return translate("invalid_user_provided");
 		}
 
@@ -37,11 +39,11 @@ const review = {
 		};
 	},
 
-	async get(reviewGuid: string, returnImages: boolean = false) {
+	async get(reviewGuid: string, returnImages: boolean = false) : Promise<DbResultSet> {
 		const query = `SELECT * FROM ${db.TABLES.Review} WHERE guid = ?`;
 		const review = await db.getResultSet(query, [reviewGuid]);
 
-		if (returnImages === true) {
+		if (returnImages) {
 			const imageQuery = `SELECT * FROM ${db.TABLES.ReviewImage} WHERE reviewID = ?`;
 			const images = db.getResultSet(imageQuery, [review.rows.id]);
 			review.rows.images = images.rows;

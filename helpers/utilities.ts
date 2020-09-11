@@ -35,7 +35,9 @@ const Utilities = {
 		}
 
 		jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors | null, user?: { power: number }) => {
-			if (err) return res.status(401).send({"success": false, "message": translate("invalid_token")});
+			if (err) {
+				return res.status(401).send({"success": false, "message": translate("invalid_token")});
+			}
 
 			if (requiredPower !== null && user) {
 				if (requiredPower > user.power) {
@@ -46,7 +48,7 @@ const Utilities = {
 				}
 			}
 
-			req["user"] = user;
+			Object.assign(req, {user})
 			next(); // pass the execution off to whatever request the client intended
 		});
 	},

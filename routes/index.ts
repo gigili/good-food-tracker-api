@@ -28,22 +28,22 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 
 	const loginResult = await userModel.login(req.body["username"], req.body["password"]);
 
-	if (loginResult.success === false) {
+	if (!loginResult.success) {
 		return res.status(400).send(utilities.invalid_response(translate("login_failed")));
 	}
 
-	if (loginResult.hasOwnProperty("rows") === false || loginResult.rows.hasOwnProperty("guid") === false) {
+	if (!loginResult.hasOwnProperty("rows") || !loginResult.rows.hasOwnProperty("guid")) {
 		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
 	const user = await userModel.get(loginResult.rows["guid"]);
-	if (user.hasOwnProperty("rows") === false || user.rows.hasOwnProperty("guid") === false) {
+	if (!user.hasOwnProperty("rows") || !user.rows.hasOwnProperty("guid")) {
 		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
 	const rolesResult = await userModel.getRoles(user.rows["guid"]);
-	if (rolesResult.success === true) {
-		if (rolesResult.rows.hasOwnProperty("name") === true) {
+	if (rolesResult.success) {
+		if (rolesResult.rows.hasOwnProperty("name")) {
 			Object.assign(user.rows, {power: rolesResult.rows.power});
 		}
 	}
