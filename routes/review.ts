@@ -7,7 +7,6 @@ const router = express.Router();
 const reviewModel = require("../helpers/database/models/review");
 const utilities = require("../helpers/utilities");
 const validation = require("../helpers/validation");
-const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
 router.get("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
@@ -24,10 +23,10 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 	}
 
 	res.send({
-		"success": data.success,
-		"data": data.data,
-		"total": data.total,
-		"message": data.message || ""
+		success: data.success,
+		data: data.data,
+		total: data.total,
+		message: data.message || ""
 	});
 });
 
@@ -44,17 +43,30 @@ router.get("/:reviewID", utilities.authenticateToken, async (req: Request, res: 
 	}
 
 	res.send({
-		"success": review.success,
-		"data": review.data,
-		"message": review.message || ""
+		success: review.success,
+		data: review.data,
+		message: review.message || ""
 	});
 });
 
 router.post("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	res.send({
-		"success": true,
-		"data": [],
-		"message": ""
+	const validationResult = validation.validate([
+		[req.body.dish_name, translate("dish_name"), ["required", {"min_length": 3}]],
+	]);
+
+	if (validationResult.length > 0) {
+		return res.status(400).send(utilities.invalid_response(validationResult));
+	}
+
+	const review = await reviewModel.create({
+		...req.body,
+		images: req.files ? req.files.images : [],
+		userID: req.user ? req.user.guid : ""
+	});
+
+	res.status(review.success ? 201 : 500).send({
+		success: review.success,
+		message: review.success ? translate("review_created_success") : translate("review_created_error")
 	});
 });
 

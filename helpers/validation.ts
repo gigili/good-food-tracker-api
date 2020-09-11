@@ -5,8 +5,8 @@ const Validation = {
 	value: "",
 	label: "",
 	params: [],
-	singleError: false,
-	validate(validationFields: any[], singleError: boolean = false): string | string[] {
+	allErrors: false,
+	validate(validationFields: any[], allErrors: boolean = false): string | string[] {
 		const errors: string[] = [];
 
 		for (const [value, label, params] of validationFields) {
@@ -14,7 +14,7 @@ const Validation = {
 			this.label = label;
 			this.params = params;
 
-			this.singleError = singleError;
+			this.allErrors = allErrors;
 			this.params.forEach((rule: any) => {
 				if (typeof rule === "string") {
 					const result = (this as any)[rule]();
@@ -33,7 +33,7 @@ const Validation = {
 		}
 
 		//TODO: Refactor so it doesn't run all validations first if only the first error should be returned
-		return this.singleError ? ((errors.length > 0) ? errors[0] : []) : errors;
+		return !this.allErrors ? ((errors.length > 0) ? errors[0] : []) : errors;
 	},
 
 	required(): string | boolean {

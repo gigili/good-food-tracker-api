@@ -64,13 +64,13 @@ const Utilities = {
 		const rgxTrim = (!chr) ? new RegExp("^\\s+") : new RegExp("^" + chr + "+");
 		return str.replace(rgxTrim, "");
 	},
-	format(c: string, arg: string | string []): string {
+	format(c: string, arg: string | string[]): string {
 		let str = c.toString();
-		if (arg.length) {
+		if (arg.length > 0) {
 			const t = typeof arg[0];
-			const args = ("string" === t || "number" === t) ? Array.prototype.slice.call(arguments) : arguments[0];
+			const args = ("string" === t || "number" === t) ? [arg] : arg;
 
-			for (let key in args) {
+			for (let key in args as string[]) {
 				if (args.hasOwnProperty(key)) {
 					const replaceValue = args[key];
 					str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), replaceValue.toString());
