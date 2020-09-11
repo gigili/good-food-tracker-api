@@ -1,4 +1,4 @@
-import {Globals} from "./Globals";
+import {Globals} from "./globals";
 
 const fs = require('fs');
 const translationValues: { [key: string]: string } = {};

@@ -1,5 +1,6 @@
 import {VerifyErrors} from "jsonwebtoken";
-import {NextFunction, Request, Response} from "express";
+import {NextFunction, Response} from "express";
+import {Request} from "./interfaces/request";
 
 const jwt = require("jsonwebtoken");
 const privateKey = process.env.JWT_SECRET;
@@ -48,7 +49,7 @@ const Utilities = {
 				}
 			}
 
-			Object.assign(req, {user})
+			Object.assign(req, {user});
 			next(); // pass the execution off to whatever request the client intended
 		});
 	},

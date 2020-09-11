@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {Globals} from "./helpers/Globals";
+import {Globals} from "./helpers/globals";
 
 export {};
 
