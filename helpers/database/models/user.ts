@@ -6,6 +6,17 @@ const utilities = require("../../utilities");
 const translate = require("../../translation");
 const db = require("../db");
 
+export interface User {
+	id: number,
+	guid: string,
+	name: string,
+	email: string,
+	username: string,
+	password?: string | null,
+	image: string | null,
+	power: number
+}
+
 module.exports = {
 	login(username: string = "", password: string = ""): Promise<ResultSet> {
 		const params = [username, password];

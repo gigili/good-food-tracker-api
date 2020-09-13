@@ -58,5 +58,7 @@
   "missing_id_field": "missing ID field",
   "dish_name": "name of the food",
   "review_created_success": "review created successfully.",
-  "review_created_error": "there was an error while trying to create a review."
+  "review_created_error": "there was an error while trying to create a review.",
+  "review_updated_success": "review updated successfully.",
+  "review_updated_error": "there was an error while trying to update a review."
 }

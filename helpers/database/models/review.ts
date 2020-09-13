@@ -1,20 +1,37 @@
 export {};
 
+import {User} from "./user";
+import {Globals} from "../../globals";
 import {ResultSet} from "../../interfaces/database"
 import {UploadedFile} from "express-fileupload";
 
 const fs = require("fs");
 const db = require("../db");
-const userModel = require("./user");
 const translate = require("../../translation");
+const utilities = require("../../utilities");
+const ROLES = require("../../roles");
+
+export interface Review {
+	id: number,
+	guid: string,
+	restaurantID: number,
+	userID: number,
+	dish_name: string,
+	price: number,
+	comment: string,
+	wait_time: string,
+	type: string,
+	private: string,
+	created_at: string
+}
 
 const review = {
 	async list(userGuid: string, startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet> {
-		const user = await userModel.get(userGuid);
-		const userID = user.data.id || null;
+		const user: User = Globals.getInstance().user;
+		const userID = user.id || null;
 
-		if (!user.success || userID === null) {
-			return translate("invalid_user_provided");
+		if (!user || user.id === null) {
+			return utilities.invalid_response(translate("invalid_user_provided"), {errorCode: 401});
 		}
 
 		const params = [
@@ -76,10 +93,10 @@ const review = {
 		private: string,
 		images?: UploadedFile | UploadedFile[]
 	}): Promise<ResultSet> {
-		const user = await userModel.get(review.userID);
+		const user: User = Globals.getInstance().user;
 
-		if (!user.success || user.data.id === null) {
-			return utilities.invalid_response(translate("invalid_user_provided"));
+		if (!user || user.id === null) {
+			return utilities.invalid_response(translate("invalid_user_provided"), {errorCode: 401});
 		}
 
 		const query = `
@@ -89,7 +106,7 @@ const review = {
 
 		const result = await db.getResultSet(query, [
 			review.restaurantID,
-			user.data.id,
+			user.id,
 			review.dish_name,
 			review.price || 0,
 			review.comment,
@@ -126,11 +143,106 @@ const review = {
 				const imageSavedPath = `${imagePath}/${image.md5}.${extension}`.replace("./public", "");
 
 				const insertImageQuery = `INSERT INTO ${db.TABLES.ReviewImage} (reviewID, userID, file) VALUES (?, ?, ?);`;
-				await db.getResultSet(insertImageQuery, [result.data.insertId, user.data.id, imageSavedPath]);
+				await db.getResultSet(insertImageQuery, [result.data.insertId, user.id, imageSavedPath]);
 			}
 		}
 
 		return newReviewData;
+	},
+
+	async update(review: {
+		reviewID: string,
+		restaurantID: number,
+		userID: string,
+		dish_name: string,
+		price: number,
+		comment?: string,
+		wait_time?: string,
+		type: string,
+		private: string,
+		images?: UploadedFile | UploadedFile[]
+	}): Promise<ResultSet> {
+		const user: User = Globals.getInstance().user;
+
+		if (!user || user.id === null) {
+			return utilities.invalid_response(translate("invalid_user_provided"), {errorCode: 401});
+		}
+
+		const oldReview = await this.get(review.reviewID) as ResultSet;
+
+		if (!oldReview.data.hasOwnProperty("userID") || (oldReview.data as Review).userID !== Globals.getInstance().user.id) {
+			return utilities.invalid_response(translate("not_authorized"), {errorCode: 401});
+		}
+
+		const query = `
+			UPDATE ${db.TABLES.Review} 
+			SET
+				dish_name = ?, 
+				price = ?, 
+				comment = ?, 
+				wait_time = ?, 
+				type = ?, 
+				private = ?
+			WHERE guid = ?
+		`;
+
+		const result = await db.getResultSet(query, [
+			review.dish_name,
+			review.price || 0,
+			review.comment,
+			review.wait_time || 0,
+			review.type || '0',
+			review.private || '1',
+			review.reviewID
+		]);
+
+		if (!result.success) {
+			return result;
+		}
+
+		if (!Array.isArray(review.images)) {
+			review.images = [review.images as UploadedFile];
+		}
+
+		if (review.images && review.images.length > 0) {
+			for (const image of review.images) {
+				const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
+				const imagePath = `./public/images/reviews/${review.reviewID}`;
+
+				if (!fs.existsSync(imagePath)) {
+					fs.mkdirSync(imagePath, {recursive: true});
+				}
+
+				await image.mv(`${imagePath}/${image.md5}.${extension}`);
+				const imageSavedPath = `${imagePath}/${image.md5}.${extension}`.replace("./public", "");
+
+				const insertImageQuery = `INSERT INTO ${db.TABLES.ReviewImage} (reviewID, userID, file) VALUES (?, ?, ?);`;
+				await db.getResultSet(insertImageQuery, [(oldReview.data as Review).id, user.id, imageSavedPath]);
+			}
+		}
+
+		return result;
+	},
+
+	async delete(reviewID: string) {
+		const review = await this.get(reviewID);
+		const user = Globals.getInstance().user;
+
+		if (!review.success) {
+			return utilities.invalid_response(translate("review_not_found"), {errorCode: 404});
+		}
+
+		if ((review.data as Review).userID !== user.id && user.power < ROLES.Admin) {
+			return utilities.invalid_response(translate("not_authorized"), {errorCode: 401});
+		}
+
+		const reviewImagesPath = `./public/images/reviews/${reviewID}`;
+		if (fs.existsSync(reviewImagesPath)) {
+			fs.rmdirSync(reviewImagesPath, {recursive: true});
+		}
+
+		const query = `DELETE FROM ${db.TABLES.Review} WHERE guid = ?`;
+		return db.getResultSet(query, [reviewID]);
 	}
 };
 

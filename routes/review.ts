@@ -64,9 +64,40 @@ router.post("/", utilities.authenticateToken, async (req: Request, res: Response
 		userID: req.user ? req.user.guid : ""
 	});
 
-	res.status(review.success ? 201 : 500).send({
+	res.status(review.success ? 201 : review.error.code).send({
 		success: review.success,
-		message: review.success ? translate("review_created_success") : translate("review_created_error")
+		message: review.success ? translate("review_created_success") : review.message
+	});
+});
+
+router.patch("/:reviewID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+	const validationResult = validation.validate([
+		[req.body.dish_name, translate("dish_name"), ["required", {"min_length": 3}]],
+	]);
+
+	if (validationResult.length > 0) {
+		return res.status(400).send(utilities.invalid_response(validationResult));
+	}
+
+	const review = await reviewModel.update({
+		...req.body,
+		reviewID: req.params.reviewID,
+		images: req.files ? req.files.images : [],
+		userID: req.user ? req.user.guid : ""
+	});
+
+	res.status(review.success ? 200 : review.error.code).send({
+		success: review.success,
+		message: review.success ? translate("review_updated_success") : review.message
+	});
+});
+
+router.delete("/:reviewID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+	const review = await reviewModel.delete(req.params.reviewID);
+
+	res.status(review.success ? 200 : review.error.code).send({
+		success: review.success,
+		message: review.success ? translate("review_updated_success") : review.message
 	});
 });
 
