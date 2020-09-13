@@ -53,12 +53,11 @@ List of currently completed or still being developed feature:
     * [x] List of countries 
     * [x] Add / edit country
     * [x] Delete country
-* [ ] Reviews
-    * [ ] List of users reviews (personal / public)
-    * [ ] List of all public reviews for a restaurant from everyone 
-    * [ ] Add / edit your review
-    * [ ] Delete your own review
-    * [ ] Rate other users reviews (helpful / not helpful) 
+* [x] Reviews
+    * [x] List of users reviews 
+    * [x] Add / edit your review
+        * [x] Add / remove image for a review
+    * [x] Delete your own review 
 
 
 ### Notes ###
