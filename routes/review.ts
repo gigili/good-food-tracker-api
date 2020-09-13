@@ -97,7 +97,16 @@ router.delete("/:reviewID", utilities.authenticateToken, async (req: Request, re
 
 	res.status(review.success ? 200 : review.error.code).send({
 		success: review.success,
-		message: review.success ? translate("review_updated_success") : review.message
+		message: review.success ? translate("review_deleted_success") : review.message
+	});
+});
+
+router.delete("/:reviewID/:imageName", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+	const review = await reviewModel.deleteReviewImage(req.params.reviewID, req.params.imageName);
+
+	res.status(review.success ? 200 : review.error.code).send({
+		success: review.success,
+		message: review.success ? translate("review_image_deleted_success") : review.message
 	});
 });
 

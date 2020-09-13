@@ -60,5 +60,7 @@
   "review_created_success": "review created successfully.",
   "review_created_error": "there was an error while trying to create a review.",
   "review_updated_success": "review updated successfully.",
-  "review_updated_error": "there was an error while trying to update a review."
+  "review_updated_error": "there was an error while trying to update a review.",
+  "review_image_deleted_success": "review image deleted successfully",
+  "file_not_found": "file not found"
 }

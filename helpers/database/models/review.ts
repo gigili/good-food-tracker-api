@@ -22,7 +22,8 @@ export interface Review {
 	wait_time: string,
 	type: string,
 	private: string,
-	created_at: string
+	created_at: string,
+	images?: string[],
 }
 
 const review = {
@@ -71,11 +72,11 @@ const review = {
 
 	async get(reviewGuid: string, returnImages: boolean = true): Promise<ResultSet> {
 		const query = `SELECT * FROM ${db.TABLES.Review} WHERE guid = ?`;
-		const review = await db.getResultSet(query, [reviewGuid]);
+		const review = await db.getResultSet(query, [reviewGuid], false, true);
 
 		if (returnImages) {
 			const imageQuery = `SELECT * FROM ${db.TABLES.ReviewImage} WHERE reviewID = ?`;
-			const images = db.getResultSet(imageQuery, [review.data.id]);
+			const images = await db.getResultSet(imageQuery, [review.data.id]);
 			review.data.images = images.data.map((image: { file: string }) => image.file);
 		}
 
@@ -170,6 +171,10 @@ const review = {
 
 		const oldReview = await this.get(review.reviewID) as ResultSet;
 
+		if (typeof (oldReview.data as Review).guid === "undefined") {
+			return utilities.invalid_response(translate("review_not_found"), {errorCode: 404});
+		}
+
 		if (!oldReview.data.hasOwnProperty("userID") || (oldReview.data as Review).userID !== Globals.getInstance().user.id) {
 			return utilities.invalid_response(translate("not_authorized"), {errorCode: 401});
 		}
@@ -213,11 +218,17 @@ const review = {
 					fs.mkdirSync(imagePath, {recursive: true});
 				}
 
-				await image.mv(`${imagePath}/${image.md5}.${extension}`);
-				const imageSavedPath = `${imagePath}/${image.md5}.${extension}`.replace("./public", "");
+				const imageName = `${image.md5}.${extension}`;
+				await image.mv(`${imagePath}/${imageName}`);
+				const imageSavedPath = `${imagePath}/${imageName}`.replace("./public", "");
 
-				const insertImageQuery = `INSERT INTO ${db.TABLES.ReviewImage} (reviewID, userID, file) VALUES (?, ?, ?);`;
-				await db.getResultSet(insertImageQuery, [(oldReview.data as Review).id, user.id, imageSavedPath]);
+				const checkImageQuery = `SELECT * FROM ${db.TABLES.ReviewImage} WHERE reviewID = ? AND file = ?`;
+				const imageCheck = await db.getResultSet(checkImageQuery, [(oldReview.data as Review).id, imageSavedPath])
+
+				if(imageCheck.success && imageCheck.data.length === 0){
+					const insertImageQuery = `INSERT INTO ${db.TABLES.ReviewImage} (reviewID, userID, file) VALUES (?, ?, ?);`;
+					await db.getResultSet(insertImageQuery, [(oldReview.data as Review).id, user.id, imageSavedPath]);
+				}
 			}
 		}
 
@@ -232,6 +243,10 @@ const review = {
 			return utilities.invalid_response(translate("review_not_found"), {errorCode: 404});
 		}
 
+		if (typeof (review.data as Review).guid === "undefined") {
+			return utilities.invalid_response(translate("review_not_found"), {errorCode: 404});
+		}
+
 		if ((review.data as Review).userID !== user.id && user.power < ROLES.Admin) {
 			return utilities.invalid_response(translate("not_authorized"), {errorCode: 401});
 		}
@@ -243,6 +258,46 @@ const review = {
 
 		const query = `DELETE FROM ${db.TABLES.Review} WHERE guid = ?`;
 		return db.getResultSet(query, [reviewID]);
+	},
+
+	async deleteReviewImage(reviewID: string, imageName: string) {
+		const review = await this.get(reviewID);
+		const user = Globals.getInstance().user;
+
+		if (!review.success) {
+			return review;
+		}
+
+		const data = review.data as Review;
+
+		if (data.guid === "undefined") {
+			return utilities.invalid_response(translate("review_not_found"), {errorCode: 404});
+		}
+
+		if (data.userID !== user.id && user.power < ROLES.Admin) {
+			return utilities.invalid_response(translate("not_authorized"), {errorCode: 401});
+		}
+
+		const imagePath = `/images/reviews/${reviewID}/${imageName}`;
+
+		if (
+			typeof data.images === "undefined" ||
+			data.images.length === 0 ||
+			!data.images.includes(imagePath)
+		) {
+			return utilities.invalid_response(translate("file_not_found"), {errorCode: 404});
+		}
+
+		const query = `DELETE FROM ${db.TABLES.ReviewImage} WHERE reviewID = ? AND file = ?`;
+		const result = await db.getResultSet(query, [data.id, imageName]);
+
+		if (result.success) {
+			if (fs.existsSync(`./public/${imagePath}`)) {
+				fs.unlinkSync(`./public/${imagePath}`);
+			}
+		}
+
+		return result;
 	}
 };
 
