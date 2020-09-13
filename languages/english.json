@@ -5,6 +5,7 @@
   "validation_error_maximum_length": "maximum length for the {0} field is {1} characters.",
   "validation_error_email": "invalid email address.",
   "validation_error_not_a_number": "value for the field {0} must be a number.",
+  "validation_error_invalid_file_extension": "extension .{0} is not supported.",
   "login_failed": "login operation failed.",
   "account_already_exists": "account already exists.",
   "account_created_success": "account created successfully.",
@@ -62,5 +63,6 @@
   "review_updated_success": "review updated successfully.",
   "review_updated_error": "there was an error while trying to update a review.",
   "review_image_deleted_success": "review image deleted successfully",
-  "file_not_found": "file not found"
+  "file_not_found": "file not found",
+  "uploaded_file": "uploaded file"
 }

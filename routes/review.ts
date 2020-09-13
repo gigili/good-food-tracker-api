@@ -8,6 +8,7 @@ const reviewModel = require("../helpers/database/models/review");
 const utilities = require("../helpers/utilities");
 const validation = require("../helpers/validation");
 const translate = require("../helpers/translation");
+const allowedFileTypes = require("../helpers/upload");
 
 router.get("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
@@ -73,6 +74,7 @@ router.post("/", utilities.authenticateToken, async (req: Request, res: Response
 router.patch("/:reviewID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const validationResult = validation.validate([
 		[req.body.dish_name, translate("dish_name"), ["required", {"min_length": 3}]],
+		[req.files?.images, translate("uploaded_file"), [{"allowed_file_type" : allowedFileTypes.images}]]
 	]);
 
 	if (validationResult.length > 0) {

@@ -1,3 +1,5 @@
+import {UploadedFile} from "express-fileupload";
+
 const translate = require("./translation");
 const utilities = require("./utilities");
 
@@ -22,6 +24,7 @@ const Validation = {
 						errors.push(result);
 					}
 				} else if (typeof rule === "object") {
+					console.log(rule);
 					const method = Object.keys(rule)[0] as string;
 					const result = (this as any)[method](rule[method]);
 
@@ -76,6 +79,27 @@ const Validation = {
 
 		return true;
 	},
+
+	allowed_file_type(types: string[]) {
+		if (typeof this.value === "undefined") {
+			return true;
+		}
+
+		let files = (this.value as any) as UploadedFile[];
+
+		if (!Array.isArray(files)) {
+			files = [files];
+		}
+
+		for (const image of files) {
+			const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
+			if (!types.includes(extension)) {
+				return utilities.format(translate("validation_error_invalid_file_extension"), extension);
+			}
+		}
+
+		return true;
+	}
 }
 
 module.exports = Validation;
