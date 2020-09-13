@@ -1,3 +1,6 @@
+import {NextFunction, Request, Response} from "express";
+import {Globals} from "./helpers/globals";
+
 export {};
 
 const express = require('express');
@@ -11,6 +14,7 @@ const restaurantRouter = require('./routes/restaurant');
 const profileRoutes = require('./routes/profile');
 const cityRoutes = require('./routes/city');
 const countryRoutes = require('./routes/country');
+const reviewRoutes = require('./routes/review');
 
 const app = express();
 
@@ -29,10 +33,27 @@ app.use(fileUpload({
 	},
 }));
 
+app.use(function (req: Request, res: Response, next: NextFunction) {
+	let langOptions = [req.body.lang, req.query.lang, req.params.lang];
+	let lang: string = "english";
+
+	for (const x of langOptions) {
+		if (typeof x !== "undefined" && x !== null && x !== "") {
+			lang = x;
+			break;
+		}
+	}
+
+	Object.assign(req, {lang});
+	Globals.getInstance().language = lang;
+	next();
+})
+
 app.use('/', indexRouter);
 app.use('/restaurant', restaurantRouter);
 app.use('/profile', profileRoutes);
 app.use('/city', cityRoutes);
 app.use('/country', countryRoutes);
+app.use('/review', reviewRoutes);
 
 module.exports = app;

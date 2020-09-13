@@ -5,6 +5,7 @@
   "validation_error_maximum_length": "maximum length for the {0} field is {1} characters.",
   "validation_error_email": "invalid email address.",
   "validation_error_not_a_number": "value for the field {0} must be a number.",
+  "validation_error_invalid_file_extension": "extension .{0} is not supported.",
   "login_failed": "login operation failed.",
   "account_already_exists": "account already exists.",
   "account_created_success": "account created successfully.",
@@ -50,5 +51,18 @@
   "country_not_found": "requested country not found.",
   "country_created_success": "country created successfully.",
   "country_update_success": "country updated successfully.",
-  "country_delete_success": "country deleted successfully."
+  "country_delete_success": "country deleted successfully.",
+  "unable_to_load_reviews": "unable to load review.",
+  "invalid_user_provided": "invalid user provided",
+  "unable_to_load_review": "there was an error while trying to load a review",
+  "review_not_found": "review not found",
+  "missing_id_field": "missing ID field",
+  "dish_name": "name of the food",
+  "review_created_success": "review created successfully.",
+  "review_created_error": "there was an error while trying to create a review.",
+  "review_updated_success": "review updated successfully.",
+  "review_updated_error": "there was an error while trying to update a review.",
+  "review_image_deleted_success": "review image deleted successfully",
+  "file_not_found": "file not found",
+  "uploaded_file": "uploaded file"
 }

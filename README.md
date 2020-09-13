@@ -8,6 +8,8 @@ The project aims to allow the users to take pictures and/or leave notes, ratings
 
 This repository is for the back end API built with Nodejs & Express 
 
+For the list of existing or currently being developed feature please refer to the [features](#features) section of this document.
+
 ### How do I get set up? ###
 
 To get started on development follow these steps:
@@ -27,7 +29,7 @@ To get started on development follow these steps:
 
 ### Who do I talk to? ###
 
-* If you have any question you can contact Igor Ilić @ igorilicbl@gmail.com
+* If you have any question you can contact Igor Ilić via [e-mail](mailto:igorilicbl@gmail.com) or [twitter](https://twitter.com/Gac_BL) 
 * If you have found a bug or want to ask for a new feature, open a new issue
 
 ### Features ###
@@ -51,9 +53,16 @@ List of currently completed or still being developed feature:
     * [x] List of countries 
     * [x] Add / edit country
     * [x] Delete country
-* [ ] Reviews
-    * [ ] List of users reviews (personal / public)
-    * [ ] List of all public reviews for a restaurant from everyone 
-    * [ ] Add / edit your review
-    * [ ] Delete your own review
-    * [ ] Rate other users reviews (helpful / not helpful) 
+* [x] Reviews
+    * [x] List of users reviews 
+    * [x] Add / edit your review
+        * [x] Add / remove image for a review
+    * [x] Delete your own review 
+
+
+### Notes ###
+
+Database diagram with current, future and optional tables can be found on [dbDiagram.io](https://dbdiagram.io/embed/5f58bd9e88d052352cb6870d).
+
+Possible future tables in the database diagram will be positioned on the right side of the diagram. Whereas the existing 
+ones or the ones that are being worked on are positioned on the left side.   

@@ -150,4 +150,4 @@ dist
 build
 
 #Ignore user profile images
-public/images/user/
+public/images/

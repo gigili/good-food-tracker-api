@@ -3,7 +3,7 @@ import {NextFunction, Request, Response} from "express";
 
 const express = require("express");
 const router = express.Router();
-const helper = require("../helpers/helper");
+const utilities = require("../helpers/utilities");
 const validation = require("../helpers/validation");
 const translate = require("../helpers/translation");
 const userModel = require("../helpers/database/models/user");
@@ -23,36 +23,36 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 	]);
 
 	if (validationResults.length > 0) {
-		return res.status(400).send(helper.invalid_response(validationResults));
+		return res.status(400).send(utilities.invalid_response(validationResults));
 	}
 
 	const loginResult = await userModel.login(req.body["username"], req.body["password"]);
 
-	if (loginResult.success === false) {
-		return res.status(400).send(helper.invalid_response(translate("login_failed")));
+	if (!loginResult.success) {
+		return res.status(400).send(utilities.invalid_response(translate("login_failed")));
 	}
 
-	if (loginResult.hasOwnProperty("rows") === false || loginResult.rows.hasOwnProperty("guid") === false) {
-		return res.status(400).send(helper.invalid_response(translate("account_doesnt_exist")));
+	if (!loginResult.hasOwnProperty("data") || !loginResult.data.hasOwnProperty("guid")) {
+		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
-	const user = await userModel.get(loginResult.rows["guid"]);
-	if (user.hasOwnProperty("rows") === false || user.rows.hasOwnProperty("guid") === false) {
-		return res.status(400).send(helper.invalid_response(translate("account_doesnt_exist")));
+	const user = await userModel.get(loginResult.data["guid"]);
+	if (!user.hasOwnProperty("data") || !user.data.hasOwnProperty("guid")) {
+		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
-	const rolesResult = await userModel.getRoles(user.rows["guid"]);
-	if (rolesResult.success === true) {
-		if (rolesResult.rows.hasOwnProperty("name") === true) {
-			Object.assign(user.rows, {power: rolesResult.rows.power});
+	const rolesResult = await userModel.getRoles(user.data["guid"]);
+	if (rolesResult.success) {
+		if (rolesResult.data.hasOwnProperty("name")) {
+			Object.assign(user.data, {power: rolesResult.data.power});
 		}
 	}
 
-	if (parseInt(user.rows.active) === 0) {
-		return res.status(400).send(helper.invalid_response(translate("account_not_active")));
+	if (parseInt(user.data.active) === 0) {
+		return res.status(400).send(utilities.invalid_response(translate("account_not_active")));
 	}
 
-	const tokenData = helper.generate_token(user.rows);
+	const tokenData = utilities.generate_token(user.data);
 	return res.status(200).send({
 		"success": true,
 		"data": tokenData
@@ -70,7 +70,7 @@ router.post("/register", async (req: Request, res: Response, _: NextFunction) =>
 	], true);
 
 	if (validationResults.length > 1) {
-		return res.status(400).send(helper.invalid_response(validationResults));
+		return res.status(400).send(utilities.invalid_response(validationResults));
 	}
 
 	const result = await userModel.registerUser({name, email, username, password});
@@ -82,7 +82,7 @@ router.post("/register", async (req: Request, res: Response, _: NextFunction) =>
 		});
 	}
 
-	return res.status(400).send(helper.invalid_response(result));
+	return res.status(400).send(utilities.invalid_response(result));
 });
 
 module.exports = router;
