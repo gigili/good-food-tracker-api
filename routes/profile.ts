@@ -1,8 +1,9 @@
+export {};
+
 import {UploadedFile} from "express-fileupload";
 import {NextFunction, Response} from "express";
 import {Request} from "../helpers/interfaces/request";
-
-export {};
+import {Globals} from "../helpers/globals";
 
 const express = require("express");
 const router = express.Router();
@@ -12,6 +13,7 @@ const translate = require("../helpers/translation");
 const validation = require("../helpers/validation");
 const fs = require("fs");
 const ROLES = require("../helpers/roles");
+const uploadHelper = require("../helpers/upload");
 
 router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
 	const user = await userModel.get(req.params["userID"] || "");
@@ -28,14 +30,25 @@ router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Re
 });
 
 router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
-	if (!req.user || req.params["userID"] !== req["user"]["guid"]) {
+	const user = Globals.getInstance().user;
+
+	if (!req.user || (req.params["userID"] !== user.guid && user.power < ROLES.Admin)) {
 		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
 
 	const {name, email} = req.body;
-	const data: { name: string, email: string, userID?: number } = {name, email};
 
-	Object.assign(data, {userID: req.params["userID"]});
+	const validationResult = validation.validate([
+		[name, translate("name"), ["required"]],
+		[email, translate("email"), ["required", "valid_email"]],
+		[req.files?.image, translate("profile_image"), [{"allowed_file_type": uploadHelper.AllowedExtensions.images}]]
+	]);
+
+	if (validationResult.length > 0) {
+		return res.status(400).send(utilities.invalid_response(validationResult));
+	}
+
+	const data: { name: string, email: string, userID: number } = {name, email, userID: parseInt(req.params["userID"])};
 
 	if (req.files && Object.keys(req.files).length > 0) {
 		const image = req.files.image as UploadedFile;
@@ -50,15 +63,6 @@ router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: 
 		if (uploadResult) {
 			Object.assign(data, {image: imagePath});
 		}
-	}
-
-	const validationResult = validation.validate([
-		[name, translate("name"), ["required", {"min_length": 5}]],
-		[email, translate("email"), ["required", "valid_email"]]
-	], true);
-
-	if (validationResult.length > 0) {
-		return res.status(400).send(utilities.invalid_response(validationResult));
 	}
 
 	const result = await userModel.update(data);
