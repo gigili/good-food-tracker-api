@@ -29,7 +29,7 @@ To get started on development follow these steps:
 
 ### Who do I talk to? ###
 
-* If you have any question you can contact Igor Ilić via [e-mail](mailto:igorilicbl@gmail.com) or [twitter](https://twitter.com/Gac_BL) 
+* If you have any question you can contact Igor Ilić via [e-mail](mailto:github@igorilic.net) or [twitter](https://twitter.com/Gac_BL) 
 * If you have found a bug or want to ask for a new feature, open a new issue
 
 ### Features ###
