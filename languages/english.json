@@ -64,5 +64,6 @@
   "review_updated_error": "there was an error while trying to update a review.",
   "review_image_deleted_success": "review image deleted successfully",
   "file_not_found": "file not found",
-  "uploaded_file": "uploaded file"
+  "uploaded_file": "uploaded file",
+  "profile_image": "profile image"
 }

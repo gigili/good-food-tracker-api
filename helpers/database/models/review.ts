@@ -225,7 +225,7 @@ const review = {
 				const checkImageQuery = `SELECT * FROM ${db.TABLES.ReviewImage} WHERE reviewID = ? AND file = ?`;
 				const imageCheck = await db.getResultSet(checkImageQuery, [(oldReview.data as Review).id, imageSavedPath])
 
-				if(imageCheck.success && imageCheck.data.length === 0){
+				if (imageCheck.success && imageCheck.data.length === 0) {
 					const insertImageQuery = `INSERT INTO ${db.TABLES.ReviewImage} (reviewID, userID, file) VALUES (?, ?, ?);`;
 					await db.getResultSet(insertImageQuery, [(oldReview.data as Review).id, user.id, imageSavedPath]);
 				}
