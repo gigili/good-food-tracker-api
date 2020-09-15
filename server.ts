@@ -1,7 +1,7 @@
 const app = require("./app");
 const debug = require('debug')('good-food-tracker:server');
 const http = require('http');
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3001');
 const server = http.createServer(app);
 
 app.set('port', port);
