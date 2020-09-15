@@ -27,7 +27,7 @@ export interface Review {
 }
 
 const review = {
-	async list(userGuid: string, startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet> {
+	async list(userGuid: string, startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet<{ success: boolean, data: Review[], total: number }>> {
 		const user: User = Globals.getInstance().user;
 		const userID = user.id || null;
 
@@ -70,7 +70,7 @@ const review = {
 		};
 	},
 
-	async get(reviewGuid: string, returnImages: boolean = true): Promise<ResultSet> {
+	async get(reviewGuid: string, returnImages: boolean = true): Promise<ResultSet<Review>> {
 		const query = `SELECT * FROM ${db.TABLES.Review} WHERE guid = ?`;
 		const review = await db.getResultSet(query, [reviewGuid], false, true);
 
@@ -93,7 +93,7 @@ const review = {
 		type: string,
 		private: string,
 		images?: UploadedFile | UploadedFile[]
-	}): Promise<ResultSet> {
+	}): Promise<ResultSet<any>> {
 		const user: User = Globals.getInstance().user;
 
 		if (!user || user.id === null) {
@@ -162,14 +162,14 @@ const review = {
 		type: string,
 		private: string,
 		images?: UploadedFile | UploadedFile[]
-	}): Promise<ResultSet> {
+	}): Promise<ResultSet<any>> {
 		const user: User = Globals.getInstance().user;
 
 		if (!user || user.id === null) {
 			return utilities.invalid_response(translate("invalid_user_provided"), {errorCode: 401});
 		}
 
-		const oldReview = await this.get(review.reviewID) as ResultSet;
+		const oldReview = await this.get(review.reviewID);
 
 		if (typeof (oldReview.data as Review).guid === "undefined") {
 			return utilities.invalid_response(translate("review_not_found"), {errorCode: 404});
@@ -235,7 +235,7 @@ const review = {
 		return result;
 	},
 
-	async delete(reviewID: string) {
+	async delete(reviewID: string): Promise<ResultSet<any>> {
 		const review = await this.get(reviewID);
 		const user = Globals.getInstance().user;
 
@@ -260,7 +260,7 @@ const review = {
 		return db.getResultSet(query, [reviewID]);
 	},
 
-	async deleteReviewImage(reviewID: string, imageName: string) {
+	async deleteReviewImage(reviewID: string, imageName: string): Promise<ResultSet<any>> {
 		const review = await this.get(reviewID);
 		const user = Globals.getInstance().user;
 

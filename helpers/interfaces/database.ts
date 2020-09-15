@@ -1,6 +1,6 @@
-export interface ResultSet {
+export interface ResultSet<T> {
 	success: boolean,
-	data: any[] | object,
+	data: T[] | T,
 	total?: number,
 	message?: string,
 	error?: {

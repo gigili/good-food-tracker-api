@@ -39,7 +39,7 @@ const DB = {
 		});
 	},
 
-	getResultSet(sql: string, params?: any[] | null, isProcedure: boolean = false, returnSingleRecord: boolean = false): Promise<ResultSet> {
+	getResultSet(sql: string, params?: any[] | null, isProcedure: boolean = false, returnSingleRecord: boolean = false): Promise<ResultSet<any>> {
 		if (isProcedure) {
 			sql = `call ${sql}`;
 		}

@@ -14,7 +14,7 @@ const Utilities = {
 		data: any[] | null,
 		errorCode: number,
 		stack?: string
-	}): ResultSet {
+	}): ResultSet<any> {
 
 		if (typeof options === "undefined") {
 			options = {

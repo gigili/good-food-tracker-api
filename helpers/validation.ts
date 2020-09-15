@@ -24,7 +24,6 @@ const Validation = {
 						errors.push(result);
 					}
 				} else if (typeof rule === "object") {
-					console.log(rule);
 					const method = Object.keys(rule)[0] as string;
 					const result = (this as any)[method](rule[method]);
 

@@ -48,7 +48,7 @@ router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: 
 		return res.status(400).send(utilities.invalid_response(validationResult));
 	}
 
-	const data: { name: string, email: string, userID: number } = {name, email, userID: parseInt(req.params["userID"])};
+	const data: { name: string, email: string, userID: string } = {name, email, userID: req.params["userID"]};
 
 	if (req.files && Object.keys(req.files).length > 0) {
 		const image = req.files.image as UploadedFile;

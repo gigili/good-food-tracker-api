@@ -22,8 +22,7 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 	res.send({
 		"success": restaurants.success,
 		"data": restaurants.data,
-		"total": restaurants.total,
-		"message": restaurants.message || ""
+		"total": restaurants.total
 	});
 });
 

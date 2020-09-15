@@ -5,8 +5,22 @@ const db = require("../db");
 const utilities = require("../../utilities");
 const translate = require("../../translation");
 
+export interface Restaurant {
+	id: number,
+	guid: string,
+	name: string,
+	cityID: number,
+	cityName?: string,
+	countryName?: string,
+	address: string,
+	phone: string,
+	delivery: string,
+	geo_lat: number,
+	geo_long: number
+}
+
 const restaurant = {
-	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet> {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<{ success: boolean, data: Restaurant[], total: number }> {
 		const params = [
 			parseInt(startLimit.toString()),
 			parseInt(endLimit.toString())
@@ -27,7 +41,7 @@ const restaurant = {
 		};
 	},
 
-	get(restaurantID: string): Promise<ResultSet> {
+	get(restaurantID: string): Promise<ResultSet<Restaurant>> {
 		const query = `
 			SELECT r.*, city.name as cityName, country.name as countryName FROM ${db.TABLES.Restaurant} AS r
 			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id
@@ -45,7 +59,7 @@ const restaurant = {
 		delivery?: string,
 		geo_lat?: number,
 		geo_long?: number
-	} = {}): Promise<ResultSet> {
+	} = {}): Promise<ResultSet<any>> {
 		const name = data["name"];
 		let address = data.address || null;
 		let cityID = data.cityID || null;
@@ -71,7 +85,7 @@ const restaurant = {
 		delivery?: string,
 		geo_lat?: number,
 		geo_long?: number
-	} = {}): Promise<ResultSet> {
+	} = {}): Promise<ResultSet<any>> {
 		const id = data.restaurantID || null;
 		const name = data.name;
 		let address = data.address || null;
@@ -89,7 +103,7 @@ const restaurant = {
 		return db.getResultSet(updateQuery.toString(), [name, address, cityID, phone, delivery, geo_lat, geo_long, id]);
 	},
 
-	async delete(id: string = ""): Promise<ResultSet> {
+	async delete(id: string = ""): Promise<ResultSet<any>> {
 		const restaurant = await this.get(id);
 
 		if (restaurant.data && !restaurant.data.hasOwnProperty("guid")) {

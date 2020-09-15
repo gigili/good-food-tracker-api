@@ -13,16 +13,26 @@ export interface User {
 	email: string,
 	username: string,
 	password?: string | null,
-	image: string | null,
+	image?: string | null,
+	roleID?: number,
+	power: number,
+	active?: string,
+	create_at?: string
+}
+
+export interface Role {
+	id?: number,
+	name: string,
 	power: number
 }
 
 module.exports = {
-	login(username: string = "", password: string = ""): Promise<ResultSet> {
+	login(username: string = "", password: string = ""): Promise<ResultSet<User>> {
 		const params = [username, password];
-		const query = `SELECT id, guid FROM ${db.TABLES.User} WHERE username = ? AND password = ?`;
+		const query = `SELECT id, guid, name, email, username FROM ${db.TABLES.User} WHERE username = ? AND password = ?`;
 		return db.getResultSet(query, params, false, true);
 	},
+
 	async registerUser(user: { username: string, email: string, name: string, password: string }): Promise<string | boolean> {
 		const params = [
 			db.TABLES.User,
@@ -56,7 +66,7 @@ module.exports = {
 		return true;
 	},
 
-	getRoles(userID: string): Promise<ResultSet> {
+	getRoles(userID: string): Promise<ResultSet<Role>> {
 		return db.getResultSet(`
 			SELECT r.name, r.power FROM ${db.TABLES.User} AS u
 			LEFT JOIN ${db.TABLES.Role} AS r ON r.id = u.roleID
@@ -64,31 +74,24 @@ module.exports = {
 		`, [userID], false, true);
 	},
 
-	get(userID: string): Promise<ResultSet> {
+	get(userID: string): Promise<ResultSet<User>> {
 		const query = `SELECT id, guid, name, email, username, image, active FROM ${db.TABLES.User} WHERE guid = ?`;
 		return db.getResultSet(query, [userID], false, true);
 	},
 
-	update(data: object | any = {}): Promise<ResultSet> {
-		const params = [];
-		let query = `UPDATE ${db.TABLES.User} SET `;
-		for (const key in data) {
-			if (data.hasOwnProperty(key)) {
-				if (typeof data[key] !== "undefined" && data[key] !== "" && key !== "userID") {
-					query += `${key} = ?, `;
-					params.push(data[key]);
-				}
-			}
-		}
+	update(data: { [key: string]: string | number }): Promise<ResultSet<any>> {
+		const params = [
+			data.name,
+			data.email,
+			data.image,
+			data.userID.toString()
+		];
 
-		query = utilities.rtrim(query, ", ");
-		query += ` WHERE guid = ?`;
-		params.push(data.userID);
-
+		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ?, image = ? WHERE guid = ? `;
 		return db.getResultSet(query, params);
 	},
 
-	delete(guid: string): Promise<ResultSet> {
+	delete(guid: string): Promise<ResultSet<any>> {
 		const query = `DELETE FROM ${db.TABLES.User} WHERE guid = ?`;
 		return db.getResultSet(query, [guid]);
 	}

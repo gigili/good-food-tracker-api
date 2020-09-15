@@ -5,8 +5,14 @@ const db = require("../db");
 const utilities = require("../../utilities");
 const translate = require("../../translation");
 
+export interface Country {
+	id: number,
+	name: string,
+	code: string
+}
+
 const country = {
-	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet> {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<ResultSet<{ success: boolean, data: Country[], total: number }>> {
 		const params = [
 			parseInt(startLimit.toString()),
 			parseInt(endLimit.toString())
@@ -22,18 +28,18 @@ const country = {
 		};
 	},
 
-	get(countryID: number): Promise<ResultSet> {
+	get(countryID: number): Promise<ResultSet<Country>> {
 		const query = `SELECT * FROM ${db.TABLES.Country} WHERE id = ?`;
 		return db.getResultSet(query, [countryID], false, true);
 	},
 
-	create(data: { countryID?: number, name?: string, code?: string } = {}): Promise<ResultSet> {
+	create(data: { countryID?: number, name?: string, code?: string } = {}): Promise<ResultSet<any>> {
 		const {name, countryID, code} = data;
 		const insertQuery = `INSERT INTO ${db.TABLES.Country} (name, code ) VALUES(?, ?);`;
 		return db.getResultSet(insertQuery, [name, code, countryID]);
 	},
 
-	update(data: { countryID?: number, name?: string, code?: string } = {}): Promise<ResultSet> {
+	update(data: { countryID?: number, name?: string, code?: string } = {}): Promise<ResultSet<any>> {
 		const {countryID, name, code} = data;
 
 		if (!countryID) {
@@ -44,7 +50,7 @@ const country = {
 		return db.getResultSet(updateQuery.toString(), [name, code, countryID]);
 	},
 
-	async delete(id: number): Promise<ResultSet> {
+	async delete(id: number): Promise<ResultSet<any>> {
 		const restaurant = await this.get(id);
 
 		if (restaurant.data && !restaurant.data.hasOwnProperty("id")) {
