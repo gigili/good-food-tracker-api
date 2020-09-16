@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "db-migrate": "^0.11.11",
     "db-migrate-mysql": "^2.1.1",
     "dotenv": "^8.2.0",

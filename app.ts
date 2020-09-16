@@ -5,6 +5,7 @@ export {};
 
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require("express-fileupload");
 require('dotenv').config();
@@ -17,6 +18,13 @@ const countryRoutes = require('./routes/country');
 const reviewRoutes = require('./routes/review');
 
 const app = express();
+
+app.use(cors({
+	"origin": "*",
+	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+	"preflightContinue": false,
+	"optionsSuccessStatus": 204
+}));
 
 if (parseInt(process.env.DEVELOPMENT || "0") === 1) {
 	const logger = require('morgan');

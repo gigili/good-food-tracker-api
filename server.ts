@@ -3,6 +3,7 @@ const debug = require('debug')('good-food-tracker:server');
 const http = require('http');
 const port = normalizePort(process.env.PORT || '3001');
 const server = http.createServer(app);
+require('dotenv').config();
 
 app.set('port', port);
 
@@ -57,6 +58,7 @@ function onListening(): void {
 		: 'port ' + addr.port;
 
 	if (parseInt(process.env.DEVELOPMENT || "0") === 1) {
+		console.log(`Server listening on port: ${port}`)
 		debug('Listening on ' + bind);
 	}
 }
