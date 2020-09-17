@@ -35,21 +35,21 @@ module.exports = {
 
 	async registerUser(user: { username: string, email: string, name: string, password: string }): Promise<string | boolean> {
 		const params = [
-			db.TABLES.User,
 			user.username,
 			user.email
 		];
 
-		const userQuery = `SELECT id, name, email, username, active FROM ? WHERE username = ? OR email = ?`;
+		const userQuery = `SELECT id, name, email, username, active FROM ${db.TABLES.User} WHERE username = ? OR email = ?`;
 		const userData = await db.getResultSet(userQuery, params, false, true);
 
+		console.log(userData);
 		if (userData.success && userData.data.hasOwnProperty("id") && userData.data.id > 0) {
-			if (userData.data.username === user.username) {
-				return translate("username_taken");
-			}
-
 			if (userData.data.email === user.email) {
 				return translate("email_in_use");
+			}
+
+			if (userData.data.username === user.username) {
+				return translate("username_taken");
 			}
 
 			return translate("account_already_exists");
@@ -60,7 +60,7 @@ module.exports = {
 		const result = await db.getResultSet(insertUserQuery, registerParams);
 
 		if (!result.success) {
-			return translate("unable_to_create_account");
+			return result.message || translate("unable_to_create_account");
 		}
 
 		return true;
