@@ -47,34 +47,36 @@ const Utilities = {
 		return {token: jwt.sign(data, privateKey), expires: expiresAt};
 	},
 
-	authenticateToken(req: Request, res: Response, next: NextFunction, requiredPower: number | null = null) {
-		const authHeader = req.headers["authorization"];
-		const token = authHeader && authHeader.split(" ")[1];
+	authenticateToken(requiredPower: number | null = null) {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const authHeader = req.headers["authorization"];
+			const token = authHeader && authHeader.split(" ")[1];
 
-		if (token == null) {
-			return res.status(401).send({"success": false, "message": translate("invalid_token")});
-		}
-
-		jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors | null, user?: User) => {
-			if (err) {
+			if (token == null) {
 				return res.status(401).send({"success": false, "message": translate("invalid_token")});
 			}
 
-			if (requiredPower !== null && user) {
-				if (requiredPower > user.power) {
-					return res.status(401).send({
-						"success": false,
-						"message": translate("not_authorized")
-					});
+			jwt.verify(token, process.env.JWT_SECRET, (err: VerifyErrors | null, user?: User) => {
+				if (err) {
+					return res.status(401).send({"success": false, "message": translate("invalid_token")});
 				}
-			}
 
-			if (typeof user !== "undefined") {
-				Globals.getInstance().user = user;
-				Object.assign(req, {user});
-			}
-			next(); // pass the execution off to whatever request the client intended
-		});
+				if (requiredPower !== null && user) {
+					if (requiredPower > user.power) {
+						return res.status(401).send({
+							"success": false,
+							"message": translate("not_authorized")
+						});
+					}
+				}
+
+				if (typeof user !== "undefined") {
+					Globals.getInstance().user = user;
+					Object.assign(req, {user});
+				}
+				next(); // pass the execution off to whatever request the client intended
+			});
+		}
 	},
 
 	rtrim(str: string, chr: string): string {

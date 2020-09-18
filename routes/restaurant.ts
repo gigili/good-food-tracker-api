@@ -87,20 +87,19 @@ router.patch("/:restaurantID", utilities.authenticateToken, async (req: Request,
 	});
 });
 
-router.delete("/:restaurantID", (req: Request, res: Response, nx: NextFunction) => {
-	utilities.authenticateToken(req, res, nx, ROLES.Admin);
-}, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await restaurantModel.delete(req.params["restaurantID"] || "");
+router.delete("/:restaurantID", utilities.authenticateToken(ROLES.Admin),
+	async (req: Request, res: Response, _: NextFunction) => {
+		const data = await restaurantModel.delete(req.params["restaurantID"] || "");
 
-	if (!data.success) {
-		return res.status(500).send(utilities.invalid_response(translate("unable_to_delete_restaurant")));
-	}
+		if (!data.success) {
+			return res.status(500).send(utilities.invalid_response(translate("unable_to_delete_restaurant")));
+		}
 
-	res.send({
-		"success": data.success,
-		"data": [],
-		"message": translate("restaurant_delete_success")
+		res.send({
+			"success": data.success,
+			"data": [],
+			"message": translate("restaurant_delete_success")
+		});
 	});
-});
 
 module.exports = router;

@@ -45,69 +45,66 @@ router.get("/:countryID", utilities.authenticateToken, async (req: Request, res:
 	});
 });
 
-router.post("/", (req: Request, res: Response, nx: NextFunction) => {
-	utilities.authenticateToken(req, res, nx, ROLES.Admin);
-}, async (req: Request, res: Response, _: NextFunction) => {
-	const name = req.body.name;
+router.post("/", utilities.authenticateToken(ROLES.Admin),
+	async (req: Request, res: Response, _: NextFunction) => {
+		const name = req.body.name;
 
-	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
+		const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
 
-	if (nameValidation.length > 0) {
-		return res.status(400).send(utilities.invalid_response(nameValidation));
-	}
+		if (nameValidation.length > 0) {
+			return res.status(400).send(utilities.invalid_response(nameValidation));
+		}
 
-	const result = await countryModel.create(req.body);
-	if (!result.success) {
-		return res.status(500).send(utilities.invalid_response(translate("unable_to_create_country")));
-	}
+		const result = await countryModel.create(req.body);
+		if (!result.success) {
+			return res.status(500).send(utilities.invalid_response(translate("unable_to_create_country")));
+		}
 
-	res.status(201).send({
-		"success": true,
-		"message": translate("country_created_success")
+		res.status(201).send({
+			"success": true,
+			"message": translate("country_created_success")
+		});
 	});
-});
 
-router.patch("/:countryID", (req: Request, res: Response, nx: NextFunction) => {
-	utilities.authenticateToken(req, res, nx, ROLES.Admin);
-}, async (req: Request, res: Response, _: NextFunction) => {
-	const {name, code} = req.body;
-	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
+router.patch("/:countryID", utilities.authenticateToken(ROLES.Admin),
+	async (req: Request, res: Response, _: NextFunction) => {
+		const {name, code} = req.body;
+		const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
 
-	if (nameValidation.length > 0) {
-		return res.status(400).send(utilities.invalid_response(nameValidation));
-	}
+		if (nameValidation.length > 0) {
+			return res.status(400).send(utilities.invalid_response(nameValidation));
+		}
 
-	const data = {
-		name: name,
-		code: code,
-		countryID: parseInt(req.params["countryID"])
-	}
+		const data = {
+			name: name,
+			code: code,
+			countryID: parseInt(req.params["countryID"])
+		}
 
-	const result = await countryModel.update(data);
-	if (!result.success) {
-		return res.status(500).send(utilities.invalid_response(translate("unable_to_update_country")));
-	}
+		const result = await countryModel.update(data);
+		if (!result.success) {
+			return res.status(500).send(utilities.invalid_response(translate("unable_to_update_country")));
+		}
 
-	res.status(200).send({
-		"success": true,
-		"message": translate("country_update_success")
+		res.status(200).send({
+			"success": true,
+			"message": translate("country_update_success")
+		});
 	});
-});
 
-router.delete("/:countryID", (req: Request, res: Response, nx: NextFunction) => {
-	utilities.authenticateToken(req, res, nx, ROLES.Admin);
-}, async (req: Request, res: Response, _: NextFunction) => {
-	const data = await countryModel.delete(parseInt(req.params["countryID"]));
+router.delete("/:countryID", utilities.authenticateToken(ROLES.Admin),
+	async (req: Request, res: Response, _: NextFunction) => {
+		const data = await countryModel.delete(parseInt(req.params["countryID"]));
 
-	if (!data.success) {
-		return res.status(500).send(utilities.invalid_response(translate("unable_to_delete_country")));
-	}
+		if (!data.success) {
+			return res.status(500).send(utilities.invalid_response(translate("unable_to_delete_country")));
+		}
 
-	res.send({
-		"success": data.success,
-		"data": [],
-		"message": translate("country_delete_success")
+		res.send({
+			"success": data.success,
+			"data": [],
+			"message": translate("country_delete_success")
+		});
 	});
-});
 
 module.exports = router;
