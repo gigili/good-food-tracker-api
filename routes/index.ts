@@ -55,7 +55,10 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 	const tokenData = utilities.generate_token(user.data);
 	return res.status(200).send({
 		"success": true,
-		"data": tokenData
+		"data": {
+			...tokenData,
+			user: user.data
+		}
 	});
 });
 
