@@ -48,7 +48,9 @@ const Utilities = {
 	},
 
 	authenticateToken(requiredPower: number | null = null) {
+		console.log("GOT HERE #1");
 		return (req: Request, res: Response, next: NextFunction) => {
+			console.log("GOT HERE #2");
 			const authHeader = req.headers["authorization"];
 			const token = authHeader && authHeader.split(" ")[1];
 
@@ -73,7 +75,11 @@ const Utilities = {
 				if (typeof user !== "undefined") {
 					Globals.getInstance().user = user;
 					Object.assign(req, {user});
+				}else{
+					return res.status(401).send({"success": false, "message": translate("invalid_token")});
 				}
+
+				console.log("TOKEN VERIFIED");
 				next(); // pass the execution off to whatever request the client intended
 			});
 		}

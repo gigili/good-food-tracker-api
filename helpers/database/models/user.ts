@@ -87,7 +87,13 @@ module.exports = {
 			data.userID.toString()
 		];
 
-		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ?, image = ? WHERE guid = ? `;
+		let updateImage = ", image = ? ";
+		if(typeof data.image === "undefined") {
+			params.slice(2, 1);
+			updateImage = "";
+		}
+
+		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ? ${updateImage} WHERE guid = ? `;
 		return db.getResultSet(query, params);
 	},
 
