@@ -108,7 +108,7 @@ module.exports = {
 
 	revokeRefreshToken(userID: number, token?: string): Promise<ResultSet<any>> {
 		const params = [userID.toString()];
-		let query = `UPDATE ${db.TABLES.RefreshToken} SET is_revoked = '1' WHERE userID = ? AND is_revoked = '0' `;
+		let query = `UPDATE ${db.TABLES.RefreshToken} SET is_revoked = '1', revoked_at = NOW() WHERE userID = ? AND is_revoked = '0' `;
 
 		if (token && token?.length > 0) {
 			query += ` AND token = ? `;
@@ -120,6 +120,6 @@ module.exports = {
 
 	getRefreshToken(token: string, userID: number): Promise<ResultSet<{ token: string, is_revoked: string }>> {
 		const query = `SELECT token, is_revoked FROM ${db.TABLES.RefreshToken} WHERE token = ? AND userID = ?`;
-		return db.getResultSet(query, [token, userID]);
+		return db.getResultSet(query, [token, userID], false, true);
 	}
 };

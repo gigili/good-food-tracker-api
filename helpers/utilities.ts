@@ -97,7 +97,6 @@ const Utilities = {
 					return res.status(401).send({"success": false, "message": translate("invalid_token")});
 				}
 
-				console.log("TOKEN VERIFIED");
 				next(); // pass the execution off to whatever request the client intended
 			});
 		}
@@ -108,22 +107,21 @@ const Utilities = {
 			return false;
 		}
 
-		return jwt.verify(token, process.env.JWT_SECRET, async (err: VerifyErrors | null, user?: User) => {
+		return jwt.verify(token, process.env.JWT_SECRET, async (err: VerifyErrors | null, tokenData: { user: User }) => {
 			if (err) {
 				return false;
-			} else if (typeof user === "undefined") {
+			} else if (typeof tokenData === "undefined") {
 				return false;
 			}
 
 			if(isRefreshToken){
-				// Check if the refresh token exists in the database and that it is not revoked
-				const result = await userModel.getRefreshToken(token, user.id);
+				const result = await userModel.getRefreshToken(token, tokenData.user.id);
 				if(!result.success || !result.data.hasOwnProperty("is_revoked") || result.data.is_revoked === "1"){
 					return false;
 				}
 			}
 
-			return user;
+			return tokenData.user;
 		});
 	},
 

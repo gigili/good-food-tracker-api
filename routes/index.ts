@@ -95,13 +95,12 @@ router.post("/token", async(req: Request, res: Response, _: NextFunction) => {
 		return res.status(400).send(utilities.invalid_response(translate("missing_refresh_token")));
 	}
 
-	const tokenResult = await utilities.verify_token(refresh_token, true);
+	const userData = await utilities.verify_token(refresh_token, true);
 
-	if(tokenResult === false || !tokenResult.hasOwnProperty("user")){
-		return res.status(401).send(tokenResult); //utilities.invalid_response(translate("invalid_refresh_token")));
+	if(userData === false || !userData.hasOwnProperty("id")){
+		return res.status(401).send(utilities.invalid_response(translate("refresh_token_revoked")));
 	}
 
-	const userData = tokenResult.user;
 	const tokenData = utilities.generate_token(userData, false);
 
 	res.send({
@@ -115,9 +114,13 @@ router.post("/token", async(req: Request, res: Response, _: NextFunction) => {
 
 router.delete("/logout", async(req: Request, res: Response, _: NextFunction) => {
 	const refresh_token = req.body.refresh_token;
-	const userData = utilities.verify_token(refresh_token, true);
+	const userData = await utilities.verify_token(refresh_token, true);
 
-	if(!refresh_token || refresh_token.length < 1 || !userData){
+	if(userData === false || !userData.hasOwnProperty("id")){
+		return res.status(401).send(utilities.invalid_response(translate("refresh_token_revoked")));
+	}
+
+	if(!refresh_token || refresh_token.length < 1){
 		return res.status(400).send(utilities.invalid_response(translate("missing_refresh_token")));
 	}
 
