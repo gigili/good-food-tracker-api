@@ -10,7 +10,7 @@ const validation = require("../helpers/validation");
 const translate = require("../helpers/translation");
 const uploadHelper = require("../helpers/upload");
 
-router.get("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 
@@ -31,7 +31,7 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 	});
 });
 
-router.get("/:reviewID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:reviewID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const reviewGuid: string = String(req.query.reviewID) || "";
 	const review = await reviewModel.get(reviewGuid);
 
@@ -50,7 +50,7 @@ router.get("/:reviewID", utilities.authenticateToken, async (req: Request, res: 
 	});
 });
 
-router.post("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.post("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const validationResult = validation.validate([
 		[req.body.dish_name, translate("dish_name"), ["required", {"min_length": 3}]],
 	]);
@@ -71,7 +71,7 @@ router.post("/", utilities.authenticateToken, async (req: Request, res: Response
 	});
 });
 
-router.patch("/:reviewID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.patch("/:reviewID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const validationResult = validation.validate([
 		[req.body.dish_name, translate("dish_name"), ["required", {"min_length": 3}]],
 		[req.files?.images, translate("uploaded_file"), [{"allowed_file_type": uploadHelper.AllowedExtensions.images}]]
@@ -94,7 +94,7 @@ router.patch("/:reviewID", utilities.authenticateToken, async (req: Request, res
 	});
 });
 
-router.delete("/:reviewID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.delete("/:reviewID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const review = await reviewModel.delete(req.params.reviewID);
 
 	res.status(review.success ? 200 : review.error.code).send({
@@ -103,7 +103,7 @@ router.delete("/:reviewID", utilities.authenticateToken, async (req: Request, re
 	});
 });
 
-router.delete("/:reviewID/:imageName", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.delete("/:reviewID/:imageName", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const review = await reviewModel.deleteReviewImage(req.params.reviewID, req.params.imageName);
 
 	res.status(review.success ? 200 : review.error.code).send({

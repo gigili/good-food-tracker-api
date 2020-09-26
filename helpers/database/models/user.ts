@@ -2,7 +2,6 @@ import {ResultSet} from "../../interfaces/database"
 
 export {};
 
-const utilities = require("../../utilities");
 const translate = require("../../translation");
 const db = require("../db");
 
@@ -88,7 +87,7 @@ module.exports = {
 		];
 
 		let updateImage = ", image = ? ";
-		if(typeof data.image === "undefined") {
+		if (typeof data.image === "undefined") {
 			params.slice(2, 1);
 			updateImage = "";
 		}
@@ -100,5 +99,27 @@ module.exports = {
 	delete(guid: string): Promise<ResultSet<any>> {
 		const query = `DELETE FROM ${db.TABLES.User} WHERE guid = ?`;
 		return db.getResultSet(query, [guid]);
+	},
+
+	addRefreshToken(userID: number, token: string) {
+		const query = `INSERT INTO ${db.TABLES.RefreshToken} (userID, token) VALUES (?, ?)`;
+		db.getResultSet(query, [userID, token]);
+	},
+
+	revokeRefreshToken(userID: number, token?: string): Promise<ResultSet<any>> {
+		const params = [userID.toString()];
+		let query = `UPDATE ${db.TABLES.RefreshToken} SET is_revoked = '1' WHERE userID = ? AND is_revoked = '0' `;
+
+		if (token && token?.length > 0) {
+			query += ` AND token = ? `;
+			params.push(token);
+		}
+
+		return db.getResultSet(query, params);
+	},
+
+	getRefreshToken(token: string, userID: number): Promise<ResultSet<{ token: string, is_revoked: string }>> {
+		const query = `SELECT token, is_revoked FROM ${db.TABLES.RefreshToken} WHERE token = ? AND userID = ?`;
+		return db.getResultSet(query, [token, userID]);
 	}
 };

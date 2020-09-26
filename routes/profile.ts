@@ -74,7 +74,7 @@ router.post("/:userID", utilities.authenticateToken(), async (req: Request, res:
 	});
 });
 
-router.delete("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.delete("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	if (!req.user || req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}

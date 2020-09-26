@@ -9,7 +9,7 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 
@@ -26,7 +26,7 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 	});
 });
 
-router.get("/:restaurantID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:restaurantID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const restaurant = await restaurantModel.get(req.params["restaurantID"] || "");
 
 	if (!restaurant.success) {
@@ -44,7 +44,7 @@ router.get("/:restaurantID", utilities.authenticateToken, async (req: Request, r
 	});
 });
 
-router.post("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.post("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -64,7 +64,7 @@ router.post("/", utilities.authenticateToken, async (req: Request, res: Response
 	});
 });
 
-router.patch("/:restaurantID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.patch("/:restaurantID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
