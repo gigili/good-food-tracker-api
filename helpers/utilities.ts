@@ -5,6 +5,8 @@ import {ResultSet} from "./interfaces/database";
 import {Globals} from "./globals";
 import {User} from "./database/models/user";
 
+const userModel = require("./database/models/user");
+
 const jwt = require("jsonwebtoken");
 const privateKey = process.env.JWT_SECRET;
 const translate = require("./translation");
@@ -34,17 +36,35 @@ const Utilities = {
 			}
 		};
 	},
-	generate_token(data: object = {}): object {
+	generate_token(data: User, generateRefreshToken: Boolean = true): object {
+		let refresh_token = null;
 		const expiresAt = (Math.floor(Date.now() / 1000) + 7200);
 		const tokenData = {
 			algorithm: "HS256",
 			issuer: "good-food-tracker",
 			iat: Math.floor(Date.now() / 1000),
-			expiresIn: expiresAt,
-			exp: expiresAt
+			user: data
 		};
-		Object.assign(tokenData, {user: data});
-		return {token: jwt.sign(data, privateKey), expires: expiresAt};
+
+		if (generateRefreshToken) {
+			refresh_token = this.generate_refresh_token(tokenData, data.id);
+		}
+
+		Object.assign(tokenData, {expiresIn: expiresAt});
+		const access_token = jwt.sign(tokenData, privateKey);
+
+		return {
+			access_token,
+			refresh_token,
+			expires: expiresAt
+		};
+	},
+
+	generate_refresh_token(tokenData: object, userID: number): string {
+		const refresh_token = jwt.sign(tokenData, privateKey);
+		userModel.addRefreshToken(userID, refresh_token);
+
+		return refresh_token;
 	},
 
 	authenticateToken(requiredPower: number | null = null) {
@@ -73,10 +93,36 @@ const Utilities = {
 				if (typeof user !== "undefined") {
 					Globals.getInstance().user = user;
 					Object.assign(req, {user});
+				} else {
+					return res.status(401).send({"success": false, "message": translate("invalid_token")});
 				}
+
 				next(); // pass the execution off to whatever request the client intended
 			});
 		}
+	},
+
+	verify_token(token: string, isRefreshToken: Boolean = false): User | Boolean{
+		if (!token || token.length < 1) {
+			return false;
+		}
+
+		return jwt.verify(token, process.env.JWT_SECRET, async (err: VerifyErrors | null, tokenData: { user: User }) => {
+			if (err) {
+				return false;
+			} else if (typeof tokenData === "undefined") {
+				return false;
+			}
+
+			if(isRefreshToken){
+				const result = await userModel.getRefreshToken(token, tokenData.user.id);
+				if(!result.success || !result.data.hasOwnProperty("is_revoked") || result.data.is_revoked === "1"){
+					return false;
+				}
+			}
+
+			return tokenData.user;
+		});
 	},
 
 	rtrim(str: string, chr: string): string {

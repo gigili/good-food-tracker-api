@@ -15,7 +15,7 @@ const fs = require("fs");
 const ROLES = require("../helpers/roles");
 const uploadHelper = require("../helpers/upload");
 
-router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const user = await userModel.get(req.params["userID"] || "");
 
 	if (user.data.length === 0) {
@@ -29,7 +29,7 @@ router.get("/:userID", utilities.authenticateToken, async (req: Request, res: Re
 	});
 });
 
-router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.post("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const user = Globals.getInstance().user;
 
 	if (!req.user || (req.params["userID"] !== user.guid && user.power < ROLES.Admin)) {
@@ -74,7 +74,7 @@ router.patch("/:userID", utilities.authenticateToken, async (req: Request, res: 
 	});
 });
 
-router.delete("/:userID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.delete("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	if (!req.user || req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {
 		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
