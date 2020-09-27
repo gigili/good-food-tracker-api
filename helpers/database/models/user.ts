@@ -93,10 +93,6 @@ module.exports = {
 		}
 
 		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ? ${updateImage} WHERE guid = ? `;
-
-		console.log(query);
-		console.log(params);
-
 		return db.getResultSet(query, params);
 	},
 

@@ -29,7 +29,7 @@ router.get("/:userID", utilities.authenticateToken(), async (req: Request, res: 
 	});
 });
 
-router.patch("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.post("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const user = Globals.getInstance().user;
 
 	if (!req.user || (req.params["userID"] !== user.guid && user.power < ROLES.Admin)) {
