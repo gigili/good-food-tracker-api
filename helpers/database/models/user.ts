@@ -88,11 +88,15 @@ module.exports = {
 
 		let updateImage = ", image = ? ";
 		if (typeof data.image === "undefined") {
-			params.slice(2, 1);
+			params.splice(2, 1);
 			updateImage = "";
 		}
 
 		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ? ${updateImage} WHERE guid = ? `;
+
+		console.log(query);
+		console.log(params);
+
 		return db.getResultSet(query, params);
 	},
 
