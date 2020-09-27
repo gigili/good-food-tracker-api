@@ -9,7 +9,7 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 
@@ -27,7 +27,7 @@ router.get("/", utilities.authenticateToken, async (req: Request, res: Response,
 	});
 });
 
-router.get("/:countryID", utilities.authenticateToken, async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:countryID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const countries = await countryModel.get(parseInt(req.params["countryID"]));
 
 	if (!countries.success) {

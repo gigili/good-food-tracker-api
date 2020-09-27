@@ -65,5 +65,10 @@
   "review_image_deleted_success": "review image deleted successfully",
   "file_not_found": "file not found",
   "uploaded_file": "uploaded file",
-  "profile_image": "profile image"
+  "profile_image": "profile image",
+  "missing_refresh_token": "refresh token was not sent in the request. It is required.",
+  "invalid_refresh_token": "invalid refresh token.",
+  "user_logged_out_success": "user logged out successfully.",
+  "user_logged_out_error" : "there was an error while trying to log out the user.",
+  "refresh_token_revoked": "the refresh token has ben revoked. Invalid refresh token."
 }

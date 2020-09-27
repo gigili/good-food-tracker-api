@@ -56,7 +56,7 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 	return res.status(200).send({
 		"success": true,
 		"data": {
-			...tokenData,
+			tokenData,
 			user: user.data
 		}
 	});
@@ -86,6 +86,54 @@ router.post("/register", async (req: Request, res: Response, _: NextFunction) =>
 	}
 
 	return res.status(400).send(utilities.invalid_response(result));
+});
+
+router.post("/token", async(req: Request, res: Response, _: NextFunction) => {
+	const refresh_token = req.body.refresh_token;
+
+	if(!refresh_token && refresh_token.length < 1){
+		return res.status(400).send(utilities.invalid_response(translate("missing_refresh_token")));
+	}
+
+	const userData = await utilities.verify_token(refresh_token, true);
+
+	if(userData === false || !userData.hasOwnProperty("id")){
+		return res.status(401).send(utilities.invalid_response(translate("refresh_token_revoked")));
+	}
+
+	const tokenData = utilities.generate_token(userData, false);
+
+	res.send({
+		success: true,
+		data: {
+			access_token: tokenData.access_token,
+			expires: tokenData.expires
+		}
+	});
+});
+
+router.delete("/logout", async(req: Request, res: Response, _: NextFunction) => {
+	const refresh_token = req.body.refresh_token;
+	const userData = await utilities.verify_token(refresh_token, true);
+
+	if(userData === false || !userData.hasOwnProperty("id")){
+		return res.status(401).send(utilities.invalid_response(translate("refresh_token_revoked")));
+	}
+
+	if(!refresh_token || refresh_token.length < 1){
+		return res.status(400).send(utilities.invalid_response(translate("missing_refresh_token")));
+	}
+
+	const result = await userModel.revokeRefreshToken(userData.id, refresh_token);
+
+	if(!result.success){
+		return res.status(500).send(utilities.invalid_response(translate("user_logged_out_error")));
+	}
+
+	res.send({
+		success: true,
+		message: translate("user_logged_out_success")
+	});
 });
 
 module.exports = router;

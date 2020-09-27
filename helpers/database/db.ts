@@ -9,6 +9,7 @@ const DB = {
 	TABLES: {
 		City: "city",
 		Country: "country",
+		RefreshToken: "refresh_token",
 		Restaurant: "restaurant",
 		Review: "review",
 		ReviewImage: "review_image",
