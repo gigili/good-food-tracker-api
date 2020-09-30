@@ -29,7 +29,7 @@ router.get("/:userID", utilities.authenticateToken(), async (req: Request, res: 
 	});
 });
 
-router.post("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.patch("/:userID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const user = Globals.getInstance().user;
 
 	if (!req.user || (req.params["userID"] !== user.guid && user.power < ROLES.Admin)) {
@@ -37,8 +37,6 @@ router.post("/:userID", utilities.authenticateToken(), async (req: Request, res:
 	}
 
 	const {name, email} = req.body;
-
-	console.log(req.query);
 
 	const validationResult = validation.validate([
 		[name, translate("name"), ["required"]],
