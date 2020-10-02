@@ -56,7 +56,7 @@ List of currently completed or still being developed feature:
 * [x] Reviews
     * [x] List of users reviews 
     * [x] Add / edit your review
-        * [x] Add / remove image for a review
+        * [x] Add / remove image for a review 
     * [x] Delete your own review 
 
 
