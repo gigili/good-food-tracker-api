@@ -4,6 +4,7 @@ import {Request} from "./interfaces/request";
 import {ResultSet} from "./interfaces/database";
 import {Globals} from "./globals";
 import {User} from "./database/models/user";
+import {TokenData} from "./interfaces/types";
 
 const userModel = require("./database/models/user");
 
@@ -36,7 +37,8 @@ const Utilities = {
 			}
 		};
 	},
-	generate_token(data: User, generateRefreshToken: Boolean = true): object {
+
+	async generate_token(data: User, generateRefreshToken: Boolean = true): Promise<TokenData> {
 		let refresh_token = null;
 		const expiresAt = (Math.floor(Date.now() / 1000) + 7200);
 		const tokenData = {
@@ -47,7 +49,12 @@ const Utilities = {
 		};
 
 		if (generateRefreshToken) {
-			refresh_token = this.generate_refresh_token(tokenData, data.id);
+			const refreshTokenResult = await userModel.getRefreshToken(data.id);
+			refresh_token = refreshTokenResult.data.token;
+
+			if (!refreshTokenResult.success || !refreshTokenResult.data.token) {
+				refresh_token = this.generate_refresh_token(tokenData, data.id);
+			}
 		}
 
 		Object.assign(tokenData, {expiresIn: expiresAt});
@@ -62,8 +69,7 @@ const Utilities = {
 
 	generate_refresh_token(tokenData: object, userID: number): string {
 		const refresh_token = jwt.sign(tokenData, privateKey);
-		userModel.addRefreshToken(userID, refresh_token);
-
+		userModel.addRefreshToken(userID, refresh_token).then((result: any) => console.log(result));
 		return refresh_token;
 	},
 
@@ -102,7 +108,7 @@ const Utilities = {
 		}
 	},
 
-	verify_token(token: string, isRefreshToken: Boolean = false): User | Boolean{
+	verify_token(token: string, isRefreshToken: Boolean = false): User | Boolean {
 		if (!token || token.length < 1) {
 			return false;
 		}
@@ -114,9 +120,14 @@ const Utilities = {
 				return false;
 			}
 
-			if(isRefreshToken){
-				const result = await userModel.getRefreshToken(token, tokenData.user.id);
-				if(!result.success || !result.data.hasOwnProperty("is_revoked") || result.data.is_revoked === "1"){
+			if (isRefreshToken) {
+				const result = await userModel.getRefreshToken(tokenData.user.id);
+				if (
+					!result.success ||
+					!result.data.hasOwnProperty("token") ||
+					!result.data.token ||
+					result.data.token !== token
+				) {
 					return false;
 				}
 			}

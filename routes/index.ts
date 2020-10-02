@@ -26,38 +26,38 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 		return res.status(400).send(utilities.invalid_response(validationResults));
 	}
 
-	const loginResult = await userModel.login(req.body["username"], req.body["password"]);
+	const userData = await userModel.login(req.body["username"], req.body["password"]);
 
-	if (!loginResult.success) {
+	if (!userData.success) {
 		return res.status(400).send(utilities.invalid_response(translate("login_failed")));
 	}
 
-	if (!loginResult.hasOwnProperty("data") || !loginResult.data.hasOwnProperty("guid")) {
+	if (!userData.hasOwnProperty("data") || !userData.data.hasOwnProperty("guid")) {
 		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
 	}
 
-	const user = await userModel.get(loginResult.data["guid"]);
-	if (!user.hasOwnProperty("data") || !user.data.hasOwnProperty("guid")) {
-		return res.status(400).send(utilities.invalid_response(translate("account_doesnt_exist")));
-	}
-
-	const rolesResult = await userModel.getRoles(user.data["guid"]);
-	if (rolesResult.success) {
-		if (rolesResult.data.hasOwnProperty("name")) {
-			Object.assign(user.data, {power: rolesResult.data.power});
-		}
-	}
-
-	if (parseInt(user.data.active) === 0) {
+	if (parseInt(userData.data.active) === 0) {
 		return res.status(400).send(utilities.invalid_response(translate("account_not_active")));
 	}
 
-	const tokenData = utilities.generate_token(user.data);
+	const rolesResult = await userModel.getRoles(userData.data["guid"]);
+	if (rolesResult.success) {
+		if (rolesResult.data.hasOwnProperty("name")) {
+			Object.assign(userData.data, {power: rolesResult.data.power});
+		}
+	}
+
+	const tokenData = await utilities.generate_token({
+		id: userData.data.id,
+		guid: userData.data.guid,
+		power: userData.data.power
+	});
+
 	return res.status(200).send({
 		"success": true,
 		"data": {
 			tokenData,
-			user: user.data
+			user: userData.data
 		}
 	});
 });
@@ -91,17 +91,17 @@ router.post("/register", async (req: Request, res: Response, _: NextFunction) =>
 router.post("/token", async(req: Request, res: Response, _: NextFunction) => {
 	const refresh_token = req.body.refresh_token;
 
-	if(!refresh_token && refresh_token.length < 1){
+	if (!refresh_token && refresh_token.length < 1) {
 		return res.status(400).send(utilities.invalid_response(translate("missing_refresh_token")));
 	}
 
 	const userData = await utilities.verify_token(refresh_token, true);
 
-	if(userData === false || !userData.hasOwnProperty("id")){
+	if (userData === false || !userData.hasOwnProperty("id")) {
 		return res.status(401).send(utilities.invalid_response(translate("refresh_token_revoked")));
 	}
 
-	const tokenData = utilities.generate_token(userData, false);
+	const tokenData = await utilities.generate_token(userData, false);
 
 	res.send({
 		success: true,
