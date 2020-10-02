@@ -1,4 +1,7 @@
 # Good Food Tracker #
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Good food tracker project is a collection of a back end web API (Nodejs & Express), front end web app (Vuejs) and a mobile application (Kotlin). 
 
@@ -66,3 +69,22 @@ Database diagram with current, future and optional tables can be found on [dbDia
 
 Possible future tables in the database diagram will be positioned on the right side of the diagram. Whereas the existing 
 ones or the ones that are being worked on are positioned on the left side.   
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://negue.github.io"><img src="https://avatars3.githubusercontent.com/u/842273?v=4" width="100px;" alt=""/><br /><sub><b>negue</b></sub></a><br /><a href="#ideas-negue" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
