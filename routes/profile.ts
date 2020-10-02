@@ -53,10 +53,17 @@ router.patch("/:userID", utilities.authenticateToken(), async (req: Request, res
 	if (req.files && Object.keys(req.files).length > 0) {
 		const image = req.files.image as UploadedFile;
 		const extension = image.name.substring(image.name.lastIndexOf(".") + 1, image.name.length);
-		const imagePath = `/images/user/${data["userID"]}.${extension}`;
+		const imagePath = `/images/user/${data.userID}.${extension}`;
 
 		if (!fs.existsSync("./public/images/user")) {
 			fs.mkdirSync("./public/images/user", {recursive: true});
+		}
+
+		const userImage = await userModel.getProfileImage(data.userID);
+		if (userImage.success && userImage.data.image) {
+			if (fs.existsSync(`./public/${userImage.data.image}`)){
+				fs.unlinkSync(`./public/${userImage.data.image}`);
+			}
 		}
 
 		const uploadResult = await image.mv(`./public/${imagePath}`).then(() => true).catch(() => false);

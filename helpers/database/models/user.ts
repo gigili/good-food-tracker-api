@@ -121,5 +121,10 @@ module.exports = {
 	getRefreshToken(token: string, userID: number): Promise<ResultSet<{ token: string, is_revoked: string }>> {
 		const query = `SELECT token, is_revoked FROM ${db.TABLES.RefreshToken} WHERE token = ? AND userID = ?`;
 		return db.getResultSet(query, [token, userID], false, true);
+	},
+
+	getProfileImage(userID: string): Promise<ResultSet<{ image?: string }>> {
+		const query = `SELECT image FROM ${db.TABLES.User} WHERE guid = ?`;
+		return db.getResultSet(query, [userID], false, true);
 	}
 };
