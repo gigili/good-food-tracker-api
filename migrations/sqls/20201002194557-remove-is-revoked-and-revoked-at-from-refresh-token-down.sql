@@ -1,0 +1,2 @@
+ALTER TABLE refresh_token ADD COLUMN is_revoked ENUM('0','1') DEFAULT '0' COMMENT '0 - Still active; 1 - Revoked' AFTER token;
+ALTER TABLE refresh_token ADD COLUMN revoked_at DATETIME NULL DEFAULT NULL;

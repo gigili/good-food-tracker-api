@@ -1,4 +1,5 @@
 import {ResultSet} from "../../interfaces/database"
+import {DefaultDBResponse, RefreshTokenData} from "../../interfaces/types";
 
 export {};
 
@@ -78,7 +79,7 @@ module.exports = {
 		return db.getResultSet(query, [userID], false, true);
 	},
 
-	update(data: { [key: string]: string | number }): Promise<ResultSet<any>> {
+	update(data: { [key: string]: string | number }): Promise<ResultSet<DefaultDBResponse>> {
 		const params = [
 			data.name,
 			data.email,
@@ -96,19 +97,19 @@ module.exports = {
 		return db.getResultSet(query, params);
 	},
 
-	delete(guid: string): Promise<ResultSet<any>> {
+	delete(guid: string): Promise<ResultSet<DefaultDBResponse>> {
 		const query = `DELETE FROM ${db.TABLES.User} WHERE guid = ?`;
 		return db.getResultSet(query, [guid]);
 	},
 
-	addRefreshToken(userID: number, token: string) {
+	addRefreshToken(userID: number, token: string): Promise<ResultSet<DefaultDBResponse>> {
 		const query = `INSERT INTO ${db.TABLES.RefreshToken} (userID, token) VALUES (?, ?)`;
-		db.getResultSet(query, [userID, token]);
+		return db.getResultSet(query, [userID, token]);
 	},
 
-	revokeRefreshToken(userID: number, token?: string): Promise<ResultSet<any>> {
+	revokeRefreshToken(userID: number, token?: string): Promise<ResultSet<DefaultDBResponse>> {
 		const params = [userID.toString()];
-		let query = `UPDATE ${db.TABLES.RefreshToken} SET is_revoked = '1', revoked_at = NOW() WHERE userID = ? AND is_revoked = '0' `;
+		let query = `DELETE FROM ${db.TABLES.RefreshToken} WHERE userID = ? `;
 
 		if (token && token?.length > 0) {
 			query += ` AND token = ? `;
@@ -118,9 +119,9 @@ module.exports = {
 		return db.getResultSet(query, params);
 	},
 
-	getRefreshToken(token: string, userID: number): Promise<ResultSet<{ token: string, is_revoked: string }>> {
-		const query = `SELECT token, is_revoked FROM ${db.TABLES.RefreshToken} WHERE token = ? AND userID = ?`;
-		return db.getResultSet(query, [token, userID], false, true);
+	getRefreshToken(userID: number): Promise<ResultSet<RefreshTokenData>> {
+		const query = `SELECT token FROM ${db.TABLES.RefreshToken} WHERE userID = ?`;
+		return db.getResultSet(query, [userID], false, true);
 	},
 
 	getProfileImage(userID: string): Promise<ResultSet<{ image?: string }>> {
