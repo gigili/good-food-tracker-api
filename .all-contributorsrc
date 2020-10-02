@@ -4,7 +4,17 @@
   ],
   "imageSize": 100,
   "commit": false,
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "negue",
+      "name": "negue",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/842273?v=4",
+      "profile": "http://negue.github.io",
+      "contributions": [
+        "ideas"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
   "projectName": "good-food-tracker-api",
   "projectOwner": "gigili",
