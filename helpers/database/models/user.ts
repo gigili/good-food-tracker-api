@@ -5,6 +5,7 @@ export {};
 
 const translate = require("../../translation");
 const db = require("../db");
+const cityModel = require("./city");
 
 export interface User {
 	id: number,
@@ -15,6 +16,10 @@ export interface User {
 	password?: string | null,
 	image?: string | null,
 	roleID?: number,
+	cityID?: number,
+	cityName?: string,
+	countryID?: number,
+	countryName?: string,
 	power: number,
 	active?: string,
 	create_at?: string
@@ -29,20 +34,52 @@ export interface Role {
 module.exports = {
 	login(username: string = "", password: string = ""): Promise<ResultSet<User>> {
 		const params = [username, password];
-		const query = `SELECT id, guid, name, email, username FROM ${db.TABLES.User} WHERE username = ? AND password = ?`;
+		const query = `
+			SELECT 
+				u.id, u.guid, u.name, u.email, u.username, r.power, u.cityID, 
+				ci.name as cityName, cr.id as countryID, cr.name as countryName 
+			FROM ${db.TABLES.User} AS u
+			LEFT JOIN ${db.TABLES.Role} AS r ON r.id = u.roleID 
+			LEFT JOIN ${db.TABLES.City} AS ci ON ci.id = u.cityID
+			LEFT JOIN ${db.TABLES.Country} AS cr ON cr.id = ci.countryID
+			WHERE username = ? AND password = ?
+		`;
 		return db.getResultSet(query, params, false, true);
 	},
 
-	async registerUser(user: { username: string, email: string, name: string, password: string }): Promise<string | boolean> {
+	async registerUser(user: {
+		username: string,
+		email: string,
+		name: string,
+		password: string,
+		cityID?: number,
+		cityName?: string,
+		countryID: number
+	}): Promise<string | boolean> {
 		const params = [
 			user.username,
 			user.email
 		];
 
+		let cityID = user.cityID;
+		if (!user.cityID || user.cityID === -1) {
+			const cityData = await cityModel.findBy("name", user.cityName || "");
+			if (cityData.success && cityData.data.hasOwnProperty("id")) {
+				cityID = cityData.data.id;
+			} else if (user.cityName) {
+				const result = await cityModel.create({
+					name: user.cityName,
+					countryID: user.countryID
+				}) as ResultSet<DefaultDBResponse>;
+				if (result.success && result.data.hasOwnProperty("insertId")) {
+					cityID = (result.data as DefaultDBResponse).insertId;
+				}
+			}
+		}
+
 		const userQuery = `SELECT id, name, email, username, active FROM ${db.TABLES.User} WHERE username = ? OR email = ?`;
 		const userData = await db.getResultSet(userQuery, params, false, true);
 
-		console.log(userData);
 		if (userData.success && userData.data.hasOwnProperty("id") && userData.data.id > 0) {
 			if (userData.data.email === user.email) {
 				return translate("email_in_use");
@@ -55,8 +92,8 @@ module.exports = {
 			return translate("account_already_exists");
 		}
 
-		const registerParams = [user.name, user.email, user.username, user.password, "1"];
-		const insertUserQuery = `INSERT INTO ${db.TABLES.User} (name,email,username,password,active) VALUES(?, ?, ?, ?, ?)`;
+		const registerParams = [user.name, user.email, user.username, user.password, "1", cityID];
+		const insertUserQuery = `INSERT INTO ${db.TABLES.User} (name,email,username,password,active, cityID) VALUES(?, ?, ?, ?, ?, ?)`;
 		const result = await db.getResultSet(insertUserQuery, registerParams);
 
 		if (!result.success) {

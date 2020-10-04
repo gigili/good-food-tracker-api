@@ -1,4 +1,5 @@
 import {ResultSet} from "../../interfaces/database"
+import {DefaultDBResponse} from "../../interfaces/types";
 
 export {};
 const db = require("../db");
@@ -42,13 +43,13 @@ const city = {
 		return db.getResultSet(query, [cityID], false, true);
 	},
 
-	create(data: { name?: string, countryID?: number } = {}): Promise<ResultSet<any>> {
+	create(data: { name?: string, countryID?: number } = {}): Promise<ResultSet<DefaultDBResponse>> {
 		const {name, countryID} = data;
 		const insertQuery = `INSERT INTO ${db.TABLES.City} (name, countryID) VALUES(?, ?);`;
 		return db.getResultSet(insertQuery, [name, countryID || null]);
 	},
 
-	update(data: { cityID?: number, name?: string, countryID?: number } = {}): Promise<ResultSet<any>> {
+	update(data: { cityID?: number, name?: string, countryID?: number } = {}): Promise<ResultSet<DefaultDBResponse>> {
 		const {cityID, name, countryID} = data;
 
 		if (!cityID) {
@@ -59,7 +60,7 @@ const city = {
 		return db.getResultSet(updateQuery.toString(), [name, countryID || null, cityID]);
 	},
 
-	async delete(id: number): Promise<ResultSet<any>> {
+	async delete(id: number): Promise<ResultSet<DefaultDBResponse>> {
 		const restaurant = await this.get(id);
 
 		if (restaurant.data && !restaurant.data.hasOwnProperty("id")) {
@@ -68,6 +69,16 @@ const city = {
 
 		const deleteQuery = `DELETE FROM ${db.TABLES.City} WHERE id = ?`;
 		return db.getResultSet(deleteQuery, [id]);
+	},
+
+	findBy(column: string, value: string): Promise<ResultSet<City>> {
+		const query = `
+		 	SELECT city.*, country.name AS countryName FROM ${db.TABLES.City} AS city
+			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id
+		 	WHERE city.${column} = ?
+		 `;
+
+		return db.getResultSet(query, [value], false, true);
 	}
 };
 

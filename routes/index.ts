@@ -40,13 +40,6 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 		return res.status(400).send(utilities.invalid_response(translate("account_not_active")));
 	}
 
-	const rolesResult = await userModel.getRoles(userData.data["guid"]);
-	if (rolesResult.success) {
-		if (rolesResult.data.hasOwnProperty("name")) {
-			Object.assign(userData.data, {power: rolesResult.data.power});
-		}
-	}
-
 	const tokenData = await utilities.generate_token({
 		id: userData.data.id,
 		guid: userData.data.guid,
