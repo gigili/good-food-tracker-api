@@ -5,8 +5,14 @@ CREATE TABLE `user` (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     active ENUM('0','1') NOT NULL DEFAULT '0',
-    created_at DATE DEFAULT CURRENT_DATE
+    created_at DATE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TRIGGER TRG_BI_User BEFORE INSERT ON user
+FOR EACH ROW
+BEGIN
+	SET NEW.created_at = CURRENT_DATE;
+END;
 
 INSERT INTO `user`
     (name, email, username, password, active)

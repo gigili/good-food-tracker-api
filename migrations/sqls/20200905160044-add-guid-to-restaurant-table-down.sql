@@ -1,1 +1,3 @@
 ALTER TABLE restaurant DROP COLUMN guid;
+
+DROP TRIGGER TRG_BI_Restaurant;
