@@ -77,8 +77,28 @@ const city = {
 			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id
 		 	WHERE city.${column} = ?
 		 `;
-
+		console.log(value);
 		return db.getResultSet(query, [value], false, true);
+	},
+
+	async findOrCreateCityBy(column: string, value: string, countryID: number): Promise<number | null> {
+		let cityID = null;
+		if (value) {
+			const cityData = await this.findBy(column, value);
+			if (cityData.success && cityData.data.hasOwnProperty("id")) {
+				cityID = (cityData.data as City).id;
+			} else {
+				const result = await this.create({
+					name: value,
+					countryID: countryID
+				}) as ResultSet<DefaultDBResponse>;
+				if (result.success && result.data.hasOwnProperty("insertId")) {
+					cityID = (result.data as DefaultDBResponse).insertId;
+				}
+			}
+		}
+
+		return cityID;
 	}
 };
 

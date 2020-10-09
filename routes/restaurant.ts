@@ -12,8 +12,9 @@ const translate = require("../helpers/translation");
 router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
+	const cityID: number | null = req.query.cityID ? parseInt(req.query.cityID.toString()) : null;
 
-	const restaurants = await restaurantModel.list(startLimit, endLimit);
+	const restaurants = await restaurantModel.list(startLimit, endLimit, cityID);
 
 	if (!restaurants.success) {
 		return res.status(500).send(utilities.invalid_response(translate("unable_to_load_restaurants")));

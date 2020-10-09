@@ -56,20 +56,22 @@ router.post("/login", async (req: Request, res: Response, _: NextFunction) => {
 });
 
 router.post("/register", async (req: Request, res: Response, _: NextFunction) => {
-	const {name, email, username, password} = req.body;
+	const {name, email, username, password, countryID, cityName} = req.body;
 
 	const validationResults = validation.validate([
 		[name, translate("name"), ["required", {"min_length": 5}]],
 		[email, translate("email"), ["required", {"min_length": 5}, "valid_email"]],
 		[username, translate("username"), ["required", {"min_length": 3}]],
-		[password, translate("password"), ["required", {"min_length": 10}]]
+		[password, translate("password"), ["required", {"min_length": 10}]],
+		[countryID, translate("country"), ["required", "is_number"]],
+		[cityName, translate("city"), ["required"]]
 	], true);
 
 	if (validationResults.length > 1) {
 		return res.status(400).send(utilities.invalid_response(validationResults));
 	}
 
-	const result = await userModel.registerUser({name, email, username, password});
+	const result = await userModel.registerUser({name, email, username, password, countryID, cityName});
 
 	if (result === true) {
 		return res.status(201).send({
@@ -81,7 +83,7 @@ router.post("/register", async (req: Request, res: Response, _: NextFunction) =>
 	return res.status(400).send(utilities.invalid_response(result));
 });
 
-router.post("/token", async(req: Request, res: Response, _: NextFunction) => {
+router.post("/token", async (req: Request, res: Response, _: NextFunction) => {
 	const refresh_token = req.body.refresh_token;
 
 	if (!refresh_token && refresh_token.length < 1) {
@@ -105,21 +107,21 @@ router.post("/token", async(req: Request, res: Response, _: NextFunction) => {
 	});
 });
 
-router.delete("/logout", async(req: Request, res: Response, _: NextFunction) => {
+router.delete("/logout", async (req: Request, res: Response, _: NextFunction) => {
 	const refresh_token = req.body.refresh_token;
 	const userData = await utilities.verify_token(refresh_token, true);
 
-	if(userData === false || !userData.hasOwnProperty("id")){
+	if (userData === false || !userData.hasOwnProperty("id")) {
 		return res.status(401).send(utilities.invalid_response(translate("refresh_token_revoked")));
 	}
 
-	if(!refresh_token || refresh_token.length < 1){
+	if (!refresh_token || refresh_token.length < 1) {
 		return res.status(400).send(utilities.invalid_response(translate("missing_refresh_token")));
 	}
 
 	const result = await userModel.revokeRefreshToken(userData.id, refresh_token);
 
-	if(!result.success){
+	if (!result.success) {
 		return res.status(500).send(utilities.invalid_response(translate("user_logged_out_error")));
 	}
 

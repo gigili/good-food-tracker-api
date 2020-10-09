@@ -39,7 +39,7 @@ const Validation = {
 	},
 
 	required(): string | boolean {
-		if (typeof this.value === "undefined" || this.value === null || this.value.length === 0) {
+		if (typeof this.value === "undefined" || this.value === null || this.value.trim().length === 0) {
 			return utilities.format(translate('validation_error_required_field'), this.label);
 		}
 

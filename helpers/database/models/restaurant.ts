@@ -20,19 +20,24 @@ export interface Restaurant {
 }
 
 const restaurant = {
-	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE)): Promise<{ success: boolean, data: Restaurant[], total: number }> {
+	async list(startLimit: number = 0, endLimit: number = Number(process.env.PER_PAGE), cityID?: number | null): Promise<{ success: boolean, data: Restaurant[], total: number }> {
 		const params = [
+			cityID || null,
 			parseInt(startLimit.toString()),
-			parseInt(endLimit.toString())
+			parseInt(endLimit.toString()),
 		];
 
 		const restaurants = await db.getResultSet(`
 			SELECT r.*, city.name as cityName, country.name as countryName FROM ${db.TABLES.Restaurant} AS r
 			LEFT JOIN ${db.TABLES.City} AS city ON r.cityID = city.id
 			LEFT JOIN ${db.TABLES.Country} AS country ON city.countryID = country.id 
+			WHERE city.id = ? 
 			LIMIT ?,?
 		`, params);
-		const count = await db.getResultSet(`SELECT COUNT(id) as cnt FROM ${db.TABLES.Restaurant}`, null, false, true);
+
+		const count = await db.getResultSet(
+			`SELECT COUNT(id) as cnt FROM ${db.TABLES.Restaurant} WHERE cityID = ?`,
+			[cityID || null], false, true);
 
 		return {
 			"success": (restaurants.success && restaurants.success),

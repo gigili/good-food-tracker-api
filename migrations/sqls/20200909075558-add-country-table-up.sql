@@ -47,3 +47,4 @@ VALUES ("Afghanistan","AF"),("Albania","AL"),("Algeria","DZ"),("American Samoa",
 ("Yemen","YE"),("Zambia","ZM"),("Zimbabwe","ZW"),("Other", "XX");
 
 ALTER TABLE city ADD CONSTRAINT FK_City_Country FOREIGN KEY(countryID) REFERENCES country(id) ON UPDATE CASCADE ON DELETE CASCADE;
+UPDATE TABLE city SET countryID = 27 WHERE id = 1;

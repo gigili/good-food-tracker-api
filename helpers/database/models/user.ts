@@ -4,6 +4,7 @@ import {DefaultDBResponse, RefreshTokenData} from "../../interfaces/types";
 export {};
 
 const translate = require("../../translation");
+const utilities = require("../../utilities");
 const db = require("../db");
 const cityModel = require("./city");
 
@@ -61,20 +62,10 @@ module.exports = {
 			user.email
 		];
 
-		let cityID = user.cityID;
-		if (!user.cityID || user.cityID === -1) {
-			const cityData = await cityModel.findBy("name", user.cityName || "");
-			if (cityData.success && cityData.data.hasOwnProperty("id")) {
-				cityID = cityData.data.id;
-			} else if (user.cityName) {
-				const result = await cityModel.create({
-					name: user.cityName,
-					countryID: user.countryID
-				}) as ResultSet<DefaultDBResponse>;
-				if (result.success && result.data.hasOwnProperty("insertId")) {
-					cityID = (result.data as DefaultDBResponse).insertId;
-				}
-			}
+		const cityID = cityModel.findOrCreateCityBy("name", user.cityName || "", user.countryID);
+
+		if (!cityID) {
+			return translate("invalid_city_selected");
 		}
 
 		const userQuery = `SELECT id, name, email, username, active FROM ${db.TABLES.User} WHERE username = ? OR email = ?`;
@@ -112,15 +103,30 @@ module.exports = {
 	},
 
 	get(userID: string): Promise<ResultSet<User>> {
-		const query = `SELECT id, guid, name, email, username, image, active FROM ${db.TABLES.User} WHERE guid = ?`;
+		const query = `
+			SELECT 
+				u.id, u.guid, u.name, u.email, u.username, r.power, u.cityID, 
+				ci.name as cityName, cr.id as countryID, cr.name as countryName 
+			FROM ${db.TABLES.User} AS u
+			LEFT JOIN ${db.TABLES.Role} AS r ON r.id = u.roleID 
+			LEFT JOIN ${db.TABLES.City} AS ci ON ci.id = u.cityID
+			LEFT JOIN ${db.TABLES.Country} AS cr ON cr.id = ci.countryID
+			WHERE guid = ?
+		`;
 		return db.getResultSet(query, [userID], false, true);
 	},
 
-	update(data: { [key: string]: string | number }): Promise<ResultSet<DefaultDBResponse>> {
+	async update(data: { [key: string]: string | number }): Promise<ResultSet<[]> | object> {
+		let cityID = await cityModel.findOrCreateCityBy("name", data.cityName, data.countryID);
+		if (!cityID) {
+			return {success: false, message: translate("invalid_city_selected")};
+		}
+
 		const params = [
 			data.name,
 			data.email,
 			data.image,
+			cityID || null,
 			data.userID.toString()
 		];
 
@@ -130,7 +136,7 @@ module.exports = {
 			updateImage = "";
 		}
 
-		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ? ${updateImage} WHERE guid = ? `;
+		const query = `UPDATE ${db.TABLES.User} SET name = ?, email = ?, cityID = IFNULL(?, cityID) ${updateImage} WHERE guid = ? `;
 		return db.getResultSet(query, params);
 	},
 
