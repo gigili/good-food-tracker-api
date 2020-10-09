@@ -36,11 +36,12 @@ router.patch("/:userID", utilities.authenticateToken(), async (req: Request, res
 		return res.status(401).send(utilities.invalid_response(translate("not_authorized")));
 	}
 
-	const {name, email} = req.body;
+	const {name, email, cityName, countryID} = req.body;
 
 	const validationResult = validation.validate([
 		[name, translate("name"), ["required"]],
 		[email, translate("email"), ["required", "valid_email"]],
+		[countryID, translate("country"), ["required"]],
 		[req.files?.image, translate("profile_image"), [{"allowed_file_type": uploadHelper.AllowedExtensions.images}]]
 	]);
 
@@ -48,7 +49,13 @@ router.patch("/:userID", utilities.authenticateToken(), async (req: Request, res
 		return res.status(400).send(utilities.invalid_response(validationResult));
 	}
 
-	const data: { name: string, email: string, userID: string } = {name, email, userID: req.params["userID"]};
+	const data: {
+		name: string,
+		email: string,
+		userID: string,
+		cityName?: string,
+		countryID: number
+	} = {name, email, userID: req.params["userID"], cityName, countryID};
 
 	if (req.files && Object.keys(req.files).length > 0) {
 		const image = req.files.image as UploadedFile;
@@ -73,8 +80,7 @@ router.patch("/:userID", utilities.authenticateToken(), async (req: Request, res
 	}
 
 	const result = await userModel.update(data);
-
-	res.send({
+	res.status(result.success ? 200 : 400).send({
 		"success": result.success,
 		"data": [],
 		"message": result.success ? translate("user_profile_update_success") : translate("unable_to_update_profile")

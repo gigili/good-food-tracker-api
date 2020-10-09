@@ -69,6 +69,11 @@
   "missing_refresh_token": "refresh token was not sent in the request. It is required.",
   "invalid_refresh_token": "invalid refresh token.",
   "user_logged_out_success": "user logged out successfully.",
-  "user_logged_out_error" : "there was an error while trying to log out the user.",
-  "refresh_token_revoked": "the refresh token has ben revoked. Invalid refresh token."
+  "user_logged_out_error": "there was an error while trying to log out the user.",
+  "refresh_token_revoked": "the refresh token has ben revoked. Invalid refresh token.",
+  "country": "country",
+  "invalid_city_name": "invalid city name",
+  "invalid_city_selected": "selected invalid city",
+  "invalid_city_entered": "entered invalid city",
+  "city": "city"
 }
