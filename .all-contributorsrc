@@ -13,6 +13,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "subhamX",
+      "name": "Subham Sahu",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/43654114?v=4",
+      "profile": "https://subhamsahu.me",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
