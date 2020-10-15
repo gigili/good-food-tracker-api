@@ -40,8 +40,8 @@ const Utilities = {
 
 	async generate_token(data: User, generateRefreshToken: Boolean = true): Promise<TokenData> {
 		let refresh_token = null;
-		let curr_date=new Date();
-		const expiresAt = (curr_date.setHours(curr_date.getHours()+2));
+		let currentDate=new Date();
+		const expiresAt = (currentDate.setHours(currentDate.getHours()+2));
 		const tokenData = {
 			algorithm: "HS256",
 			issuer: "good-food-tracker",
