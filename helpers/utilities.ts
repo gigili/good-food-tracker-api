@@ -39,9 +39,9 @@ const Utilities = {
 	},
 
 	async generate_token(data: User, generateRefreshToken: Boolean = true): Promise<TokenData> {
-		let refresh_token = null;
-		let currentDate=new Date();
-		const expiresAt = (currentDate.setHours(currentDate.getHours()+2));
+		let refreshToken = null;
+		let currentDate = new Date();
+		const expiresAt = (currentDate.setHours(currentDate.getHours() + 2));
 		const tokenData = {
 			algorithm: "HS256",
 			issuer: "good-food-tracker",
@@ -51,30 +51,30 @@ const Utilities = {
 
 		if (generateRefreshToken) {
 			const refreshTokenResult = await userModel.getRefreshToken(data.id);
-			refresh_token = refreshTokenResult.data.token;
+			refreshToken = refreshTokenResult.data.token;
 
 			if (!refreshTokenResult.success || !refreshTokenResult.data.token) {
-				refresh_token = this.generate_refresh_token(tokenData, data.id);
+				refreshToken = this.generate_refresh_token(tokenData, data.id);
 			}
 		}
 
 		Object.assign(tokenData, {expiresIn: expiresAt});
-		const access_token = jwt.sign(tokenData, privateKey);
+		const accessToken = jwt.sign(tokenData, privateKey);
 
 		return {
-			access_token,
-			refresh_token,
+			access_token: accessToken,
+			refresh_token: refreshToken,
 			expires: expiresAt
 		};
 	},
 
 	generate_refresh_token(tokenData: object, userID: number): string {
-		const refresh_token = jwt.sign(tokenData, privateKey);
-		userModel.addRefreshToken(userID, refresh_token).then((result: any) => console.log(result));
-		return refresh_token;
+		const refreshToken = jwt.sign(tokenData, privateKey);
+		userModel.addRefreshToken(userID, refreshToken).then((result: any) => console.log(result));
+		return refreshToken;
 	},
 
-	authenticateToken(requiredPower: number | null = null) {
+	authenticate_token(requiredPower: number | null = null) {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const authHeader = req.headers["authorization"];
 			const token = authHeader && authHeader.split(" ")[1];
