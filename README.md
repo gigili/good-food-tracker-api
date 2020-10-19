@@ -1,4 +1,11 @@
 # Good Food Tracker #
+![Dependecy Badge](https://img.shields.io/librariesio/github/gigili/good-food-tracker-api?style=for-the-badge)
+![Repo size badge](https://img.shields.io/github/repo-size/gigili/good-food-tracker-api?style=for-the-badge)
+![Open issues badge](https://img.shields.io/github/issues/gigili/good-food-tracker-api?style=for-the-badge)
+![Licence badge](https://img.shields.io/github/license/gigili/good-food-tracker-api?style=for-the-badge)
+![Forks badge](https://img.shields.io/github/forks/gigili/good-food-tracker-api?style=for-the-badge)
+![Stars badge](https://img.shields.io/github/stars/gigili/good-food-tracker-api?style=for-the-badge)
+<!--![Top language badge](https://img.shields.io/github/languages/top/gigili/good-food-tracker-api?style=for-the-badge)-->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
