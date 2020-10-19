@@ -1,6 +1,7 @@
 {
   "name": "good-food-tracker",
   "description": "Good food tracker API",
+	"keywords":"food review,api,node,express,typescript,review,database,mysql",
   "license": "MIT",
   "author": {
     "name": "Igor Ilic",
