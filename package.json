@@ -1,7 +1,7 @@
 {
   "name": "good-food-tracker",
   "description": "Good food tracker API",
-  "license": "GPL 3",
+  "license": "MIT",
   "author": {
     "name": "Igor Ilic",
     "email": "igorilicbl@gmail.com",
