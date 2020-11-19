@@ -10,7 +10,7 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.get("/", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 
@@ -28,7 +28,7 @@ router.get("/", utilities.authenticateToken(), async (req: Request, res: Respons
 	});
 });
 
-router.get("/:cityID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const city = await cityModel.get(parseInt(req.params["cityID"]));
 
 	if (!city.success) {
@@ -46,7 +46,7 @@ router.get("/:cityID", utilities.authenticateToken(), async (req: Request, res: 
 	});
 });
 
-router.post("/", utilities.authenticateToken(ROLES.Admin),
+router.post("/", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const name = req.body.name;
 
@@ -67,7 +67,7 @@ router.post("/", utilities.authenticateToken(ROLES.Admin),
 		});
 	});
 
-router.patch("/:cityID", utilities.authenticateToken(ROLES.Admin),
+router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const name = req.body.name;
 		const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -93,7 +93,7 @@ router.patch("/:cityID", utilities.authenticateToken(ROLES.Admin),
 		});
 	});
 
-router.delete("/:cityID", utilities.authenticateToken(ROLES.Admin),
+router.delete("/:cityID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const data = await cityModel.delete(parseInt(req.params["cityID"]));
 

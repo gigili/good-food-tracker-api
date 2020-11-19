@@ -9,7 +9,7 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.get("/", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 
@@ -27,7 +27,7 @@ router.get("/", utilities.authenticateToken(), async (req: Request, res: Respons
 	});
 });
 
-router.get("/:countryID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:countryID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const countries = await countryModel.get(parseInt(req.params["countryID"]));
 
 	if (!countries.success) {
@@ -45,7 +45,7 @@ router.get("/:countryID", utilities.authenticateToken(), async (req: Request, re
 	});
 });
 
-router.post("/", utilities.authenticateToken(ROLES.Admin),
+router.post("/", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const name = req.body.name;
 
@@ -66,7 +66,7 @@ router.post("/", utilities.authenticateToken(ROLES.Admin),
 		});
 	});
 
-router.patch("/:countryID", utilities.authenticateToken(ROLES.Admin),
+router.patch("/:countryID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const {name, code} = req.body;
 		const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -92,7 +92,7 @@ router.patch("/:countryID", utilities.authenticateToken(ROLES.Admin),
 		});
 	});
 
-router.delete("/:countryID", utilities.authenticateToken(ROLES.Admin),
+router.delete("/:countryID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const data = await countryModel.delete(parseInt(req.params["countryID"]));
 
