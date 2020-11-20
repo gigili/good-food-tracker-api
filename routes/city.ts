@@ -10,6 +10,109 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
+/**
+ * @swagger
+ * tags:
+ *   - name: User Role
+ *     description: Functions available to all users
+ *   - name: Admin Role
+ *     description: Functions available to admin users only
+ * definitions:
+ *   NewCity:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *         description: Name of the city
+ *       countryID:
+ *         type: integer
+ *         description: Numeric ID for the country
+ *     required:
+ *       - name
+ *   City:
+ *     allOf:
+ *       - type: object
+ *         properties:
+ *           cityID:
+ *             type: integer
+ *             description: Numeric ID for the city
+ *           countryName:
+ *             type: string
+ *             description: Name of the country
+ *       - $ref: '#/definitions/NewCity'
+ *   Error:
+ *     type: object
+ *     properties:
+ *       success:
+ *         type: boolean
+ *       data:
+ *         type: array
+ *         items: []
+ *       message:
+ *         type: string
+ *       error:
+ *         type: object
+ *         properties:
+ *           stack:
+ *             type: string
+ *           code:
+ *             type: integer
+ */
+
+/**
+ * @swagger
+ * /city:
+ *   get:
+ *     tags:
+ *       - User Role
+ *     summary: Retrieve a list of cities
+ *     description: Retrieve a list of cities where users can review restaurants
+ *     parameters:
+ *       - name: start
+ *         in: query
+ *         description: Index of first city to return
+ *         default: 0
+ *       - name: limit
+ *         in: query
+ *         description: Number of cities to return (from start index)
+ *         default: 10
+ *     responses:
+ *       '200':
+ *         description: List of cities
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/definitions/City'
+ *                 total:
+ *                   type: integer
+ *                 message:
+ *                   type: string
+ *                   example: ''
+ *       '401':
+ *         description: Unauthorized
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/definitions/Error'
+ *                 - example:
+ *                     success: false
+ *                     data: []
+ *                     message: 'unable to load cities'
+ *                     error:
+ *                       stack: ''
+ *                       code: 500
+*/
+
 router.get("/", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
@@ -28,6 +131,54 @@ router.get("/", utilities.authenticate_token(), async (req: Request, res: Respon
 	});
 });
 
+/**
+ * @swagger
+ * /city/:cityID:
+ *   get:
+ *     tags:
+ *       - User Role
+ *     summary: Retrieve a single city
+ *     description: Retrieve a city where users can review restaurants
+ *     parameters:
+ *       - name: cityID
+ *         in: path
+ *         description: Numeric ID of the city to return
+ *         required: true
+ *     responses:
+ *       '200':
+ *         description: A single city
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   $ref: '#/definitions/City'
+ *                 message:
+ *                   type: string
+ *                   example: ''
+ *       '401':
+ *         description: Unauthorized
+ *       '404':
+ *         description: Not Found
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/definitions/Error'
+ *                 - example:
+ *                     success: false
+ *                     data: []
+ *                     message: 'unable to load city'
+ *                     error:
+ *                       stack: ''
+ *                       code: 500
+*/
+
 router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const city = await cityModel.get(parseInt(req.params["cityID"]));
 
@@ -45,6 +196,52 @@ router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res:
 		"message": ""
 	});
 });
+
+/**
+ * @swagger
+ * /city:
+ *   post:
+ *     tags:
+ *       - Admin Role
+ *     summary: Create a new city
+ *     description: Create a city so users can review its restaurants
+ *     requestBody:
+ *       description: Provide the name of the city to be created (required) and the ID of the country (optional)
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/definitions/NewCity'
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                   example: 'city created successfully'
+ *       '401':
+ *         description: Unauthorized
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/definitions/Error'
+ *                 - example:
+ *                     success: false
+ *                     data: []
+ *                     message: 'unable to create city'
+ *                     error:
+ *                       stack: ''
+ *                       code: 500
+*/
 
 router.post("/", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
@@ -66,6 +263,66 @@ router.post("/", utilities.authenticate_token(ROLES.Admin),
 			"message": translate("city_created_success")
 		});
 	});
+
+/**
+ * @swagger
+ * /city/:cityID:
+ *   patch:
+ *     tags:
+ *       - Admin Role
+ *     summary: Update a city
+ *     description: Update the name of an existing city where users can review restaurants
+ *     parameters:
+ *       - name: cityID
+ *         in: path
+ *         description: Numeric ID of the city to update
+ *         required: true
+ *       - name: countryID
+ *         in: path
+ *         description: Numeric ID of the country to update
+ *     requestBody:
+ *       description: Provide the new name of the city (required)
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: New name of the city
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                   example: 'city updated successfully'
+ *       '401':
+ *         description: Unauthorized
+ *       '400':
+ *         description: Bad Request
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/definitions/Error'
+ *                 - example:
+ *                     success: false
+ *                     data: []
+ *                     message: 'unable to update city'
+ *                     error:
+ *                       stack: ''
+ *                       code: 500
+*/
 
 router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
@@ -92,6 +349,53 @@ router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
 			"message": translate("city_update_success")
 		});
 	});
+
+/**
+ * @swagger
+ * /city/:cityID:
+ *   delete:
+ *     tags:
+ *       - Admin Role
+ *     summary: Delete a city
+ *     description: Delete a city where users can review restaurants
+ *     parameters:
+ *       - name: cityID
+ *         in: path
+ *         description: Numeric ID of the city to delete
+ *         required: true
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: array
+ *                   items: []
+ *                 message:
+ *                   type: string
+ *                   example: 'city deleted successfully'
+ *       '401':
+ *         description: Unauthorized
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/definitions/Error'
+ *                 - example:
+ *                     success: false
+ *                     data: []
+ *                     message: 'unable to delete city'
+ *                     error:
+ *                       stack: ''
+ *                       code: 500
+*/
 
 router.delete("/:cityID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
