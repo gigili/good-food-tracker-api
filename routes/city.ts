@@ -162,9 +162,10 @@ router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res:
  *           schema:
  *             $ref: '#/definitions/NewCity'
  *     responses:
- *       '200':
+ *       '201':
  *         allOf:
  *           - $ref: '#/responses/200'
+ *           - description: Created
  *           - content:
  *               application/json:
  *                 schema:
@@ -173,6 +174,8 @@ router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res:
  *                     message: 
  *                       type: string
  *                       example: city created successfully.
+ *       '400':
+ *         $ref: '#/responses/400'
  *       '401':
  *         $ref: '#/responses/401'
  *       '500':
@@ -222,20 +225,13 @@ router.post("/", utilities.authenticate_token(ROLES.Admin),
  *         in: path
  *         description: Numeric ID of the city to update
  *         required: true
- *       - name: countryID
- *         in: path
- *         description: Numeric ID of the country to update
  *     requestBody:
- *       description: Provide the new name of the city (required)
+ *       description: Provide the new name of the city (required) and the ID of the country (optional)
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: New name of the city
+ *             $ref: '#/definitions/NewCity'
  *     responses:
  *       '200':
  *         allOf:
