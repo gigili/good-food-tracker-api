@@ -46,7 +46,7 @@ const swaggerDefinition = {
 
 const options = {
 	swaggerDefinition,
-	apis: ['./routes/*.ts'],
+	apis: ['./routes/*.ts', './helpers/typedefs.yml'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

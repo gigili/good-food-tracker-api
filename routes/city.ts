@@ -12,55 +12,6 @@ const translate = require("../helpers/translation");
 
 /**
  * @swagger
- * tags:
- *   - name: User Role
- *     description: Functions available to all users
- *   - name: Admin Role
- *     description: Functions available to admin users only
- * definitions:
- *   NewCity:
- *     type: object
- *     properties:
- *       name:
- *         type: string
- *         description: Name of the city
- *       countryID:
- *         type: integer
- *         description: Numeric ID for the country
- *     required:
- *       - name
- *   City:
- *     allOf:
- *       - type: object
- *         properties:
- *           cityID:
- *             type: integer
- *             description: Numeric ID for the city
- *           countryName:
- *             type: string
- *             description: Name of the country
- *       - $ref: '#/definitions/NewCity'
- *   Error:
- *     type: object
- *     properties:
- *       success:
- *         type: boolean
- *       data:
- *         type: array
- *         items: []
- *       message:
- *         type: string
- *       error:
- *         type: object
- *         properties:
- *           stack:
- *             type: string
- *           code:
- *             type: integer
- */
-
-/**
- * @swagger
  * /city:
  *   get:
  *     tags:
@@ -82,35 +33,30 @@ const translate = require("../helpers/translation");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   type: array
- *                   items:
- *                     $ref: '#/definitions/City'
- *                 total:
- *                   type: integer
- *                 message:
- *                   type: string
- *                   example: ''
- *       '401':
- *         description: Unauthorized
- *       '500':
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
  *               allOf:
- *                 - $ref: '#/definitions/Error'
- *                 - example:
- *                     success: false
- *                     data: []
- *                     message: 'unable to load cities'
- *                     error:
- *                       stack: ''
- *                       code: 500
+ *                 - $ref: '#/definitions/Success'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/definitions/City'
+ *                     total:
+ *                       type: integer
+ *                       example: 1
+ *       '401':
+ *         $ref: '#/responses/401'
+ *       '500':
+ *         allOf:
+ *           - $ref: '#/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to load cities.
 */
 
 router.get("/", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
@@ -150,33 +96,36 @@ router.get("/", utilities.authenticate_token(), async (req: Request, res: Respon
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   $ref: '#/definitions/City'
- *                 message:
- *                   type: string
- *                   example: ''
- *       '401':
- *         description: Unauthorized
- *       '404':
- *         description: Not Found
- *       '500':
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
  *               allOf:
- *                 - $ref: '#/definitions/Error'
- *                 - example:
- *                     success: false
- *                     data: []
- *                     message: 'unable to load city'
- *                     error:
- *                       stack: ''
- *                       code: 500
+ *                 - $ref: '#/definitions/Success'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       $ref: '#/definitions/City'
+ *       '401':
+ *         $ref: '#/responses/401'
+ *       '404':
+ *         allOf:
+ *           - $ref: '#/responses/404'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: requested city was not found.
+ *       '500':
+ *         allOf:
+ *           - $ref: '#/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to load city.
 */
 
 router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
@@ -214,33 +163,29 @@ router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res:
  *             $ref: '#/definitions/NewCity'
  *     responses:
  *       '200':
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *                   example: 'city created successfully'
+ *         allOf:
+ *           - $ref: '#/responses/200'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message: 
+ *                       type: string
+ *                       example: city created successfully.
  *       '401':
- *         description: Unauthorized
+ *         $ref: '#/responses/401'
  *       '500':
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               allOf:
- *                 - $ref: '#/definitions/Error'
- *                 - example:
- *                     success: false
- *                     data: []
- *                     message: 'unable to create city'
- *                     error:
- *                       stack: ''
- *                       code: 500
+ *         allOf:
+ *           - $ref: '#/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to create city.
 */
 
 router.post("/", utilities.authenticate_token(ROLES.Admin),
@@ -293,35 +238,31 @@ router.post("/", utilities.authenticate_token(ROLES.Admin),
  *                 description: New name of the city
  *     responses:
  *       '200':
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *                   example: 'city updated successfully'
- *       '401':
- *         description: Unauthorized
+ *         allOf:
+ *           - $ref: '#/responses/200'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: city updated successfully.
  *       '400':
- *         description: Bad Request
+ *         $ref: '#/responses/400'
+ *       '401':
+ *         $ref: '#/responses/401'
  *       '500':
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               allOf:
- *                 - $ref: '#/definitions/Error'
- *                 - example:
- *                     success: false
- *                     data: []
- *                     message: 'unable to update city'
- *                     error:
- *                       stack: ''
- *                       code: 500
+ *         allOf:
+ *           - $ref: '#/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to update city.
 */
 
 router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
@@ -365,36 +306,32 @@ router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
  *         required: true
  *     responses:
  *       '200':
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 data:
- *                   type: array
- *                   items: []
- *                 message:
- *                   type: string
- *                   example: 'city deleted successfully'
+ *         allOf:
+ *           - $ref: '#/responses/200'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     data:
+ *                       type: array
+ *                       items: []
+ *                     message:
+ *                       type: string
+ *                       example: city deleted successfully.
  *       '401':
- *         description: Unauthorized
+ *         $ref: '#/responses/401'
  *       '500':
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               allOf:
- *                 - $ref: '#/definitions/Error'
- *                 - example:
- *                     success: false
- *                     data: []
- *                     message: 'unable to delete city'
- *                     error:
- *                       stack: ''
- *                       code: 500
+ *         allOf:
+ *           - $ref: '#/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to delete city.
 */
 
 router.delete("/:cityID", utilities.authenticate_token(ROLES.Admin),
