@@ -9,7 +9,7 @@ const validation = require("../helpers/validation");
 const ROLES = require("../helpers/roles");
 const translate = require("../helpers/translation");
 
-router.get("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.get("/", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const startLimit: number = req.query.start ? parseInt(req.query.start.toString()) : 0;
 	const endLimit: number = req.query.limit ? parseInt(req.query.limit.toString()) : parseInt(process.env.PER_PAGE || "10");
 	const cityID: number | null = req.query.cityID ? parseInt(req.query.cityID.toString()) : null;
@@ -27,7 +27,7 @@ router.get("/", utilities.authenticateToken(), async (req: Request, res: Respons
 	});
 });
 
-router.get("/:restaurantID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.get("/:restaurantID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const restaurant = await restaurantModel.get(req.params["restaurantID"] || "");
 
 	if (!restaurant.success) {
@@ -45,7 +45,7 @@ router.get("/:restaurantID", utilities.authenticateToken(), async (req: Request,
 	});
 });
 
-router.post("/", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.post("/", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -65,7 +65,7 @@ router.post("/", utilities.authenticateToken(), async (req: Request, res: Respon
 	});
 });
 
-router.patch("/:restaurantID", utilities.authenticateToken(), async (req: Request, res: Response, _: NextFunction) => {
+router.patch("/:restaurantID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const name = req.body.name;
 
 	const nameValidation = validation.validate([[name, translate("name"), ["required", {"min_length": 3}]]]);
@@ -88,7 +88,7 @@ router.patch("/:restaurantID", utilities.authenticateToken(), async (req: Reques
 	});
 });
 
-router.delete("/:restaurantID", utilities.authenticateToken(ROLES.Admin),
+router.delete("/:restaurantID", utilities.authenticate_token(ROLES.Admin),
 	async (req: Request, res: Response, _: NextFunction) => {
 		const data = await restaurantModel.delete(req.params["restaurantID"] || "");
 
