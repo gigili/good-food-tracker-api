@@ -34,21 +34,21 @@ const translate = require("../helpers/translation");
  *           application/json:
  *             schema:
  *               allOf:
- *                 - $ref: '#/definitions/Success'
+ *                 - $ref: '#/components/schemas/Success'
  *                 - type: object
  *                   properties:
  *                     data:
  *                       type: array
  *                       items:
- *                         $ref: '#/definitions/City'
+ *                         $ref: '#/components/schemas/City'
  *                     total:
  *                       type: integer
  *                       example: 1
  *       '401':
- *         $ref: '#/responses/401'
+ *         $ref: '#/components/responses/401'
  *       '500':
  *         allOf:
- *           - $ref: '#/responses/500'
+ *           - $ref: '#/components/responses/500'
  *           - content:
  *               application/json:
  *                 schema:
@@ -97,16 +97,16 @@ router.get("/", utilities.authenticate_token(), async (req: Request, res: Respon
  *           application/json:
  *             schema:
  *               allOf:
- *                 - $ref: '#/definitions/Success'
+ *                 - $ref: '#/components/schemas/Success'
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/definitions/City'
+ *                       $ref: '#/components/schemas/City'
  *       '401':
- *         $ref: '#/responses/401'
+ *         $ref: '#/components/responses/401'
  *       '404':
  *         allOf:
- *           - $ref: '#/responses/404'
+ *           - $ref: '#/components/responses/404'
  *           - content:
  *               application/json:
  *                 schema:
@@ -117,7 +117,7 @@ router.get("/", utilities.authenticate_token(), async (req: Request, res: Respon
  *                       example: requested city was not found.
  *       '500':
  *         allOf:
- *           - $ref: '#/responses/500'
+ *           - $ref: '#/components/responses/500'
  *           - content:
  *               application/json:
  *                 schema:
@@ -160,11 +160,11 @@ router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res:
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/definitions/NewCity'
+ *             $ref: '#/components/schemas/NewCity'
  *     responses:
  *       '201':
  *         allOf:
- *           - $ref: '#/responses/200'
+ *           - $ref: '#/components/responses/200'
  *           - description: Created
  *           - content:
  *               application/json:
@@ -175,12 +175,12 @@ router.get("/:cityID", utilities.authenticate_token(), async (req: Request, res:
  *                       type: string
  *                       example: city created successfully.
  *       '400':
- *         $ref: '#/responses/400'
+ *         $ref: '#/components/responses/400'
  *       '401':
- *         $ref: '#/responses/401'
+ *         $ref: '#/components/responses/401'
  *       '500':
  *         allOf:
- *           - $ref: '#/responses/500'
+ *           - $ref: '#/components/responses/500'
  *           - content:
  *               application/json:
  *                 schema:
@@ -231,11 +231,11 @@ router.post("/", utilities.authenticate_token(ROLES.Admin),
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/definitions/NewCity'
+ *             $ref: '#/components/schemas/NewCity'
  *     responses:
  *       '200':
  *         allOf:
- *           - $ref: '#/responses/200'
+ *           - $ref: '#/components/responses/200'
  *           - content:
  *               application/json:
  *                 schema:
@@ -245,12 +245,12 @@ router.post("/", utilities.authenticate_token(ROLES.Admin),
  *                       type: string
  *                       example: city updated successfully.
  *       '400':
- *         $ref: '#/responses/400'
+ *         $ref: '#/components/responses/400'
  *       '401':
- *         $ref: '#/responses/401'
+ *         $ref: '#/components/responses/401'
  *       '500':
  *         allOf:
- *           - $ref: '#/responses/500'
+ *           - $ref: '#/components/responses/500'
  *           - content:
  *               application/json:
  *                 schema:
@@ -303,7 +303,7 @@ router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
  *     responses:
  *       '200':
  *         allOf:
- *           - $ref: '#/responses/200'
+ *           - $ref: '#/components/responses/200'
  *           - content:
  *               application/json:
  *                 schema:
@@ -316,10 +316,10 @@ router.patch("/:cityID", utilities.authenticate_token(ROLES.Admin),
  *                       type: string
  *                       example: city deleted successfully.
  *       '401':
- *         $ref: '#/responses/401'
+ *         $ref: '#/components/responses/401'
  *       '500':
  *         allOf:
- *           - $ref: '#/responses/500'
+ *           - $ref: '#/components/responses/500'
  *           - content:
  *               application/json:
  *                 schema:

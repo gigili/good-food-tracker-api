@@ -4,137 +4,138 @@ tags:
     description: Functions available to all users
   - name: Admin Role
     description: Functions available to admin users only
-definitions:
-  NewCity:
-    type: object
-    properties:
-      name:
-        type: string
-        description: Name of the city
-      countryID:
-        type: integer
-        description: Numeric ID for the country
-    required:
-      - name
-  City:
-    allOf:
-      - type: object
-        properties:
-          cityID:
-            type: integer
-            description: Numeric ID for the city
-          countryName:
-            type: string
-            description: Name of the country
-      - $ref: '#/definitions/NewCity'
-    example:
-      cityID: 0
-      cityName: Berlin
-      countryName: Germany
-      countryID: 4
-  Success:
-    type: object
-    properties:
-      success:
-        type: boolean
-        example: true
-      message:
-        type: string
-        example: ''
-  Error:
-    type: object
-    properties:
-      success:
-        type: boolean
-        example: false
-      message:
-        type: string
-        example: ''
-  InvalidResponse:
-    allOf:
-      - $ref: '#/definitions/Error'
-      - type: object
-        properties:
-          data:
-            type: array
-            items: []
-            example: [null]
-          message:
-            type: string
-            example: ''
-          error:
-            type: object
-            properties:
-              stack:
-                type: string
-                example: ''
-              code:
-                type: integer
-                example: 400
-responses:
-  '200':
-    description: OK
-    content:
-      application/json:
-        schema:
-          $ref: '#/definitions/Success'
-  '400':
-    description: Bad Request
-    content:
-      application/json:
-        schema:
-          allOf:
-            - $ref: '#/definitions/InvalidResponse'
-            - type: object
+components:
+  schemas:
+    NewCity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the city
+        countryID:
+          type: integer
+          description: Numeric ID for the country
+      required:
+        - name
+    City:
+      allOf:
+        - type: object
+          properties:
+            cityID:
+              type: integer
+              description: Numeric ID for the city
+            countryName:
+              type: string
+              description: Name of the country
+        - $ref: '#/components/schemas/NewCity'
+      example:
+        cityID: 0
+        cityName: Berlin
+        countryName: Germany
+        countryID: 4
+    Success:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: ''
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: ''
+    InvalidResponse:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            data:
+              type: array
+              items: []
+              example: [null]
+            message:
+              type: string
+              example: ''
+            error:
+              type: object
               properties:
-                message:
+                stack:
                   type: string
-                  example: invalid city name.
-  '401':
-    description: Unauthorized or Invalid Token
-    content:
-      application/json:
-        schema:
-          allOf:
-            - $ref: '#/definitions/Error'
-            - type: object
-              properties:
-                message:
-                  type: string
-                  example: you are not authorized to perform this action.
-  '404':
-    description: Not Found
-    content:
-      application/json:
-        schema:
-          allOf:
-            - $ref: '#/definitions/InvalidResponse'
-            - type: object
-              properties:
-                error:
-                  type: object
-                  properties:
-                    stack:
-                      type: string
-                      example: ''
-                    code:
-                      type: integer
-                      example: 404
-  '500':
-    description: Internal Server Error
-    content:
-      application/json:
-        schema:
-          allOf:
-            - $ref: '#/definitions/InvalidResponse'
-            - type: object
-              properties:
-                error:
-                  type: object
-                  properties:
-                    stack:
-                      type: string
-                      example: ''
-                    code:
-                      type: integer
-                      example: 500
+                  example: ''
+                code:
+                  type: integer
+                  example: 400
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Success'
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/InvalidResponse'
+              - type: object
+                properties:
+                  message:
+                    type: string
+                    example: invalid city name.
+    '401':
+      description: Unauthorized or Invalid Token
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  message:
+                    type: string
+                    example: you are not authorized to perform this action.
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/InvalidResponse'
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      stack:
+                        type: string
+                        example: ''
+                      code:
+                        type: integer
+                        example: 404
+    '500':
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/InvalidResponse'
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      stack:
+                        type: string
+                        example: ''
+                      code:
+                        type: integer
+                        example: 500
