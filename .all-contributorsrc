@@ -22,6 +22,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "kabartolo",
+      "name": "Kate Bartolo",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11848944?v=4",
+      "profile": "http://kabartolo.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
