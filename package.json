@@ -32,7 +32,7 @@
 		"db-migrate-mysql": "^2.1.2",
 		"dotenv": "^8.2.0",
 		"express": "~4.17.1",
-		"express-fileupload": "^1.2.0",
+		"express-fileupload": "^1.2.1",
 		"jsonwebtoken": "^8.5.1",
 		"mysql": "^2.18.1",
 		"swagger-jsdoc": "^6.0.1",
