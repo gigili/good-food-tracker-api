@@ -35,7 +35,7 @@
 		"express-fileupload": "^1.2.1",
 		"jsonwebtoken": "^8.5.1",
 		"mysql": "^2.18.1",
-		"swagger-jsdoc": "^6.0.5",
+		"swagger-jsdoc": "^6.0.6",
 		"swagger-ui-express": "^4.1.6"
 	},
 	"devDependencies": {
