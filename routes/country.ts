@@ -213,7 +213,7 @@ router.post("/", utilities.authenticate_token(ROLES.Admin),
 
 /**
  * @swagger
- * /city/:countryID:
+ * /country/:countryID:
  *   patch:
  *     tags:
  *       - Admin Role

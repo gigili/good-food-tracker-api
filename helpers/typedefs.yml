@@ -33,7 +33,6 @@ components:
         cityName: Berlin
         countryName: Germany
         countryID: 4
-  schemas:
     NewCountry:
       type: object
       properties:
