@@ -15,6 +15,57 @@ const fs = require("fs");
 const ROLES = require("../helpers/roles");
 const uploadHelper = require("../helpers/upload");
 
+/**
+ * @swagger
+ * /profile/:userID:
+ *   get:
+ *     tags:
+ *       - Moderator Role
+ *     summary: Retrieve a single user
+ *     description: Retrieve a user who can review restaurants
+ *     parameters:
+ *       - name: userID
+ *         in: path
+ *         description: Numeric ID of the user to return
+ *         required: true
+ *     responses:
+ *       '200':
+ *         description: A single user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '/helpers/typedefs.yml#components/schemas/Success'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       $ref: '#/components/schemas/User'
+ *       '401':
+ *         $ref: '#/components/responses/401'
+ *       '404':
+ *         allOf:
+ *           - $ref: '#/components/responses/404'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: requested user was not found.
+ *       '500':
+ *         allOf:
+ *           - $ref: '#/components/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to load user.
+*/
+
 router.get("/:userID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const user = await userModel.get(req.params["userID"] || "");
 
@@ -28,6 +79,56 @@ router.get("/:userID", utilities.authenticate_token(), async (req: Request, res:
 		"message": ""
 	});
 });
+
+/**
+ * @swagger
+ * /profile/:userID:
+ *   patch:
+ *     tags:
+ *       - Moderator Role
+ *     summary: Update a user
+ *     description: Update the name, email, city, and country of an existing user who can review restaurants
+ *     parameters:
+ *       - name: userID
+ *         in: path
+ *         description: Numeric ID of the user to update
+ *         required: true
+ *     requestBody:
+ *       description: Provide the new name, email, city, and country of the user (required) and image of the user (optional)
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewUser'
+ *     responses:
+ *       '200':
+ *         allOf:
+ *           - $ref: '#/components/responses/200'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: user updated successfully.
+ *       '400':
+ *         $ref: '#/components/responses/400'
+ *       '401':
+ *         $ref: '#/components/responses/401'
+ *       '500':
+ *         allOf:
+ *           - $ref: '#/components/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to update user.
+*/
+
 
 router.patch("/:userID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	const user = Globals.getInstance().user;
@@ -86,6 +187,49 @@ router.patch("/:userID", utilities.authenticate_token(), async (req: Request, re
 		"message": result.success ? translate("user_profile_update_success") : translate("unable_to_update_profile")
 	});
 });
+
+/**
+ * @swagger
+ * /profile/:userID:
+ *   delete:
+ *     tags:
+ *       - Moderator Role
+ *     summary: Delete a user
+ *     description: Delete a user who can review restaurants
+ *     parameters:
+ *       - name: userID
+ *         in: path
+ *         description: Numeric ID of the user to delete
+ *         required: true
+ *     responses:
+ *       '200':
+ *         allOf:
+ *           - $ref: '#/components/responses/200'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     data:
+ *                       type: array
+ *                       items: []
+ *                     message:
+ *                       type: string
+ *                       example: user deleted successfully.
+ *       '401':
+ *         $ref: '#/components/responses/401'
+ *       '500':
+ *         allOf:
+ *           - $ref: '#/components/responses/500'
+ *           - content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       example: unable to delete user.
+*/
 
 router.delete("/:userID", utilities.authenticate_token(), async (req: Request, res: Response, _: NextFunction) => {
 	if (!req.user || req.user.power < ROLES.Admin && req.params["userID"] !== req["user"]["guid"]) {

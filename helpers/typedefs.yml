@@ -33,6 +33,33 @@ components:
         cityName: Berlin
         countryName: Germany
         countryID: 4
+    NewCountry:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the country
+        countryID:
+          type: integer
+          description: Numeric ID for the country
+      required:
+        - name
+    Country:
+      allOf:
+        - type: object
+          properties:
+            cityID:
+              type: integer
+              description: Numeric ID for the country
+            countryName:
+              type: string
+              description: Name of the country
+        - $ref: '#/components/schemas/NewCountry'
+      example:
+        cityID: 0
+        cityName: Berlin
+        countryName: Germany
+        countryID: 4
     Success:
       type: object
       properties:
@@ -90,7 +117,7 @@ components:
                 properties:
                   message:
                     type: string
-                    example: invalid city name.
+                    example: invalid name.
     '401':
       description: Unauthorized or Invalid Token
       content:
