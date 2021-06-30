@@ -47,7 +47,7 @@
 		"@types/node": "^15.12.5",
 		"debug": "~4.3.1",
 		"morgan": "~1.10.0",
-		"nodemon": "^2.0.7",
+		"nodemon": "^2.0.8",
 		"ts-node": "^10.0.0",
 		"typescript": "^4.3.4"
 	}
