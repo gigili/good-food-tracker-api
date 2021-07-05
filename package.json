@@ -44,7 +44,7 @@
 		"@types/express-fileupload": "^1.1.6",
 		"@types/jsonwebtoken": "^8.5.3",
 		"@types/mysql": "^2.15.18",
-		"@types/node": "^15.14.0",
+		"@types/node": "^16.0.0",
 		"debug": "~4.3.1",
 		"morgan": "~1.10.0",
 		"nodemon": "^2.0.9",
