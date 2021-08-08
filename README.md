@@ -45,30 +45,31 @@ To get started on development follow these steps:
 ### Features ###
 List of currently completed or still being developed feature: 
 
-* [x] Login 
-* [x] Register
-* [x] User profile
-    * [x] Get user profile information
-    * [x] Update user profile information
-    * [x] Delete user profile
-* [x] Restaurants
-    * [x] List of all the restaurants
-    * [x] Add / edit restaurant
-    * [x] Delete restaurant
-* [x] City
-    * [x] List of cities 
-    * [x] Add / edit city
-    * [x] Delete city
-* [x] Country
-    * [x] List of countries 
-    * [x] Add / edit country
-    * [x] Delete country
-* [x] Reviews
-    * [x] List of users reviews 
-    * [x] Add / edit your review
-        * [x] Add / remove image for a review 
-    * [x] Delete your own review 
-
+* [ ] Auth
+    * [ ] Login
+    * [ ] Register
+    * [ ] Reset password
+* [ ] User profile
+    * [ ] Get user profile information
+    * [ ] Update user profile information
+    * [ ] Delete user profile
+* [ ] Restaurants
+    * [ ] List of all the restaurants
+    * [ ] Add / edit restaurant
+    * [ ] Delete restaurant
+* [ ] City
+    * [ ] List of cities
+    * [ ] Add / edit city
+    * [ ] Delete city
+* [ ] Country
+    * [ ] List of countries
+    * [ ] Add / edit country
+    * [ ] Delete country
+* [ ] Reviews
+    * [ ] List of users reviews
+    * [ ] Add / edit your review
+        * [ ] Add / remove image for a review
+    * [ ] Delete your own review
 
 ### Notes ###
 

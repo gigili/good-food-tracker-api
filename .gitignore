@@ -151,3 +151,6 @@ build
 
 #Ignore user profile images
 public/images/
+/vendor/
+logs/
+src/logs/

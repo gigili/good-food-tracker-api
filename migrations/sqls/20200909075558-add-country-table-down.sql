@@ -1,2 +1,0 @@
-ALTER TABLE city DROP CONSTRAINT FK_City_Country;
-DROP TABLE country;
