@@ -1,0 +1,25 @@
+{
+  "name": "gac/good-food-tracker-api",
+  "description": "Good food tracker project is an app meant to give you recommendation about where to go for your next meal",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Igor Ilic",
+      "email": "github@igorilic.net",
+      "homepage": "https://igorilic.net",
+      "role": "developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Gac\\GoodFoodTracker\\": "./src"
+    }
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "gac/routing": "^v2.0",
+    "vlucas/phpdotenv": "^5.3"
+  }
+}
