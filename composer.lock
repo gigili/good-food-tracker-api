@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "bb622cc9a324a4b62b8b17c179513f13",
+  "content-hash": "f09d59f6628a6de3bd41fd0a2e80e2a6",
   "packages": [
     {
       "name": "gac/routing",
@@ -536,7 +536,7 @@
   "prefer-stable": false,
   "prefer-lowest": false,
   "platform": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "ext-json": "*"
   },
   "platform-dev": [],

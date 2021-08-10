@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  app:
+    container_name: "gft-web-server"
+    build:
+      context: .
+
+  db:
+    container_name: "gft-postgres"
+    image: postgres:12.4-alpine
+    volumes:
+      - "./postgres-data:/var/lib/postgresql/data:rw"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  pg-admin:
+    image: "dpage/pgadmin4"
+    container_name: "gft-pg-admin"
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
+
+  mailhog:
+    image: "mailhog/mailhog:latest"

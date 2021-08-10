@@ -154,3 +154,4 @@ public/images/
 /vendor/
 logs/
 src/logs/
+postgres-data/
