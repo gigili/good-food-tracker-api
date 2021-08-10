@@ -26,7 +26,7 @@
 		#[Pure] public function __construct(float|int $value, string $field) {
 			$this->value = $value;
 			$this->field = $field;
-			parent::__construct();
+			parent::__construct("Invalid numeric exception provided for $field", 400);
 		}
 
 		/**

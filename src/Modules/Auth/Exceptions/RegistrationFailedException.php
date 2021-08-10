@@ -5,19 +5,19 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\exceptions\validation;
+	namespace Gac\GoodFoodTracker\Modules\Auth\Exceptions;
 
 
 	use Exception;
 	use JetBrains\PhpStorm\Pure;
 
-	class InvalidUUIDException extends Exception
+	class RegistrationFailedException extends Exception
 	{
 
 		/**
-		 * InvalidUUIDException constructor.
+		 * RegistrationFailedException constructor.
 		 */
 		#[Pure] public function __construct() {
-			parent::__construct("Invalid UUID value provided", 400);
+			parent::__construct();
 		}
 	}

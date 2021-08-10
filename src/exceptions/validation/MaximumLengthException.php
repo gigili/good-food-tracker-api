@@ -26,7 +26,7 @@
 			$this->value = $value;
 			$this->field = $field;
 
-			parent::__construct();
+			parent::__construct("Maximum length of $value exceeded for field $field", 400);
 		}
 
 		/**

@@ -25,7 +25,7 @@
 		#[Pure] public function __construct(float|int $value, string $field) {
 			$this->value = $value;
 			$this->field = $field;
-			parent::__construct();
+			parent::__construct("Minimum length of $value needed for field $field", 400);
 		}
 
 		/**

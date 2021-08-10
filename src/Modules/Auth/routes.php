@@ -7,15 +7,16 @@
 
 	use Gac\GoodFoodTracker\Exceptions\AppNotInitializedException;
 	use Gac\GoodFoodTracker\Modules\Auth\AuthController;
+	use Gac\Routing\Routes;
 
 
 	if ( !isset($routes) ) {
 		throw new AppNotInitializedException();
 	}
 
-	$routes->prefix("/Auth")
-		   ->route("/login", [ AuthController::class, "login" ])
-		   ->route("/register", [ AuthController::class, "register" ])
-		   ->route("/verify", [ AuthController::class, "verify_account" ])
-		   ->route("/request-password-reset", [ AuthController::class, "request_password_reset" ])
-		   ->add("/reset-password", [ AuthController::class, "reset_password" ]);
+	$routes->prefix("/auth")
+		   ->route("/login", [ AuthController::class, "login" ], [ Routes::POST ])
+		   ->route("/register", [ AuthController::class, "register" ], [ Routes::POST ])
+		   ->route("/verify", [ AuthController::class, "verify_account" ], [ Routes::POST ])
+		   ->route("/request-password-reset", [ AuthController::class, "request_password_reset" ], [ Routes::POST ])
+		   ->add("/reset-password", [ AuthController::class, "reset_password" ], [ Routes::POST ]);

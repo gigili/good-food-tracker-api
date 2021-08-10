@@ -5,9 +5,10 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\utilities;
+	namespace Gac\GoodFoodTracker\Utility;
 
 
+	use Gac\GoodFoodTracker\exceptions\validation\FieldsDoNotMatchException;
 	use Gac\GoodFoodTracker\exceptions\validation\InvalidEmailException;
 	use Gac\GoodFoodTracker\exceptions\validation\InvalidNumericValueException;
 	use Gac\GoodFoodTracker\exceptions\validation\InvalidUUIDException;
@@ -20,7 +21,7 @@
 	/**
 	 * Class Validation
 	 *
-	 * @package Gac\GoodFoodTracker\utilities
+	 * @package Gac\GoodFoodTracker\Utility
 	 *
 	 */
 	class Validation
@@ -30,6 +31,7 @@
 		 * @param array $validation_fields
 		 * @param Request $request
 		 *
+		 * @throws FieldsDoNotMatchException
 		 * @throws InvalidEmailException
 		 * @throws InvalidNumericValueException
 		 * @throws InvalidUUIDException
@@ -71,6 +73,10 @@
 
 						case ValidationRules::VALID_UUID:
 							self::valid_uuid($field, $ruleCondition, $request);
+							break;
+
+						case ValidationRules::SAME_AS:
+							self::same_as($field, $ruleCondition, $request);
 							break;
 					}
 				}
@@ -164,6 +170,18 @@
 			$value = $request->get($field) ?? $ruleCondition;
 			if ( !Uuid::isValid($value) ) {
 				throw new InvalidUUIDException();
+			}
+		}
+
+		/**
+		 * @throws FieldsDoNotMatchException
+		 */
+		private static function same_as(string $field, string $compareField, Request $request) {
+			$value = $request->get($field);
+			$valueToCompare = $request->get($compareField);
+
+			if ( $value !== $valueToCompare ) {
+				throw new FieldsDoNotMatchException($field, $compareField);
 			}
 		}
 	}

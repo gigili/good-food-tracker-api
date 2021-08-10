@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\utilities;
+	namespace Gac\GoodFoodTracker\Utility;
 
 	class ValidationRules
 	{
@@ -15,4 +15,5 @@
 		public const VALID_EMAIL = "valid_email";
 		public const NUMERIC     = "numeric";
 		public const VALID_UUID  = "valid_uuid";
+		public const SAME_AS     = "same_as";
 	}

@@ -17,7 +17,7 @@
 
 		#[Pure] public function __construct($field = "") {
 			$this->field = $field;
-			parent::__construct();
+			parent::__construct("Missing value for required field $field", 400);
 		}
 
 		/**

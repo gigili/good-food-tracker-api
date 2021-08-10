@@ -9,8 +9,11 @@
 
 
 	use Exception;
+	use JetBrains\PhpStorm\Pure;
 
 	class InvalidEmailException extends Exception
 	{
-
+		#[Pure] public function __construct() {
+			parent::__construct("Invalid email address value provided", 400);
+		}
 	}
