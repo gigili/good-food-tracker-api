@@ -11,8 +11,6 @@ services:
     image: postgres:12.4-alpine
     volumes:
       - "./postgres-data:/var/lib/postgresql/data:rw"
-    env_file:
-      - .env
     restart: unless-stopped
 
   pg-admin:
@@ -21,7 +19,8 @@ services:
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
-      PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
+      PGADMIN_DEFAULT_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_PORT: "${DB_PORT}"
 
   mailhog:
     image: "mailhog/mailhog:latest"

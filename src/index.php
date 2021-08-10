@@ -5,10 +5,15 @@
 	 * Project: Good Food Tracker - API
 	 */
 
+	#declare( strict_types=1 );
+
 	namespace Gac\GoodFoodTracker;
+
+	date_default_timezone_set('Europe/Belgrade');
 
 	include_once '../vendor/autoload.php';
 
+	use Dotenv\Dotenv;
 	use Exception;
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
@@ -16,6 +21,9 @@
 
 	$routes = new Routes();
 	try {
+		$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+		$dotenv->load();
+
 		$routes->add("/", function (Request $request) {
 			$name = $request->get("name");
 			$request->send([ "message" => "Hello " . ( $name ?? "World" ) ]);
