@@ -11,7 +11,7 @@
 	{
 		public static function get(mixed $value);
 
-		public static function filter(mixed $filters, bool $singleResult = false);
+		public static function filter(mixed $filters, bool $singleResult = false, bool $useOr = false);
 
 		public static function add(Model $model);
 
