@@ -13,7 +13,7 @@
 		throw new AppNotInitializedException();
 	}
 
-	$routes->prefix("/auth")
+	$routes->prefix("/Auth")
 		   ->route("/login", [ AuthController::class, "login" ])
 		   ->route("/register", [ AuthController::class, "register" ])
 		   ->route("/verify", [ AuthController::class, "verify_account" ])

@@ -11,4 +11,7 @@
 	class AuthModel
 	{
 
+		public static function login(mixed $username, mixed $password) : array {
+			return [];
+		}
 	}

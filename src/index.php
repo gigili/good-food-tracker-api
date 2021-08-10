@@ -10,6 +10,7 @@
 	include_once '../vendor/autoload.php';
 
 	use Exception;
+	use Gac\GoodFoodTracker\Exceptions\AppNotInitializedException;
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
 	use Gac\Routing\Routes;
@@ -30,6 +31,15 @@
 			->send([
 				'error' => [
 					'message' => $ex->getMessage(),
+					'field' => '',
+				],
+			]);
+	} catch ( AppNotInitializedException $ex ) {
+		$routes->request
+			->status(500)
+			->send([
+				'error' => [
+					'message' => "The app wasn't initialized properly {$ex->getMessage()}",
 					'field' => '',
 				],
 			]);
