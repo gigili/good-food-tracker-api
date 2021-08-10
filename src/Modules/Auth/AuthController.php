@@ -13,6 +13,8 @@
 	use Gac\GoodFoodTracker\exceptions\validation\MaximumLengthException;
 	use Gac\GoodFoodTracker\exceptions\validation\MinimumLengthException;
 	use Gac\GoodFoodTracker\exceptions\validation\RequiredFieldException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
 	use Gac\GoodFoodTracker\Utility\Validation;
 	use Gac\GoodFoodTracker\Utility\ValidationRules;
 	use Gac\Routing\Request;
@@ -66,13 +68,15 @@
 				], $request);
 
 				$user = AuthModel::register($name, $email, $username, $password);
-				$request->send([ 'message' => 'register endpoint', 'data' => $user ]);
+				$request->status(201)->send([ 'message' => 'Registration successful', 'data' => $user ]);
 			} catch (
 			RequiredFieldException |
 			MaximumLengthException |
 			MinimumLengthException |
 			InvalidEmailException |
 			FieldsDoNotMatchException |
+			UsernameTakenException |
+			EmailTakenException |
 			Exception $ex
 			) {
 				$request->status($ex->getCode() ?? 500)->send([

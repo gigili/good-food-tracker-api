@@ -65,7 +65,11 @@
 			return self::from_result($result);
 		}
 
-		public static function filter(mixed $filters, bool $singleResult = false) : UserModel|array|null {
+		public static function filter(
+			mixed $filters,
+			bool $singleResult = false,
+			bool $useOr = false
+		) : UserModel|array|null {
 			$query = 'SELECT * FROM users."user" ';
 
 			if ( empty($filters) ) {
@@ -73,12 +77,13 @@
 			}
 
 			$query .= " WHERE ";
+			$connectionOperand = $useOr ? "OR" : "AND";
 
 			foreach ( $filters as $column => $value ) {
-				$query .= " $column = ? AND ";
+				$query .= " $column = ? $connectionOperand ";
 			}
 
-			$query = rtrim($query, "AND ");
+			$query = rtrim($query, "$connectionOperand ");
 			$result = Database::execute_query($query, array_values($filters), $singleResult);
 
 			if ( $singleResult ) {
