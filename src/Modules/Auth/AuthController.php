@@ -67,7 +67,7 @@
 					'password' => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ], [ ValidationRules::SAME_AS => "password_again" ] ],
 				], $request);
 
-				$user = AuthModel::register($name, $email, $username, $password);
+				AuthModel::register($name, $email, $username, $password);
 				$request->status(201);
 			} catch (
 			RequiredFieldException |

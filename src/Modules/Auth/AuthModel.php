@@ -65,7 +65,7 @@
 			if ( !isset($result->id) ) throw new RegistrationFailedException();
 
 			$activationLink = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/activate/$activationKey";
-			$emailBody = "Dear {$name}<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Did You Buy It? team";
+			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Did You Buy It? team";
 			send_email(
 				$email,
 				"Confirm your account",
