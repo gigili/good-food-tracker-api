@@ -9,6 +9,7 @@
 
 	namespace Gac\GoodFoodTracker;
 
+	session_start();
 	date_default_timezone_set('Europe/Belgrade');
 
 	include_once '../vendor/autoload.php';

@@ -35,9 +35,9 @@
 				$username = $request->get("username");
 				$password = $request->get("password");
 
-				$user = AuthModel::login($username, $password);
+				$result = AuthModel::login($username, $password);
 
-				$request->send([ 'message' => 'login endpoint', "data" => $user ]);
+				$request->send($result);
 			} catch (
 			RequiredFieldException |
 			MaximumLengthException |
@@ -68,7 +68,7 @@
 				], $request);
 
 				$user = AuthModel::register($name, $email, $username, $password);
-				$request->status(201)->send([ 'message' => 'Registration successful', 'data' => $user ]);
+				$request->status(201);
 			} catch (
 			RequiredFieldException |
 			MaximumLengthException |
