@@ -6,7 +6,7 @@
 
 	$shortopts = "";
 
-	$longopts = array(
+	$longopts = [
 		"driver::",
 		"host::",
 		"port::",
@@ -18,7 +18,7 @@
 		"create::",
 		"up::",
 		"down::",
-	);
+	];
 
 	$options = getopt($shortopts, $longopts);
 	main($options);
@@ -33,15 +33,15 @@
 					create_new_migration($value);
 				case CLICommands::UP:
 				case CLICommands::DOWN:
-					migrate($key, mb_strtolower($value));
+					migrate($key, !empty($value) ? mb_strtolower($value) : NULL);
 			}
 		}
 
 		print( "Try using --help or -h to get help with this command" );
-		exit(0);
+		exit(1);
 	}
 
-	#[NoReturn] function migrate(int|string $key, array|bool|string|null $migrationName) {
+	#[NoReturn] function migrate(int|string $key, string|null $migrationName = NULL) {
 		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
 			output("No database driver specified", LogLevel::ERROR);
 			exit(1);
@@ -49,17 +49,41 @@
 
 		try {
 			output("Starting to migrate $key...");
-			$name = "1628858168-first-migration.php";
+			$name = $migrationName ?? "X1628956997-create_user_schema_and_table.php";
 			$folder = $_ENV['args'][CLIArgs::FOLDER] ?? "./migrations";
+
+			if ( !file_exists("$folder/$name") ) {
+				output("Migration file $name not found", LogLevel::ERROR);
+				exit(1);
+			}
+
 			output("Found migration $name...");
 			require_once "$folder/$name";
+
 			output("Running migration $name...");
 			$driver = new ( DBDrivers::getConstants()[$_ENV["args"][CLIArgs::DRIVER]] );
-			migrate_up($driver);
+
+			if ( $key == "up" ) {
+				$res = migrate_up($driver);
+			} else {
+				$res = migrate_down($driver);
+			}
+
+			if ( $res === true ) {
+				$res = $driver->store_migration_info($key, $name);
+			}
+
+			if ( $res !== true ) {
+				output("Migration error: $res", LogLevel::ERROR);
+				exit(1);
+			}
+
 			output("Executed migration $name...");
-		}catch (Exception $ex){
+		} catch ( Exception $ex ) {
 			output($ex->getMessage(), LogLevel::ERROR);
+			exit(1);
 		}
+
 		exit(0);
 	}
 
@@ -82,8 +106,8 @@
 
 			$handle = fopen("$folder/$name", "w");
 			if ( is_null($handle) || $handle === false ) {
-				output("Unable to create new migration...");
-				exit(0);
+				output("Unable to create new migration...", LogLevel::ERROR);
+				exit(1);
 			} else {
 				fwrite($handle, file_get_contents("./templates/migration-template.php"));
 				fclose($handle);
@@ -102,6 +126,7 @@
 			output("New migration $migrationName created successfully...");
 		} catch ( Exception $ex ) {
 			output("Unable to create new migration...", LogLevel::ERROR);
+			exit(1);
 		}
 		exit(0);
 	}
@@ -125,16 +150,14 @@
 			}
 
 			output($res, LogLevel::ERROR);
+			exit(1);
 		} catch ( Exception $ex ) {
 			output($ex->getMessage(), LogLevel::ERROR);
-		} finally {
-			exit(0);
+			exit(1);
 		}
 	}
 
 	function output(string $msg, string $lvl = LogLevel::INFO, bool $silent = false, bool $newLine = true) {
-		if ( $newLine ) echo "\r\n";
-
 		$color = "\e[37m";
 		$prefix = "[INFO]";
 
@@ -162,4 +185,5 @@
 
 		if ( $silent && $lvl !== LogLevel::ERROR ) return;
 		print "$color$prefix $msg \e[0m";
+		if ( $newLine ) print "\r\n";
 	}

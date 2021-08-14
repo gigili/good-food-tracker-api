@@ -7,7 +7,7 @@
 		public const UP     = "up";
 		public const DOWN   = "down";
 
-		static function getConstants() {
+		static function getConstants() : array {
 			$oClass = new ReflectionClass(__CLASS__);
 			return $oClass->getConstants();
 		}
@@ -23,7 +23,7 @@
 		public const DATABASE = "database";
 		public const FOLDER   = "folder";
 
-		static function getConstants() {
+		static function getConstants() : array {
 			$oClass = new ReflectionClass(__CLASS__);
 			return $oClass->getConstants();
 		}
@@ -36,7 +36,7 @@
 		public const WARNING = "warning";
 		public const ERROR   = "error";
 
-		static function getConstants() {
+		static function getConstants() : array {
 			$oClass = new ReflectionClass(__CLASS__);
 			return $oClass->getConstants();
 		}
@@ -48,7 +48,7 @@
 		public const MYSQL = "MySQLDriver";
 		public const MSSQL = "MSSQLDriver";
 
-		static function getConstants() {
+		static function getConstants() : array {
 			$oClass = new ReflectionClass(__CLASS__);
 			return $oClass->getConstants();
 		}
