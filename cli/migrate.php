@@ -1,4 +1,10 @@
 <?php
+	/**
+	 * Author: Igor Ilić <github@igorilic.net>
+	 * Date: 2021-08-13
+	 * Project: Good Food Tracker - API
+	 */
+
 	include_once __DIR__ . "/classes/autoload.php";
 	include_once __DIR__ . "/drivers/autoload.php";
 
@@ -24,9 +30,11 @@
 	main($options);
 
 	/**
-	 * @param $args
+	 * Main function that gets called when the cli runs this file
+	 *
+	 * @param array|null $args arguments that get passed down from the cli
 	 */
-	#[NoReturn] function main($args) {
+	#[NoReturn] function main(array|null $args) : void {
 		$_ENV["args"] = $args;
 		foreach ( $args as $key => $value ) {
 			switch ( mb_strtolower($key) ) {
@@ -45,10 +53,13 @@
 	}
 
 	/**
-	 * @param int|string $key
-	 * @param string|null $migrationName
+	 * Method used for running migration either up or down based on the selected option
+	 *
+	 * @param int|string $key Direction of the migrations (up/down)
+	 * @param string|null $migrationName Name of the migration file to execute or run all migration for up, and
+	 * when doing down it should be the ID from the migrations table up until you wish to downgrade or all
 	 */
-	#[NoReturn] function migrate(int|string $key, string|null $migrationName = NULL) {
+	#[NoReturn] function migrate(int|string $key, string|null $migrationName = NULL) : void {
 		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
 			output("No database driver specified", LogLevel::ERROR);
 			exit(1);
@@ -67,11 +78,13 @@
 	}
 
 	/**
-	 * @param string $migrationName
+	 * Method used to handle the up migration logic
 	 *
-	 * @throws Exception
+	 * @param string $migrationName Name of the migration file to be execute or `all` for all un run migrations to execute
+	 *
+	 * @throws Exception Throws an exception when there is an error running migrations
 	 */
-	function cli_migrate_up(string $migrationName = "all") {
+	function cli_migrate_up(string $migrationName = "all") : void {
 		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
 		output('Getting migration driver...');
 		$driver = get_migration_driver();
@@ -113,8 +126,11 @@
 	}
 
 	/**
-	 * @throws Exception
-	 * @return array
+	 * Method used to get all the migrations files in the migrations folder
+	 *
+	 * @throws Exception Throws an exception when the migration folder is not found
+	 *
+	 * @return array Returns a list of migration files or an empty array if there aren't any
 	 */
 	function get_migration_files() : array {
 		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
@@ -130,10 +146,12 @@
 	}
 
 	/**
-	 * @param mixed $value
+	 * Method used for creating new migration files
+	 *
+	 * @param string|null $migrationName Name of the new migration to be created, if none is provided it will use `new-migration` for name
 	 */
-	#[NoReturn] function create_new_migration(mixed $value) {
-		$migrationName = preg_replace("/\s/", "-", mb_strtolower($value) ?? "new-migration");
+	#[NoReturn] function create_new_migration(mixed $migrationName) : void {
+		$migrationName = preg_replace("/\s/", "-", mb_strtolower($migrationName) ?? "new-migration");
 		output("Creating new migration $migrationName...");
 
 		$now = time();
@@ -184,9 +202,9 @@
 	}
 
 	/**
-	 *
+	 * Method used for creating the migrations table to track of all the migrations
 	 */
-	#[NoReturn] function init_migrations() {
+	#[NoReturn] function init_migrations() : void {
 		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
 			output("No database driver specified", LogLevel::ERROR);
 			exit(1);
@@ -213,8 +231,11 @@
 	}
 
 	/**
-	 * @throws Exception
-	 * @return DatabaseInterface
+	 * Method used for getting the database driver based on the cli argument
+	 *
+	 * @throws Exception Throws an exception when it can't find the specified database driver
+	 *
+	 * @return DatabaseInterface Returns an instance of a selected database driver class
 	 */
 	function get_migration_driver() : DatabaseInterface {
 		if ( !isset(DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]]) ) throw new Exception('Invalid driver selected');
@@ -222,12 +243,14 @@
 	}
 
 	/**
-	 * @param string $msg
-	 * @param string $lvl
-	 * @param bool $silent
-	 * @param bool $newLine
+	 * Method used for showing preformatted messages with colors in the cli
+	 *
+	 * @param string $msg Message to be printed
+	 * @param string $lvl Type of message being printed (info, warning, error...)
+	 * @param bool $silent Should the output be hidden unless it's level is error
+	 * @param bool $newLine Should it output a new line after the message
 	 */
-	function output(string $msg, string $lvl = LogLevel::INFO, bool $silent = false, bool $newLine = true) {
+	function output(string $msg, string $lvl = LogLevel::INFO, bool $silent = false, bool $newLine = true) : void {
 		$color = "\e[37m";
 		$prefix = "[INFO]";
 

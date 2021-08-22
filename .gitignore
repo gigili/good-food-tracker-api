@@ -155,3 +155,5 @@ public/images/
 logs/
 src/logs/
 postgres-data/
+cli/.phpdoc/
+cli/output/
