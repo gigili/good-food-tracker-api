@@ -1,7 +1,6 @@
 <?php
-
-	include_once "./CliClasses.php";
-	include_once "./drivers/DatabaseInterface.php";
+	include_once __DIR__ . "/../classes/autoload.php";
+	include_once __DIR__ . "/DatabaseInterface.php";
 
 	class PostgresDriver implements DatabaseInterface
 	{
@@ -25,7 +24,9 @@
 		}
 
 		public function initialize() : bool|string {
-			$baseSQL = "CREATE TABLE IF NOT EXISTS migrations(
+			$baseSQL = "DROP TABLE IF EXISTS migrations;
+				CREATE TABLE migrations(
+    				id SERIAL NOT NULL CONSTRAINT PK_Migrations_ID PRIMARY KEY,
 					file_name VARCHAR(255) NOT NULL CONSTRAINT UQ_Migrations_FileName UNIQUE,
 					file_timestamp bigint NOT NULL,
 					executed_at TIMESTAMP NOT NULL CONSTRAINT DF_Migrations_ExecutedAt DEFAULT CURRENT_TIMESTAMP
@@ -43,7 +44,23 @@
 			return true;
 		}
 
-		public function get_migrations() { }
+		public function get_migrations(string|null $migrationFileName = NULL) : array {
+			$query = "SELECT * FROM migrations";
+			$params = NULL;
+			try {
+				if ( !is_null($migrationFileName) ) {
+					$query .= " WHERE file_name = ?";
+					$params = [ $migrationFileName ];
+				}
+
+				$stm = $this->db->prepare($query);
+				$stm->execute($params);
+
+				return $stm->fetchAll(PDO::FETCH_OBJ);
+			} catch ( PDOException | Exception ) {
+				return [];
+			}
+		}
 
 		public function run_migration(string $sql) : string|bool {
 			try {

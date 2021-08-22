@@ -4,7 +4,7 @@
 	{
 		public function initialize();
 
-		public function get_migrations();
+		public function get_migrations(string|null $migrationFileName = NULL);
 
 		public function run_migration(string $sql) : string|bool;
 
