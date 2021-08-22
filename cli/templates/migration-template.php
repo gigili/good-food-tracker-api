@@ -1,9 +1,11 @@
 <?php
 
 	/**
-	 * @throws Exception
+	 * Method used for executing up migration for a specified file
+	 *
+	 * @throws Exception Throws an exception when there is an error executing a migration
 	 */
-	function migrate_up($driver) {
+	function migrate_up(DatabaseInterface $driver) : void {
 		$path = pathinfo(__FILE__, PATHINFO_DIRNAME) . "/sql/up";
 		$file = pathinfo(__FILE__, PATHINFO_FILENAME) . ".sql";
 
@@ -18,9 +20,11 @@
 	}
 
 	/**
-	 * @throws Exception
+	 * Method used for executing down migration for a specified file
+	 *
+	 * @throws Exception Throws an exception when there is an error executing a migration
 	 */
-	function migrate_down($driver) {
+	function migrate_down(DatabaseInterface $driver) : void {
 		$path = pathinfo(__FILE__, PATHINFO_DIRNAME) . '/sql/down';
 		$file = pathinfo(__FILE__, PATHINFO_FILENAME) . '.sql';
 

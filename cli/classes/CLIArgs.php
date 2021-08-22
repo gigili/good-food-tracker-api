@@ -5,6 +5,9 @@
 	 * Project: Good Food Tracker - API
 	 */
 
+	/**
+	 * Class CLIArgs
+	 */
 	class CLIArgs
 	{
 		public const DRIVER   = 'driver';
@@ -15,6 +18,11 @@
 		public const DATABASE = 'database';
 		public const FOLDER   = 'folder';
 
+		/**
+		 * Method used for returning a list of constant variables
+		 *
+		 * @return array Returns a list of constant variables
+		 */
 		static function getConstants() : array {
 			$oClass = new ReflectionClass(__CLASS__);
 			return $oClass->getConstants();

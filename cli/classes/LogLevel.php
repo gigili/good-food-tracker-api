@@ -5,6 +5,9 @@
 	 * Project: Good Food Tracker - API
 	 */
 
+	/**
+	 * Class LogLevel
+	 */
 	class LogLevel
 	{
 		public const INFO    = 'info';
@@ -12,6 +15,11 @@
 		public const WARNING = 'warning';
 		public const ERROR   = 'error';
 
+		/**
+		 * Method used for returning a list of constant variables
+		 *
+		 * @return array Returns a list of constant variables
+		 */
 		static function getConstants() : array {
 			$oClass = new ReflectionClass(__CLASS__);
 			return $oClass->getConstants();
