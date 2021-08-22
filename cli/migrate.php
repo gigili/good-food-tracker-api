@@ -1,6 +1,6 @@
 <?php
-	include_once "./CliClasses.php";
-	include_once "./drivers/PostgresDriver.php";
+	include_once __DIR__ . "/classes/autoload.php";
+	include_once __DIR__ . "/drivers/autoload.php";
 
 	use JetBrains\PhpStorm\NoReturn;
 
@@ -23,6 +23,9 @@
 	$options = getopt($shortopts, $longopts);
 	main($options);
 
+	/**
+	 * @param $args
+	 */
 	#[NoReturn] function main($args) {
 		$_ENV["args"] = $args;
 		foreach ( $args as $key => $value ) {
@@ -41,6 +44,10 @@
 		exit(1);
 	}
 
+	/**
+	 * @param int|string $key
+	 * @param string|null $migrationName
+	 */
 	#[NoReturn] function migrate(int|string $key, string|null $migrationName = NULL) {
 		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
 			output("No database driver specified", LogLevel::ERROR);
@@ -49,88 +56,136 @@
 
 		try {
 			output("Starting to migrate $key...");
-			$name = $migrationName ?? "X1628956997-create_user_schema_and_table.php";
-			$folder = $_ENV['args'][CLIArgs::FOLDER] ?? "./migrations";
-
-			if ( !file_exists("$folder/$name") ) {
-				output("Migration file $name not found", LogLevel::ERROR);
-				exit(1);
-			}
-
-			output("Found migration $name...");
-			require_once "$folder/$name";
-
-			output("Running migration $name...");
-			$driver = new ( DBDrivers::getConstants()[$_ENV["args"][CLIArgs::DRIVER]] );
-
-			if ( $key == "up" ) {
-				$res = migrate_up($driver);
-			} else {
-				$res = migrate_down($driver);
-			}
-
-			if ( $res === true ) {
-				$res = $driver->store_migration_info($key, $name);
-			}
-
-			if ( $res !== true ) {
-				output("Migration error: $res", LogLevel::ERROR);
-				exit(1);
-			}
-
-			output("Executed migration $name...");
+			$name = $migrationName ?? "all";
+			if ( $key == "up" ) cli_migrate_up($name);
 		} catch ( Exception $ex ) {
-			output($ex->getMessage(), LogLevel::ERROR);
+			output("Migration failed because: {$ex->getMessage()}", LogLevel::ERROR);
 			exit(1);
 		}
 
 		exit(0);
 	}
 
+	/**
+	 * @param string $migrationName
+	 *
+	 * @throws Exception
+	 */
+	function cli_migrate_up(string $migrationName = "all") {
+		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
+		output('Getting migration driver...');
+		$driver = get_migration_driver();
+
+		if ( $migrationName === "all" ) {
+			$executedMigrations = $driver->get_migrations();
+			$migrationFiles = get_migration_files();
+		} else {
+			$migrationName .= ".php";
+			if ( !file_exists("$folder/$migrationName") ) throw new Exception("Migration file $migrationName not found");
+
+			$sqlName = str_replace(".php", ".sql", $migrationName);
+			$executedMigrations = $driver->get_migrations($sqlName);
+
+			if ( count($executedMigrations) > 0 ) throw new Exception("Migration $migrationName already executed");
+			$migrationFiles = [ "$folder/$migrationName" ];
+		}
+
+		if ( count($migrationFiles) === 0 ) {
+			output("No migrations found...", LogLevel::WARNING);
+			exit(0);
+		}
+
+		$cnt = 0;
+		foreach ( $migrationFiles as $migrationFile ) {
+			$migrationFileName = pathinfo($migrationFile, PATHINFO_FILENAME) . ".sql";
+			if ( array_search($migrationFileName, array_column($executedMigrations, 'file_name')) !== false ) continue;
+			if ( !file_exists($migrationFile) ) throw new Exception("Migration file $migrationFile not found");
+			output("Found migration $migrationFileName...");
+
+			require_once "$migrationFile";
+			migrate_up($driver);
+
+			output("Executed migration $migrationFileName successfully...", LogLevel::SUCCESS);
+			$cnt++;
+		}
+
+		output("Successfully executed $cnt migrations", LogLevel::SUCCESS);
+	}
+
+	/**
+	 * @throws Exception
+	 * @return array
+	 */
+	function get_migration_files() : array {
+		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
+		if ( !is_dir($folder) ) throw new Exception("Migrations folder doesn't exist");
+
+		$result = [];
+		foreach ( glob($folder . '*.*') as $file ) {
+			if ( $file === "." || $file === ".." ) continue;
+			$result[] = $file;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param mixed $value
+	 */
 	#[NoReturn] function create_new_migration(mixed $value) {
-		$migrationName = preg_replace("/\s/", "-", $_ENV["args"][CLICommands::CREATE] ?? "new-migration");
+		$migrationName = preg_replace("/\s/", "-", mb_strtolower($value) ?? "new-migration");
 		output("Creating new migration $migrationName...");
 
-		try {
-			$now = time();
-			$name = "$now-" . $migrationName . ".php";
-			$folder = $_ENV['args'][CLIArgs::FOLDER] ?? "./migrations";
+		$now = time();
+		$name = "$now-" . $migrationName;
+		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? './migrations';
 
-			if ( !file_exists($folder) ) {
+		try {
+			if ( !is_dir($folder) ) {
+				output("Creating migrations folder...");
 				mkdir($folder, 0644, true);
 			}
 
-			if ( !file_exists($folder . "/sql") ) {
-				mkdir($folder . "/sql", 0644, true);
+			if ( !is_dir($folder . "/sql/up/") ) {
+				output('Creating migrations up folder...');
+				mkdir($folder . "/sql/up", 0644, true);
 			}
 
-			$handle = fopen("$folder/$name", "w");
-			if ( is_null($handle) || $handle === false ) {
-				output("Unable to create new migration...", LogLevel::ERROR);
-				exit(1);
-			} else {
-				fwrite($handle, file_get_contents("./templates/migration-template.php"));
-				fclose($handle);
+			if ( !is_dir($folder . '/sql/down/') ) {
+				output('Creating migrations down folder...');
+				mkdir($folder . '/sql/down', 0644, true);
 			}
 
-			$sqlNameUp = str_replace(".php", "-up.sql", $name);
-			$handle = fopen("$folder/sql/$sqlNameUp", "w");
-			fwrite($handle, "");
+			$handle = fopen("$folder/$name.php", "w");
+			if ( is_null($handle) || $handle === false ) throw new Exception("Unable to create file $folder/$name.php");
+
+			fwrite($handle, file_get_contents("./templates/migration-template.php"));
 			fclose($handle);
 
-			$sqlNameDown = str_replace(".php", "-down.sql", $name);
-			$handle = fopen("$folder/sql/$sqlNameDown", "w");
-			fwrite($handle, "");
-			fclose($handle);
+			$sqlName = "$name.sql";
+
+			$resultUp = file_put_contents("$folder/sql/up/$sqlName", "Migration created on: " . date("Y-m-d H:i:s"));
+			if ( $resultUp === false ) throw new Exception("Unable to create file $folder/sql/up/$sqlName");
+
+			$resultDown = file_put_contents("$folder/sql/$sqlName", "Migration created on: " . date("Y-m-d H:i:s"));
+			if ( $resultDown === false ) throw new Exception("Unable to create file $folder/sql/down/$sqlName");
 
 			output("New migration $migrationName created successfully...");
 		} catch ( Exception $ex ) {
-			output("Unable to create new migration...", LogLevel::ERROR);
+			if ( file_exists("$folder/$name.php") ) unlink("$folder/$name.php");
+			if ( file_exists("$folder/sql/up/$name.sql") ) unlink("$folder/sql/up/$name.sql");
+			if ( file_exists("$folder/sql/down/$name.sql") ) unlink("$folder/sql/down/$name.sql");
+
+			output("Unable to create new migration because: {$ex->getMessage()}...", LogLevel::ERROR);
 			exit(1);
 		}
+
 		exit(0);
 	}
 
+	/**
+	 *
+	 */
 	#[NoReturn] function init_migrations() {
 		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
 			output("No database driver specified", LogLevel::ERROR);
@@ -140,7 +195,7 @@
 		output("Initializing migrations table...");
 		output("Creating new DB driver...");
 		try {
-			$driver = new ( DBDrivers::getConstants()[$_ENV["args"][CLIArgs::DRIVER]] );
+			$driver = get_migration_driver();
 			output("DB driver created...", LogLevel::SUCCESS);
 			$res = $driver->initialize();
 
@@ -157,13 +212,28 @@
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 * @return DatabaseInterface
+	 */
+	function get_migration_driver() : DatabaseInterface {
+		if ( !isset(DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]]) ) throw new Exception('Invalid driver selected');
+		return new ( DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]] );
+	}
+
+	/**
+	 * @param string $msg
+	 * @param string $lvl
+	 * @param bool $silent
+	 * @param bool $newLine
+	 */
 	function output(string $msg, string $lvl = LogLevel::INFO, bool $silent = false, bool $newLine = true) {
 		$color = "\e[37m";
 		$prefix = "[INFO]";
 
-		switch ( LogLevel::getConstants() ) {
+		switch ( $lvl ) {
 			case LogLevel::SUCCESS:
-				$color = "\e[92m";
+				$color = "\e[32m";
 				$prefix = "[SUCCESS]";
 				break;
 
