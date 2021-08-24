@@ -10,9 +10,9 @@
 
 	use JetBrains\PhpStorm\NoReturn;
 
-	$shortopts = "";
+	$shortOptions = "";
 
-	$longopts = [
+	$longOptions = [
 		"driver::" => "Which database driver is going to be used to establish a database connection (available: PGSQL,MySQL,MSSQL).",
 		"host::" => "Database host name or IP",
 		"port::" => "Database port",
@@ -27,7 +27,7 @@
 		"help::" => "Prints this help text",
 	];
 
-	$options = getopt($shortopts, array_keys($longopts));
+	$options = getopt($shortOptions, array_keys($longOptions));
 	main($options);
 
 	/**
@@ -59,12 +59,12 @@
 	 * Method used for printing out the help text in the cli
 	 */
 	#[NoReturn] function print_help_menu() {
-		global $longopts;
+		global $longOptions;
 		print( "To run the migrations: " . PHP_EOL );
 		print( "php migrate.php [arguments] " . PHP_EOL . PHP_EOL );
 
 		print( "Arguments: " . PHP_EOL );
-		foreach ( $longopts as $key => $argument ) {
+		foreach ( $longOptions as $key => $argument ) {
 			$key = str_replace("::", "", $key);
 			print( "--$key $argument" . PHP_EOL );
 		}
