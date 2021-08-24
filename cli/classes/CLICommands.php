@@ -14,6 +14,7 @@
 		public const CREATE = 'create';
 		public const UP     = 'up';
 		public const DOWN   = 'down';
+		public const HELP   = "help";
 
 		/**
 		 * Method used for returning a list of constant variables
