@@ -13,20 +13,21 @@
 	$shortopts = "";
 
 	$longopts = [
-		"driver::",
-		"host::",
-		"port::",
-		"username::",
-		"password::",
-		"database::",
-		"folder::",
-		"init::",
-		"create::",
-		"up::",
-		"down::",
+		"driver::" => "Which database driver is going to be used to establish a database connection (available: PGSQL,MySQL,MSSQL).",
+		"host::" => "Database host name or IP",
+		"port::" => "Database port",
+		"username::" => "Database login username",
+		"password::" => "Database login password",
+		"database::" => "On which database should the changes be applied to",
+		"folder::" => "Location of the migrations folder (def: ./migrations)",
+		"init::" => "Initialize migrations for the first time by creating the migrations table",
+		"create::" => "Create a new migration",
+		"up::" => "Run all the UP migrations, you can also do --up=\"migration-name\" to run a specific migration",
+		"down::" => "Run all the DOWN migrations, you can also do --down=\"migration-id\" to run all the migrations up until the specified one (not running the specified one)",
+		"help::" => "Prints this help text",
 	];
 
-	$options = getopt($shortopts, $longopts);
+	$options = getopt($shortopts, array_keys($longopts));
 	main($options);
 
 	/**
@@ -45,11 +46,29 @@
 				case CLICommands::UP:
 				case CLICommands::DOWN:
 					migrate($key, !empty($value) ? mb_strtolower($value) : NULL);
+				case CLICommands::HELP:
+					print_help_menu();
 			}
 		}
 
-		print( "Try using --help or -h to get help with this command" );
+		print( "Try using --help\r\n" );
 		exit(1);
+	}
+
+	/**
+	 * Method used for printing out the help text in the cli
+	 */
+	#[NoReturn] function print_help_menu() {
+		global $longopts;
+		print( "To run the migrations: " . PHP_EOL );
+		print( "php migrate.php [arguments] " . PHP_EOL . PHP_EOL );
+
+		print( "Arguments: " . PHP_EOL );
+		foreach ( $longopts as $key => $argument ) {
+			$key = str_replace("::", "", $key);
+			print( "--$key $argument" . PHP_EOL );
+		}
+		exit(0);
 	}
 
 	/**
