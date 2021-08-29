@@ -8,7 +8,7 @@
 	namespace Gac\GoodFoodTracker\Modules\Auth;
 
 
-	use Gac\GoodFoodTracker\Models\UserModel;
+	use Gac\GoodFoodTracker\Entities\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\RegistrationFailedException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
@@ -24,13 +24,14 @@
 		 * @throws UserNotFoundException
 		 * @throws UserNotActiveException
 		 */
-		#[ArrayShape( [ "user" => "\Gac\GoodFoodTracker\Models\UserModel", "tokens" => "array" ] )] public static function login(
+		#[ArrayShape( [ "user" => "\\Gac\\GoodFoodTracker\\Entities\\UserEntity", "tokens" => "array" ] )] public static function login(
 			mixed $username,
 			mixed $password
 		) : array {
-			$user = UserModel::filter([ "username" => $username, "password" => $password ], true);
+			$userEntity = new UserEntity();
+			$user = $userEntity->filter([ 'username' => $username, '$password' => $password ], true);
 
-			if ( !$user instanceof UserModel ) throw new UserNotFoundException();
+			if ( !$user instanceof UserEntity ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new UserNotFoundException();
 
 			if ( !$user->isActive() ) throw new UserNotActiveException();
@@ -45,24 +46,23 @@
 		 * @throws EmailTakenException
 		 * @throws UsernameTakenException
 		 */
-		public static function register(string $name, string $email, string $username, string $password) : UserModel {
-			$existingUsers = UserModel::filter([ "username" => $username, "email" => $email ], useOr : true);
+		public static function register(string $name, string $email, string $username, string $password) : UserEntity {
+			$userEntity = new UserEntity();
+			$existingUsers = $userEntity->filter([ 'username' => $username, 'email' => $email ], useOr : true);
 
 			foreach ( $existingUsers as $existingUser ) {
-				if ( !$existingUser instanceof UserModel ) break;
-				if ( $existingUser->email == $email ) throw new EmailTakenException();
+				if ( !$existingUser instanceof UserEntity ) break;
 				if ( $existingUser->username == $username ) throw new UsernameTakenException();
+				if ( $existingUser->email == $email ) throw new EmailTakenException();
 			}
 
 			$activationKey = str_replace('-', '', mb_substr(Uuid::uuid4(), 0, 10));
-			$user = new UserModel($name, $email, $username);
-			$user->id = Uuid::uuid4();
+			$user = new UserEntity($name, $email, $username);
 			$user->setPassword($password);
 			$user->setActivationKey($activationKey);
+			$result = $user->save();
 
-			$result = UserModel::add($user);
-
-			if ( !isset($result->id) ) throw new RegistrationFailedException();
+			if ( !isset($user->id) && !isset($result->id) ) throw new RegistrationFailedException();
 
 			$activationLink = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/activate/$activationKey";
 			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Did You Buy It? team";
@@ -81,6 +81,6 @@
 				]
 			);
 
-			return $result;
+			return $user;
 		}
 	}
