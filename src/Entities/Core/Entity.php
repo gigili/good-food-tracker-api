@@ -10,25 +10,32 @@
 
 	use Gac\GoodFoodTracker\Utility\DB\Database;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
+	use ReflectionClass;
 
 	abstract class Entity implements EntityInterface
 	{
-		protected string $table;
-		protected string $primaryKey        = "id";
-		protected array  $ignoredProperties = [ 'table', 'primaryKey', 'ignoredProperties' ];
+		private string $table;
+		private string $primaryKey;
 
-		public function __construct(string $table) {
+		public function __construct(string $table, string $primaryKey = "id") {
 			$this->table = $table;
+			$this->primaryKey = $primaryKey;
 		}
 
 		abstract protected function from_result(mixed $result) : Entity;
 
 		public function save() : object {
+			$ref = new ReflectionClass($this);
+			$props = $ref->getProperties();
+
 			if ( isset($this->{$this->primaryKey}) ) {
 				$query = "UPDATE " . $this->table . " SET ";
 				$params = [];
-				foreach ( $this as $column => $value ) {
-					if ( in_array($column, $this->ignoredProperties) ) continue;
+
+				foreach ( $props as $prop ) {
+					if ( $prop->class === Entity::class ) continue;
+					$column = $prop->getName();
+					$value = $this->{$prop->getName()};
 					$query .= "$column = ?, ";
 					$params[] = $value;
 				}
@@ -44,8 +51,10 @@
 				$values = "";
 				$params = [];
 
-				foreach ( $this as $column => $value ) {
-					if ( in_array($column, $this->ignoredProperties) ) continue;
+				foreach ( $props as $prop ) {
+					if ( $prop->class === Entity::class ) continue;
+					$column = $prop->getName();
+					$value = $this->{$prop->getName()};
 					$columns .= "$column, ";
 					$values .= "?,";
 					$params[] = $value;
@@ -54,7 +63,7 @@
 				$columns = rtrim($columns, ", ");
 				$values = rtrim($values, ",");
 
-				$query .= "($columns) VALUES($values) RETURNING " . $this->primaryKey;
+				$query .= " ($columns) VALUES ($values) RETURNING " . $this->primaryKey;
 			}
 
 			return Database::execute_query(
@@ -101,6 +110,8 @@
 
 			$query = rtrim($query, "$connectionOperand ");
 			$result = Database::execute_query($query, array_values($filters), $singleResult);
+
+			if ( is_object($result) ) return $this->from_result($result);
 
 			if ( $singleResult && count($result) > 0 ) {
 				return $this->from_result($result[0]);
