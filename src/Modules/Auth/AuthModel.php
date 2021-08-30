@@ -29,7 +29,10 @@
 			mixed $password
 		) : array {
 			$userEntity = new UserEntity();
-			$user = $userEntity->filter([ 'username' => $username, '$password' => $password ], true);
+			$user = $userEntity->filter([ 'username' => $username, 'password' => $password ], true);
+
+			$u = new UserEntity();
+			$u->save();
 
 			if ( !$user instanceof UserEntity ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new UserNotFoundException();

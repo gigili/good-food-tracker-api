@@ -9,6 +9,8 @@
 
 	use Gac\GoodFoodTracker\Entities\Core\Entity;
 	use JetBrains\PhpStorm\Pure;
+	use ReflectionClass;
+	use ReflectionProperty;
 
 	class UserEntity extends Entity
 	{
@@ -55,7 +57,7 @@
 			return true; //TODO: Fix this
 		}
 
-		#[Pure] protected function from_result(mixed $result) : UserEntity {
+		protected function from_result(mixed $result) : UserEntity {
 			if ( is_null($result) ) {
 				return new UserEntity();
 			}
@@ -70,13 +72,11 @@
 
 			$user = new UserEntity();
 
-			foreach ( get_class_vars(UserEntity::class) as $property => $defaultValue ) {
-				if ( in_array($property, $this->ignoredProperties) ) continue;
-
-				if ( isset($result->{$property}) ) {
-					$user->{$property} = $result->{$property};
-				} else {
-					$user->{$property} = $defaultValue;
+			$reflection = new ReflectionClass(UserEntity::class);
+			$properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
+			foreach ( $properties as $property ) {
+				if ( isset($result->{$property->getName()}) ) {
+					$user->{$property->getName()} = $result->{$property->getName()};
 				}
 			}
 
