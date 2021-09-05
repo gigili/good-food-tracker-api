@@ -5,9 +5,9 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Entities;
+	namespace Gac\GoodFoodTracker\Entity;
 
-	use Gac\GoodFoodTracker\Entities\Core\Entity;
+	use Gac\GoodFoodTracker\Core\Entities\Entity;
 	use JetBrains\PhpStorm\Pure;
 	use ReflectionClass;
 	use ReflectionProperty;
