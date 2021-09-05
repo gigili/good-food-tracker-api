@@ -8,7 +8,7 @@
 	namespace Gac\GoodFoodTracker\Modules\Auth;
 
 
-	use Gac\GoodFoodTracker\Entities\UserEntity;
+	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\RegistrationFailedException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
@@ -19,7 +19,6 @@
 
 	class AuthModel
 	{
-
 		/**
 		 * @throws UserNotFoundException
 		 * @throws UserNotActiveException
@@ -30,9 +29,6 @@
 		) : array {
 			$userEntity = new UserEntity();
 			$user = $userEntity->filter([ 'username' => $username, 'password' => $password ], true);
-
-			$u = new UserEntity();
-			$u->save();
 
 			if ( !$user instanceof UserEntity ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new UserNotFoundException();
