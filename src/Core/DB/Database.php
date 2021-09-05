@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Utility\DB;
+	namespace Gac\GoodFoodTracker\Core\DB;
 
 
 	use PDO;

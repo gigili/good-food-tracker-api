@@ -8,15 +8,15 @@
 	namespace Gac\GoodFoodTracker\Modules\Auth;
 
 	use Exception;
-	use Gac\GoodFoodTracker\exceptions\validation\FieldsDoNotMatchException;
-	use Gac\GoodFoodTracker\exceptions\validation\InvalidEmailException;
-	use Gac\GoodFoodTracker\exceptions\validation\MaximumLengthException;
-	use Gac\GoodFoodTracker\exceptions\validation\MinimumLengthException;
-	use Gac\GoodFoodTracker\exceptions\validation\RequiredFieldException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidEmailException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MaximumLengthException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MinimumLengthException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
+	use Gac\GoodFoodTracker\Core\Utility\Validation;
+	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
-	use Gac\GoodFoodTracker\Utility\Validation;
-	use Gac\GoodFoodTracker\Utility\ValidationRules;
 	use Gac\Routing\Request;
 	use ReflectionClass;
 

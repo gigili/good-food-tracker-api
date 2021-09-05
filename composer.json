@@ -16,10 +16,10 @@
       "Gac\\GoodFoodTracker\\": "./src"
     },
     "classmap": [
-      "src/Utility/"
+      "src/Core/Utility/"
     ],
     "files": [
-      "src/Utility/helpers.php"
+      "src/Core/Utility/helpers.php"
     ]
   },
   "require": {

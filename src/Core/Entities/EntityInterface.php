@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Entities\Core;
+	namespace Gac\GoodFoodTracker\Core\Entities;
 
 	interface EntityInterface
 	{

@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\exceptions\validation;
+	namespace Gac\GoodFoodTracker\Core\Exceptions\Validation;
 
 
 	use Exception;

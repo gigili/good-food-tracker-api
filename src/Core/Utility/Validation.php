@@ -5,16 +5,15 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Utility;
+	namespace Gac\GoodFoodTracker\Core\Utility;
 
-
-	use Gac\GoodFoodTracker\exceptions\validation\FieldsDoNotMatchException;
-	use Gac\GoodFoodTracker\exceptions\validation\InvalidEmailException;
-	use Gac\GoodFoodTracker\exceptions\validation\InvalidNumericValueException;
-	use Gac\GoodFoodTracker\exceptions\validation\InvalidUUIDException;
-	use Gac\GoodFoodTracker\exceptions\validation\MaximumLengthException;
-	use Gac\GoodFoodTracker\exceptions\validation\MinimumLengthException;
-	use Gac\GoodFoodTracker\exceptions\validation\RequiredFieldException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidEmailException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidNumericValueException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MaximumLengthException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MinimumLengthException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
 	use Gac\Routing\Request;
 	use Ramsey\Uuid\Uuid;
 

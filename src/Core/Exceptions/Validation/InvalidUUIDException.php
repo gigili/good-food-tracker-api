@@ -5,15 +5,19 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\exceptions\validation;
+	namespace Gac\GoodFoodTracker\Core\Exceptions\Validation;
 
 
 	use Exception;
 	use JetBrains\PhpStorm\Pure;
 
-	class InvalidEmailException extends Exception
+	class InvalidUUIDException extends Exception
 	{
+
+		/**
+		 * InvalidUUIDException constructor.
+		 */
 		#[Pure] public function __construct() {
-			parent::__construct("Invalid email address value provided", 400);
+			parent::__construct("Invalid UUID value provided", 400);
 		}
 	}
