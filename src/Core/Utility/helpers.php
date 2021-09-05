@@ -6,9 +6,10 @@
 	 */
 
 	use Firebase\JWT\JWT;
-	use Gac\GoodFoodTracker\exceptions\InvalidTokenException;
-	use Gac\GoodFoodTracker\Exceptions\MissingTokenException;
-	use Gac\GoodFoodTracker\Utility\Logger;
+	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
+	use Gac\GoodFoodTracker\Core\Exceptions\MissingTokenException;
+	use Gac\GoodFoodTracker\Core\Utility\Logger;
+	use Gac\GoodFoodTracker\Modules\Auth\Token;
 	use JetBrains\PhpStorm\ArrayShape;
 	use JetBrains\PhpStorm\NoReturn;
 	use PHPMailer\PHPMailer\PHPMailer;
@@ -79,7 +80,7 @@
 		#[ArrayShape( [ 'accessToken' => 'string', 'refreshToken' => 'null|string' ] )] function generate_token(
 			string $userID,
 			bool $generateRefreshToken = false
-		) : array {
+		) : Token {
 			$currentTime = time();
 
 			$payload = array(
@@ -91,18 +92,19 @@
 			);
 
 			$accessTokenPayload = $payload;
-			$accessTokenPayload['exp'] = strtotime(date('Y-m-d H:i:s',
-				strtotime(' + 2 hours'))); //strtotime(' + 10 minutes')
+			$accessTokenPayload['exp'] = strtotime(date('Y-m-d H:i:s', strtotime(' + 2 hours')));
 			$accessToken = JWT::encode($accessTokenPayload, $_ENV['JWT_KEY']);
 			$refreshToken = NULL;
+
 			if ( $generateRefreshToken === true ) {
 				$refreshToken = JWT::encode($payload, $_ENV['JWT_KEY']);
 			}
 
-			return [
-				'accessToken' => $accessToken,
-				'refreshToken' => $refreshToken,
-			];
+			$token = new Token();
+			$token->setAccessToken($accessToken);
+			$token->setRefreshToken($refreshToken);
+
+			return $token;
 		}
 	}
 
