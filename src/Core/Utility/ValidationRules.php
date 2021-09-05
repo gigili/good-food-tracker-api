@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Utility;
+	namespace Gac\GoodFoodTracker\Core\Utility;
 
 	class ValidationRules
 	{

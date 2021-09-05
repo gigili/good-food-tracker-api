@@ -16,7 +16,7 @@
 
 	use Dotenv\Dotenv;
 	use Exception;
-	use Gac\GoodFoodTracker\Exceptions\AppNotInitializedException;
+	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
 	use Gac\Routing\Routes;

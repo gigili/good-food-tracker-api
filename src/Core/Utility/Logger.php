@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Utility;
+	namespace Gac\GoodFoodTracker\Core\Utility;
 
 
 	class Logger
@@ -15,7 +15,7 @@
 				mkdir($_SERVER['DOCUMENT_ROOT'] . '/../logs', 0644);
 			}
 
-			$handle = fopen($_SERVER['DOCUMENT_ROOT'] . "/../logs/{$logFileName}", 'a+');
+			$handle = fopen($_SERVER['DOCUMENT_ROOT'] . "/../logs/$logFileName", 'a+');
 			fwrite($handle, $message . "\n");
 			fwrite($handle, $message . "\n");
 			fclose($handle);

@@ -5,7 +5,7 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	use Gac\GoodFoodTracker\Exceptions\AppNotInitializedException;
+	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
 	use Gac\GoodFoodTracker\Modules\Auth\AuthController;
 	use Gac\Routing\Routes;
 

@@ -5,20 +5,19 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\exceptions\validation;
+	namespace Gac\GoodFoodTracker\Core\Exceptions\Validation;
 
 
 	use Exception;
 	use JetBrains\PhpStorm\Pure;
 
-	class InvalidNumericValueException extends Exception
+	class MinimumLengthException extends Exception
 	{
-
 		private float  $value = 0;
 		private string $field = "";
 
 		/**
-		 * InvalidNumericValueException constructor.
+		 * MinimumLengthException constructor.
 		 *
 		 * @param float|int $value
 		 * @param string $field
@@ -26,7 +25,7 @@
 		#[Pure] public function __construct(float|int $value, string $field) {
 			$this->value = $value;
 			$this->field = $field;
-			parent::__construct("Invalid numeric exception provided for $field", 400);
+			parent::__construct("Minimum length of $value needed for field $field", 400);
 		}
 
 		/**
@@ -42,6 +41,4 @@
 		public function getField() : string {
 			return $this->field;
 		}
-
-
 	}
