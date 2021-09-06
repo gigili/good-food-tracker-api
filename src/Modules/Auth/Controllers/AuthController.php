@@ -5,11 +5,12 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Modules\Auth;
+	namespace Gac\GoodFoodTracker\Modules\Auth\Controllers;
 
 	use Exception;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
+	use Gac\GoodFoodTracker\Modules\Auth\Models\AuthModel;
 	use Gac\Routing\Request;
 	use ReflectionClass;
 

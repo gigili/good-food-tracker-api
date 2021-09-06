@@ -8,9 +8,7 @@
 	namespace Gac\GoodFoodTracker\Entity;
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
-	use JetBrains\PhpStorm\Pure;
-	use ReflectionClass;
-	use ReflectionProperty;
+	use JetBrains\PhpStorm\ArrayShape;
 
 	class UserEntity extends Entity
 	{
@@ -29,7 +27,7 @@
 		 * @param string|null $email
 		 * @param string|null $username
 		 */
-		#[Pure] public function __construct(?string $name = NULL, ?string $email = NULL, ?string $username = NULL) {
+		public function __construct(?string $name = NULL, ?string $email = NULL, ?string $username = NULL) {
 			parent::__construct("users.user");
 
 			if ( !is_null($name) ) {
@@ -45,41 +43,30 @@
 			}
 		}
 
-		public function setActivationKey($activation_key) {
+		public function set_activation_key($activation_key) {
 			$this->activation_key = $activation_key;
 		}
 
-		public function setPassword(string $password) {
+		public function set_password(string $password) {
 			$this->password = $password;
 		}
 
-		public function isActive() : bool {
+		public function is_active() : bool {
 			return true; //TODO: Fix this
 		}
 
-		protected function from_result(mixed $result) : UserEntity {
-			if ( is_null($result) ) {
-				return new UserEntity();
-			}
+		#[ArrayShape( [ "id" => "string", "name" => "string", "email" => "string", "username" => "string", "image" => "string" ] )] public function __serialize(
+		) : array {
+			return [
+				"id" => $this->id,
+				"name" => $this->name,
+				"email" => $this->email,
+				"username" => $this->username,
+				"image" => __DIR__ . "/$this->image",
+			];
+		}
 
-			if ( is_array($result) ) {
-				$result = (object) $result;
-			}
-
-			if ( empty($result) || !isset($result->id) ) {
-				return new UserEntity();
-			}
-
-			$user = new UserEntity();
-
-			$reflection = new ReflectionClass(UserEntity::class);
-			$properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-			foreach ( $properties as $property ) {
-				if ( isset($result->{$property->getName()}) ) {
-					$user->{$property->getName()} = $result->{$property->getName()};
-				}
-			}
-
-			return $user;
+		public function __toString() : string {
+			return $this->name;
 		}
 	}

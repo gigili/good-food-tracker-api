@@ -6,7 +6,7 @@
 	 */
 
 	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
-	use Gac\GoodFoodTracker\Modules\Auth\AuthController;
+	use Gac\GoodFoodTracker\Modules\Auth\Controllers\AuthController;
 	use Gac\Routing\Routes;
 
 

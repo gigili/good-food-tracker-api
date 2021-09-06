@@ -5,10 +5,11 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	namespace Gac\GoodFoodTracker\Modules\Auth;
+	namespace Gac\GoodFoodTracker\Modules\Auth\Models;
 
 
 	use Gac\GoodFoodTracker\Entity\UserEntity;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\RegistrationFailedException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
@@ -32,8 +33,7 @@
 
 			if ( !$user instanceof UserEntity ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new UserNotFoundException();
-
-			if ( !$user->isActive() ) throw new UserNotActiveException();
+			if ( !$user->is_active() ) throw new UserNotActiveException();
 
 			$tokens = generate_token($user->id, true);
 
@@ -44,6 +44,7 @@
 		 * @throws RegistrationFailedException
 		 * @throws EmailTakenException
 		 * @throws UsernameTakenException
+		 * @throws EmailNotSentException
 		 */
 		public static function register(string $name, string $email, string $username, string $password) : UserEntity {
 			$userEntity = new UserEntity();
@@ -56,10 +57,14 @@
 			}
 
 			$activationKey = str_replace('-', '', mb_substr(Uuid::uuid4(), 0, 10));
-			$user = new UserEntity($name, $email, $username);
-			$user->setPassword($password);
-			$user->setActivationKey($activationKey);
-			$result = $user->save();
+
+			$newUser = $userEntity;
+			$newUser->name = $name;
+			$newUser->email = $email;
+			$newUser->username = $username;
+			$newUser->set_password($password);
+			$newUser->set_activation_key($activationKey);
+			$user = $newUser->save();
 
 			if ( !isset($user->id) && !isset($result->id) ) throw new RegistrationFailedException();
 
@@ -81,7 +86,7 @@
 			);
 
 			//TODO: Should this throw an exception or return success with warning?
-			//if(!$emailSent) throw new EmailNotSentException();
+			if ( !$emailSent ) throw new EmailNotSentException();
 
 			return $user;
 		}
