@@ -8,15 +8,8 @@
 	namespace Gac\GoodFoodTracker\Modules\Auth;
 
 	use Exception;
-	use Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException;
-	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidEmailException;
-	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MaximumLengthException;
-	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MinimumLengthException;
-	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
-	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
-	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
 	use Gac\Routing\Request;
 	use ReflectionClass;
 
@@ -25,10 +18,7 @@
 		public function login(Request $request) {
 			try {
 				Validation::validate([
-					"username" => [
-						ValidationRules::REQUIRED,
-						[ ValidationRules::MAX_LENGTH => 70 ],
-					],
+					"username" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 70 ], ],
 					"password" => [ ValidationRules::REQUIRED ],
 				], $request);
 
@@ -38,11 +28,7 @@
 				$result = AuthModel::login($username, $password);
 
 				$request->send($result);
-			} catch (
-			RequiredFieldException |
-			MaximumLengthException |
-			Exception $ex
-			) {
+			} catch ( Exception $ex ) {
 				$request->status($ex->getCode() ?? 500)->send([
 					'error' => [
 						'class' => ( new ReflectionClass($ex) )->getShortName(),
@@ -69,16 +55,7 @@
 
 				$newUser = AuthModel::register($name, $email, $username, $password);
 				$request->status(201)->send([ "message" => "registration successful", "data" => $newUser ]);
-			} catch (
-			RequiredFieldException |
-			MaximumLengthException |
-			MinimumLengthException |
-			InvalidEmailException |
-			FieldsDoNotMatchException |
-			UsernameTakenException |
-			EmailTakenException |
-			Exception $ex
-			) {
+			} catch ( Exception $ex ) {
 				$request->status($ex->getCode() ?? 500)->send([
 					'error' => [
 						"class" => ( new ReflectionClass($ex) )->getShortName(),
