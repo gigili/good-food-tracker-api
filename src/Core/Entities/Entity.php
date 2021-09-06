@@ -7,8 +7,7 @@
 
 	namespace Gac\GoodFoodTracker\Core\Entities;
 
-
-	use Gac\GoodFoodTracker\Utility\DB\Database;
+	use Gac\GoodFoodTracker\Core\DB\Database;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
 	use ReflectionClass;
 
@@ -92,8 +91,8 @@
 
 		public function filter(
 			mixed $filters,
-			bool $singleResult = false,
-			bool $useOr = false
+			bool  $singleResult = false,
+			bool  $useOr = false
 		) : Entity|array|null {
 			$query = 'SELECT * FROM ' . $this->table;
 
