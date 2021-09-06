@@ -19,6 +19,7 @@
       "src/Core/Utility/"
     ],
     "files": [
+      "src/utility.php",
       "src/Core/Utility/helpers.php"
     ]
   },

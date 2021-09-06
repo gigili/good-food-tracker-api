@@ -1,4 +1,6 @@
 <?php
+	/** @noinspection PhpUnused */
+
 	/**
 	 * Author: Igor Ilić <github@igorilic.net>
 	 * Date: 2021-08-10
@@ -28,7 +30,7 @@
 			$dbPassword = $dbPassword ?? $_ENV["DB_PASSWORD"];
 			$db = $db ?? $_ENV['DB'];
 
-			$this->db = new PDO("pgsql:dbname={$db} host={$dbHost} port={$dbPort}", $dbUsername, $dbPassword);
+			$this->db = new PDO("pgsql:dbname=$db host=$dbHost port=$dbPort", $dbUsername, $dbPassword);
 			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 
@@ -57,7 +59,17 @@
 			array $params = [],
 			bool $singleResult = false
 		) : array|object {
-			$db = Database::getInstance()->db;
+			$db = Database::getInstance();
+			return $db->get_result($query, $params, $singleResult, $db->db);
+		}
+
+		public function get_result(
+			string $query,
+			array $params = [],
+			bool $singleResult = false,
+			?PDO $db = NULL
+		) : array|object {
+			if ( is_null($db) ) $db = self::getInstance()->db;
 			$stm = $db->prepare($query);
 
 			if ( count($params) > 0 ) {
