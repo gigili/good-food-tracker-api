@@ -79,8 +79,8 @@
 		 */
 		#[ArrayShape( [ 'accessToken' => 'string', 'refreshToken' => 'null|string' ] )] function generate_token(
 			string $userID,
-			bool $generateRefreshToken = false
-		) : Token {
+			bool   $generateRefreshToken = false
+		) : array {
 			$currentTime = time();
 
 			$payload = array(
@@ -100,11 +100,10 @@
 				$refreshToken = JWT::encode($payload, $_ENV['JWT_KEY']);
 			}
 
-			$token = new Token();
-			$token->setAccessToken($accessToken);
-			$token->setRefreshToken($refreshToken);
-
-			return $token;
+			return [
+				"accessToken" => $accessToken,
+				"refreshToken" => $refreshToken,
+			];
 		}
 	}
 
@@ -148,14 +147,14 @@
 		 * @return bool Returns true or false to indicated if the email was sent successfully or not
 		 */
 		function send_email(
-			string $to,
-			string $subject,
-			string $body,
-			string|null $altBody = NULL,
-			array $attachments = [],
-			string|null $from = NULL,
+			string            $to,
+			string            $subject,
+			string            $body,
+			string|null       $altBody = NULL,
+			array             $attachments = [],
+			string|null       $from = NULL,
 			string|array|null $emailTemplate = NULL,
-			bool $debug = false
+			bool              $debug = false
 		) : bool {
 			$mail = new PHPMailer(true);
 
