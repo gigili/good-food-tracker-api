@@ -148,6 +148,7 @@
 		}
 
 		$cnt = 0;
+		output("Executing " . count($migrationFiles) . " migration(s)");
 		foreach ( $migrationFiles as $migrationFile ) {
 			$migrationFileName = pathinfo($migrationFile, PATHINFO_FILENAME) . ".sql";
 			if ( array_search($migrationFileName, array_column($executedMigrations, 'file_name')) !== false ) continue;
@@ -161,7 +162,7 @@
 			$cnt++;
 		}
 
-		output("Successfully executed $cnt migrations", LogLevel::SUCCESS);
+		output("Successfully executed $cnt migration(s)", LogLevel::SUCCESS);
 	}
 
 	/**
@@ -176,15 +177,16 @@
 			$migrations = $driver->execute_query("SELECT * FROM migrations WHERE id > ?", [ $migrationID ]);
 		}
 
-		output("Found " . count($migrations) . " migrations to run");
+		output("Found " . count($migrations) . " migration(s) to run");
 		foreach ( $migrations as $migration ) {
 			$migrationName = str_replace(".sql", ".php", $migration->file_name);
 			if ( !file_exists("$folder/$migrationName") ) throw new Exception("Migration file $migrationName not found");
 			output("Running down migration for $migrationName");
 			include_once "$folder/$migrationName";
 			migrate_down($driver);
-			output("Down migration $migrationName executed successfully" . LogLevel::SUCCESS);
+			output("Down migration $migrationName executed successfully", LogLevel::SUCCESS);
 		}
+		output("Successfully executed " . count($migrations) . " migration(s)" , LogLevel::SUCCESS);
 	}
 
 	/**
