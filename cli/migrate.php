@@ -36,7 +36,12 @@
 	 * @param array|null $args arguments that get passed down from the cli
 	 */
 	#[NoReturn] function main(array|null $args) : void {
-		$_ENV["args"] = $args;
+		if ( file_exists(__DIR__ . "/../.migration.conf") ) {
+			output("Loading data from config file");
+			import_config_data();
+		}
+		$_ENV["args"] = array_merge($args, $_ENV["args"]);
+
 		foreach ( $args as $key => $value ) {
 			switch ( mb_strtolower($key) ) {
 				case CLICommands::INIT:
@@ -53,6 +58,20 @@
 
 		print( "Try using --help\r\n" );
 		exit(1);
+	}
+
+	/**
+	 * Import configuration information from the .migration.conf file
+	 */
+	function import_config_data() {
+		$file = file_get_contents(__DIR__ . "/../.migration.conf");
+		$options = explode("\n", $file);
+
+		foreach ( $options as $option ) {
+			$item = explode("=", $option);
+			if ( empty($item[0]) ) continue;
+			$_ENV["args"][strtolower(trim($item[0]))] = trim($item[1]);
+		}
 	}
 
 	/**
@@ -86,8 +105,9 @@
 
 		try {
 			output("Starting to migrate $key...");
-			$name = $migrationName ?? "all";
-			if ( $key == "up" ) cli_migrate_up($name);
+			$nameOrID = $migrationName ?? "all";
+			if ( $key == "up" ) cli_migrate_up($nameOrID);
+			if ( $key == "down" ) cli_migrate_down($nameOrID === "all" ? NULL : $nameOrID);
 		} catch ( Exception $ex ) {
 			output("Migration failed because: {$ex->getMessage()}", LogLevel::ERROR);
 			exit(1);
@@ -145,6 +165,29 @@
 	}
 
 	/**
+	 * @throws Exception
+	 */
+	function cli_migrate_down(int $migrationID = NULL) : void {
+		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
+		$driver = get_migration_driver();
+		if ( is_null($migrationID) ) {
+			$migrations = $driver->get_migrations();
+		} else {
+			$migrations = $driver->execute_query("SELECT * FROM migrations WHERE id > ?", [ $migrationID ]);
+		}
+
+		output("Found " . count($migrations) . " migrations to run");
+		foreach ( $migrations as $migration ) {
+			$migrationName = str_replace(".sql", ".php", $migration->file_name);
+			if ( !file_exists("$folder/$migrationName") ) throw new Exception("Migration file $migrationName not found");
+			output("Running down migration for $migrationName");
+			include_once "$folder/$migrationName";
+			migrate_down($driver);
+			output("Down migration $migrationName executed successfully" . LogLevel::SUCCESS);
+		}
+	}
+
+	/**
 	 * Method used to get all the migrations files in the migrations folder
 	 *
 	 * @throws Exception Throws an exception when the migration folder is not found
@@ -161,6 +204,7 @@
 			$result[] = $file;
 		}
 
+		sort($result);
 		return $result;
 	}
 
@@ -244,7 +288,8 @@
 			output($res, LogLevel::ERROR);
 			exit(1);
 		} catch ( Exception $ex ) {
-			output($ex->getMessage(), LogLevel::ERROR);
+			$cls = new ReflectionClass($ex);
+			output("[{$cls->getShortName()}] " . $ex->getMessage(), LogLevel::ERROR);
 			exit(1);
 		}
 	}

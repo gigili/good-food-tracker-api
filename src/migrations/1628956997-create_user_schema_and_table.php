@@ -30,6 +30,6 @@
 		$migrationResult = $driver->run_migration($sql);
 		if ( $migrationResult !== true ) throw new Exception($migrationResult);
 
-		$migrationStoreResult = $driver->store_migration_info(CLICommands::UP, $file);
+		$migrationStoreResult = $driver->store_migration_info(CLICommands::DOWN, $file);
 		if ( $migrationStoreResult !== true ) throw new Exception($migrationStoreResult);
 	}
