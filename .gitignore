@@ -157,3 +157,4 @@ src/logs/
 postgres-data/
 cli/.phpdoc/
 cli/output/
+.migration.conf
