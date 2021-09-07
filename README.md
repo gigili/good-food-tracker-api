@@ -25,11 +25,11 @@ For the list of existing or currently being developed feature please refer to th
 To get started on development follow these steps:
 * Rename `.env.example` to `.env`;
     * Add your values to the `.env` file;
-* Run `npm install`;
-* Create `MySQL` database;
-    * Run `db-migrate up` to run all database migrations;
-* To start the dev version of the server run: `npm run dev`;
-* Visit `localhost:3000` to see if everything works;
+* Start up docker containers with `docker-compose up`
+* Create `postgres` database;
+    * Run `php cli/migrate.php --init` to initialize the migrations table;
+    * Run `php cli/migrate.php --up` to run all the migrations;
+* Visit `localhost:${APACHE_PORT}` to see if everything works;
  
 ### Contribution guidelines ###
 
@@ -80,7 +80,7 @@ ones or the ones that are being worked on are positioned on the left side.
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks go to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
