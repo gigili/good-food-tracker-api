@@ -24,7 +24,7 @@
 		 *
 		 * @return array Return a list of migrations from the database
 		 */
-		public function get_migrations(string|null $migrationFileName = NULL) : array;
+		public function get_migrations(string|int|null $migrationFileOrID = NULL) : array;
 
 		/**
 		 * Method used for running the migration based on the SQL from the migration up or down file
@@ -44,4 +44,6 @@
 		 * @return string|bool Returns true if the execution was success or an exception message if it fails
 		 */
 		public function store_migration_info(string $direction, string $migrationFile) : string|bool;
+
+		public function execute_query(string $query, array $params = null, bool $singleResult = false): object|array;
 	}

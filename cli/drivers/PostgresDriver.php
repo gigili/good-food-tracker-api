@@ -33,7 +33,7 @@
 		 */
 		public function __construct(
 			?string $dbHost = NULL,
-			?int $dbPort = NULL,
+			?int    $dbPort = NULL,
 			?string $dbUsername = NULL,
 			?string $dbPassword = NULL,
 			?string $db = NULL
@@ -81,13 +81,18 @@
 		 *
 		 * @return array Return a list of migrations from the database
 		 */
-		public function get_migrations(string|null $migrationFileName = NULL) : array {
+		public function get_migrations(string|int|null $migrationFileOrID = NULL) : array {
 			$query = "SELECT * FROM migrations";
 			$params = NULL;
 			try {
-				if ( !is_null($migrationFileName) ) {
-					$query .= " WHERE file_name = ?";
-					$params = [ $migrationFileName ];
+				if ( !is_null($migrationFileOrID) ) {
+					if ( is_numeric($migrationFileOrID) ) {
+						$query .= " WHERE id = ?";
+					} else {
+						$query .= " WHERE file_name = ?";
+					}
+
+					$params = [ $migrationFileOrID ];
 				}
 
 				$stm = $this->db->prepare($query);
@@ -144,5 +149,15 @@
 				return $ex->getMessage();
 			}
 			return true;
+		}
+
+		public function execute_query(string $query, array $params = null, bool $singleResult = false) : object|array {
+			$stm = $this->db->prepare($query);
+			$stm->execute($params);
+
+			$result = $stm->fetchAll(PDO::FETCH_OBJ);
+			if ( $singleResult ) return isset($result[0]) ? (object) $result[0] : (object) [];
+
+			return $result;
 		}
 	}
