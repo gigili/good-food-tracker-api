@@ -1,4 +1,5 @@
 # Good Food Tracker #
+
 ![Dependecy Badge](https://img.shields.io/librariesio/github/gigili/good-food-tracker-api?style=for-the-badge)
 ![Repo size badge](https://img.shields.io/github/repo-size/gigili/good-food-tracker-api?style=for-the-badge)
 ![Open issues badge](https://img.shields.io/github/issues/gigili/good-food-tracker-api?style=for-the-badge)
@@ -10,27 +11,33 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Good food tracker project is a collection of a back end web API (Nodejs & Express), front end web app (Vuejs) and a mobile application (Kotlin). 
+Good food tracker project is a collection of a back end web API (Nodejs & Express), front end web app (Vuejs) and a
+mobile application (Kotlin).
 
-The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit in order to be able to reference it later when they try to pick were they wanna go eat out or order from. 
+The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
+in order to be able to reference it later when they try to pick were they wanna go eat out or order from.
 
 ### What is this repository for? ###
 
-This repository is for the back end API built with Nodejs & Express 
+This repository is for the back end API built with Nodejs & Express
 
-For the list of existing or currently being developed feature please refer to the [features](#features) section of this document.
+For the list of existing or currently being developed feature please refer to the [features](#features) section of this
+document.
 
 ### How do I get set up? ###
 
 To get started on development follow these steps:
+
 * Rename `.env.example` to `.env`;
     * Add your values to the `.env` file;
 * Start up docker containers with `docker-compose up`
 * Create `postgres` database;
+    * Rename `.migration.example.config` into `.migration.config`
+        * Add your values to the `.migration.config` file;
     * Run `php cli/migrate.php --init` to initialize the migrations table;
     * Run `php cli/migrate.php --up` to run all the migrations;
 * Visit `localhost:${APACHE_PORT}` to see if everything works;
- 
+
 ### Contribution guidelines ###
 
 * Keep code clean and simple;
@@ -39,11 +46,13 @@ To get started on development follow these steps:
 
 ### Who do I talk to? ###
 
-* If you have any question you can contact Igor Ilić via [e-mail](mailto:github@igorilic.net) or [twitter](https://twitter.com/Gac_BL) 
+* If you have any question you can contact Igor Ilić via [e-mail](mailto:github@igorilic.net)
+  or [twitter](https://twitter.com/Gac_BL)
 * If you have found a bug or want to ask for a new feature, open a new issue
 
 ### Features ###
-List of currently completed or still being developed feature: 
+
+List of currently completed or still being developed feature:
 
 * [ ] Auth
     * [ ] Login
@@ -73,10 +82,11 @@ List of currently completed or still being developed feature:
 
 ### Notes ###
 
-Database diagram with current, future and optional tables can be found on [dbDiagram.io](https://dbdiagram.io/embed/5f58bd9e88d052352cb6870d).
+Database diagram with current, future and optional tables can be found
+on [dbDiagram.io](https://dbdiagram.io/embed/5f58bd9e88d052352cb6870d).
 
-Possible future tables in the database diagram will be positioned on the right side of the diagram. Whereas the existing 
-ones or the ones that are being worked on are positioned on the left side.   
+Possible future tables in the database diagram will be positioned on the right side of the diagram. Whereas the existing
+ones or the ones that are being worked on are positioned on the left side.
 
 ## Contributors ✨
 
@@ -99,4 +109,5 @@ Thanks go to these wonderful people ([emoji key](https://allcontributors.org/doc
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification.
+Contributions of any kind welcome!
