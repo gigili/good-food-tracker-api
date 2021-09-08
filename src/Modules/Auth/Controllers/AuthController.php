@@ -16,6 +16,71 @@
 
 	class AuthController
 	{
+		/**
+		 * Login endpoint docs
+		 *
+		 * @OA\Post (
+		 *     path="/auth/login",
+		 *     summary="Login ednpoint",
+		 *     description="Endpoint used to authenticate user and obtain JWT tokens",
+		 *     @OA\RequestBody(
+		 *         description="Login parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *            	properties={
+		 *     				@OA\Property(property="username", type="string"),
+		 *     				@OA\Property(property="password", type="string")
+		 *     			},
+		 *     		  ),
+		 * 			),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="200",
+		 *        description="Successfull login",
+		 *			@OA\JsonContent(ref="#/components/schemas/successful_login"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="404",
+		 *        description="User not found (invalid username/password)",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="423",
+		 *        description="Account not active",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     )
+		 * )
+		 *
+		 * @OA\Schema (
+		 *  schema="successful_login",
+		 *     type="object",
+		 *     properties={
+		 *     @OA\Property(property="user", ref="#/components/schemas/successful_login.user"),
+		 *     @OA\Property(property="tokens", ref="#/components/schemas/successful_login.tokens")
+		 *    }
+		 * )
+		 *
+		 * @OA\Schema (
+		 *    schema="successful_login.user",
+		 *    properties={
+		 *     @OA\Property(property="id", type="string"),
+		 *     @OA\Property(property="name", type="string"),
+		 *     @OA\Property(property="email", type="string"),
+		 *     @OA\Property(property="username", type="string"),
+		 *     @OA\Property(property="image", type="string", nullable=true)
+		 *    }
+		 * )
+		 *
+		 * @OA\Schema (
+		 *    schema="successful_login.tokens",
+		 *    properties ={
+		 *     @OA\Property(property="access_token", type="string"),
+		 *     @OA\Property(property="refresh_token", type="string")
+		 *    }
+		 * )
+		 */
 		public function login(Request $request) {
 			try {
 				Validation::validate([
@@ -30,7 +95,7 @@
 
 				$request->send($result);
 			} catch ( Exception $ex ) {
-				$request->status($ex->getCode() ?? 500)->send([
+				$request->status((int) $ex->getCode() ?? 500)->send([
 					'error' => [
 						'class' => ( new ReflectionClass($ex) )->getShortName(),
 						'message' => $ex->getMessage() ?? 'Registration failed',
@@ -40,6 +105,55 @@
 			}
 		}
 
+		/**
+		 * Register endpoint docs
+		 *
+		 * @OA\Post (
+		 *     path="/auth/register",
+		 *     summary="Register endpoint",
+		 *     description="Endpoint used for registering new accounts",
+		 *     @OA\RequestBody(
+		 *         description="Register parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *            	properties={
+		 *     				@OA\Property(property="name", type="string"),
+		 *     				@OA\Property(property="email", type="string"),
+		 *     				@OA\Property(property="username", type="string"),
+		 *     				@OA\Property(property="password", type="string"),
+		 *     				@OA\Property(property="password_again", type="string")
+		 *     			},
+		 *     		  ),
+		 * 			),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="201",
+		 *        description="Registration successful",
+		 *			@OA\JsonContent(ref="#/components/schemas/successful_registration"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="409",
+		 *        description="Username or Email taken",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="500",
+		 *        description="Registration failed",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     )
+		 * )
+		 *
+		 * @OA\Schema (
+		 *  schema="successful_registration",
+		 *     type="object",
+		 *     properties={
+		 *     @OA\Property(property="message", type="string"),
+		 *     @OA\Property(property="user", ref="#/components/schemas/successful_login.user"),
+		 *    }
+		 * )
+		 */
 		public function register(Request $request) {
 			$name = $request->get("name");
 			$email = $request->get("email");
