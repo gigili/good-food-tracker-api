@@ -10,6 +10,7 @@
 	use Gac\GoodFoodTracker\Core\DB\Database;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
 	use ReflectionClass;
+	use ReflectionException;
 	use ReflectionProperty;
 
 	abstract class Entity implements EntityInterface
@@ -38,6 +39,9 @@
 			return $this;
 		}
 
+		/**
+		 * @throws ReflectionException
+		 */
 		public function save() : Entity {
 			$ref = new ReflectionClass($this);
 			$properties = $ref->getProperties();
@@ -49,13 +53,16 @@
 				foreach ( $properties as $property ) {
 					if ( $property->class === Entity::class ) continue;
 					$column = $property->getName();
+					$rfProperty = new ReflectionProperty($property->class, $property->getName());
+					$rfProperty->setAccessible(true);
+					if ( !$rfProperty->isInitialized($this) ) continue;
 					$value = $this->{$property->getName()};
 					$query .= "$column = ?, ";
 					$params[] = $value;
 				}
 
 				$query = rtrim($query, ", ");
-				$query .= "WHERE " . $this->primaryKey . " = ?";
+				$query .= " WHERE " . $this->primaryKey . " = ?";
 				$params[] = $this->{$this->primaryKey};
 			} else {
 				$query = "INSERT INTO " . $this->table;

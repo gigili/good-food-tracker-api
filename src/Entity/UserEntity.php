@@ -31,6 +31,7 @@
 		public string     $email;
 		public string     $username;
 		public ?string    $image          = NULL;
+		public int        $status         = 0;
 		protected ?string $password;
 		protected ?string $activation_key = NULL;
 
@@ -57,7 +58,7 @@
 			}
 		}
 
-		public function set_activation_key($activation_key) {
+		public function set_activation_key(?string $activation_key) {
 			$this->activation_key = $activation_key;
 		}
 
@@ -66,7 +67,7 @@
 		}
 
 		public function is_active() : bool {
-			return true; //TODO: Fix this
+			return $this->status === 1;
 		}
 
 		#[ArrayShape( [ "id" => "string", "name" => "string", "email" => "string", "username" => "string", "image" => "string" ] )] public function __serialize(

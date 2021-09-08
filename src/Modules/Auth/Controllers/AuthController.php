@@ -4,6 +4,7 @@
 	 * Date: 2021-08-08
 	 * Project: Good Food Tracker - API
 	 */
+	declare( strict_types=1 );
 
 	namespace Gac\GoodFoodTracker\Modules\Auth\Controllers;
 
@@ -17,11 +18,13 @@
 	class AuthController
 	{
 		/**
-		 * Login endpoint docs
+		 * Login endpoint
+		 *
+		 * @param Request $request
 		 *
 		 * @OA\Post (
 		 *     path="/auth/login",
-		 *     summary="Login ednpoint",
+		 *     summary="Login endpoint",
 		 *     description="Endpoint used to authenticate user and obtain JWT tokens",
 		 *     tags={"Auth"},
 		 *     @OA\RequestBody(
@@ -30,17 +33,22 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
-		 *            	properties={
+		 *                properties={
 		 *     				@OA\Property(property="username", type="string"),
 		 *     				@OA\Property(property="password", type="string")
-		 *     			},
-		 *     		  ),
-		 * 			),
+		 *                },
+		 *              ),
+		 *            ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
 		 *        description="Successfull login",
 		 *			@OA\JsonContent(ref="#/components/schemas/successful_login"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Missing required fileds in the request body",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="404",
@@ -97,7 +105,8 @@
 		}
 
 		/**
-		 * Register endpoint docs
+		 * Register endpoint
+		 * @param Request $request
 		 *
 		 * @OA\Post (
 		 *     path="/auth/register",
@@ -110,20 +119,25 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
-		 *            	properties={
+		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="email", type="string"),
 		 *     				@OA\Property(property="username", type="string"),
 		 *     				@OA\Property(property="password", type="string"),
 		 *     				@OA\Property(property="password_again", type="string")
-		 *     			},
-		 *     		  ),
-		 * 			),
+		 *                },
+		 *              ),
+		 *            ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="201",
 		 *        description="Registration successful",
 		 *			@OA\JsonContent(ref="#/components/schemas/successful_registration"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Missing required fileds in the request body",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="409",
@@ -163,11 +177,82 @@
 				$newUser = AuthModel::register($name, $email, $username, $password);
 				$request->status(201)->send([ "message" => "registration successful", "data" => $newUser ]);
 			} catch ( Exception $ex ) {
-				$request->status($ex->getCode() ?? 500)->send([
+				$request->status((int) $ex->getCode() ?? 500)->send([
 					'error' => [
 						"class" => ( new ReflectionClass($ex) )->getShortName(),
 						'message' => $ex->getMessage() ?? "Registration failed",
 						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
+					],
+				]);
+			}
+		}
+
+		/**
+		 * Verify account endpoint
+		 *
+		 * @param Request $request
+		 *
+		 * @OA\Post (
+		 *     path="/auth/verify",
+		 *     summary="Verify account endpoint",
+		 *     description="Endpoint used for verifing user accounts after registration",
+		 *     tags={"Auth"},
+		 *     @OA\RequestBody(
+		 *         description="Parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="activationKey", type="string"),
+		 *                },
+		 *              ),
+		 *            ),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="200",
+		 *        description="Account verified successfully",
+		 *			@OA\JsonContent(ref="#/components/schemas/successful_verification"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Missing required fileds in the request body",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="412",
+		 *        description="Invalid activation key provided",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     )
+		 * )
+		 *
+		 * @OA\Schema(
+		 *     schema="successful_verification",
+		 *     type="object",
+		 *     properties={
+		 *     	@OA\Property(property="message", type="string"),
+		 *    }
+		 * )
+		 */
+		public function verify_account(Request $request) {
+			try {
+				Validation::validate([
+					"activationKey" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 10 ] ],
+				], $request);
+
+				$activationKey = $request->get("activationKey");
+
+				AuthModel::verify_account($activationKey);
+
+				$request->send([
+					"message" => "Account verified successfully",
+				]);
+			} catch ( Exception $ex ) {
+				$request->status((int) $ex->getCode() ?? 500)->send([
+					'error' => [
+						'class' => ( new ReflectionClass($ex) )->getShortName(),
+						'message' => $ex->getMessage() ?? 'Registration failed',
+						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
 					],
 				]);
 			}

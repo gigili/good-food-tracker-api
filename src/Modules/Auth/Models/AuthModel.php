@@ -11,12 +11,14 @@
 	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\InvalidActivationKeyException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\RegistrationFailedException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotActiveException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
 	use JetBrains\PhpStorm\ArrayShape;
 	use Ramsey\Uuid\Uuid;
+	use ReflectionException;
 
 	class AuthModel
 	{
@@ -89,5 +91,22 @@
 			if ( !$emailSent ) throw new EmailNotSentException();
 
 			return $user;
+		}
+
+		/**
+		 * @param mixed $activationKey
+		 *
+		 * @throws InvalidActivationKeyException
+		 * @throws ReflectionException
+		 */
+		public static function verify_account(mixed $activationKey) {
+			$userEntity = new UserEntity();
+			$user = $userEntity->filter([ "activation_key" => $activationKey ], true);
+
+			if ( !isset($user->id) ) throw new InvalidActivationKeyException();
+
+			$user->set_activation_key(NULL);
+			$user->status = 1;
+			$user->save();
 		}
 	}

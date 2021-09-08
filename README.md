@@ -16,7 +16,7 @@ in order to be able to reference it later when they try to pick were they want t
 
 ### What is this repository for? ###
 
-This repository is for the back end API built with Nodejs & Express
+This repository is for the back end API built
 
 For the list of existing or currently being developed feature please refer to the [features](#features) section of this
 document.
@@ -52,8 +52,9 @@ To get started on development follow these steps:
 List of currently completed or still being developed feature:
 
 * [ ] Auth
-    * [ ] Login
-    * [ ] Register
+    * [x] Login
+    * [x] Register
+    * [ ] Verify account
     * [ ] Reset password
 * [ ] User profile
     * [ ] Get user profile information
