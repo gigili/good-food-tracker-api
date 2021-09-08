@@ -64,6 +64,7 @@
 	use Gac\Routing\Request;
 	use Gac\Routing\Routes;
 	use OpenApi\Generator;
+	use ReflectionClass;
 
 	$routes = new Routes();
 	try {
@@ -113,12 +114,11 @@
 				],
 			]);
 	} catch ( Exception $ex ) {
-		$routes->request
-			->status(500)
-			->send([
-				"error" => [
-					"message" => $ex->getMessage(),
-					"field" => "",
-				],
-			]);
+		$routes->request->status((int) $ex->getCode() ?? 500)->send([
+			'error' => [
+				'class' => ( new ReflectionClass($ex) )->getShortName(),
+				'message' => $ex->getMessage() ?? 'Registration failed',
+				'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+			],
+		]);
 	}

@@ -113,10 +113,14 @@
 		}
 
 		/**
-		 * @throws InvalidDataProvidedException
-		 * @throws UserNotFoundException
-		 * @throws ReflectionException
+		 * Method used for generating and sending a password reset code
+		 *
+		 * @param string|null $emailOrUsername
+		 *
 		 * @throws EmailNotSentException
+		 * @throws InvalidDataProvidedException
+		 * @throws ReflectionException
+		 * @throws UserNotFoundException
 		 */
 		public static function generate_password_reset_code(?string $emailOrUsername = NULL) {
 			if ( is_null($emailOrUsername) ) throw new InvalidDataProvidedException("Invalid username/email provided");
@@ -141,6 +145,46 @@
 					'file' => 'confirm_email',
 					'args' => [
 						'emailTitle' => 'Password reset code',
+						'emailPreview' => strip_tags($emailBody),
+						'emailConfirmText' => 'Reset password',
+						'emailActivationLink' => $activationLink,
+					],
+				]
+			);
+
+			if ( !$emailSent ) throw new EmailNotSentException();
+		}
+
+		/**
+		 * @param string $passwordResetCode
+		 * @param string $newPassword
+		 *
+		 * @throws UserNotFoundException
+		 * @throws ReflectionException
+		 * @throws EmailNotSentException
+		 */
+		public static function reset_password(string $passwordResetCode, string $newPassword) {
+			$userEntity = new UserEntity();
+
+			$user = $userEntity->filter([ "password_reset_code" => $passwordResetCode ], true);
+
+			if ( !isset($user->id) ) throw new UserNotFoundException();
+
+			$user->set_password_reset_code(NULL);
+			$user->set_password($newPassword);
+			$user->status = 1;
+			$user->save();
+
+			$activationLink = "$passwordResetCode";
+			$emailBody = "Dear $user->name<br/><br/>your password was reset successfully. <br/><br/> Good Food Tracker team";
+			$emailSent = send_email(
+				$user->email,
+				'Password reset successfully',
+				$emailBody,
+				emailTemplate : [
+					'file' => 'confirm_email',
+					'args' => [
+						'emailTitle' => 'Password reset successfully',
 						'emailPreview' => strip_tags($emailBody),
 						'emailConfirmText' => 'Reset password',
 						'emailActivationLink' => $activationLink,

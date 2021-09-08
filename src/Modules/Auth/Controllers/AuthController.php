@@ -245,7 +245,7 @@
 				$request->status((int) $ex->getCode() ?? 500)->send([
 					'error' => [
 						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Registration failed',
+						'message' => $ex->getMessage() ?? 'Account verification failed',
 						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
 					],
 				]);
@@ -311,7 +311,80 @@
 				$request->status((int) $ex->getCode() ?? 500)->send([
 					'error' => [
 						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Registration failed',
+						'message' => $ex->getMessage() ?? 'Failed generating password reset code',
+						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+					],
+				]);
+			}
+		}
+
+		/**
+		 * Reset password endpoint
+		 *
+		 * @param Request $request
+		 *
+		 * @OA\Post (
+		 *     path="/auth/reset-password",
+		 *     summary="Reset password endpoint",
+		 *     description="Endpoint used for resetting a new password",
+		 *     tags={"Auth"},
+		 *     @OA\RequestBody(
+		 *         description="Parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="passwordResetCode", type="string"),
+		 *     				@OA\Property(property="newPassword", type="string"),
+		 *     				@OA\Property(property="newPasswordAgain", type="string"),
+		 *                },
+		 *              ),
+		 *            ),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="200",
+		 *        description="Password reset successfully",
+		 *			@OA\JsonContent(ref="#/components/schemas/response_with_message_only"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Missing required fileds in the request body",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="404",
+		 *        description="User account not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="500",
+		 *        description="Unable to send password reset confirmation email",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     )
+		 * )
+		 */
+		public function reset_password(Request $request) {
+			try {
+				Validation::validate([
+					"passwordResetCode" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
+					"newPassword" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ] ],
+					"newPasswordAgain" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ], [ ValidationRules::SAME_AS => "newPassword" ] ],
+				], $request);
+
+				$passwordResetCode = $request->get("passwordResetCode");
+				$newPassword = $request->get("newPassword");
+
+				AuthModel::reset_password($passwordResetCode, $newPassword);
+
+				$request->send([
+					"message" => "Password reset successfully",
+				]);
+			} catch ( Exception $ex ) {
+				$request->status((int) $ex->getCode() ?? 500)->send([
+					'error' => [
+						'class' => ( new ReflectionClass($ex) )->getShortName(),
+						'message' => $ex->getMessage() ?? 'Password reset failed',
 						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
 					],
 				]);
