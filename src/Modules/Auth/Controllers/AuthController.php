@@ -23,6 +23,7 @@
 		 *     path="/auth/login",
 		 *     summary="Login ednpoint",
 		 *     description="Endpoint used to authenticate user and obtain JWT tokens",
+		 *     tags={"Auth"},
 		 *     @OA\RequestBody(
 		 *         description="Login parameters",
 		 *         required=true,
@@ -57,21 +58,11 @@
 		 *  schema="successful_login",
 		 *     type="object",
 		 *     properties={
-		 *     @OA\Property(property="user", ref="#/components/schemas/successful_login.user"),
+		 *     @OA\Property(property="user", ref="#/components/schemas/UserEntity"),
 		 *     @OA\Property(property="tokens", ref="#/components/schemas/successful_login.tokens")
 		 *    }
 		 * )
 		 *
-		 * @OA\Schema (
-		 *    schema="successful_login.user",
-		 *    properties={
-		 *     @OA\Property(property="id", type="string"),
-		 *     @OA\Property(property="name", type="string"),
-		 *     @OA\Property(property="email", type="string"),
-		 *     @OA\Property(property="username", type="string"),
-		 *     @OA\Property(property="image", type="string", nullable=true)
-		 *    }
-		 * )
 		 *
 		 * @OA\Schema (
 		 *    schema="successful_login.tokens",
@@ -112,6 +103,7 @@
 		 *     path="/auth/register",
 		 *     summary="Register endpoint",
 		 *     description="Endpoint used for registering new accounts",
+		 *     tags={"Auth"},
 		 *     @OA\RequestBody(
 		 *         description="Register parameters",
 		 *         required=true,
@@ -150,7 +142,7 @@
 		 *     type="object",
 		 *     properties={
 		 *     @OA\Property(property="message", type="string"),
-		 *     @OA\Property(property="user", ref="#/components/schemas/successful_login.user"),
+		 *     @OA\Property(property="user", ref="#/components/schemas/UserEntity"),
 		 *    }
 		 * )
 		 */

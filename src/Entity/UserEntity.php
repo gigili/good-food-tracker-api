@@ -10,6 +10,20 @@
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 	use JetBrains\PhpStorm\ArrayShape;
 
+	/**
+	 * UserEntity class
+	 *
+	 * @OA\Schema (
+	 *    schema="UserEntity",
+	 *    properties={
+	 *     @OA\Property(property="id", type="string"),
+	 *     @OA\Property(property="name", type="string"),
+	 *     @OA\Property(property="email", type="string"),
+	 *     @OA\Property(property="username", type="string"),
+	 *     @OA\Property(property="image", type="string", nullable=true)
+	 *    }
+	 * )
+	 */
 	class UserEntity extends Entity
 	{
 		public string     $id;
