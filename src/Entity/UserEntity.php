@@ -30,10 +30,11 @@
 		public string     $name;
 		public string     $email;
 		public string     $username;
-		public ?string    $image          = NULL;
-		public int        $status         = 0;
+		public ?string    $image               = NULL;
+		public int        $status              = 0;
 		protected ?string $password;
-		protected ?string $activation_key = NULL;
+		protected ?string $activation_key      = NULL;
+		protected ?string $password_reset_code = NULL;
 
 		/**
 		 * UserEntity constructor.
@@ -67,7 +68,7 @@
 		}
 
 		public function is_active() : bool {
-			return $this->status === 1;
+			return ( $this->status === 1 && is_null($this->activation_key) );
 		}
 
 		#[ArrayShape( [ "id" => "string", "name" => "string", "email" => "string", "username" => "string", "image" => "string" ] )] public function __serialize(
@@ -83,5 +84,12 @@
 
 		public function __toString() : string {
 			return $this->name;
+		}
+
+		/**
+		 * @param string|null $password_reset_code
+		 */
+		public function set_password_reset_code(?string $password_reset_code) : void {
+			$this->password_reset_code = $password_reset_code;
 		}
 	}

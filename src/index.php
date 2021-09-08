@@ -30,6 +30,14 @@
 	 * )
 	 *
 	 * @OA\Schema (
+	 *     schema="response_with_message_only",
+	 *     type="object",
+	 *     properties={
+	 *       @OA\Property(property="message", type="string")
+	 *       }
+	 * )
+	 *
+	 * @OA\Schema (
 	 *     schema="error_response.error",
 	 *     type="object",
 	 *      properties={

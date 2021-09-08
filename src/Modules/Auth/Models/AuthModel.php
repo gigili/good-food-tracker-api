@@ -12,11 +12,13 @@
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\InvalidActivationKeyException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\InvalidDataProvidedException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\RegistrationFailedException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotActiveException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
 	use JetBrains\PhpStorm\ArrayShape;
+	use Ramsey\Uuid\Rfc4122\UuidV4;
 	use Ramsey\Uuid\Uuid;
 	use ReflectionException;
 
@@ -71,7 +73,7 @@
 			if ( !isset($user->id) && !isset($result->id) ) throw new RegistrationFailedException();
 
 			$activationLink = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/activate/$activationKey";
-			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Did You Buy It? team";
+			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$email,
 				"Confirm your account",
@@ -108,5 +110,44 @@
 			$user->set_activation_key(NULL);
 			$user->status = 1;
 			$user->save();
+		}
+
+		/**
+		 * @throws InvalidDataProvidedException
+		 * @throws UserNotFoundException
+		 * @throws ReflectionException
+		 * @throws EmailNotSentException
+		 */
+		public static function generate_password_reset_code(?string $emailOrUsername = NULL) {
+			if ( is_null($emailOrUsername) ) throw new InvalidDataProvidedException("Invalid username/email provided");
+
+			$userEntity = new UserEntity();
+			$user = $userEntity->filter([ "email" => $emailOrUsername, "username" => $emailOrUsername ], true, true);
+
+			if ( !isset($user->id) ) throw new UserNotFoundException();
+
+			$passwordResetCode = str_replace("-", "", substr(UuidV4::uuid4(), 0, 10));
+			$user->status = 0;
+			$user->set_password_reset_code($passwordResetCode);
+			$user->save();
+
+			$activationLink = "$passwordResetCode";
+			$emailBody = "Dear $user->name<br/><br/>to resset your password, please click on the button that says Reset password or copy the password reset code below it and open it in your browser. <br/><br/> Good Food Tracker team";
+			$emailSent = send_email(
+				$user->email,
+				'Password reset code',
+				$emailBody,
+				emailTemplate : [
+					'file' => 'confirm_email',
+					'args' => [
+						'emailTitle' => 'Password reset code',
+						'emailPreview' => strip_tags($emailBody),
+						'emailConfirmText' => 'Reset password',
+						'emailActivationLink' => $activationLink,
+					],
+				]
+			);
+
+			if ( !$emailSent ) throw new EmailNotSentException();
 		}
 	}
