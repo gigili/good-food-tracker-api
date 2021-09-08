@@ -6,6 +6,7 @@
 	 */
 
 	/**
+	 * Swagger doc block
 	 * @OA\Info(
 	 *   title="Good Food Tracker API",
 	 *   version="1.0.0",

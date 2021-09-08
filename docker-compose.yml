@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   pg-admin:
-    image: "dpage/pgadmin4"
+    image: "dpage/pgadmin4:latest"
     container_name: "gft-pg-admin"
     restart: always
     environment:
@@ -24,3 +24,9 @@ services:
 
   mailhog:
     image: "mailhog/mailhog:latest"
+
+  swagger-ui:
+    image: "swaggerapi/swagger-ui:latest"
+    environment:
+      SWAGGER_JSON: "./swagger.json"
+      BASE_URL: "http://localhost:${APACHE_PORT}"
