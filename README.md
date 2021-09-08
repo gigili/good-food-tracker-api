@@ -51,13 +51,13 @@ To get started on development follow these steps:
 
 List of currently completed or still being developed feature:
 
-* [ ] Auth
+* [x] Auth
     * [x] Login
     * [x] Register
     * [x] Verify account
-    * [ ] Reset password
-        * [ ] Request password reset code
-        * [ ] Verify reset code & set new password
+    * [x] Reset password
+        * [x] Request password reset code
+        * [x] Verify reset code & set new password
 * [ ] User profile
     * [ ] Get user profile information
     * [ ] Update user profile information
