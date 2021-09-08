@@ -18,6 +18,6 @@
 		 * InvalidTokenException constructor.
 		 */
 		#[Pure] public function __construct() {
-			parent::__construct("Invalid token", 401);
+			parent::__construct("Invalid token", 498);
 		}
 	}

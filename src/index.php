@@ -18,7 +18,7 @@
 	 *   ),
 	 * )
 	 *
-	 * @OA\Servers (url="http://localhost:8098/", description="Dev API base url")
+	 * @OA\Servers (url="http://localhost:${APACHE_PORT}/", description="Dev API base url")
 	 * @OA\Servers (url="https://gft.igorilic.dev/", description="Production API base url")
 	 *
 	 * @OA\Schema (

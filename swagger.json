@@ -15,7 +15,7 @@
         "tags": [
           "Auth"
         ],
-        "summary": "Login ednpoint",
+        "summary": "Login endpoint",
         "description": "Endpoint used to authenticate user and obtain JWT tokens",
         "operationId": "f37d342cb00753efb2efa7875d4618cf",
         "requestBody": {
@@ -44,6 +44,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/successful_login"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
                 }
               }
             }
@@ -118,6 +128,16 @@
               }
             }
           },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
           "409": {
             "description": "Username or Email taken",
             "content": {
@@ -130,6 +150,64 @@
           },
           "500": {
             "description": "Registration failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/verify": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Verify account endpoint",
+        "description": "Endpoint used for verifing user accounts after registration",
+        "operationId": "7b08c8dfe317bea9f1c37a266e9f3ee0",
+        "requestBody": {
+          "description": "Parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "activationKey": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account verified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successful_verification"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Invalid activation key provided",
             "content": {
               "application/json": {
                 "schema": {
@@ -178,7 +256,7 @@
         "type": "object"
       },
       "successful_login.tokens": {
-        "description": "Login endpoint docs",
+        "description": "Login endpoint",
         "properties": {
           "access_token": {
             "type": "string"
@@ -190,13 +268,22 @@
         "type": "object"
       },
       "successful_registration": {
-        "description": "Register endpoint docs",
+        "description": "Register endpoint",
         "properties": {
           "message": {
             "type": "string"
           },
           "user": {
             "$ref": "#/components/schemas/UserEntity"
+          }
+        },
+        "type": "object"
+      },
+      "successful_verification": {
+        "description": "Verify account endpoint",
+        "properties": {
+          "message": {
+            "type": "string"
           }
         },
         "type": "object"
