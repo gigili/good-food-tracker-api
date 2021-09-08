@@ -23,10 +23,11 @@ services:
       POSTGRES_PORT: "${DB_PORT}"
 
   mailhog:
+    container_name: "gft-mailhog"
     image: "mailhog/mailhog:latest"
 
   swagger-ui:
+    container_name: "gft-swagger-ui"
     image: "swaggerapi/swagger-ui:latest"
-    environment:
-      SWAGGER_JSON: "./swagger.json"
-      BASE_URL: "http://localhost:${APACHE_PORT}"
+    volumes:
+      - "./:/home/data"

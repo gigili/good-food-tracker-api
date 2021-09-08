@@ -1,0 +1,229 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Good Food Tracker API",
+    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
+    "contact": {
+      "name": "Igor Ilic",
+      "email": "github@igorilic.net"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login ednpoint",
+        "description": "Endpoint used to authenticate user and obtain JWT tokens",
+        "operationId": "f37d342cb00753efb2efa7875d4618cf",
+        "requestBody": {
+          "description": "Login parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successful_login"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found (invalid username/password)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Account not active",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register endpoint",
+        "description": "Endpoint used for registering new accounts",
+        "operationId": "42e7f1d156b5d98a81e2b94e9a7af221",
+        "requestBody": {
+          "description": "Register parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_again": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registration successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successful_registration"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Username or Email taken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Registration failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserEntity": {
+        "description": "UserEntity class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "image": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "successful_login": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserEntity"
+          },
+          "tokens": {
+            "$ref": "#/components/schemas/successful_login.tokens"
+          }
+        },
+        "type": "object"
+      },
+      "successful_login.tokens": {
+        "description": "Login endpoint docs",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "successful_registration": {
+        "description": "Register endpoint docs",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserEntity"
+          }
+        },
+        "type": "object"
+      },
+      "error_response": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/error_response.error"
+          }
+        },
+        "type": "object"
+      },
+      "error_response.error": {
+        "description": "Swagger doc block",
+        "properties": {
+          "class": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  }
+}
