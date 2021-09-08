@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Good Food Tracker API",
-    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
+    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\r\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
     "contact": {
       "name": "Igor Ilic",
       "email": "github@igorilic.net"
@@ -191,7 +191,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/successful_verification"
+                  "$ref": "#/components/schemas/response_with_message_only"
                 }
               }
             }
@@ -208,6 +208,74 @@
           },
           "412": {
             "description": "Invalid activation key provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/request-password-reset": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Request password reset code endpoint",
+        "description": "Endpoint used for request a new password reset code",
+        "operationId": "bc96bacf353b7d2741615279b0c7e1da",
+        "requestBody": {
+          "description": "Parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "emailOrUsername": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset code sent to email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_with_message_only"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unable to send reset code via email",
             "content": {
               "application/json": {
                 "schema": {
@@ -279,19 +347,18 @@
         },
         "type": "object"
       },
-      "successful_verification": {
-        "description": "Verify account endpoint",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "error_response": {
         "properties": {
           "error": {
             "$ref": "#/components/schemas/error_response.error"
+          }
+        },
+        "type": "object"
+      },
+      "response_with_message_only": {
+        "properties": {
+          "message": {
+            "type": "string"
           }
         },
         "type": "object"

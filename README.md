@@ -54,8 +54,10 @@ List of currently completed or still being developed feature:
 * [ ] Auth
     * [x] Login
     * [x] Register
-    * [ ] Verify account
+    * [x] Verify account
     * [ ] Reset password
+        * [ ] Request password reset code
+        * [ ] Verify reset code & set new password
 * [ ] User profile
     * [ ] Get user profile information
     * [ ] Update user profile information
