@@ -5,7 +5,41 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	#declare( strict_types=1 );
+	/**
+	 * @OA\Info(
+	 *   title="Good Food Tracker API",
+	 *   version="1.0.0",
+	 *     description="The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
+	in order to be able to reference it later when they try to pick were they want to go eat out or order from.",
+	 *   @OA\Contact(
+	 *     name="Igor Ilic",
+	 *     email="github@igorilic.net"
+	 *   ),
+	 * )
+	 *
+	 * @OA\Servers (url="http://localhost:8098/", description="Dev API base url")
+	 * @OA\Servers (url="https://gft.igorilic.dev/", description="Production API base url")
+	 *
+	 * @OA\Schema (
+	 *     schema="error_response",
+	 *      type="object",
+	 *      properties={
+	 *     	@OA\Property(property="error", ref="#/components/schemas/error_response.error"),
+	 *     }
+	 * )
+	 *
+	 * @OA\Schema (
+	 *     schema="error_response.error",
+	 *     type="object",
+	 *      properties={
+	 *     	@OA\Property(property="class", type="string"),
+	 *     	@OA\Property(property="message", type="string"),
+	 *     	@OA\Property(property="field", type="string")
+	 *     }
+	 * )
+	 */
+
+	declare( strict_types=1 );
 
 	namespace Gac\GoodFoodTracker;
 
@@ -20,6 +54,7 @@
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
 	use Gac\Routing\Routes;
+	use OpenApi\Generator;
 
 	$routes = new Routes();
 	try {
@@ -29,6 +64,22 @@
 		$routes->add("/", function (Request $request) {
 			$name = $request->get("name");
 			$request->send([ "message" => "Hello " . ( $name ?? "World" ) ]);
+		});
+
+		$routes->add("/docs/{string:type}", function (string $type) {
+			$openapi = Generator::scan([ __DIR__ ]);
+			switch ( $type ) {
+				case "yaml":
+					header('Content-Type: text/plain');
+					echo $openapi->toYaml();
+					break;
+				case "json":
+				default:
+					header('Content-Type: application/json');
+					echo $openapi->toJson();
+					break;
+
+			}
 		});
 
 		require_once "./routes.php";

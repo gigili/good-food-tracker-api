@@ -11,11 +11,8 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Good food tracker project is a collection of a back end web API (Nodejs & Express), front end web app (Vuejs) and a
-mobile application (Kotlin).
-
 The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
-in order to be able to reference it later when they try to pick were they wanna go eat out or order from.
+in order to be able to reference it later when they try to pick were they want to go eat out or order from.
 
 ### What is this repository for? ###
 
