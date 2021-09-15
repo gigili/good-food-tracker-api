@@ -6,3 +6,4 @@
 	 */
 
 	require_once "./Modules/Auth/routes.php";
+	require_once "./Modules/User/routes.php";
