@@ -102,7 +102,7 @@
 			return $this;
 		}
 
-		public function get(mixed $value, ?string $column = NULL) : object|array {
+		public function get(mixed $value, ?string $column = NULL) : Entity|array {
 			$column = $column ?: $this->primaryKey;
 			$q = 'SELECT * FROM ' . $this->table . " WHERE $column = ?";
 			return $this->from_result($this->db->get_result(
@@ -115,7 +115,9 @@
 		public function filter(
 			mixed $filters = [],
 			bool $singleResult = false,
-			bool $useOr = false
+			bool $useOr = false,
+			int $start = 0,
+			int $limit = 10,
 		) : Entity|array|null {
 
 			$query = 'SELECT * FROM ' . $this->table;
@@ -129,6 +131,8 @@
 			}
 
 			$query = rtrim($query, "$connectionOperand ");
+
+			$query .= " LIMIT $limit OFFSET $start";
 			$result = $this->db->get_result($query, array_values($filters), $singleResult);
 
 			if ( is_object($result) ) return $this->from_result($result);

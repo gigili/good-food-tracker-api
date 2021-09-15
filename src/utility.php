@@ -68,7 +68,6 @@
 			$userID = $decoded->jti;
 
 			if ( is_null($userID) ) throw new InvalidTokenException();
-
 			$_SESSION['userID'] = $userID;
 		}
 	}

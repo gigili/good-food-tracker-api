@@ -16,7 +16,7 @@
 		 *
 		 * @return object|array
 		 */
-		public function get(mixed $value, ?string $column = NULL) : object|array;
+		public function get(mixed $value, ?string $column = NULL) : Entity|array;
 
 		/**
 		 * @return object
@@ -32,12 +32,16 @@
 		 * @param mixed $filters
 		 * @param bool $singleResult
 		 * @param bool $useOr
+		 * @param int $start
+		 * @param int $limit
 		 *
 		 * @return object|array|null
 		 */
 		public function filter(
 			mixed $filters,
 			bool $singleResult = false,
-			bool $useOr = false
+			bool $useOr = false,
+			int $start = 0,
+			int $limit = 10
 		) : object|array|null;
 	}
