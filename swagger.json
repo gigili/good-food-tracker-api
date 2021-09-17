@@ -9,6 +9,16 @@
     },
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost:8098",
+      "description": "Development API base url"
+    },
+    {
+      "url": "https://gft.igorilic.net/api",
+      "description": "Production API base url"
+    }
+  ],
   "paths": {
     "/auth/login": {
       "post": {
@@ -360,6 +370,44 @@
           }
         }
       }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Filter users endpoint",
+        "description": "Endpoint used to filters users based on the value of search parameter",
+        "operationId": "080c0fa8d56c8d9f1cd023294c4bf571",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "search": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/search_users_success_result"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -420,6 +468,16 @@
           }
         },
         "type": "object"
+      },
+      "search_users_success_result": {
+        "description": "Endpoint used for filtering users",
+        "properties": {
+          "data": {}
+        },
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserEntity"
+        }
       },
       "error_response": {
         "properties": {

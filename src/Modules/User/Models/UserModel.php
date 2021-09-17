@@ -29,7 +29,7 @@
 		) : array|null {
 			$userEntity = new UserEntity();
 
-			if ( is_null($search) ) {
+			if ( is_null($search) || empty($search) ) {
 				throw new InvalidSearchTermException();
 			}
 
@@ -38,7 +38,9 @@
 				singleResult : false,
 				useOr : true,
 				start : $start,
-				limit : $limit
+				limit : $limit,
+				useLike : true,
+				ignoredLikedFields : [ 'email' ]
 			);
 		}
 
