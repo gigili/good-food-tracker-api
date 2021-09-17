@@ -17,7 +17,7 @@
 		/**
 		 * InvalidSearchTermException constructor.
 		 */
-		#[Pure] public function __construct(?string $message = NULL, ?int $code = 500) {
+		#[Pure] public function __construct(?string $message = NULL, ?int $code = 400) {
 			parent::__construct($message, $code);
 		}
 	}

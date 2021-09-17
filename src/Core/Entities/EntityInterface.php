@@ -34,6 +34,8 @@
 		 * @param bool $useOr
 		 * @param int $start
 		 * @param int $limit
+		 * @param bool $useLike
+		 * @param array $ignoredLikedFields
 		 *
 		 * @return object|array|null
 		 */
@@ -42,6 +44,8 @@
 			bool $singleResult = false,
 			bool $useOr = false,
 			int $start = 0,
-			int $limit = 10
+			int $limit = 10,
+			bool $useLike = false,
+			array $ignoredLikedFields = [],
 		) : object|array|null;
 	}

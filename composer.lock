@@ -125,27 +125,28 @@
         },
         {
           "name": "gac/routing",
-          "version": "v2.0.5",
+          "version": "v2.0.5.2",
           "source": {
             "type": "git",
             "url": "https://github.com/gigili/PHP-routing.git",
-            "reference": "0b5ed878ad23dcd8cd6fd84d993ed2dec0dac8b6"
+            "reference": "6f037d09d6b6b16c4c8fc7911ea352fb5a43cd3e"
           },
           "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/0b5ed878ad23dcd8cd6fd84d993ed2dec0dac8b6",
-            "reference": "0b5ed878ad23dcd8cd6fd84d993ed2dec0dac8b6",
+            "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/6f037d09d6b6b16c4c8fc7911ea352fb5a43cd3e",
+            "reference": "6f037d09d6b6b16c4c8fc7911ea352fb5a43cd3e",
             "shasum": ""
           },
-            "require": {
-                "ext-json": "*",
-                "php": ">=8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "autoload": {
+          "require": {
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "php": ">=8.0"
+          },
+          "require-dev": {
+            "phpunit/phpunit": "^9.5"
+          },
+          "type": "library",
+          "autoload": {
                 "psr-4": {
                     "Gac\\Routing\\": "./",
                     "Gac\\Routing\\Exceptions\\": "./"
@@ -174,7 +175,7 @@
             "support": {
                 "email": "github@igorilic.net",
                 "issues": "https://github.com/gigili/PHP-routing",
-              "source": "https://github.com/gigili/PHP-routing/tree/v2.0.5"
+              "source": "https://github.com/gigili/PHP-routing/tree/v2.0.5.2"
             },
             "funding": [
                 {
@@ -186,7 +187,7 @@
                     "type": "paypal"
                 }
             ],
-          "time": "2021-09-15T21:55:34+00:00"
+          "time": "2021-09-17T20:49:17+00:00"
         },
         {
             "name": "graham-campbell/result-type",

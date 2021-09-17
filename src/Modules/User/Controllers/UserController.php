@@ -30,7 +30,61 @@
 	class UserController
 	{
 		/**
+		 * Endpoint used for filtering users
+		 *
 		 * @throws InvalidSearchTermException
+		 *
+		 * @OA\Get (
+		 *     path="/user",
+		 *     summary="Filter users endpoint",
+		 *     description="Endpoint used to filters users based on the value of search parameter",
+		 *     tags={"User"},
+		 *     @OA\RequestBody(
+		 *         description="Required parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="search", type="string"),
+		 *                },
+		 *              ),
+		 *            ),
+		 *     ),
+		 *     @OA\RequestBody(
+		 *         description="Optional pagination parameters",
+		 *         required=false,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="start", type="int"),
+		 *     				@OA\Property(property="limit", type="int")
+		 *                },
+		 *              ),
+		 *            ),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="200",
+		 *        description="Successfull result",
+		 *			@OA\JsonContent(ref="#/components/schemas/search_users_success_result"),
+		 *     ),
+		 *
+		 * )
+		 *
+		 *
+		 * @OA\Schema (
+		 *  schema="search_users_success_result",
+		 *     type="array",
+		 *     properties={
+		 *     	@OA\Property(
+		 *       property="data",
+		 *     ),
+		 *    },
+		 *   @OA\Items(
+		 *     ref="#/components/schemas/UserEntity"
+		 *  )
+		 * )
 		 */
 		public function get_users(Request $request) {
 			$search = $request->get("search");

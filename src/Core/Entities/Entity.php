@@ -103,7 +103,7 @@
 		}
 
 		public function get(mixed $value, ?string $column = NULL) : Entity|array {
-			$column = $column ?: $this->primaryKey;
+			$column = $column ? : $this->primaryKey;
 			$q = 'SELECT * FROM ' . $this->table . " WHERE $column = ?";
 			return $this->from_result($this->db->get_result(
 				query : $q,
@@ -118,6 +118,8 @@
 			bool $useOr = false,
 			int $start = 0,
 			int $limit = 10,
+			bool $useLike = false,
+			array $ignoredLikedFields = []
 		) : Entity|array|null {
 
 			$query = 'SELECT * FROM ' . $this->table;
@@ -127,7 +129,12 @@
 			$connectionOperand = $useOr ? 'OR' : 'AND';
 
 			foreach ( $filters as $column => $value ) {
-				$query .= " $column = ? $connectionOperand ";
+				if ( $useLike ) {
+					if ( !in_array($column, $ignoredLikedFields) ) {
+						$filters[$column] = "%$value%";
+					}
+				}
+				$query .= " $column " . ( $useLike ? "ILIKE" : "=" ) . " ? $connectionOperand ";
 			}
 
 			$query = rtrim($query, "$connectionOperand ");

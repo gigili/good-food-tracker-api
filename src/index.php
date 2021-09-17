@@ -7,6 +7,7 @@
 
 	/**
 	 * Swagger doc block
+	 *
 	 * @OA\Info(
 	 *   title="Good Food Tracker API",
 	 *   version="1.0.0",
@@ -18,8 +19,9 @@
 	 *   ),
 	 * )
 	 *
-	 * @OA\Servers (url="http://localhost:${APACHE_PORT}/", description="Dev API base url")
-	 * @OA\Servers (url="https://gft.igorilic.dev/", description="Production API base url")
+	 * @OA\Server (url=DEV_API_URL, description="Development API base url")
+	 * @OA\Server (url=PROD_API_URL, description="Production API base url")
+	 *
 	 *
 	 * @OA\Schema (
 	 *     schema="error_response",
