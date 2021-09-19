@@ -5,6 +5,8 @@ services:
     container_name: "gft-web-server"
     build:
       context: .
+    networks:
+      - gft-app-network
 
   db:
     container_name: "gft-postgres"
@@ -12,6 +14,8 @@ services:
     volumes:
       - "./postgres-data:/var/lib/postgresql/data:rw"
     restart: unless-stopped
+    networks:
+      - gft-app-network
 
   pg-admin:
     image: "dpage/pgadmin4:latest"
@@ -21,13 +25,29 @@ services:
       PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
       PGADMIN_DEFAULT_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_PORT: "${DB_PORT}"
+    networks:
+      - gft-app-network
 
   mailhog:
-    container_name: "gft-mailhog"
     image: "mailhog/mailhog:latest"
+    container_name: "gft-mailhog"
 
   swagger-ui:
-    container_name: "gft-swagger-ui"
     image: "swaggerapi/swagger-ui:latest"
+    container_name: "gft-swagger-ui"
     volumes:
       - "./:/home/data"
+    networks:
+      - gft-app-network
+
+  redis:
+    container_name: "gft-redis"
+    image: redis:6.2.5-alpine
+    volumes:
+      - "./redis-data:/data:rw"
+    networks:
+      - gft-app-network
+
+networks:
+  gft-app-network:
+    driver: "bridge"
