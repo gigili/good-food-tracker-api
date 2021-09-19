@@ -371,6 +371,135 @@
         }
       }
     },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout endpoint",
+        "description": "Endpoint used for loggin user out and invalidating tokens",
+        "operationId": "a658b3822483da1e072726837721c1b1",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Refresh or access token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_with_message_only"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Invalid token exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh token endpoint",
+        "description": "Endpoint used for generating a fresh access token based of refresh token",
+        "operationId": "8e0ff1a489c5dd385793c45a6da6f72a",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Refresh token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull generated new access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    },
+                    "refreshToken": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Invalid token exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user": {
       "get": {
         "tags": [

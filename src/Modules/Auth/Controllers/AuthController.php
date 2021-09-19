@@ -9,13 +9,15 @@
 	namespace Gac\GoodFoodTracker\Modules\Auth\Controllers;
 
 	use Exception;
+	use Gac\GoodFoodTracker\Core\Controllers\BaseController;
+	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
 	use Gac\GoodFoodTracker\Modules\Auth\Models\AuthModel;
 	use Gac\Routing\Request;
 	use ReflectionClass;
 
-	class AuthController
+	class AuthController extends BaseController
 	{
 		/**
 		 * Login endpoint
@@ -170,9 +172,17 @@
 			try {
 				Validation::validate([
 					"name" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
-					'email' => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ], ValidationRules::VALID_EMAIL ],
+					'email' => [
+						ValidationRules::REQUIRED,
+						[ ValidationRules::MAX_LENGTH => 200 ],
+						ValidationRules::VALID_EMAIL,
+					],
 					'username' => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
-					'password' => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ], [ ValidationRules::SAME_AS => "password_again" ] ],
+					'password' => [
+						ValidationRules::REQUIRED,
+						[ ValidationRules::MIN_LENGTH => 10 ],
+						[ ValidationRules::SAME_AS => "password_again" ],
+					],
 				], $request);
 
 				$newUser = AuthModel::register($name, $email, $username, $password);
@@ -369,7 +379,11 @@
 				Validation::validate([
 					"passwordResetCode" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
 					"newPassword" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ] ],
-					"newPasswordAgain" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ], [ ValidationRules::SAME_AS => "newPassword" ] ],
+					"newPasswordAgain" => [
+						ValidationRules::REQUIRED,
+						[ ValidationRules::MIN_LENGTH => 10 ],
+						[ ValidationRules::SAME_AS => "newPassword" ],
+					],
 				], $request);
 
 				$passwordResetCode = $request->get("passwordResetCode");
@@ -389,5 +403,107 @@
 					],
 				]);
 			}
+		}
+
+		/**
+		 * Logout endpoint
+		 *
+		 * @throws InvalidTokenException
+		 *
+		 * @OA\Post (
+		 *     path="/auth/logout",
+		 *     summary="Logout endpoint",
+		 *     description="Endpoint used for loggin user out and invalidating tokens",
+		 *     tags={"Auth"},
+		 *     @OA\Parameter(
+		 *            in="header",
+		 *            name="Authorization",
+		 *            description="Refresh or access token",
+		 *            required=true
+		 *     ),
+		 *     @OA\Response(
+		 *        response="200",
+		 *        description="Logout successfull",
+		 *			@OA\JsonContent(ref="#/components/schemas/response_with_message_only"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="498",
+		 *        description="Invalid token exception",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="500",
+		 *        description="Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 * )
+		 */
+		public function logout(Request $request) {
+			$userID = $_SESSION["userID"] ?? NULL;
+			if ( is_null($userID) ) throw new InvalidTokenException();
+
+			$this->redis->del([ "{refresh_token:$userID}", "{access_token:$userID}" ]);
+			$request->send([
+				"message" => "OK",
+			]);
+		}
+
+		/**
+		 * Refresh token endpoint
+		 *
+		 * @param Request $request
+		 *
+		 * @throws InvalidTokenException
+		 *
+		 * @OA\Post (
+		 *     path="/auth/refresh",
+		 *     summary="Refresh token endpoint",
+		 *     description="Endpoint used for generating a fresh access token based of refresh token",
+		 *     tags={"Auth"},
+		 *     @OA\Parameter(
+		 *            in="header",
+		 *            name="Authorization",
+		 *            description="Refresh token",
+		 *            required=true
+		 *     ),
+		 *		@OA\Response(
+		 *        response="200",
+		 *        description="Successfull generated new access token",
+		 *			@OA\JsonContent(
+		 *                properties = {
+		 *     				@OA\Property (property="accessToken", type="string"),
+		 *     				@OA\Property (property="refreshToken", type="string", nullable=true),
+		 *                }
+		 *            )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="498",
+		 *        description="Invalid token exception",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="500",
+		 *        description="Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 * )
+		 */
+		public function refresh_token(Request $request) {
+			$userID = $_SESSION["userID"];
+
+			if ( is_null($this->redis->get("{refresh_token:$userID}")) ) throw new InvalidTokenException();
+
+			$newToken = generate_token($userID, false, true);
+			$request->send($newToken);
 		}
 	}

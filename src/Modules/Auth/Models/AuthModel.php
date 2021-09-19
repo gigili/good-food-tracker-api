@@ -28,7 +28,8 @@
 		 * @throws UserNotFoundException
 		 * @throws UserNotActiveException
 		 */
-		#[ArrayShape( [ "user" => "\\Gac\\GoodFoodTracker\\Entities\\UserEntity", "tokens" => "array" ] )] public static function login(
+		#[ArrayShape( [ "user" => "\\Gac\\GoodFoodTracker\\Entities\\UserEntity", "tokens" => "array" ] )]
+		public static function login(
 			mixed $username,
 			mixed $password
 		) : array {
@@ -49,6 +50,7 @@
 		 * @throws EmailTakenException
 		 * @throws UsernameTakenException
 		 * @throws EmailNotSentException
+		 * @throws ReflectionException
 		 */
 		public static function register(string $name, string $email, string $username, string $password) : UserEntity {
 			$userEntity = new UserEntity();
