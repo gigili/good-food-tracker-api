@@ -159,3 +159,4 @@ cli/.phpdoc/
 cli/output/
 .migration.conf
 redis-data/
+.phpdoc/
