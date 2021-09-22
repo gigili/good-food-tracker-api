@@ -17,7 +17,7 @@
 		/**
 		 * InvalidFileTypeException constructor.
 		 */
-		#[Pure] public function __construct(?string $message = NULL, int $code = 500) {
+		#[Pure] public function __construct(?string $message = "Invalid file type provided", int $code = 406) {
 			parent::__construct($message, $code);
 		}
 	}

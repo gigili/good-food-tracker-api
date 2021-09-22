@@ -8,8 +8,10 @@
 	namespace Gac\GoodFoodTracker\Modules\User\Models;
 
 
+	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
 	use Gac\GoodFoodTracker\Entity\UserEntity;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
 	use Gac\GoodFoodTracker\Modules\User\Exceptions\InvalidSearchTermException;
 	use Gac\Routing\Request;
@@ -66,8 +68,29 @@
 
 			$user->name = $request->get('name');
 			$user->email = $request->get('email');
-			if ( !is_null($profileImage) ) $user->image = $profileImage;
+			if ( !is_null($profileImage) ) $user->image = str_replace(BASE_PATH, "", $profileImage);
 
 			return $user->save();
+		}
+
+		/**
+		 * @throws InvalidTokenException
+		 * @throws UserNotFoundException
+		 * @throws EmailNotSentException
+		 */
+		public static function delete_account() {
+			if ( !isset($_SESSION["userID"]) ) throw new InvalidTokenException();
+			$userID = $_SESSION["userID"];
+
+			$userEntity = new UserEntity();
+			$user = $userEntity->get($userID);
+			if ( is_null($user) ) throw new UserNotFoundException();
+			$user->delete();
+
+			//TODO: send an account deleted notification email with a proper template
+			if ( !send_email($user->email, "Account deleted successfully",
+				"Dear $userEntity->name, your account has been deleted successfully from our application.") ) {
+				throw new EmailNotSentException();
+			}
 		}
 	}

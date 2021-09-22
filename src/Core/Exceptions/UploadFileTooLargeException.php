@@ -17,7 +17,7 @@
 		/**
 		 * UploadFileTooLargeException constructor.
 		 */
-		#[Pure] public function __construct(?string $message = NULL, int $code = 500) {
+		#[Pure] public function __construct(?string $message = "File size was too large", int $code = 413) {
 			parent::__construct($message, $code);
 		}
 	}

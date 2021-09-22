@@ -536,6 +536,194 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update information about a specific user",
+        "description": "Endpoint used for updating information about a specific user",
+        "operationId": "2df612e584ab8bd4a619fb6947ae57b6",
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed parameter validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Invalid file type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Uploaded file was too large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Fail upload failed or any other non specific error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete account",
+        "description": "Endpoint used for deleting a user account",
+        "operationId": "34206cdcf43ef1c515c6abc086c0f883",
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/response_with_message_only"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Invalid token provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Email not sent or any other excpetion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{userID}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Fetch information about a specific user",
+        "description": "Endpoint used for fetch information about a specific user",
+        "operationId": "f887ec73e6779216cdad8b4ccb710b14",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID provided for userID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
