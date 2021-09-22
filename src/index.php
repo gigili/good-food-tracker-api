@@ -54,6 +54,8 @@
 
 	namespace Gac\GoodFoodTracker;
 
+	defined('BASE_PATH') or define('BASE_PATH', __DIR__);
+
 	session_start();
 	date_default_timezone_set('Europe/Belgrade');
 
@@ -62,6 +64,7 @@
 	use Dotenv\Dotenv;
 	use Exception;
 	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
+	use Gac\GoodFoodTracker\Core\Utility\Logger;
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
 	use Gac\Routing\Routes;
@@ -93,6 +96,9 @@
 
 			}
 		});
+		$routes->add("/info", function () {
+			phpinfo();
+		});
 
 		require_once "./routes.php";
 
@@ -116,10 +122,11 @@
 				],
 			]);
 	} catch ( Exception $ex ) {
+		Logger::error($ex->getMessage());
 		$routes->request->status((int) $ex->getCode() ?? 500)->send([
 			'error' => [
 				'class' => ( new ReflectionClass($ex) )->getShortName(),
-				'message' => $ex->getMessage() ?? 'Registration failed',
+				'message' => $ex->getMessage() ?? 'Request failed',
 				'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
 			],
 		]);

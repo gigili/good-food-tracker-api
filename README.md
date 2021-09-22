@@ -59,7 +59,7 @@ List of currently completed or still being developed feature:
         * [x] Request password reset code
         * [x] Verify reset code & set new password
 * [ ] User profile
-    * [ ] Get user profile information
+    * [x] Get user profile information
     * [ ] Update user profile information
     * [ ] Delete user profile
 * [ ] Restaurants
