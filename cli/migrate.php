@@ -242,18 +242,19 @@
 			$handle = fopen("$folder/$name.php", "w");
 			if ( is_null($handle) || $handle === false ) throw new Exception("Unable to create file $folder/$name.php");
 
-			fwrite($handle, file_get_contents("./templates/migration-template.php"));
+			fwrite($handle, file_get_contents(__DIR__ . "/templates/migration-template.php"));
 			fclose($handle);
 
 			$sqlName = "$name.sql";
 
-			$resultUp = file_put_contents("$folder/sql/up/$sqlName", "Migration created on: " . date("Y-m-d H:i:s"));
+			$resultUp = file_put_contents("$folder/sql/up/$sqlName", "-- Migration created on: " . date("Y-m-d H:i:s"));
 			if ( $resultUp === false ) throw new Exception("Unable to create file $folder/sql/up/$sqlName");
 
-			$resultDown = file_put_contents("$folder/sql/$sqlName", "Migration created on: " . date("Y-m-d H:i:s"));
+			$resultDown = file_put_contents("$folder/sql/down/$sqlName",
+				"-- Migration created on: " . date("Y-m-d H:i:s"));
 			if ( $resultDown === false ) throw new Exception("Unable to create file $folder/sql/down/$sqlName");
 
-			output("New migration $migrationName created successfully...");
+			output("New migration $migrationName created successfully...", LogLevel::SUCCESS);
 		} catch ( Exception $ex ) {
 			if ( file_exists("$folder/$name.php") ) unlink("$folder/$name.php");
 			if ( file_exists("$folder/sql/up/$name.sql") ) unlink("$folder/sql/up/$name.sql");
