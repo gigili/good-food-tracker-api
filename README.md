@@ -58,22 +58,22 @@ List of currently completed or still being developed feature:
     * [x] Reset password
         * [x] Request password reset code
         * [x] Verify reset code & set new password
-* [ ] User profile
+* [x] User profile
     * [x] Get user profile information
-    * [ ] Update user profile information
-    * [ ] Delete user profile
-* [ ] Restaurants
-    * [ ] List of all the restaurants
-    * [ ] Add / edit restaurant
-    * [ ] Delete restaurant
-* [ ] City
-    * [ ] List of cities
-    * [ ] Add / edit city
-    * [ ] Delete city
+    * [x] Update user profile information
+    * [x] Delete user profile
 * [ ] Country
     * [ ] List of countries
     * [ ] Add / edit country
     * [ ] Delete country
+* [ ] City
+    * [ ] List of cities
+    * [ ] Add / edit city
+    * [ ] Delete city
+* [ ] Restaurants
+    * [ ] List of all the restaurants
+    * [ ] Add / edit restaurant
+    * [ ] Delete restaurant
 * [ ] Reviews
     * [ ] List of users reviews
     * [ ] Add / edit your review
