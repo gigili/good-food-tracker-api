@@ -95,6 +95,8 @@
 					$params = [ $migrationFileOrID ];
 				}
 
+				$query .= " ORDER BY id DESC";
+
 				$stm = $this->db->prepare($query);
 				$stm->execute($params);
 

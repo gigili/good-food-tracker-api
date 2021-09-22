@@ -26,17 +26,18 @@
 		}
 
 		public function from_result(mixed $result) : Entity {
+			$t = new $this;
 			$reflection = new ReflectionClass($this);
 			$properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
 
 			foreach ( $properties as $property ) {
 				if ( $property->class === Entity::class ) continue;
 				if ( isset($result->{$property->getName()}) ) {
-					$this->{$property->getName()} = $result->{$property->getName()};
+					$t->{$property->getName()} = $result->{$property->getName()};
 				}
 			}
 
-			return $this;
+			return $t;
 		}
 
 		/**
@@ -140,6 +141,8 @@
 			$query = rtrim($query, "$connectionOperand ");
 
 			$query .= " LIMIT $limit OFFSET $start";
+
+			//dd([$query, array_values($filters)]);
 			$result = $this->db->get_result($query, array_values($filters), $singleResult);
 
 			if ( is_object($result) ) return $this->from_result($result);
