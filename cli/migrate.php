@@ -155,8 +155,10 @@
 			if ( !file_exists($migrationFile) ) throw new Exception("Migration file $migrationFile not found");
 			output("Found migration $migrationFileName...");
 
-			require_once "$migrationFile";
-			migrate_up($driver);
+			$path = ( pathinfo($migrationFile, PATHINFO_DIRNAME) );
+			$sql = file_get_contents("$path/sql/up/$migrationFileName");
+			$driver->run_migration($sql);
+			$driver->store_migration_info(CLICommands::UP, $migrationFileName);
 
 			output("Executed migration $migrationFileName successfully...", LogLevel::SUCCESS);
 			$cnt++;
@@ -182,8 +184,12 @@
 			$migrationName = str_replace(".sql", ".php", $migration->file_name);
 			if ( !file_exists("$folder/$migrationName") ) throw new Exception("Migration file $migrationName not found");
 			output("Running down migration for $migrationName");
-			include_once "$folder/$migrationName";
-			migrate_down($driver);
+			/*include_once "$folder/$migrationName";
+			migrate_down($driver);*/
+
+			$sql = file_get_contents("$folder/sql/down/$migration->file_name");
+			$driver->run_migration($sql);
+			$driver->store_migration_info(CLICommands::DOWN, $migration->file_name);
 			output("Down migration $migrationName executed successfully", LogLevel::SUCCESS);
 		}
 		output("Successfully executed " . count($migrations) . " migration(s)" , LogLevel::SUCCESS);

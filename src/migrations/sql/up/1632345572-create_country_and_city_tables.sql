@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS locations.country
     id         uuid         NOT NULL
         CONSTRAINT PK_Country_ID PRIMARY KEY,
     name       varchar(255) NOT NULL,
+    code       varchar(5)   NULL,
     created_at timestamptz
         CONSTRAINT DF_Country_CreatedAt DEFAULT current_timestamp
 );

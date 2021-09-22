@@ -63,7 +63,8 @@ List of currently completed or still being developed feature:
     * [x] Update user profile information
     * [x] Delete user profile
 * [ ] Country
-    * [ ] List of countries
+    * [x] List of countries
+    * [x] Get single country info
     * [ ] Add / edit country
     * [ ] Delete country
 * [ ] City
