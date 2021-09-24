@@ -500,6 +500,322 @@
         }
       }
     },
+    "/city": {
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Fetch a list of cities",
+        "description": "Endpoint used for get a list of cities",
+        "operationId": "e8d501fe8bfdc517ca4673c0d2a0e768",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Value used to filter the cities",
+            "required": true
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Pagination start offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination end offset",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/city_entity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Create a city",
+        "description": "Endpoint used for creating a city",
+        "operationId": "adacc285c00288c4c0bf045b5839f6c5",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "country_id": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/city_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/city/{cityID}": {
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Fetch a single city",
+        "description": "Endpoint used for get information about a single city",
+        "operationId": "c3217ec998b12b7ced2316cdce2a1d6f",
+        "parameters": [
+          {
+            "name": "cityID",
+            "in": "path",
+            "description": "ID of a city we are looking for",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/city_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "City not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Delete city",
+        "description": "Endpoint used for deleting a city",
+        "operationId": "3728f52c10130ab55512ed04c7db7ee7",
+        "parameters": [
+          {
+            "name": "cityID",
+            "in": "path",
+            "description": "ID of a city being updated",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/city_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Update city",
+        "description": "Endpoint used for updating city information",
+        "operationId": "4fd8a9400071d1b95c78581570f67d57",
+        "parameters": [
+          {
+            "name": "cityID",
+            "in": "path",
+            "description": "ID of a city being updated",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/city_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/country": {
       "get": {
         "tags": [
@@ -1091,6 +1407,25 @@
           },
           "user": {
             "$ref": "#/components/schemas/UserEntity"
+          }
+        },
+        "type": "object"
+      },
+      "city_entity": {
+        "description": "Endpoint used for get a list of cities",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country_id": {
+            "type": "string"
+          },
+          "country_name": {
+            "nullable": true,
+            "type": "string"
           }
         },
         "type": "object"

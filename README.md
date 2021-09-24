@@ -62,15 +62,15 @@ List of currently completed or still being developed feature:
     * [x] Get user profile information
     * [x] Update user profile information
     * [x] Delete user profile
-* [ ] Country
+* [x] Country
     * [x] List of countries
     * [x] Get single country info
     * [x] Add / edit country
-    * [ ] Delete country
-* [ ] City
-    * [ ] List of cities
-    * [ ] Add / edit city
-    * [ ] Delete city
+    * [x] Delete country
+* [x] City
+    * [x] List of cities
+    * [x] Add / edit city
+    * [x] Delete city
 * [ ] Restaurants
     * [ ] List of all the restaurants
     * [ ] Add / edit restaurant

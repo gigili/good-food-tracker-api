@@ -18,6 +18,7 @@
 		private string     $table;
 		private string     $primaryKey;
 		protected Database $db;
+		protected array    $ignoredColumns = [];
 
 		public function __construct(string $table, string $primaryKey = "id") {
 			$this->table = $table;
@@ -45,7 +46,7 @@
 		 */
 		public function save() : Entity {
 			$ref = new ReflectionClass($this);
-			$properties = $ref->getProperties();
+			$properties = $ref->getProperties(ReflectionProperty::IS_PUBLIC);
 
 			if ( isset($this->{$this->primaryKey}) ) {
 				$query = "UPDATE " . $this->table . " SET ";
@@ -54,6 +55,7 @@
 				foreach ( $properties as $property ) {
 					if ( $property->class === Entity::class ) continue;
 					$column = $property->getName();
+					if ( in_array($column, $this->ignoredColumns) ) continue;
 					$rfProperty = new ReflectionProperty($property->class, $property->getName());
 					$rfProperty->setAccessible(true);
 					if ( !$rfProperty->isInitialized($this) ) continue;
@@ -75,6 +77,7 @@
 				foreach ( $properties as $property ) {
 					if ( $property->class === Entity::class ) continue;
 					$column = $property->getName();
+					if ( in_array($column, $this->ignoredColumns) ) continue;
 					$value = $this->{$property->getName()};
 					$columns .= "$column, ";
 					$values .= "?,";
@@ -115,11 +118,11 @@
 
 		public function filter(
 			mixed $filters = [],
-			bool $singleResult = false,
-			bool $useOr = false,
-			int $start = 0,
-			int $limit = 10,
-			bool $useLike = false,
+			bool  $singleResult = false,
+			bool  $useOr = false,
+			int   $start = 0,
+			int   $limit = 10,
+			bool  $useLike = false,
 			array $ignoredLikedFields = []
 		) : Entity|array|null {
 
