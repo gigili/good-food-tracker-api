@@ -34,7 +34,7 @@ jobs:
           wget https://phpdoc.org/phpDocumentor.phar
           cd ..
           mkdir -p ./docs
-          php bin/phpDocumentor.phar run -d ./src/ -t ./docs --ignore ./src/assets/ --ignore ./src/languages/ --ignore ./src/migrations/ --setting="guides.enabled=true" --force -v
+          php bin/phpDocumentor.phar run --setting="guides.enabled=true" --force -v
           rm -r bin/
           git add .
           if [[ $(git commit -am "[AUTO] Update documentation") != *"Nothing to commit"* ]]; then

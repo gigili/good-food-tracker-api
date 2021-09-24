@@ -65,7 +65,7 @@ List of currently completed or still being developed feature:
 * [ ] Country
     * [x] List of countries
     * [x] Get single country info
-    * [ ] Add / edit country
+    * [x] Add / edit country
     * [ ] Delete country
 * [ ] City
     * [ ] List of cities

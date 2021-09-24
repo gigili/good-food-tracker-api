@@ -1,0 +1,24 @@
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <paths>
+        <output>docs/</output>
+        <cache>output/cache</cache>
+    </paths>
+    <version number="0.0.1">
+        <folder>latest</folder>
+        <api>
+            <source dsn=".">
+                <path>src/</path>
+            </source>
+
+            <markers>
+                <marker>TODO</marker>
+                <marker>FIXME</marker>
+            </markers>
+        </api>
+    </version>
+</phpdocumentor>

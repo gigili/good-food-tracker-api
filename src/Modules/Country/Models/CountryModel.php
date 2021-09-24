@@ -60,8 +60,13 @@
 		/**
 		 * @throws ReflectionException
 		 * @throws CountryNotFoundException
+		 * @throws InvalidUUIDException
 		 */
-		public static function update_country(string $countryID, string $name, ?string $code = NULL) : CountryEntity {
+		public static function update_country(string  $countryID,
+											  string  $name,
+											  ?string $code = NULL
+		) : array|CountryEntity {
+			if ( empty($countryID) || !UuidV4::isValid($countryID) ) throw new InvalidUUIDException();
 			$countryEntity = new CountryEntity();
 			$country = $countryEntity->get($countryID);
 
@@ -70,5 +75,16 @@
 			$country->name = $name;
 			$country->code = $code;
 			return $country->save();
+		}
+
+		/**
+		 * @throws CountryNotFoundException
+		 */
+		public static function delete_country(string $countryID) : array|CountryEntity {
+			$countryEntity = new CountryEntity();
+			$country = $countryEntity->get($countryID);
+
+			if ( is_null($country) || !isset($country->id) ) throw new CountryNotFoundException();
+			return $country->delete();
 		}
 	}
