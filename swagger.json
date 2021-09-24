@@ -500,6 +500,305 @@
         }
       }
     },
+    "/country": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Fetch a list of countries",
+        "description": "Endpoint used for get a list of countries",
+        "operationId": "9b4823deea0af7e0075376465e07cc05",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Value used to filter the countries",
+            "required": true
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Pagination start offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination end offset",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull filtered countries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/country_entity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Add new country",
+        "description": "Endpoint used for adding a new country",
+        "operationId": "2b7487fe8a3b5ecc1afe3b81f8f80fb3",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/country_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/country/{countryID}": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Fetch a information about a specific country",
+        "description": "Endpoint used for getting information about a specific country",
+        "operationId": "00b4848e7c68b94bfce85a91ff23d9ea",
+        "parameters": [
+          {
+            "name": "countryID",
+            "in": "path",
+            "description": "ID of a country",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/country_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Delete country",
+        "description": "Endpoint used for deleting a country",
+        "operationId": "cddc8735b2a77841fee97c210153c20a",
+        "parameters": [
+          {
+            "name": "countryID",
+            "in": "path",
+            "description": "ID of a country being updated",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/country_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Country not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Update country",
+        "description": "Endpoint used for updateing country information",
+        "operationId": "69646430a79ad2e443a3df9538d77022",
+        "parameters": [
+          {
+            "name": "countryID",
+            "in": "path",
+            "description": "ID of a country being updated",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/country_entity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Country not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/user": {
       "get": {
         "tags": [
@@ -610,7 +909,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -665,7 +969,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     },
     "/user/{userID}": {
@@ -786,6 +1095,21 @@
         },
         "type": "object"
       },
+      "country_entity": {
+        "description": "Endpoint used for filtering countries",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "search_users_success_result": {
         "description": "Endpoint used for filtering users",
         "properties": {
@@ -826,6 +1150,12 @@
           }
         },
         "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

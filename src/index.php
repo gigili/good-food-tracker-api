@@ -22,6 +22,14 @@
 	 * @OA\Server (url=DEV_API_URL, description="Development API base url")
 	 * @OA\Server (url=PROD_API_URL, description="Production API base url")
 	 *
+	 * @OA\Components(
+	 *         @OA\SecurityScheme(
+	 *             securityScheme="bearer",
+	 *             type="http",
+	 *             scheme="bearer",
+	 *         ),
+	 *     )
+	 *
 	 *
 	 * @OA\Schema (
 	 *     schema="error_response",
@@ -54,12 +62,12 @@
 
 	namespace Gac\GoodFoodTracker;
 
-	defined('BASE_PATH') or define('BASE_PATH', __DIR__);
+	defined("BASE_PATH") or define("BASE_PATH", __DIR__);
 
 	session_start();
-	date_default_timezone_set('Europe/Belgrade');
+	date_default_timezone_set("Europe/Belgrade");
 
-	include_once '../vendor/autoload.php';
+	include_once "../vendor/autoload.php";
 
 	use Dotenv\Dotenv;
 	use Exception;
@@ -85,19 +93,16 @@
 			$openapi = Generator::scan([ __DIR__ ]);
 			switch ( $type ) {
 				case "yaml":
-					header('Content-Type: text/plain');
+					header("Content-Type: text/plain");
 					echo $openapi->toYaml();
 					break;
 				case "json":
 				default:
-					header('Content-Type: application/json');
+				header("Content-Type: application/json");
 					echo $openapi->toJson();
 					break;
 
 			}
-		});
-		$routes->add("/info", function () {
-			phpinfo();
 		});
 
 		require_once "./routes.php";
@@ -107,27 +112,27 @@
 		$routes->request
 			->status(404)
 			->send([
-				'error' => [
-					'message' => $ex->getMessage(),
-					'field' => '',
+				"error" => [
+					"message" => $ex->getMessage(),
+					"field" => "",
 				],
 			]);
 	} catch ( AppNotInitializedException $ex ) {
 		$routes->request
 			->status(500)
 			->send([
-				'error' => [
-					'message' => "The app wasn't initialized properly {$ex->getMessage()}",
-					'field' => '',
+				"error" => [
+					"message" => "The app wasn't initialized properly {$ex->getMessage()}",
+					"field" => "",
 				],
 			]);
 	} catch ( Exception $ex ) {
 		Logger::error($ex->getMessage());
 		$routes->request->status((int) $ex->getCode() ?? 500)->send([
-			'error' => [
-				'class' => ( new ReflectionClass($ex) )->getShortName(),
-				'message' => $ex->getMessage() ?? 'Request failed',
-				'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+			"error" => [
+				"class" => ( new ReflectionClass($ex) )->getShortName(),
+				"message" => $ex->getMessage() ?? "Request failed",
+				"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
 			],
 		]);
 	}

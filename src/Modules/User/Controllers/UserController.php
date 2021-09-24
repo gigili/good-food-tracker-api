@@ -175,6 +175,7 @@
 		 *     summary="Update information about a specific user",
 		 *     description="Endpoint used for updating information about a specific user",
 		 *     tags={"User"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
 		 *        response="200",
 		 *        description="Successfull result",
@@ -247,6 +248,7 @@
 		 *     summary="Delete account",
 		 *     description="Endpoint used for deleting a user account",
 		 *     tags={"User"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
 		 *        response="200",
 		 *        description="Successfull result",
