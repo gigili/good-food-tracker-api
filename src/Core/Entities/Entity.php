@@ -144,23 +144,23 @@
 			$query = 'SELECT * FROM ' . $this->table;
 			$entity = new ( ( new ReflectionClass($this) )->getName() )();
 
-			$query .= ' WHERE 1=1 AND';
+			$whereConditions = "";
 			$connectionOperand = $useOr ? 'OR' : 'AND';
-
 			foreach ( $filters as $column => $value ) {
 				if ( $useLike ) {
 					if ( !in_array($column, $ignoredLikedFields) ) {
 						$filters[$column] = "%$value%";
 					}
 				}
-				$query .= " $column " . ( $useLike ? "ILIKE" : "=" ) . " ? $connectionOperand ";
+				$whereConditions .= " $column " . ( $useLike ? "ILIKE" : "=" ) . " ? $connectionOperand ";
 			}
 
-			$query = rtrim($query, "$connectionOperand ");
+			$whereConditions = rtrim($whereConditions, "$connectionOperand ");
+
+			$query .= empty($whereConditions) ? ' WHERE 1=1 ' : " WHERE $whereConditions";
 
 			$query .= " LIMIT $limit OFFSET $start";
 
-			//dd([$query, array_values($filters)]);
 			$result = $this->db->get_result($query, array_values($filters), $singleResult);
 
 			if ( is_object($result) ) return $this->from_result($result);

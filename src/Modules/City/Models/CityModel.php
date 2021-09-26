@@ -17,12 +17,12 @@
 
 	class CityModel
 	{
-		public static function filter(string $search, int $start = 0, int $limit = 10) : Entity|array|null {
+		public static function filter(?string $search = NULL, int $start = 0, int $limit = 10) : Entity|array|null {
 			$cityEntity = new CityEntity();
 			$query = "
 				SELECT city.*, country.name AS country_name  FROM locations.city AS city 
 				LEFT JOIN locations.country AS country ON city.country_id = country.id
-				WHERE city.name ILIKE ?
+				WHERE city.name ILIKE ? 
 				LIMIT ? OFFSET ?
 			";
 

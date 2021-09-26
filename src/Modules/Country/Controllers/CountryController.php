@@ -75,20 +75,11 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     ),
-		 *     @OA\Response(
-		 *        response="400",
-		 *        description="Missing required arguments",
-		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     ),
+		 *     )
 		 * )
 		 *
 		 */
 		public function filter_countries(Request $request) {
-			Validation::validate([
-				"search" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
-			], $request);
-
 			$search = $request->get("search");
 			$start = $request->get("start") ?? 0;
 			$limit = $request->get("limit") ?? 10;

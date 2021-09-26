@@ -31,12 +31,13 @@
 		) : array|null {
 			$userEntity = new UserEntity();
 
-			if ( empty($search) ) {
-				throw new InvalidSearchTermException();
+			$filters = [];
+			if ( !empty($search) ) {
+				$filters = [ 'name' => $search, 'email' => $search, 'username' => $search ];
 			}
 
 			return $userEntity->filter(
-				filters : [ "name" => $search, "email" => $search, "username" => $search ],
+				filters : $filters,
 				singleResult : false,
 				useOr : true,
 				start : $start,

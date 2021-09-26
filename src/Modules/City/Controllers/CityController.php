@@ -30,13 +30,6 @@
 		 *
 		 * @param Request $request
 		 *
-		 * @throws FieldsDoNotMatchException
-		 * @throws InvalidEmailException
-		 * @throws InvalidNumericValueException
-		 * @throws InvalidUUIDException
-		 * @throws MaximumLengthException
-		 * @throws MinimumLengthException
-		 * @throws RequiredFieldException
 		 * @OA\Get  (
 		 *     path="/city",
 		 *     summary="Fetch a list of cities",
@@ -75,20 +68,11 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     ),
-		 *     @OA\Response(
-		 *        response="400",
-		 *        description="Missing required arguments",
-		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     ),
+		 *     )
 		 * )
 		 *
 		 */
 		public function filter_cities(Request $request) {
-			Validation::validate([
-				"search" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 2 ] ],
-			], $request);
-
 			$search = $request->get("search");
 			$start = (int) $request->get("start") ?? 0;
 			$limit = (int) $request->get("limit") ?? 10;
