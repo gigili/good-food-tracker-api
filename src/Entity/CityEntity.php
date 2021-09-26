@@ -9,15 +9,57 @@
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 
+
+	/**
+	 * CityEntity Class
+	 *
+	 * @OA\Schema (
+	 *  schema="CityEntity",
+	 *  type="object",
+	 *  properties={
+	 *  	@OA\Property(property="id", type="string"),
+	 *  	@OA\Property(property="name", type="string"),
+	 *  	@OA\Property(property="country_id", type="string"),
+	 *  	@OA\Property(property="country_name", type="string", nullable=true),
+	 *  }
+	 * )
+	 */
 	class CityEntity extends Entity
 	{
-		public string    $id;
-		public string    $country_id;
-		public string    $name;
-		public ?string   $country_name   = NULL;
-		protected string $created_at;
-		protected array  $ignoredColumns = [ "country_name" ];
+		/**
+		 * @var string
+		 */
+		public string $id;
 
+		/**
+		 * @var string
+		 */
+		public string $country_id;
+
+		/**
+		 * @var string
+		 */
+		public string $name;
+
+		/**
+		 * @var string|null
+		 */
+		public ?string $country_name = NULL;
+
+		/**
+		 * @var string
+		 */
+		protected string $created_at;
+
+		/**
+		 * @var array|string[]
+		 */
+		protected array $ignoredColumns = [ "country_name" ];
+
+		/**
+		 * @param string|null $country_id
+		 * @param string|null $name
+		 */
 		public function __construct(?string $country_id = NULL, ?string $name = NULL) {
 			$this->created_at = date("c");
 			parent::__construct("locations.city");

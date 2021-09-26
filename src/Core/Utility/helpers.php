@@ -6,7 +6,6 @@
 	 */
 
 	use Gac\GoodFoodTracker\Core\Utility\Logger;
-	use JetBrains\PhpStorm\ArrayShape;
 	use JetBrains\PhpStorm\NoReturn;
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
@@ -18,7 +17,7 @@
 		 * @param string|array|object $data Array or an object to be printed out on screen
 		 * @param bool $asJSON Boolean indicating if the output should be in json format
 		 */
-		function dump(string|array|object $data, bool $asJSON = true) {
+		function dump(string|array|object $data, bool $asJSON = true) : void {
 			if ( $asJSON === true ) {
 				echo json_encode($data);
 			} else {
@@ -37,30 +36,9 @@
 		 * @param string|array|object $data Array or an object to be printed out on screen
 		 * @param bool $asJSON Boolean indicating if the output should be in json format
 		 */
-		#[NoReturn] function dd(string|array|object $data, bool $asJSON = true) {
+		#[NoReturn] function dd(string|array|object $data, bool $asJSON = true) : void {
 			dump($data, $asJSON);
 			die(1);
-		}
-	}
-
-	if ( !function_exists('error_response') ) {
-		/**
-		 * Method used to return a standardised error response from the API
-		 *
-		 * @param string $message Error message to be sent in the response
-		 * @param string $errorField Error field to be sent in the response
-		 *
-		 */
-		#[ArrayShape( [ 'error' => [ "message" => "string", "field" => "string" ] ] )] #[NoReturn] function error_response(
-			string $message,
-			string $errorField = ''
-		) : array {
-			return [
-				'error' => [
-					'message' => $message,
-					'field' => $errorField,
-				],
-			];
 		}
 	}
 
@@ -80,14 +58,14 @@
 		 * @return bool Returns true or false to indicated if the email was sent successfully or not
 		 */
 		function send_email(
-			string $to,
-			string $subject,
-			string $body,
-			string|null $altBody = NULL,
-			array $attachments = [],
-			string|null $from = NULL,
+			string            $to,
+			string            $subject,
+			string            $body,
+			string|null       $altBody = NULL,
+			array             $attachments = [],
+			string|null       $from = NULL,
 			string|array|null $emailTemplate = NULL,
-			bool $debug = false
+			bool              $debug = false
 		) : bool {
 			$mail = new PHPMailer(true);
 

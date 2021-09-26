@@ -10,6 +10,19 @@
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 
+	/**
+	 * CountryEntity Class
+	 *
+	 * @OA\Schema (
+	 *  schema="CountryEntity",
+	 *  type="object",
+	 *  properties={
+	 *  	@OA\Property(property="id", type="string"),
+	 *  	@OA\Property(property="name", type="string"),
+	 *  	@OA\Property(property="code", type="string"),
+	 *  }
+	 * )
+	 */
 	class CountryEntity extends Entity
 	{
 		public string    $id;

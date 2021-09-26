@@ -70,7 +70,7 @@
 		 *                property="data",
 		 *                type="array",
 		 *                  @OA\Items(
-		 *                        ref="#/components/schemas/city_entity"
+		 *                        ref="#/components/schemas/CityEntity"
 		 *                   )
 		 *                 ),
 		 *            },
@@ -83,16 +83,6 @@
 		 *     ),
 		 * )
 		 *
-		 * @OA\Schema (
-		 *  schema="city_entity",
-		 *  type="object",
-		 *  properties={
-		 *  	@OA\Property(property="id", type="string"),
-		 *  	@OA\Property(property="name", type="string"),
-		 *  	@OA\Property(property="country_id", type="string"),
-		 *  	@OA\Property(property="country_name", type="string", nullable=true),
-		 *  }
-		 * )
 		 */
 		public function filter_cities(Request $request) {
 			Validation::validate([
@@ -135,7 +125,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *            properties = {
-		 *     			@OA\Property (property="data", ref="#/components/schemas/city_entity"),
+		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
 		 *       )
 		 *     ),
@@ -198,7 +188,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *            properties = {
-		 *     			@OA\Property (property="data", ref="#/components/schemas/city_entity"),
+		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
 		 *       )
 		 *     ),
@@ -275,7 +265,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *            properties = {
-		 *     			@OA\Property (property="data", ref="#/components/schemas/city_entity"),
+		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
 		 *       )
 		 *     ),
@@ -306,6 +296,8 @@
 		}
 
 		/**
+		 * Endpoint used for deleting a city
+		 *
 		 * @param Request $request
 		 * @param string $cityID
 		 *
@@ -329,7 +321,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *            properties = {
-		 *     			@OA\Property (property="data", ref="#/components/schemas/city_entity"),
+		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
 		 *       )
 		 *     ),

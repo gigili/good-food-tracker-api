@@ -22,12 +22,12 @@
 		 * @param bool $generateRefreshToken Indicated if the refresh token should be generated and returned as well
 		 * @param bool $forceTokenRegeneration
 		 *
-		 * @return array Returns an array containing the access token and refresh token if $generateRefreshToken is set to True values
+		 * @return array<string,string|null> Returns an array containing the access token and refresh token if $generateRefreshToken is set to True values
 		 */
 		#[ArrayShape( [ 'accessToken' => 'string', 'refreshToken' => 'null|string' ] )] function generate_token(
 			string $userID,
-			bool $generateRefreshToken = false,
-			bool $forceTokenRegeneration = false
+			bool   $generateRefreshToken = false,
+			bool   $forceTokenRegeneration = false
 		) : array {
 			$currentTime = time();
 
@@ -80,7 +80,7 @@
 		 * @throws BeforeValidException         Provided JWT is trying to be used before it's been created as defined by 'iat'
 		 * @throws ExpiredException             Provided JWT has since expired, as defined by the 'exp' claim
 		 */
-		function decode_token() {
+		function decode_token() : void {
 			if ( !isset($_SERVER['HTTP_AUTHORIZATION']) ) throw new MissingTokenException();
 
 			$matches = [];

@@ -70,7 +70,7 @@
 		 *                property="data",
 		 *                    type="array",
 		 *                  @OA\Items(
-		 *                        ref="#/components/schemas/country_entity"
+		 *                        ref="#/components/schemas/CountryEntity"
 		 *                   )
 		 *                 ),
 		 *            },
@@ -83,15 +83,6 @@
 		 *     ),
 		 * )
 		 *
-		 * @OA\Schema (
-		 *  schema="country_entity",
-		 *  type="object",
-		 *  properties={
-		 *  	@OA\Property(property="id", type="string"),
-		 *  	@OA\Property(property="name", type="string"),
-		 *  	@OA\Property(property="code", type="string"),
-		 *  }
-		 * )
 		 */
 		public function filter_countries(Request $request) {
 			Validation::validate([
@@ -131,7 +122,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *                properties = {
-		 *     				@OA\Property (property="data", ref="#/components/schemas/country_entity"),
+		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
 		 *            )
 		 *     ),
@@ -185,7 +176,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *                properties = {
-		 *     				@OA\Property (property="data", ref="#/components/schemas/country_entity"),
+		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
 		 *            )
 		 *     ),
@@ -255,7 +246,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *                properties = {
-		 *     				@OA\Property (property="data", ref="#/components/schemas/country_entity"),
+		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
 		 *            )
 		 *     ),
@@ -310,7 +301,7 @@
 		 *        description="Successfull response",
 		 *			@OA\JsonContent(
 		 *                properties = {
-		 *     				@OA\Property (property="data", ref="#/components/schemas/country_entity"),
+		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
 		 *            )
 		 *     ),

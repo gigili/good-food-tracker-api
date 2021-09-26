@@ -53,7 +53,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/successful_login"
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    },
+                    "tokens": {
+                      "properties": {
+                        "access_token": {
+                          "type": "string"
+                        },
+                        "refresh_token": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
                 }
               }
             }
@@ -133,7 +149,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/successful_registration"
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    }
+                  },
+                  "type": "object"
                 }
               }
             }
@@ -538,7 +562,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/city_entity"
+                        "$ref": "#/components/schemas/CityEntity"
                       }
                     }
                   },
@@ -593,7 +617,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/city_entity"
+                      "$ref": "#/components/schemas/CityEntity"
                     }
                   },
                   "type": "object"
@@ -653,7 +677,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/city_entity"
+                      "$ref": "#/components/schemas/CityEntity"
                     }
                   },
                   "type": "object"
@@ -706,7 +730,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/city_entity"
+                      "$ref": "#/components/schemas/CityEntity"
                     }
                   },
                   "type": "object"
@@ -780,7 +804,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/city_entity"
+                      "$ref": "#/components/schemas/CityEntity"
                     }
                   },
                   "type": "object"
@@ -854,7 +878,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/country_entity"
+                        "$ref": "#/components/schemas/CountryEntity"
                       }
                     }
                   },
@@ -909,7 +933,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/country_entity"
+                      "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
                   "type": "object"
@@ -959,7 +983,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/country_entity"
+                      "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
                   "type": "object"
@@ -1002,7 +1026,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/country_entity"
+                      "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
                   "type": "object"
@@ -1079,7 +1103,7 @@
                 "schema": {
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/country_entity"
+                      "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
                   "type": "object"
@@ -1145,7 +1169,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/search_users_success_result"
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserEntity"
+                      }
+                    }
+                  },
+                  "type": "object"
                 }
               }
             }
@@ -1354,6 +1386,40 @@
   },
   "components": {
     "schemas": {
+      "CityEntity": {
+        "description": "CityEntity Class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country_id": {
+            "type": "string"
+          },
+          "country_name": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CountryEntity": {
+        "description": "CountryEntity Class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "UserEntity": {
         "description": "UserEntity class",
         "properties": {
@@ -1376,103 +1442,7 @@
         },
         "type": "object"
       },
-      "successful_login": {
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/UserEntity"
-          },
-          "tokens": {
-            "$ref": "#/components/schemas/successful_login.tokens"
-          }
-        },
-        "type": "object"
-      },
-      "successful_login.tokens": {
-        "description": "Login endpoint",
-        "properties": {
-          "access_token": {
-            "type": "string"
-          },
-          "refresh_token": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "successful_registration": {
-        "description": "Register endpoint",
-        "properties": {
-          "message": {
-            "type": "string"
-          },
-          "user": {
-            "$ref": "#/components/schemas/UserEntity"
-          }
-        },
-        "type": "object"
-      },
-      "city_entity": {
-        "description": "Endpoint used for get a list of cities",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "country_id": {
-            "type": "string"
-          },
-          "country_name": {
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "country_entity": {
-        "description": "Endpoint used for filtering countries",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "search_users_success_result": {
-        "description": "Endpoint used for filtering users",
-        "properties": {
-          "data": {}
-        },
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/UserEntity"
-        }
-      },
       "error_response": {
-        "properties": {
-          "error": {
-            "$ref": "#/components/schemas/error_response.error"
-          }
-        },
-        "type": "object"
-      },
-      "response_with_message_only": {
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "error_response.error": {
-        "description": "Swagger doc block",
         "properties": {
           "class": {
             "type": "string"
@@ -1481,6 +1451,15 @@
             "type": "string"
           },
           "field": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "response_with_message_only": {
+        "description": "Swagger doc block",
+        "properties": {
+          "message": {
             "type": "string"
           }
         },

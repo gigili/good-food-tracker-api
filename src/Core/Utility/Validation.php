@@ -17,27 +17,24 @@
 	use Gac\Routing\Request;
 	use Ramsey\Uuid\Uuid;
 
-	/**
-	 * Class Validation
-	 *
-	 * @package Gac\GoodFoodTracker\Utility
-	 *
-	 */
 	class Validation
 	{
 
 		/**
-		 * @param array $validation_fields
-		 * @param Request $request
+		 * Validation method used to run all the validation based on the specified criteria
 		 *
-		 * @throws FieldsDoNotMatchException
-		 * @throws InvalidEmailException
-		 * @throws InvalidNumericValueException
-		 * @throws InvalidUUIDException
-		 * @throws MaximumLengthException
-		 * @throws MinimumLengthException
-		 * @throws RequiredFieldException
-		 * @return bool
+		 * @param array $validation_fields List of filed from the request body to be validated
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 *
+		 * @throws FieldsDoNotMatchException Throws an exception if the validation fails its criteria
+		 * @throws InvalidEmailException Throws an exception if the validation fails its criteria
+		 * @throws InvalidNumericValueException Throws an exception if the validation fails its criteria
+		 * @throws InvalidUUIDException Throws an exception if the validation fails its criteria
+		 * @throws MaximumLengthException Throws an exception if the validation fails its criteria
+		 * @throws MinimumLengthException Throws an exception if the validation fails its criteria
+		 * @throws RequiredFieldException Throws an exception if the validation fails its criteria
+		 *
+		 * @return bool Returns true if the validation was successful
 		 */
 		public static function validate(array $validation_fields, Request $request) : bool {
 			foreach ( $validation_fields as $field => $rules ) {
@@ -85,13 +82,14 @@
 		}
 
 		/**
+		 * Validation method used for checking if the value is present in the request and not empty
 		 *
-		 * @param string $field
-		 * @param Request $request
+		 * @param string $field Which field in the request to validate
+		 * @param Request $request Instance of a Request class containing all the request body data
 		 *
-		 * @throws RequiredFieldException if the value for the provided field is missing
+		 * @throws RequiredFieldException Throws an exception if the validation fails its criteria
 		 */
-		private static function required_value(string $field, Request $request) {
+		private static function required_value(string $field, Request $request) : void {
 			$value = $request->get($field);
 
 			if ( is_string($value) && empty($value) ) {
@@ -102,13 +100,15 @@
 		}
 
 		/**
-		 * @param string $field
-		 * @param Request $request *
-		 * @param int $minLength
+		 * Validation method used for checking if the value meets the minimum length specified
 		 *
-		 * @throws MinimumLengthException
+		 * @param string $field Which field in the request to validate
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 * @param int $minLength Minimum needed value
+		 *
+		 * @throws MinimumLengthException Throws an exception if the validation fails its criteria
 		 */
-		private static function min_length(string $field, Request $request, int $minLength = 0) {
+		private static function min_length(string $field, Request $request, int $minLength = 0) : void {
 			$value = $request->get($field);
 			if ( mb_strlen($value) < $minLength ) {
 				throw new MinimumLengthException($minLength, $field);
@@ -116,13 +116,15 @@
 		}
 
 		/**
-		 * @param string $field
-		 * @param Request $request *
-		 * @param int $maxLength
+		 * Validation method used for checking if the value meets the maximum length specified
 		 *
-		 * @throws MaximumLengthException
+		 * @param string $field Which field in the request to validate
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 * @param int $maxLength Maximum needed value
+		 *
+		 * @throws MaximumLengthException Throws an exception if the validation fails its criteria
 		 */
-		private static function max_length(string $field, Request $request, int $maxLength = 0) {
+		private static function max_length(string $field, Request $request, int $maxLength = 0) : void {
 			$value = $request->get($field);
 
 			if ( mb_strlen($value) > $maxLength ) {
@@ -131,12 +133,14 @@
 		}
 
 		/**
-		 * @param string $field
-		 * @param Request $request *
+		 * Validation method used for checking if the provided value is a valid email address
 		 *
-		 * @throws InvalidEmailException
+		 * @param string $field Which field in the request to validate
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 *
+		 * @throws InvalidEmailException Throws an exception if the validation fails its criteria
 		 */
-		private static function valid_email(string $field, Request $request) {
+		private static function valid_email(string $field, Request $request) : void {
 			$value = $request->get($field);
 
 			if ( !filter_var($value, FILTER_VALIDATE_EMAIL) ) {
@@ -145,12 +149,14 @@
 		}
 
 		/**
-		 * @param string $field
-		 * @param Request $request *
+		 * Validation method used for checking if the provided value is numeric
 		 *
-		 * @throws InvalidNumericValueException
+		 * @param string $field Which field in the request to validate
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 *
+		 * @throws InvalidNumericValueException Throws an exception if the validation fails its criteria
 		 */
-		private static function numeric(string $field, Request $request) {
+		private static function numeric(string $field, Request $request) : void {
 			$value = $request->get($field);
 
 			if ( !is_numeric($value) ) {
@@ -159,13 +165,15 @@
 		}
 
 		/**
-		 * @param string $field
-		 * @param mixed $ruleCondition
-		 * @param Request $request *
+		 * Validation method used for validation if the provided is a valid UUID value
 		 *
-		 * @throws InvalidUUIDException
+		 * @param string $field Which field in the request to validate
+		 * @param mixed $ruleCondition
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 *
+		 * @throws InvalidUUIDException Throws an exception if the validation fails its criteria
 		 */
-		private static function valid_uuid(string $field, mixed $ruleCondition, Request $request) {
+		private static function valid_uuid(string $field, mixed $ruleCondition, Request $request) : void {
 			$value = $request->get($field) ?? $ruleCondition;
 			if ( !Uuid::isValid($value) ) {
 				throw new InvalidUUIDException();
@@ -173,9 +181,15 @@
 		}
 
 		/**
-		 * @throws FieldsDoNotMatchException
+		 * Validation method used for validating if the 2 fields in the request body have the same value
+		 *
+		 * @param string $field Which field in the request to compare the value with
+		 * @param string $compareField Which field in the request to compare the value with
+		 * @param Request $request Instance of a Request class containing all the request body data
+		 *
+		 * @throws FieldsDoNotMatchException Throws an exception if the validation fails its criteria
 		 */
-		private static function same_as(string $field, string $compareField, Request $request) {
+		private static function same_as(string $field, string $compareField, Request $request) : void {
 			$value = $request->get($field);
 			$valueToCompare = $request->get($compareField);
 

@@ -104,7 +104,7 @@
 		}
 
 		try {
-			output("Starting to migrate $key...");
+			output("Starting to migrate $key");
 			$nameOrID = $migrationName ?? "all";
 			if ( $key == "up" ) cli_migrate_up($nameOrID);
 			if ( $key == "down" ) cli_migrate_down($nameOrID === "all" ? NULL : $nameOrID);
@@ -119,56 +119,63 @@
 	/**
 	 * Method used to handle the up migration logic
 	 *
-	 * @param string $migrationName Name of the migration file to be execute or `all` for all un run migrations to execute
+	 * @param string $migrationName Name of the migration file to be executed or `all` for all un run migrations to execute
 	 *
 	 * @throws Exception Throws an exception when there is an error running migrations
 	 */
 	function cli_migrate_up(string $migrationName = "all") : void {
 		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
-		output('Getting migration driver...');
+		output('Getting migration driver');
 		$driver = get_migration_driver();
 
 		if ( $migrationName === "all" ) {
 			$executedMigrations = $driver->get_migrations();
 			$migrationFiles = get_migration_files();
 		} else {
-			$migrationName .= ".php";
-			if ( !file_exists("$folder/$migrationName") ) throw new Exception("Migration file $migrationName not found");
+			$migrationName .= ".sql";
+			if ( !file_exists("$folder/up/$migrationName") ) throw new Exception("Migration file $migrationName not found");
 
-			$sqlName = str_replace(".php", ".sql", $migrationName);
-			$executedMigrations = $driver->get_migrations($sqlName);
+			$executedMigrations = $driver->get_migrations($migrationName);
 
 			if ( count($executedMigrations) > 0 ) throw new Exception("Migration $migrationName already executed");
 			$migrationFiles = [ "$folder/$migrationName" ];
 		}
 
 		if ( count($migrationFiles) === 0 ) {
-			output("No migrations found...", LogLevel::WARNING);
+			output("No migrations found", LogLevel::WARNING);
 			exit(0);
 		}
 
 		$cnt = 0;
-		output("Executing " . count($migrationFiles) . " migration(s)");
+		output("Found " . count($migrationFiles) . " migration(s)");
 		foreach ( $migrationFiles as $migrationFile ) {
 			$migrationFileName = pathinfo($migrationFile, PATHINFO_FILENAME) . ".sql";
 			if ( array_search($migrationFileName, array_column($executedMigrations, 'file_name')) !== false ) continue;
 			if ( !file_exists($migrationFile) ) throw new Exception("Migration file $migrationFile not found");
-			output("Found migration $migrationFileName...");
+			output("Found migration $migrationFileName");
 
 			$path = ( pathinfo($migrationFile, PATHINFO_DIRNAME) );
-			$sql = file_get_contents("$path/sql/up/$migrationFileName");
+			$sql = file_get_contents("$path/$migrationFileName");
 			$driver->run_migration($sql);
 			$driver->store_migration_info(CLICommands::UP, $migrationFileName);
 
-			output("Executed migration $migrationFileName successfully...", LogLevel::SUCCESS);
+			output("Executed migration $migrationFileName successfully", LogLevel::SUCCESS);
 			$cnt++;
 		}
 
-		output("Successfully executed $cnt migration(s)", LogLevel::SUCCESS);
+		if ( $cnt > 0 ) {
+			output("Successfully executed $cnt migration(s)", LogLevel::SUCCESS);
+		} else {
+			output("All migrations have been executed");
+		}
 	}
 
 	/**
-	 * @throws Exception
+	 * Method used to handle the up migration logic
+	 *
+	 * @param int|null $migrationID ID of migration to run the down method until (not running down for that one) or null tu run all down migrations
+	 *
+	 * @throws Exception  Throws an exception when there is an error running migrations
 	 */
 	function cli_migrate_down(int $migrationID = NULL) : void {
 		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
@@ -180,19 +187,25 @@
 		}
 
 		output("Found " . count($migrations) . " migration(s) to run");
+		$cnt = 0;
 		foreach ( $migrations as $migration ) {
-			$migrationName = str_replace(".sql", ".php", $migration->file_name);
-			if ( !file_exists("$folder/$migrationName") ) throw new Exception("Migration file $migrationName not found");
+			$migrationName = $migration->file_name;
+			if ( !file_exists("$folder/down/$migrationName") ) throw new Exception("Migration file $migrationName not found");
 			output("Running down migration for $migrationName");
-			/*include_once "$folder/$migrationName";
-			migrate_down($driver);*/
 
-			$sql = file_get_contents("$folder/sql/down/$migration->file_name");
+			$sql = file_get_contents("$folder/down/$migrationName");
 			$driver->run_migration($sql);
-			$driver->store_migration_info(CLICommands::DOWN, $migration->file_name);
+			$driver->store_migration_info(CLICommands::DOWN, $migrationName);
+
 			output("Down migration $migrationName executed successfully", LogLevel::SUCCESS);
+			$cnt++;
 		}
-		output("Successfully executed " . count($migrations) . " migration(s)" , LogLevel::SUCCESS);
+
+		if ( $cnt > 0 ) {
+			output('Successfully executed ' . count($migrations) . ' migration(s)', LogLevel::SUCCESS);
+		} else {
+			output('All migrations have been executed');
+		}
 	}
 
 	/**
@@ -207,6 +220,7 @@
 		if ( !is_dir($folder) ) throw new Exception("Migrations folder doesn't exist");
 
 		$result = [];
+		$folder = rtrim($folder, "/") . "/up/";
 		foreach ( glob($folder . '*.*') as $file ) {
 			if ( $file === "." || $file === ".." ) continue;
 			$result[] = $file;
@@ -223,7 +237,7 @@
 	 */
 	#[NoReturn] function create_new_migration(mixed $migrationName) : void {
 		$migrationName = preg_replace("/\s/", "-", mb_strtolower($migrationName) ?? "new-migration");
-		output("Creating new migration $migrationName...");
+		output("Creating new migration $migrationName");
 
 		$now = time();
 		$name = "$now-" . $migrationName;
@@ -231,42 +245,35 @@
 
 		try {
 			if ( !is_dir($folder) ) {
-				output("Creating migrations folder...");
+				output("Creating migrations folder");
 				mkdir($folder, 0644, true);
 			}
 
-			if ( !is_dir($folder . "/sql/up/") ) {
-				output('Creating migrations up folder...');
-				mkdir($folder . "/sql/up", 0644, true);
+			if ( !is_dir($folder . "/up/") ) {
+				output('Creating migrations up folder');
+				mkdir($folder . "/up", 0644, true);
 			}
 
-			if ( !is_dir($folder . '/sql/down/') ) {
-				output('Creating migrations down folder...');
-				mkdir($folder . '/sql/down', 0644, true);
+			if ( !is_dir($folder . '/down/') ) {
+				output('Creating migrations down folder');
+				mkdir($folder . '/down', 0644, true);
 			}
-
-			$handle = fopen("$folder/$name.php", "w");
-			if ( is_null($handle) || $handle === false ) throw new Exception("Unable to create file $folder/$name.php");
-
-			fwrite($handle, file_get_contents(__DIR__ . "/templates/migration-template.php"));
-			fclose($handle);
 
 			$sqlName = "$name.sql";
 
-			$resultUp = file_put_contents("$folder/sql/up/$sqlName", "-- Migration created on: " . date("Y-m-d H:i:s"));
-			if ( $resultUp === false ) throw new Exception("Unable to create file $folder/sql/up/$sqlName");
+			$resultUp = file_put_contents("$folder/up/$sqlName", "-- Migration created on: " . date("Y-m-d H:i:s"));
+			if ( $resultUp === false ) throw new Exception("Unable to create file $folder/up/$sqlName");
 
-			$resultDown = file_put_contents("$folder/sql/down/$sqlName",
+			$resultDown = file_put_contents("$folder/down/$sqlName",
 				"-- Migration created on: " . date("Y-m-d H:i:s"));
-			if ( $resultDown === false ) throw new Exception("Unable to create file $folder/sql/down/$sqlName");
+			if ( $resultDown === false ) throw new Exception("Unable to create file $folder/down/$sqlName");
 
-			output("New migration $migrationName created successfully...", LogLevel::SUCCESS);
+			output("New migration $migrationName created successfully", LogLevel::SUCCESS);
 		} catch ( Exception $ex ) {
-			if ( file_exists("$folder/$name.php") ) unlink("$folder/$name.php");
-			if ( file_exists("$folder/sql/up/$name.sql") ) unlink("$folder/sql/up/$name.sql");
-			if ( file_exists("$folder/sql/down/$name.sql") ) unlink("$folder/sql/down/$name.sql");
+			if ( file_exists("$folder/up/$name.sql") ) unlink("$folder/up/$name.sql");
+			if ( file_exists("$folder/down/$name.sql") ) unlink("$folder/down/$name.sql");
 
-			output("Unable to create new migration because: {$ex->getMessage()}...", LogLevel::ERROR);
+			output("Unable to create new migration because: {$ex->getMessage()}", LogLevel::ERROR);
 			exit(1);
 		}
 
@@ -282,20 +289,41 @@
 			exit(1);
 		}
 
-		output("Initializing migrations table...");
-		output("Creating new DB driver...");
+		output("Initializing migrations table");
+		output("Creating new DB driver");
 		try {
 			$driver = get_migration_driver();
-			output("DB driver created...", LogLevel::SUCCESS);
+			output("DB driver created", LogLevel::SUCCESS);
 			$res = $driver->initialize();
 
-			if ( $res === true ) {
-				output("Migrations table created successfully", LogLevel::SUCCESS);
-				exit(0);
+			if ( $res !== true ) {
+				output($res, LogLevel::ERROR);
+				exit(1);
 			}
 
-			output($res, LogLevel::ERROR);
-			exit(1);
+			output('Migrations table created successfully', LogLevel::SUCCESS);
+
+			if ( isset($_ENV['args'][CLIArgs::FOLDER]) ) {
+				$folder = $_ENV['args'][CLIArgs::FOLDER];
+
+				if ( !is_dir($folder) ) {
+					output("Creating migrations folder [$folder]");
+					mkdir($folder, 0644, true);
+				}
+
+				if ( !is_dir($folder . '/up/') ) {
+					output("Creating migrations up folder [$folder/up]");
+					mkdir($folder . '/up', 0644, true);
+				}
+
+				if ( !is_dir($folder . '/down/') ) {
+					output("Creating migrations down folder [$folder/down]");
+					mkdir($folder . '/down', 0644, true);
+				}
+
+				output("Migrations folders created successfully", LogLevel::SUCCESS);
+			}
+			exit(0);
 		} catch ( Exception $ex ) {
 			$cls = new ReflectionClass($ex);
 			output("[{$cls->getShortName()}] " . $ex->getMessage(), LogLevel::ERROR);
@@ -319,7 +347,7 @@
 	 * Method used for showing preformatted messages with colors in the cli
 	 *
 	 * @param string $msg Message to be printed
-	 * @param string $lvl Type of message being printed (info, warning, error...)
+	 * @param string $lvl Type of message being printed (info, warning, error)
 	 * @param bool $silent Should the output be hidden unless it's level is error
 	 * @param bool $newLine Should it output a new line after the message
 	 */
