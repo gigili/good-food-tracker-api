@@ -17,10 +17,10 @@
 	class CountryModel
 	{
 
-		public static function filter(mixed $search, int $start = 0, int $limit = 10) : array|null {
+		public static function filter(?string $search = NULL, int $start = 0, int $limit = 10) : array|null {
 			$countryEntity = new CountryEntity();
 			return $countryEntity->filter(
-				filters : [ "name" => $search, "code" => $search ],
+				filters : is_null($search) ? [] : [ 'name' => $search, 'code' => $search ],
 				singleResult : false,
 				useOr : true,
 				start : $start,
@@ -62,9 +62,10 @@
 		 * @throws CountryNotFoundException
 		 * @throws InvalidUUIDException
 		 */
-		public static function update_country(string  $countryID,
-											  string  $name,
-											  ?string $code = NULL
+		public static function update_country(
+			string  $countryID,
+			string  $name,
+			?string $code = NULL
 		) : array|CountryEntity {
 			if ( empty($countryID) || !UuidV4::isValid($countryID) ) throw new InvalidUUIDException();
 			$countryEntity = new CountryEntity();

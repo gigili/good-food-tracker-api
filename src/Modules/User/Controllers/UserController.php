@@ -10,6 +10,7 @@
 
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidFileTypeException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
+	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotFoundException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotSavedException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileTooLargeException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException;
@@ -162,6 +163,7 @@
 		 * @throws UploadFileTooLargeException
 		 * @throws UserNotFoundException
 		 * @throws ReflectionException
+		 * @throws UploadFileNotFoundException
 		 *
 		 * @OA\Put (
 		 *     path="/user",
