@@ -69,24 +69,17 @@
 		 *     @OA\Response(
 		 *        response="200",
 		 *        description="Successfull result",
-		 *			@OA\JsonContent(ref="#/components/schemas/search_users_success_result"),
+		 *			@OA\JsonContent(
+		 *     			@OA\Property (
+		 *                    property="data",
+		 *                    type="array",
+		 *     				@OA\Items(ref="#/components/schemas/UserEntity")
+		 *                )
+		 *            )
 		 *     ),
 		 *
 		 * )
 		 *
-		 *
-		 * @OA\Schema (
-		 *  schema="search_users_success_result",
-		 *     type="array",
-		 *     properties={
-		 *     	@OA\Property(
-		 *       property="data",
-		 *     ),
-		 *    },
-		 *   @OA\Items(
-		 *     ref="#/components/schemas/UserEntity"
-		 *  )
-		 * )
 		 */
 		public function get_users(Request $request) {
 			$search = $request->get("search");

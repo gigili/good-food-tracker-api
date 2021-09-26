@@ -35,7 +35,9 @@
 	 *     schema="error_response",
 	 *      type="object",
 	 *      properties={
-	 *     	@OA\Property(property="error", ref="#/components/schemas/error_response.error"),
+	 *			@OA\Property(property="class", type="string"),
+	 *     		@OA\Property(property="message", type="string"),
+	 *     		@OA\Property(property="field", type="string")
 	 *     }
 	 * )
 	 *
@@ -47,15 +49,6 @@
 	 *       }
 	 * )
 	 *
-	 * @OA\Schema (
-	 *     schema="error_response.error",
-	 *     type="object",
-	 *      properties={
-	 *     	@OA\Property(property="class", type="string"),
-	 *     	@OA\Property(property="message", type="string"),
-	 *     	@OA\Property(property="field", type="string")
-	 *     }
-	 * )
 	 */
 
 	declare( strict_types=1 );

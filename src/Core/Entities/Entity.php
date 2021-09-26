@@ -15,10 +15,25 @@
 
 	abstract class Entity implements EntityInterface
 	{
-		private string     $table;
-		private string     $primaryKey;
+		/**
+		 * @var string Entities table name in the database
+		 */
+		private string $table;
+
+		/**
+		 * @var string Entities primary key column in the database
+		 */
+		private string $primaryKey;
+
+		/**
+		 * @var Database Instance of database class
+		 */
 		protected Database $db;
-		protected array    $ignoredColumns = [];
+
+		/**
+		 * @var array List of table columns to be ignored during script generation
+		 */
+		protected array $ignoredColumns = [];
 
 		public function __construct(string $table, string $primaryKey = "id") {
 			$this->table = $table;

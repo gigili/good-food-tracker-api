@@ -45,7 +45,19 @@
 		 *     @OA\Response(
 		 *        response="200",
 		 *        description="Successfull login",
-		 *			@OA\JsonContent(ref="#/components/schemas/successful_login"),
+		 *			@OA\JsonContent(
+		 *                properties = {
+		 *     				@OA\Property(property="user", ref="#/components/schemas/UserEntity"),
+		 *     				@OA\Property(
+		 *                        property="tokens",
+		 *                        type="object",
+		 *                        properties = {
+		 *    						@OA\Property(property="access_token", type="string"),
+		 *     						@OA\Property(property="refresh_token", type="string")
+		 *                        }
+		 *                    )
+		 *                }
+		 *            )
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
@@ -64,23 +76,6 @@
 		 *     )
 		 * )
 		 *
-		 * @OA\Schema (
-		 *  schema="successful_login",
-		 *     type="object",
-		 *     properties={
-		 *     @OA\Property(property="user", ref="#/components/schemas/UserEntity"),
-		 *     @OA\Property(property="tokens", ref="#/components/schemas/successful_login.tokens")
-		 *    }
-		 * )
-		 *
-		 *
-		 * @OA\Schema (
-		 *    schema="successful_login.tokens",
-		 *    properties ={
-		 *     @OA\Property(property="access_token", type="string"),
-		 *     @OA\Property(property="refresh_token", type="string")
-		 *    }
-		 * )
 		 */
 		public function login(Request $request) {
 			try {
@@ -135,7 +130,12 @@
 		 *     @OA\Response(
 		 *        response="201",
 		 *        description="Registration successful",
-		 *			@OA\JsonContent(ref="#/components/schemas/successful_registration"),
+		 *			@OA\JsonContent(
+		 *                properties = {
+		 *     				@OA\Property(property="message", type="string"),
+		 *     				@OA\Property(property="user", ref="#/components/schemas/UserEntity"),
+		 *                }
+		 *            )
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
@@ -154,14 +154,6 @@
 		 *     )
 		 * )
 		 *
-		 * @OA\Schema (
-		 *  schema="successful_registration",
-		 *     type="object",
-		 *     properties={
-		 *     @OA\Property(property="message", type="string"),
-		 *     @OA\Property(property="user", ref="#/components/schemas/UserEntity"),
-		 *    }
-		 * )
 		 */
 		public function register(Request $request) {
 			$name = $request->get("name");
@@ -408,8 +400,9 @@
 		/**
 		 * Logout endpoint
 		 *
-		 * @throws InvalidTokenException
+		 * @param Request $request
 		 *
+		 * @throws InvalidTokenException
 		 * @OA\Post (
 		 *     path="/auth/logout",
 		 *     summary="Logout endpoint",
