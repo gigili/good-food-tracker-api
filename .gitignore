@@ -161,3 +161,4 @@ cli/output/
 redis-data/
 .phpdoc/
 output/
+src/uploads/

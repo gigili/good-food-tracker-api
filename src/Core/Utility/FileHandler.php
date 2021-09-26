@@ -9,8 +9,10 @@
 
 
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidFileTypeException;
+	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotFoundException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotSavedException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileTooLargeException;
+	use Gac\Routing\Routes;
 
 	class FileHandler
 	{
@@ -35,6 +37,7 @@
 		 * @throws UploadFileTooLargeException
 		 * @throws InvalidFileTypeException
 		 * @throws UploadFileNotSavedException
+		 * @throws UploadFileNotFoundException
 		 */
 		public static function upload(
 			array $file,
@@ -58,10 +61,21 @@
 			}
 
 			$uploadPath = $savePath . basename($file["name"]);
+			if ( $_SERVER["REQUEST_METHOD"] === Routes::POST ) {
+				if ( !move_uploaded_file($file["tmp_name"], $uploadPath) ) {
+					throw new UploadFileNotSavedException('File upload failed');
+				}
+			} elseif ( in_array($_SERVER["REQUEST_METHOD"], [ Routes::PATCH, Routes::PUT ]) ) {
+				$content = file_get_contents($file["tmp_name"]);
 
-			if ( !move_uploaded_file($file["tmp_name"], $uploadPath) ) {
-				$errorMessage = $file["error"] !== 0 ? self::$phpFileUploadErrors[$file["error"]] : "File upload failed";
-				throw new UploadFileNotSavedException($errorMessage);
+				if ( $content === false ) throw  new UploadFileNotFoundException("File upload failed");
+
+				$handle = fopen($uploadPath, "w");
+
+				if ( $handle === false ) throw new UploadFileNotSavedException("Unable to write file to disk");
+
+				fwrite($handle, $content);
+				fclose($handle);
 			}
 
 			return $uploadPath;

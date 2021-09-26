@@ -26,12 +26,12 @@
 		 */
 		public static function get_users(
 			?string $search = NULL,
-			int $start = 0,
-			int $limit = 10
+			int     $start = 0,
+			int     $limit = 10
 		) : array|null {
 			$userEntity = new UserEntity();
 
-			if ( is_null($search) || empty($search) ) {
+			if ( empty($search) ) {
 				throw new InvalidSearchTermException();
 			}
 
@@ -64,7 +64,7 @@
 			$userEntity = new UserEntity();
 			$user = $userEntity->get($_SESSION['userID']);
 
-			if ( is_null($user) || !isset($user->id) ) throw new UserNotFoundException();
+			if ( ( $user instanceof UserEntity ) === false || !isset($user->id) ) throw new UserNotFoundException();
 
 			$user->name = $request->get('name');
 			$user->email = $request->get('email');
@@ -84,7 +84,7 @@
 
 			$userEntity = new UserEntity();
 			$user = $userEntity->get($userID);
-			if ( is_null($user) ) throw new UserNotFoundException();
+			if ( ( $user instanceof UserEntity ) === false ) throw new UserNotFoundException();
 			$user->delete();
 
 			//TODO: send an account deleted notification email with a proper template
