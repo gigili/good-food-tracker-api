@@ -8,7 +8,7 @@
     <title>Good Food Tracker</title>
     <paths>
         <output>docs/</output>
-        <cache>output/cache</cache>
+        <cache>logs/docs-output/cache</cache>
     </paths>
     <version number="latest">
         <api>
