@@ -42,6 +42,7 @@
 		public string $name;
 
 		/**
+		 * @GAC\Relationship(table="locations.country", foreign_key="country_id", references="id", column="name")
 		 * @var string|null
 		 */
 		public ?string $country_name = NULL;

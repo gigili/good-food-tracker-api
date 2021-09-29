@@ -7,7 +7,6 @@
 
 	namespace Gac\GoodFoodTracker\Modules\City\Models;
 
-	use Gac\GoodFoodTracker\Core\DB\Database;
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
 	use Gac\GoodFoodTracker\Entity\CityEntity;
@@ -19,22 +18,7 @@
 	{
 		public static function filter(?string $search = NULL, int $start = 0, int $limit = 10) : Entity|array|null {
 			$cityEntity = new CityEntity();
-			$query = "
-				SELECT city.*, country.name AS country_name  FROM locations.city AS city 
-				LEFT JOIN locations.country AS country ON city.country_id = country.id
-				WHERE city.name ILIKE ? 
-				LIMIT ? OFFSET ?
-			";
-
-			$search = "$search%";
-			$tmpResult = Database::execute_query($query, [ $search, $limit, $start ]);
-			$result = [];
-
-			foreach ( $tmpResult as $row ) {
-				array_push($result, $cityEntity->from_result($row));
-			}
-
-			return $result;
+			return $cityEntity->filter([ "name" => $search ], start : $start, limit : $limit, useLike : true);
 		}
 
 		/**
@@ -48,16 +32,9 @@
 			if ( empty($cityID) || !UuidV4::isValid($cityID) ) throw new InvalidUUIDException();
 
 			$cityEntity = new CityEntity();
-			$query = '
-				SELECT city.*, country.name AS country_name  FROM locations.city AS city 
-				LEFT JOIN locations.country AS country ON city.country_id = country.id
-				WHERE city.id = ?
-			';
+			$city = $cityEntity->get($cityID);
 
-			$result = Database::execute_query($query, [ $cityID ], singleResult : true);
-			$city = $cityEntity->from_result($result);
-
-			if ( is_null($city) || !isset($city->id) ) throw new CityNotFoundException();
+			if ( ( $city instanceof CityEntity ) === false || !isset($city->id) ) throw new CityNotFoundException();
 
 			return $city;
 		}
