@@ -5,7 +5,7 @@
 	 * Project: good-food-tracker-api
 	 */
 
-	namespace Gac\GoodFoodTracker\Entity;
+	namespace Gac\GoodFoodTracker\Core\Entities;
 
 	class EntityAnnotations
 	{
