@@ -8,7 +8,6 @@
 	namespace Gac\GoodFoodTracker\Core\Entities;
 
 	use Gac\GoodFoodTracker\Core\DB\Database;
-	use Gac\GoodFoodTracker\Entity\EntityAnnotations;
 	use JetBrains\PhpStorm\ArrayShape;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
 	use ReflectionClass;
