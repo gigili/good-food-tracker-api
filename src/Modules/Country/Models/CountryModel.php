@@ -8,6 +8,7 @@
 	namespace Gac\GoodFoodTracker\Modules\Country\Models;
 
 
+	use Gac\GoodFoodTracker\Core\Entities\Entity;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
 	use Gac\GoodFoodTracker\Entity\CountryEntity;
 	use Gac\GoodFoodTracker\Modules\Country\Exceptions\CountryNotFoundException;
@@ -33,7 +34,7 @@
 		 * @throws CountryNotFoundException
 		 * @throws InvalidUUIDException
 		 */
-		public static function get_country(string $countryID) : CountryEntity {
+		public static function get_country(string $countryID) : array|Entity {
 			if ( !UuidV4::isValid($countryID) ) throw new InvalidUUIDException();
 
 			$countryEntity = new CountryEntity();
