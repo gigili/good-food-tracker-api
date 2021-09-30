@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>Good Food Tracker</title>
+    <paths>
+        <output>docs/</output>
+        <cache>logs/docs-output/cache</cache>
+    </paths>
+    <version number="latest">
+        <api>
+            <source dsn=".">
+                <path>src/</path>
+            </source>
+
+            <markers>
+                <marker>TODO</marker>
+                <marker>FIXME</marker>
+            </markers>
+
+            <include-source>true</include-source>
+
+            <extensions>
+                <extension>php</extension>
+            </extensions>
+
+            <ignore hidden="true" symlinks="true">
+                <path>assets/**/*</path>
+                <path>languages/**/*</path>
+                <path>migrations/**/*</path>
+                <path>uploads/**/*</path>
+            </ignore>
+        </api>
+    </version>
+</phpdocumentor>

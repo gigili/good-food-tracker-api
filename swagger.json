@@ -1,0 +1,1476 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Good Food Tracker API",
+    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\r\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
+    "contact": {
+      "name": "Igor Ilic",
+      "email": "github@igorilic.net"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8098",
+      "description": "Development API base url"
+    },
+    {
+      "url": "https://gft.igorilic.net/api",
+      "description": "Production API base url"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login endpoint",
+        "description": "Endpoint used to authenticate user and obtain JWT tokens",
+        "operationId": "f37d342cb00753efb2efa7875d4618cf",
+        "requestBody": {
+          "description": "Login parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    },
+                    "tokens": {
+                      "properties": {
+                        "access_token": {
+                          "type": "string"
+                        },
+                        "refresh_token": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found (invalid username/password)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Account not active",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register endpoint",
+        "description": "Endpoint used for registering new accounts",
+        "operationId": "42e7f1d156b5d98a81e2b94e9a7af221",
+        "requestBody": {
+          "description": "Register parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "password_again": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registration successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Username or Email taken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Registration failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/verify": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Verify account endpoint",
+        "description": "Endpoint used for verifing user accounts after registration",
+        "operationId": "7b08c8dfe317bea9f1c37a266e9f3ee0",
+        "requestBody": {
+          "description": "Parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "activationKey": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account verified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_with_message_only"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Invalid activation key provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/request-password-reset": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Request password reset code endpoint",
+        "description": "Endpoint used for request a new password reset code",
+        "operationId": "bc96bacf353b7d2741615279b0c7e1da",
+        "requestBody": {
+          "description": "Parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "emailOrUsername": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset code sent to email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_with_message_only"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unable to send reset code via email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Reset password endpoint",
+        "description": "Endpoint used for resetting a new password",
+        "operationId": "cfedc29b38bb0d51eefc48d5c0f22d1e",
+        "requestBody": {
+          "description": "Parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "passwordResetCode": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  },
+                  "newPasswordAgain": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_with_message_only"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fileds in the request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User account not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unable to send password reset confirmation email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout endpoint",
+        "description": "Endpoint used for loggin user out and invalidating tokens",
+        "operationId": "a658b3822483da1e072726837721c1b1",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Refresh or access token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response_with_message_only"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Invalid token exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh token endpoint",
+        "description": "Endpoint used for generating a fresh access token based of refresh token",
+        "operationId": "8e0ff1a489c5dd385793c45a6da6f72a",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Refresh token",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull generated new access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    },
+                    "refreshToken": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Invalid token exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/city": {
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Fetch a list of cities",
+        "description": "Endpoint used for get a list of cities",
+        "operationId": "e8d501fe8bfdc517ca4673c0d2a0e768",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Value used to filter the cities",
+            "required": true
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Pagination start offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination end offset",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CityEntity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Create a city",
+        "description": "Endpoint used for creating a city",
+        "operationId": "adacc285c00288c4c0bf045b5839f6c5",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "country_id": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CityEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/city/{cityID}": {
+      "get": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Fetch a single city",
+        "description": "Endpoint used for get information about a single city",
+        "operationId": "c3217ec998b12b7ced2316cdce2a1d6f",
+        "parameters": [
+          {
+            "name": "cityID",
+            "in": "path",
+            "description": "ID of a city we are looking for",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CityEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "City not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Delete city",
+        "description": "Endpoint used for deleting a city",
+        "operationId": "3728f52c10130ab55512ed04c7db7ee7",
+        "parameters": [
+          {
+            "name": "cityID",
+            "in": "path",
+            "description": "ID of a city being updated",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CityEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "City"
+        ],
+        "summary": "Update city",
+        "description": "Endpoint used for updating city information",
+        "operationId": "4fd8a9400071d1b95c78581570f67d57",
+        "parameters": [
+          {
+            "name": "cityID",
+            "in": "path",
+            "description": "ID of a city being updated",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CityEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/country": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Fetch a list of countries",
+        "description": "Endpoint used for get a list of countries",
+        "operationId": "9b4823deea0af7e0075376465e07cc05",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Value used to filter the countries",
+            "required": true
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Pagination start offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination end offset",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull filtered countries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CountryEntity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Add new country",
+        "description": "Endpoint used for adding a new country",
+        "operationId": "2b7487fe8a3b5ecc1afe3b81f8f80fb3",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CountryEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/country/{countryID}": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Fetch a information about a specific country",
+        "description": "Endpoint used for getting information about a specific country",
+        "operationId": "00b4848e7c68b94bfce85a91ff23d9ea",
+        "parameters": [
+          {
+            "name": "countryID",
+            "in": "path",
+            "description": "ID of a country",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CountryEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Delete country",
+        "description": "Endpoint used for deleting a country",
+        "operationId": "cddc8735b2a77841fee97c210153c20a",
+        "parameters": [
+          {
+            "name": "countryID",
+            "in": "path",
+            "description": "ID of a country being updated",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CountryEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Country not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Country"
+        ],
+        "summary": "Update country",
+        "description": "Endpoint used for updateing country information",
+        "operationId": "69646430a79ad2e443a3df9538d77022",
+        "parameters": [
+          {
+            "name": "countryID",
+            "in": "path",
+            "description": "ID of a country being updated",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/CountryEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Country not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Filter users endpoint",
+        "description": "Endpoint used to filters users based on the value of search parameter",
+        "operationId": "080c0fa8d56c8d9f1cd023294c4bf571",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "search": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserEntity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update information about a specific user",
+        "description": "Endpoint used for updating information about a specific user",
+        "operationId": "2df612e584ab8bd4a619fb6947ae57b6",
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed parameter validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Invalid file type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Uploaded file was too large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Fail upload failed or any other non specific error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete account",
+        "description": "Endpoint used for deleting a user account",
+        "operationId": "34206cdcf43ef1c515c6abc086c0f883",
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/response_with_message_only"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "498": {
+            "description": "Invalid token provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Email not sent or any other excpetion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/user/{userID}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Fetch information about a specific user",
+        "description": "Endpoint used for fetch information about a specific user",
+        "operationId": "f887ec73e6779216cdad8b4ccb710b14",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UserEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID provided for userID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CityEntity": {
+        "description": "CityEntity Class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country_id": {
+            "type": "string"
+          },
+          "country_name": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CountryEntity": {
+        "description": "CountryEntity Class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UserEntity": {
+        "description": "UserEntity class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "image": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "error_response": {
+        "properties": {
+          "class": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "response_with_message_only": {
+        "description": "Swagger doc block",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

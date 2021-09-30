@@ -1,0 +1,48 @@
+version: '3.1'
+
+services:
+  app:
+    volumes:
+      - ".:/var/www/html"
+      - ./vendor:/var/www/html/vendor:rw
+      - ./.docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./.docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    ports:
+      - "${APACHE_PORT}:80"
+      - 9000
+
+  db:
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_PORT: "${DB_PORT}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+
+  pg-admin:
+    ports:
+      - "${PGADMIN_PORT}:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${DB_PASSWORD}"
+
+  mailhog:
+    container_name: "gft-mailhog"
+    ports:
+      - "${MAILHOG_PORT}:8025"
+      - "${EMAIL_PORT}:1025"
+
+  swagger-ui:
+    container_name: "gft-swagger-ui"
+    ports:
+      - "${SWAGGER_PORT}:8080"
+    environment:
+      SWAGGER_JSON: "/home/data/swagger.json"
+
+  redis:
+    container_name: "gft-redis"
+    ports:
+      - "${REDIS_PORT}:6379"
+
+networks:
+  gft-app-network:
+    driver: "bridge"

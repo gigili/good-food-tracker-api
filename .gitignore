@@ -151,3 +151,13 @@ build
 
 #Ignore user profile images
 public/images/
+/vendor/
+logs/
+src/logs/
+postgres-data/
+cli/.phpdoc/
+cli/output/
+.migration.conf
+redis-data/
+.phpdoc/
+src/uploads/
