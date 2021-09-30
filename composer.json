@@ -11,6 +11,9 @@
       "role": "developer"
     }
   ],
+  "scripts": {
+    "swagger": "php ./vendor/bin/openapi -o swagger.json ./src --bootstrap swagger-constants.php"
+  },
   "autoload": {
     "psr-4": {
       "Gac\\GoodFoodTracker\\": "./src"

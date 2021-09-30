@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Good Food Tracker API",
-    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\r\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
+    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
     "contact": {
       "name": "Igor Ilic",
       "email": "github@igorilic.net"
@@ -570,16 +570,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Missing required arguments",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_response"
-                }
-              }
-            }
           }
         }
       },
@@ -883,16 +873,6 @@
                     }
                   },
                   "type": "object"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Missing required arguments",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_response"
                 }
               }
             }
