@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Good Food Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <link rel="icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism-okaidia.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
+                <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/search.js"></script>
+        <script defer src="js/searchIndex.js"></script>
+    </head>
+<body id="top">
+    <header class="phpdocumentor-header phpdocumentor-section">
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">Good Food Tracker</a></h1>
+    <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
+    <label class="phpdocumentor-header__menu-icon" for="menu-button">
+        <i class="fas fa-bars"></i>
+    </label>
+    <section data-search-form class="phpdocumentor-search">
+    <label>
+        <span class="visually-hidden">Search for</span>
+        <svg class="phpdocumentor-search__icon" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+            <line x1="12.4892" y1="12.2727" x2="19.1559" y2="18.9393" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <input type="search" class="phpdocumentor-field phpdocumentor-search__field" placeholder="Loading .." disabled />
+    </label>
+</section>
+
+    <nav class="phpdocumentor-topnav">
+    <ul class="phpdocumentor-topnav__menu">
+        </ul>
+</nav>
+</header>
+
+    <main class="phpdocumentor">
+        <div class="phpdocumentor-section">
+            <input class="phpdocumentor-sidebar__menu-button" type="checkbox" id="sidebar-button" name="sidebar-button" />
+<label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
+    Menu
+</label>
+<aside class="phpdocumentor-column -four phpdocumentor-sidebar">
+                    <section class="phpdocumentor-sidebar__category">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="namespaces/gac.html">Gac</a></h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/gac-goodfoodtracker.html">GoodFoodTracker</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category">
+            <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace"><a href="packages/Application.html">Application</a></h4>
+
+                        </section>
+            
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
+                <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
+    </section>
+
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
+    </section>
+</aside>
+
+            <div class="phpdocumentor-column -eight phpdocumentor-content">
+                    <ul class="phpdocumentor-breadcrumbs">
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/gac.html">Gac</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/gac-goodfoodtracker.html">GoodFoodTracker</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/gac-goodfoodtracker-modules.html">Modules</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/gac-goodfoodtracker-modules-auth.html">Auth</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/gac-goodfoodtracker-modules-auth-controllers.html">Controllers</a></li>
+    </ul>
+
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    AuthController
+
+        <span class="phpdocumentor-element__extends">
+        extends <a href="classes/Gac-GoodFoodTracker-Core-Controllers-BaseController.html"><abbr title="\Gac\GoodFoodTracker\Core\Controllers\BaseController">BaseController</abbr></a>
+    </span>
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">20</span>
+
+    </aside>
+
+        
+    <section class="phpdocumentor-description"></section>
+
+
+
+
+
+
+
+
+<h3 id="toc">
+    Table of Contents
+    <a href="#toc" class="headerlink"><i class="fas fa-link"></i></a>
+</h3>
+
+<dl class="phpdocumentor-table-of-contents">
+                <dt class="phpdocumentor-table-of-contents__entry -property -protected">
+    <a href="classes/Gac-GoodFoodTracker-Core-Controllers-BaseController.html#property_redis">$redis</a>
+    <span>
+                &nbsp;: <abbr title="\Predis\Client">Client</abbr>            </span>
+</dt>
+<dd></dd>
+
+                <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Core-Controllers-BaseController.html#method___construct">__construct()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>BaseController constructor.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_login">login()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Login endpoint</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_logout">logout()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Logout endpoint</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_refresh_token">refresh_token()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Refresh token endpoint</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_register">register()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Register endpoint</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_request_password_reset">request_password_reset()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Request password reset code</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_reset_password">reset_password()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Reset password endpoint</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_verify_account">verify_account()</a>
+    <span>
+                        &nbsp;: mixed    </span>
+</dt>
+<dd>Verify account endpoint</dd>
+
+        </dl>
+
+
+
+        
+
+        
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -protected
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_redis">
+        $redis
+        <a href="classes/Gac-GoodFoodTracker-Core-Controllers-BaseController.html#property_redis" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Controllers/BaseController.php"><a href="files/src-core-controllers-basecontroller.html"><abbr title="src/Core/Controllers/BaseController.php">BaseController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">20</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">protected</span>
+        <span class="phpdocumentor-signature__type"><abbr title="\Predis\Client">Client</abbr></span>
+    <span class="phpdocumentor-signature__name">$redis</span>
+    </code>
+
+    
+        <section class="phpdocumentor-description"><p>Instance of a redis cache</p>
+</section>
+
+    
+
+</article>
+            </section>
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Gac-GoodFoodTracker-Core-Controllers-BaseController.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Controllers/BaseController.php"><a href="files/src-core-controllers-basecontroller.html"><abbr title="src/Core/Controllers/BaseController.php">BaseController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">28</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">BaseController constructor.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$redisHost</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$redisPort</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$redisHost</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">NULL</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Host url for Redis cache</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$redisPort</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int|null</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">NULL</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_login">
+        login()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_login" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">80</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Login endpoint</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">login</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/login&quot;,
+summary=&quot;Login endpoint&quot;,
+description=&quot;Endpoint used to authenticate user and obtain JWT tokens&quot;,
+tags={&quot;Auth&quot;},
+@OA\RequestBody(
+description=&quot;Login parameters&quot;,
+required=true,
+@OA\MediaType(
+mediaType=&quot;application/json&quot;,
+@OA\Schema(
+properties={
+@OA\Property(property=&quot;username&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;password&quot;, type=&quot;string&quot;)
+},
+),
+),
+),
+@OA\Response(
+response=&quot;200&quot;,
+description=&quot;Successfull login&quot;,
+@OA\JsonContent(
+properties = {
+@OA\Property(property=&quot;user&quot;, ref=&quot;#/components/schemas/UserEntity&quot;),
+@OA\Property(
+property=&quot;tokens&quot;,
+type=&quot;object&quot;,
+properties = {
+@OA\Property(property=&quot;access_token&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;refresh_token&quot;, type=&quot;string&quot;)
+}
+)
+}
+)
+),
+@OA\Response(
+response=&quot;400&quot;,
+description=&quot;Missing required fileds in the request body&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;404&quot;,
+description=&quot;User not found (invalid username/password)&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;423&quot;,
+description=&quot;Account not active&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+)
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_logout">
+        logout()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_logout" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">439</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Logout endpoint</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">logout</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-InvalidTokenException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException">InvalidTokenException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/logout&quot;,
+summary=&quot;Logout endpoint&quot;,
+description=&quot;Endpoint used for loggin user out and invalidating tokens&quot;,
+tags={&quot;Auth&quot;},
+@OA\Parameter(
+in=&quot;header&quot;,
+name=&quot;Authorization&quot;,
+description=&quot;Refresh or access token&quot;,
+required=true
+),
+@OA\Response(
+response=&quot;200&quot;,
+description=&quot;Logout successfull&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/response_with_message_only&quot;),
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;498&quot;,
+description=&quot;Invalid token exception&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;500&quot;,
+description=&quot;Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_refresh_token">
+        refresh_token()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_refresh_token" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">494</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Refresh token endpoint</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">refresh_token</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-InvalidTokenException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException">InvalidTokenException</abbr></a></span>
+                                                            
+                                             
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/refresh&quot;,
+summary=&quot;Refresh token endpoint&quot;,
+description=&quot;Endpoint used for generating a fresh access token based of refresh token&quot;,
+tags={&quot;Auth&quot;},
+@OA\Parameter(
+in=&quot;header&quot;,
+name=&quot;Authorization&quot;,
+description=&quot;Refresh token&quot;,
+required=true
+),
+@OA\Response(
+response=&quot;200&quot;,
+description=&quot;Successfull generated new access token&quot;,
+@OA\JsonContent(
+properties = {
+@OA\Property (property=&quot;accessToken&quot;, type=&quot;string&quot;),
+@OA\Property (property=&quot;refreshToken&quot;, type=&quot;string&quot;, nullable=true),
+}
+)
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;498&quot;,
+description=&quot;Invalid token exception&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;500&quot;,
+description=&quot;Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_register">
+        register()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_register" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">158</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register endpoint</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">register</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/register&quot;,
+summary=&quot;Register endpoint&quot;,
+description=&quot;Endpoint used for registering new accounts&quot;,
+tags={&quot;Auth&quot;},
+@OA\RequestBody(
+description=&quot;Register parameters&quot;,
+required=true,
+@OA\MediaType(
+mediaType=&quot;application/json&quot;,
+@OA\Schema(
+properties={
+@OA\Property(property=&quot;name&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;email&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;username&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;password&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;password_again&quot;, type=&quot;string&quot;)
+},
+),
+),
+),
+@OA\Response(
+response=&quot;201&quot;,
+description=&quot;Registration successful&quot;,
+@OA\JsonContent(
+properties = {
+@OA\Property(property=&quot;message&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;user&quot;, ref=&quot;#/components/schemas/UserEntity&quot;),
+}
+)
+),
+@OA\Response(
+response=&quot;400&quot;,
+description=&quot;Missing required fileds in the request body&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;409&quot;,
+description=&quot;Username or Email taken&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;500&quot;,
+description=&quot;Registration failed&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+)
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_request_password_reset">
+        request_password_reset()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_request_password_reset" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">302</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Request password reset code</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">request_password_reset</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/request-password-reset&quot;,
+summary=&quot;Request password reset code endpoint&quot;,
+description=&quot;Endpoint used for request a new password reset code&quot;,
+tags={&quot;Auth&quot;},
+@OA\RequestBody(
+description=&quot;Parameters&quot;,
+required=true,
+@OA\MediaType(
+mediaType=&quot;application/json&quot;,
+@OA\Schema(
+properties={
+@OA\Property(property=&quot;emailOrUsername&quot;, type=&quot;string&quot;),
+},
+),
+),
+),
+@OA\Response(
+response=&quot;200&quot;,
+description=&quot;Password reset code sent to email&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/response_with_message_only&quot;),
+),
+@OA\Response(
+response=&quot;400&quot;,
+description=&quot;Missing required fileds in the request body&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;404&quot;,
+description=&quot;User account not found&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;500&quot;,
+description=&quot;Unable to send reset code via email&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+)
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_reset_password">
+        reset_password()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_reset_password" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">369</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Reset password endpoint</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">reset_password</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/reset-password&quot;,
+summary=&quot;Reset password endpoint&quot;,
+description=&quot;Endpoint used for resetting a new password&quot;,
+tags={&quot;Auth&quot;},
+@OA\RequestBody(
+description=&quot;Parameters&quot;,
+required=true,
+@OA\MediaType(
+mediaType=&quot;application/json&quot;,
+@OA\Schema(
+properties={
+@OA\Property(property=&quot;passwordResetCode&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;newPassword&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;newPasswordAgain&quot;, type=&quot;string&quot;),
+},
+),
+),
+),
+@OA\Response(
+response=&quot;200&quot;,
+description=&quot;Password reset successfully&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/response_with_message_only&quot;),
+),
+@OA\Response(
+response=&quot;400&quot;,
+description=&quot;Missing required fileds in the request body&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;404&quot;,
+description=&quot;User account not found&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;500&quot;,
+description=&quot;Unable to send password reset confirmation email&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+)
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_verify_account">
+        verify_account()
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#method_verify_account" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">233</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Verify account endpoint</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                <span class="phpdocumentor-signature__name">verify_account</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$request</span>
+                : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">OA\Post</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(
+path=&quot;/auth/verify&quot;,
+summary=&quot;Verify account endpoint&quot;,
+description=&quot;Endpoint used for verifing user accounts after registration&quot;,
+tags={&quot;Auth&quot;},
+@OA\RequestBody(
+description=&quot;Parameters&quot;,
+required=true,
+@OA\MediaType(
+mediaType=&quot;application/json&quot;,
+@OA\Schema(
+properties={
+@OA\Property(property=&quot;activationKey&quot;, type=&quot;string&quot;),
+},
+),
+),
+),
+@OA\Response(
+response=&quot;200&quot;,
+description=&quot;Account verified successfully&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/response_with_message_only&quot;),
+),
+@OA\Response(
+response=&quot;400&quot;,
+description=&quot;Missing required fileds in the request body&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;412&quot;,
+description=&quot;Invalid activation key provided&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+)
+)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+        
+    
+</article>
+            </section>
+
+        
+    <script type="text/javascript">
+        function loadExternalCodeSnippets(line) {
+            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                var src = pre.getAttribute('data-src').replace( /\\/g, '/');
+                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+                var language = 'php';
+
+                var code = document.createElement('code');
+                code.className = 'language-' + language;
+
+                pre.textContent = '';
+
+                pre.setAttribute('data-line', line)
+                code.textContent = 'Loading…';
+
+                pre.appendChild(code);
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', src, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+
+                            Prism.highlightElement(code);
+                        }
+                        else if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                        }
+                        else {
+                            code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
+                        }
+                    }
+                };
+
+                xhr.send(null);
+            });
+        }
+
+        var modals = document.querySelectorAll("[data-modal]");
+
+        modals.forEach(function (trigger) {
+            trigger.addEventListener("click", function (event) {
+                //event.preventDefault();
+                const modal = document.getElementById(trigger.dataset.modal);
+                modal.classList.add("phpdocumentor-modal__open");
+                loadExternalCodeSnippets(trigger.dataset.line)
+                const exits = modal.querySelectorAll("[data-exit-button]");
+                exits.forEach(function (exit) {
+                    exit.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        modal.classList.remove("phpdocumentor-modal__open");
+                    });
+                });
+            });
+        });
+    </script>
+
+    </article>
+                <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+    <section class="phpdocumentor-search-results__dialog">
+        <header class="phpdocumentor-search-results__header">
+            <h2 class="phpdocumentor-search-results__title">Search results</h2>
+            <button class="phpdocumentor-search-results__close"><i class="fas fa-times"></i></button>
+        </header>
+        <section class="phpdocumentor-search-results__body">
+            <ul class="phpdocumentor-search-results__entries"></ul>
+        </section>
+    </section>
+</section>
+            </div>
+        </div>
+        <a href="classes/Gac-GoodFoodTracker-Modules-Auth-Controllers-AuthController.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+
+    </main>
+
+    <script>
+        cssVars({});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
+</body>
+</html>
