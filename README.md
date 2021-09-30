@@ -1,6 +1,6 @@
 # Good Food Tracker #
 
-![Dependecy Badge](https://img.shields.io/librariesio/github/gigili/good-food-tracker-api?style=for-the-badge)
+![Dependency Badge](https://img.shields.io/librariesio/github/gigili/good-food-tracker-api?style=for-the-badge)
 ![Repo size badge](https://img.shields.io/github/repo-size/gigili/good-food-tracker-api?style=for-the-badge)
 ![Open issues badge](https://img.shields.io/github/issues/gigili/good-food-tracker-api?style=for-the-badge)
 ![Licence badge](https://img.shields.io/github/license/gigili/good-food-tracker-api?style=for-the-badge)
@@ -14,40 +14,45 @@
 The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
 in order to be able to reference it later when they try to pick were they want to go eat out or order from.
 
-### What is this repository for? ###
+## What is this repository for? ###
 
-This repository is for the back end API built
+This repository is part of the `Good Food Tracker` project and is used for the development of the backend system.
 
 For the list of existing or currently being developed feature please refer to the [features](#features) section of this
 document.
 
-### How do I get set up? ###
+## How do I get set up? ###
 
 To get started on development follow these steps:
 
 * Rename `.env.example` to `.env`;
     * Add your values to the `.env` file;
-* Start up docker containers with `docker-compose up`
+* Start up docker containers with `docker-compose up`;
 * Create `postgres` database;
-    * Rename `.migration.example.config` into `.migration.config`
+    * To create the database you can use the `pgAdmin` web UI;
+        * `pgAdmin` web UI can be accessed at: `localhost:${PGADMIN_PORT}`;
+    * Rename `.migration.example.config` into `.migration.config`;
         * Add your values to the `.migration.config` file;
-    * Run `php cli/migrate.php --init` to initialize the migrations table;
-    * Run `php cli/migrate.php --up` to run all the migrations;
-* Visit `localhost:${APACHE_PORT}` to see if everything works;
+    * Run `php ./cli/migrate.php --init` to initialize the migrations table;
+    * Run `php ./cli/migrate.php --up` to run all the migrations;
+* Visit `localhost:${APACHE_PORT}` to see if everything is working;
 
-### Contribution guidelines ###
+## Contribution guidelines ###
 
 * Keep code clean and simple;
 * **DO NOT** alter the database directly, use migrations;
 * Always use branches and pull requests when making changes to the codebase;
 
-### Who do I talk to? ###
+## Who do I talk to? ###
 
-* If you have any question you can contact Igor Ilić via [e-mail](mailto:github@igorilic.net)
-  or [twitter](https://twitter.com/Gac_BL)
-* If you have found a bug or want to ask for a new feature, open a new issue
+* If you have any question you can contact Igor Ilić via:
+    * [Twitter](https://twitter.com/Gac_BL)
+    * [Discord](https://discord.gg/VCwfegn4Gn)
+    * [E-mail](mailto:github@igorilic.net)
+* If you have found a bug or want to ask for a new feature, you can open a
+  new [issue](https://github.com/gigili/good-food-tracker-api/issues)
 
-### Features ###
+## Features ###
 
 List of currently completed or still being developed feature:
 
@@ -98,7 +103,7 @@ Thanks go to these wonderful people ([emoji key](https://allcontributors.org/doc
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://negue.github.io"><img src="https://avatars3.githubusercontent.com/u/842273?v=4?s=100" width="100px;" alt=""/><br /><sub><b>negue</b></sub></a><br /><a href="#ideas-negue" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://negue.github.io"><img src="https://avatars3.githubusercontent.com/u/842273?v=4?s=100" width="100px;" alt=""/><br /><sub><b>negue</b></sub></a><br /><a href="http://negue.github.io/" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://subhamsahu.me"><img src="https://avatars1.githubusercontent.com/u/43654114?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Subham Sahu</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=subhamX" title="Code">💻</a></td>
     <td align="center"><a href="http://kabartolo.com"><img src="https://avatars3.githubusercontent.com/u/11848944?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kate Bartolo</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=kabartolo" title="Documentation">📖</a></td>
     <td align="center"><a href="http://rajie.space"><img src="https://avatars.githubusercontent.com/u/37059749?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rajakavitha1</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=Rajakavitha1" title="Documentation">📖</a></td>
