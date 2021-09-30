@@ -8,7 +8,6 @@
 	namespace Gac\GoodFoodTracker\Entity;
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
-	use JetBrains\PhpStorm\ArrayShape;
 
 	/**
 	 * UserEntity class
@@ -59,6 +58,10 @@
 			}
 		}
 
+		public function __toString() : string {
+			return $this->name;
+		}
+
 		public function set_activation_key(?string $activation_key) {
 			$this->activation_key = $activation_key;
 		}
@@ -69,21 +72,6 @@
 
 		public function is_active() : bool {
 			return ( $this->status === 1 && is_null($this->activation_key) );
-		}
-
-		#[ArrayShape( [ "id" => "string", "name" => "string", "email" => "string", "username" => "string", "image" => "string" ] )] public function __serialize(
-		) : array {
-			return [
-				"id" => $this->id,
-				"name" => $this->name,
-				"email" => $this->email,
-				"username" => $this->username,
-				"image" => __DIR__ . "/$this->image",
-			];
-		}
-
-		public function __toString() : string {
-			return $this->name;
 		}
 
 		/**

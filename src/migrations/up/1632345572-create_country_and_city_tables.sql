@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS locations.city
     country_id UUID         NOT NULL
         CONSTRAINT FK_City_Country REFERENCES locations.country (id) ON UPDATE CASCADE ON DELETE CASCADE,
     name       varchar(255) NOT NULL,
-    create_at  timestamptz
+    created_at timestamptz
         CONSTRAINT DF_City_CreatedAt DEFAULT current_timestamp
 );
