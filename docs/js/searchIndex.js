@@ -636,6 +636,11 @@ Search.appendIndex(
             "summary": "UserEntity\u0020constructor.",
             "url": "classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___construct"
         },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\UserEntity\u003A\u003A__toString\u0028\u0029",
+            "name": "__toString",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___toString"
+        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\UserEntity\u003A\u003Aset_activation_key\u0028\u0029",
             "name": "set_activation_key",
             "summary": "",
@@ -650,16 +655,6 @@ Search.appendIndex(
             "name": "is_active",
             "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_is_active"
-        },                {
-            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\UserEntity\u003A\u003A__serialize\u0028\u0029",
-            "name": "__serialize",
-            "summary": "",
-            "url": "classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___serialize"
-        },                {
-            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\UserEntity\u003A\u003A__toString\u0028\u0029",
-            "name": "__toString",
-            "summary": "",
-            "url": "classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___toString"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\UserEntity\u003A\u003Aset_password_reset_code\u0028\u0029",
             "name": "set_password_reset_code",
