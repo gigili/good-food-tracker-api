@@ -102,11 +102,13 @@
 		 *
 		 * @throws InvalidActivationKeyException
 		 * @throws ReflectionException
+		 * @throws UserNotFoundException
 		 */
 		public static function verify_account(mixed $activationKey) {
 			$userEntity = new UserEntity();
 			$user = $userEntity->filter([ "activation_key" => $activationKey ], true);
 
+			if ( !$user instanceof UserEntity ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new InvalidActivationKeyException();
 
 			$user->set_activation_key(NULL);
@@ -130,6 +132,7 @@
 			$userEntity = new UserEntity();
 			$user = $userEntity->filter([ "email" => $emailOrUsername, "username" => $emailOrUsername ], true, true);
 
+			if ( ( $user instanceof UserEntity ) === false ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new UserNotFoundException();
 
 			$passwordResetCode = str_replace("-", "", substr(UuidV4::uuid4(), 0, 10));
@@ -138,7 +141,7 @@
 			$user->save();
 
 			$activationLink = "$passwordResetCode";
-			$emailBody = "Dear $user->name<br/><br/>to resset your password, please click on the button that says Reset password or copy the password reset code below it and open it in your browser. <br/><br/> Good Food Tracker team";
+			$emailBody = "Dear $user->name<br/><br/>to resset your password, please click on the button that says Reset password or copy the password reset code below and enter it in the app. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$user->email,
 				'Password reset code',
@@ -170,6 +173,7 @@
 
 			$user = $userEntity->filter([ "password_reset_code" => $passwordResetCode ], true);
 
+			if ( ( $user instanceof UserEntity ) === false ) throw new UserNotFoundException();
 			if ( !isset($user->id) ) throw new UserNotFoundException();
 
 			$user->set_password_reset_code(NULL);
