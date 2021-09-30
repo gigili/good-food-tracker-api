@@ -77,7 +77,7 @@
 		 */
 		public function save() : Entity {
 			$ref = new ReflectionClass($this);
-			$properties = $ref->getProperties(ReflectionProperty::IS_PUBLIC);
+			$properties = $ref->getProperties();
 
 			if ( isset($this->{$this->primaryKey}) ) {
 				$query = "UPDATE " . $this->table . " SET ";
@@ -107,6 +107,7 @@
 
 				foreach ( $properties as $property ) {
 					if ( $property->class === Entity::class ) continue;
+					if ( $property->getName() === "ignoredColumns" ) continue;
 					$column = $property->getName();
 					if ( in_array($column, $this->ignoredColumns) ) continue;
 					$value = $this->{$property->getName()};
@@ -114,7 +115,6 @@
 					$values .= "?,";
 					$params[] = $value;
 				}
-
 				$columns = rtrim($columns, ", ");
 				$values = rtrim($values, ",");
 
