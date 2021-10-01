@@ -91,7 +91,7 @@
 
     <article class="phpdocumentor-element -class">
         <h2 class="phpdocumentor-content__title">
-    UserEntity
+    RestaurantEntity
 
         <span class="phpdocumentor-element__extends">
         extends <a href="classes/Gac-GoodFoodTracker-Core-Entities-Entity.html"><abbr title="\Gac\GoodFoodTracker\Core\Entities\Entity">Entity</abbr></a>
@@ -108,13 +108,13 @@
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">UserEntity class</p>
+            <p class="phpdocumentor-summary">RestaurantEntity Class</p>
 
 
 
@@ -129,13 +129,20 @@
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
                                                  <section class="phpdocumentor-description"><p>(
-schema=&quot;UserEntity&quot;,
+schema=&quot;RestaurantEntity&quot;,
+type=&quot;object&quot;,
 properties={
 @OA\Property(property=&quot;id&quot;, type=&quot;string&quot;),
+@OA\Property(property=&quot;city_id&quot;, type=&quot;string&quot;),
 @OA\Property(property=&quot;name&quot;, type=&quot;string&quot;),
-@OA\Property(property=&quot;email&quot;, type=&quot;string&quot;),
-@OA\Property(property=&quot;username&quot;, type=&quot;string&quot;),
-@OA\Property(property=&quot;image&quot;, type=&quot;string&quot;, nullable=true)
+@OA\Property(property=&quot;address&quot;, type=&quot;string&quot;, nullable=true),
+@OA\Property(property=&quot;phone&quot;, type=&quot;string&quot;, nullable=true),
+@OA\Property(property=&quot;email&quot;, type=&quot;string&quot;, nullable=true),
+@OA\Property(property=&quot;delivery&quot;, type=&quot;boolean&quot;),
+@OA\Property(property=&quot;takeout&quot;, type=&quot;boolean&quot;),
+@OA\Property(property=&quot;geo_lat&quot;, type=&quot;number&quot;, nullable=true),
+@OA\Property(property=&quot;geo_long&quot;, type=&quot;number&quot;, nullable=true),
+@OA\Property(property=&quot;city_name&quot;, type=&quot;string&quot;, nullable=true),
 }
 )</p>
 </section>
@@ -155,51 +162,86 @@ properties={
 
 <dl class="phpdocumentor-table-of-contents">
                 <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_email">$email</a>
-    <span>
-                &nbsp;: string            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_id">$id</a>
-    <span>
-                &nbsp;: string            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_image">$image</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_address">$address</a>
     <span>
                 &nbsp;: string|null            </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_name">$name</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_city_id">$city_id</a>
     <span>
                 &nbsp;: string            </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_status">$status</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_city_name">$city_name</a>
     <span>
-                &nbsp;: int            </span>
+                &nbsp;: string|null            </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_username">$username</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_delivery">$delivery</a>
+    <span>
+                &nbsp;: bool            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_email">$email</a>
+    <span>
+                &nbsp;: string|null            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_geo_lat">$geo_lat</a>
+    <span>
+                &nbsp;: float|null            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_geo_long">$geo_long</a>
+    <span>
+                &nbsp;: float|null            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_id">$id</a>
     <span>
                 &nbsp;: string            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_name">$name</a>
+    <span>
+                &nbsp;: string            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_phone">$phone</a>
+    <span>
+                &nbsp;: string|null            </span>
+</dt>
+<dd></dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -public">
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_takeout">$takeout</a>
+    <span>
+                &nbsp;: bool            </span>
 </dt>
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_activation_key">$activation_key</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_created_at">$created_at</a>
     <span>
-                &nbsp;: string|null            </span>
+                &nbsp;: string            </span>
 </dt>
 <dd></dd>
 
@@ -211,23 +253,9 @@ properties={
 <dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Gac-GoodFoodTracker-Core-Entities-Entity.html#property_ignoredColumns">$ignoredColumns</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_ignoredColumns">$ignoredColumns</a>
     <span>
                 &nbsp;: array&lt;string|int, mixed&gt;            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_password">$password</a>
-    <span>
-                &nbsp;: string|null            </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -protected">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_password_reset_code">$password_reset_code</a>
-    <span>
-                &nbsp;: string|null            </span>
 </dt>
 <dd></dd>
 
@@ -253,16 +281,9 @@ properties={
 <dd></dd>
 
                 <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___construct">__construct()</a>
+    <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#method___construct">__construct()</a>
     <span>
                         &nbsp;: mixed    </span>
-</dt>
-<dd>UserEntity constructor.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___toString">__toString()</a>
-    <span>
-                        &nbsp;: string    </span>
 </dt>
 <dd></dd>
 
@@ -295,39 +316,11 @@ properties={
 <dd>Method used for getting a single instance of en entity class from the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_is_active">is_active()</a>
-    <span>
-                        &nbsp;: bool    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Gac-GoodFoodTracker-Core-Entities-Entity.html#method_save">save()</a>
     <span>
                         &nbsp;: object    </span>
 </dt>
 <dd>Method used for inserting/updating an instance of entity class</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_set_activation_key">set_activation_key()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_set_password">set_password()</a>
-    <span>
-                        &nbsp;: mixed    </span>
-</dt>
-<dd></dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_set_password_reset_code">set_password_reset_code()</a>
-    <span>
-                        &nbsp;: void    </span>
-</dt>
-<dd></dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a href="classes/Gac-GoodFoodTracker-Core-Entities-Entity.html#method_generate_select_query">generate_select_query()</a>
@@ -353,8 +346,159 @@ properties={
     <section class="phpdocumentor-properties">
         <h3 class="phpdocumentor-elements__header" id="properties">
             Properties
-            <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_address">
+        $address
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_address" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">38</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string|null</span>
+    <span class="phpdocumentor-signature__name">$address</span>
+     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_city_id">
+        $city_id
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_city_id" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">36</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$city_id</span>
+    </code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_city_name">
+        $city_name
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_city_name" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">string|null</span>
+    <span class="phpdocumentor-signature__name">$city_name</span>
+     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
+
+    
+        <section class="phpdocumentor-description"><p>| null</p>
+</section>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="#tags" class="headerlink"><i class="fas fa-link"></i></a>
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">GAC\Relationship</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>(table=&quot;locations.city&quot;, foreign_key=&quot;city_id&quot;, references=&quot;id&quot;, column=&quot;name&quot;)</p>
+</section>
+
+                                    </dd>
+                        </dl>
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_delivery">
+        $delivery
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_delivery" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">41</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$delivery</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
                     <article
         class="
             phpdocumentor-element
@@ -364,23 +508,91 @@ properties={
 >
     <h4 class="phpdocumentor-element__name" id="property_email">
         $email
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_email" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_email" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">40</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
+        <span class="phpdocumentor-signature__type">string|null</span>
     <span class="phpdocumentor-signature__name">$email</span>
-    </code>
+     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_geo_lat">
+        $geo_lat
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_geo_lat" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">43</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">float|null</span>
+    <span class="phpdocumentor-signature__name">$geo_lat</span>
+     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
+
+        <section class="phpdocumentor-description"></section>
+
+        <section class="phpdocumentor-description"></section>
+
+    
+
+</article>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_geo_long">
+        $geo_long
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_geo_long" class="headerlink"><i class="fas fa-link"></i></a>
+        <span class="phpdocumentor-element__modifiers">
+                                </span>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">44</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">float|null</span>
+    <span class="phpdocumentor-signature__name">$geo_long</span>
+     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -398,14 +610,14 @@ properties={
 >
     <h4 class="phpdocumentor-element__name" id="property_id">
         $id
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">28</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -430,50 +642,16 @@ properties={
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_image">
-        $image
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_image" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">32</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$image</span>
-     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="property_name">
         $name
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_name" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_name" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">29</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
@@ -498,25 +676,25 @@ properties={
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_status">
-        $status
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_status" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_phone">
+        $phone
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_phone" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$status</span>
-     = <span class="phpdocumentor-signature__default-value">0</span></code>
+        <span class="phpdocumentor-signature__type">string|null</span>
+    <span class="phpdocumentor-signature__name">$phone</span>
+     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -532,25 +710,25 @@ properties={
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_username">
-        $username
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_username" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_takeout">
+        $takeout
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_takeout" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">string</span>
-    <span class="phpdocumentor-signature__name">$username</span>
-    </code>
+        <span class="phpdocumentor-signature__type">bool</span>
+    <span class="phpdocumentor-signature__name">$takeout</span>
+     = <span class="phpdocumentor-signature__default-value">false</span></code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -566,25 +744,25 @@ properties={
             -protected
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_activation_key">
-        $activation_key
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_activation_key" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_created_at">
+        $created_at
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_created_at" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">35</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$activation_key</span>
-     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
+        <span class="phpdocumentor-signature__type">string</span>
+    <span class="phpdocumentor-signature__name">$created_at</span>
+    </code>
 
         <section class="phpdocumentor-description"></section>
 
@@ -636,14 +814,14 @@ properties={
 >
     <h4 class="phpdocumentor-element__name" id="property_ignoredColumns">
         $ignoredColumns
-        <a href="classes/Gac-GoodFoodTracker-Core-Entities-Entity.html#property_ignoredColumns" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_ignoredColumns" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Core/Entities/Entity.php"><a href="files/src-core-entities-entity.html"><abbr title="src/Core/Entities/Entity.php">Entity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">37</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
@@ -652,79 +830,11 @@ properties={
     <span class="phpdocumentor-signature__visibility">protected</span>
         <span class="phpdocumentor-signature__type">array&lt;string|int, mixed&gt;</span>
     <span class="phpdocumentor-signature__name">$ignoredColumns</span>
-     = <span class="phpdocumentor-signature__default-value">[]</span></code>
+     = <span class="phpdocumentor-signature__default-value">[&quot;city_name&quot;]</span></code>
 
     
         <section class="phpdocumentor-description"><p>List of table columns to be ignored during script generation</p>
 </section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_password">
-        $password
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_password" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">34</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$password</span>
-    </code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-
-</article>
-                    <article
-        class="
-            phpdocumentor-element
-            -property
-            -protected
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="property_password_reset_code">
-        $password_reset_code
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#property_password_reset_code" class="headerlink"><i class="fas fa-link"></i></a>
-        <span class="phpdocumentor-element__modifiers">
-                                </span>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">36</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">protected</span>
-        <span class="phpdocumentor-signature__type">string|null</span>
-    <span class="phpdocumentor-signature__name">$password_reset_code</span>
-     = <span class="phpdocumentor-signature__default-value">NULL</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <section class="phpdocumentor-description"></section>
 
     
 
@@ -836,7 +946,7 @@ properties={
             <section class="phpdocumentor-methods">
         <h3 class="phpdocumentor-elements__header" id="methods">
             Methods
-            <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
         </h3>
                     <article
         class="phpdocumentor-element
@@ -846,22 +956,22 @@ properties={
 >
     <h4 class="phpdocumentor-element__name" id="method___construct">
         __construct()
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/RestaurantEntity.php"><a href="files/src-entity-restaurantentity.html"><abbr title="src/Entity/RestaurantEntity.php">RestaurantEntity.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">UserEntity constructor.</p>
-
+    
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$email</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$username</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$name</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$address</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">NULL</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
-    
+        <section class="phpdocumentor-description"></section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -869,21 +979,16 @@ properties={
                 : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">NULL</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$email</span>
+                <span class="phpdocumentor-signature__argument__name">$address</span>
                 : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">NULL</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$username</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">NULL</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"></section>
+
             </dd>
             </dl>
 
@@ -891,39 +996,6 @@ properties={
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method___toString">
-        __toString()
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method___toString" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">61</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">__toString</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">string</span>
             &mdash;
         
     
@@ -1182,39 +1254,6 @@ properties={
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_is_active">
-        is_active()
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_is_active" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">73</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">is_active</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-    
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">bool</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
     <h4 class="phpdocumentor-element__name" id="method_save">
         save()
         <a href="classes/Gac-GoodFoodTracker-Core-Entities-Entity.html#method_save" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1254,136 +1293,6 @@ properties={
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
     <span class="phpdocumentor-signature__response_type">object</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_set_activation_key">
-        set_activation_key()
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_set_activation_key" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">65</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">set_activation_key</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$activation_key</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$activation_key</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_set_password">
-        set_password()
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_set_password" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">69</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">set_password</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$password</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-        <section class="phpdocumentor-description"></section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$password</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
-
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">mixed</span>
-            &mdash;
-        
-    
-</article>
-                    <article
-        class="phpdocumentor-element
-            -method
-            -public
-                                                        "
->
-    <h4 class="phpdocumentor-element__name" id="method_set_password_reset_code">
-        set_password_reset_code()
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#method_set_password_reset_code" class="headerlink"><i class="fas fa-link"></i></a>
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/Entity/UserEntity.php"><a href="files/src-entity-userentity.html"><abbr title="src/Entity/UserEntity.php">UserEntity.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">80</span>
-
-    </aside>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-                <span class="phpdocumentor-signature__name">set_password_reset_code</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$password_reset_code</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$password_reset_code</span>
-                : <span class="phpdocumentor-signature__argument__return-type">string|null</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
             &mdash;
         
     
@@ -1548,7 +1457,7 @@ properties={
 </section>
             </div>
         </div>
-        <a href="classes/Gac-GoodFoodTracker-Entity-UserEntity.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

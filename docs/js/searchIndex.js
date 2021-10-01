@@ -626,6 +626,81 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Entity-CountryEntity.html#property_created_at"
         },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity",
+            "name": "RestaurantEntity",
+            "summary": "RestaurantEntity\u0020Class",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#method___construct"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024id",
+            "name": "id",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_id"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024city_id",
+            "name": "city_id",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_city_id"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024name",
+            "name": "name",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_name"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024address",
+            "name": "address",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_address"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024phone",
+            "name": "phone",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_phone"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024email",
+            "name": "email",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_email"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024delivery",
+            "name": "delivery",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_delivery"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024takeout",
+            "name": "takeout",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_takeout"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024geo_lat",
+            "name": "geo_lat",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_geo_lat"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024geo_long",
+            "name": "geo_long",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_geo_long"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024city_name",
+            "name": "city_name",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_city_name"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024created_at",
+            "name": "created_at",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_created_at"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\RestaurantEntity\u003A\u003A\u0024ignoredColumns",
+            "name": "ignoredColumns",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Entity-RestaurantEntity.html#property_ignoredColumns"
+        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Entity\\UserEntity",
             "name": "UserEntity",
             "summary": "UserEntity\u0020class",
@@ -996,6 +1071,66 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Modules-Country-Models-CountryModel.html#method_delete_country"
         },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Controllers\\RestaurantController",
+            "name": "RestaurantController",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Controllers-RestaurantController.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Controllers\\RestaurantController\u003A\u003Aget_all\u0028\u0029",
+            "name": "get_all",
+            "summary": "Endpoint\u0020used\u0020for\u0020filtering\u0020a\u0020list\u0020of\u0020restaurants",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Controllers-RestaurantController.html#method_get_all"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Controllers\\RestaurantController\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "Endpoint\u0020used\u0020for\u0020getting\u0020information\u0020about\u0020a\u0020single\u0020restaurant",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Controllers-RestaurantController.html#method_get"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Controllers\\RestaurantController\u003A\u003Acreate_or_update\u0028\u0029",
+            "name": "create_or_update",
+            "summary": "Endpoint\u0020used\u0020for\u0020creating\u0020or\u0020updating\u0020a\u0020restaurant",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Controllers-RestaurantController.html#method_create_or_update"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Controllers\\RestaurantController\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "Endpoint\u0020used\u0020for\u0020deleting\u0020a\u0020restaurant",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Controllers-RestaurantController.html#method_delete"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Exceptions\\RestaurantNotFoundExceptions",
+            "name": "RestaurantNotFoundExceptions",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Exceptions-RestaurantNotFoundExceptions.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Exceptions\\RestaurantNotFoundExceptions\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Exceptions-RestaurantNotFoundExceptions.html#method___construct"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Models\\RestaurantModel",
+            "name": "RestaurantModel",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Models-RestaurantModel.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Models\\RestaurantModel\u003A\u003Afilter\u0028\u0029",
+            "name": "filter",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Models-RestaurantModel.html#method_filter"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Models\\RestaurantModel\u003A\u003Aget\u0028\u0029",
+            "name": "get",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Models-RestaurantModel.html#method_get"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Models\\RestaurantModel\u003A\u003Acreate_or_update\u0028\u0029",
+            "name": "create_or_update",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Models-RestaurantModel.html#method_create_or_update"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Models\\RestaurantModel\u003A\u003Adelete\u0028\u0029",
+            "name": "delete",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Restaurant-Models-RestaurantModel.html#method_delete"
+        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\User\\Controllers\\UserController",
             "name": "UserController",
             "summary": "",
@@ -1185,6 +1320,26 @@ Search.appendIndex(
             "name": "Models",
             "summary": "",
             "url": "namespaces/gac-goodfoodtracker-modules-country-models.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Controllers",
+            "name": "Controllers",
+            "summary": "",
+            "url": "namespaces/gac-goodfoodtracker-modules-restaurant-controllers.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant",
+            "name": "Restaurant",
+            "summary": "",
+            "url": "namespaces/gac-goodfoodtracker-modules-restaurant.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Exceptions",
+            "name": "Exceptions",
+            "summary": "",
+            "url": "namespaces/gac-goodfoodtracker-modules-restaurant-exceptions.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Restaurant\\Models",
+            "name": "Models",
+            "summary": "",
+            "url": "namespaces/gac-goodfoodtracker-modules-restaurant-models.html"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\User\\Controllers",
             "name": "Controllers",
