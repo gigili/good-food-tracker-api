@@ -33,7 +33,7 @@
 		 * @OA\Get  (
 		 *     path="/city",
 		 *     summary="Fetch a list of cities",
-		 *     description="Endpoint used for get a list of cities",
+		 *     description="Endpoint used for getting a list of cities",
 		 *     tags={"City"},
 		 *     @OA\Parameter(
 		 *            in="query",

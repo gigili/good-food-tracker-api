@@ -9,6 +9,27 @@
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 
+	/**
+	 * RestaurantEntity Class
+	 *
+	 * @OA\Schema (
+	 *  schema="RestaurantEntity",
+	 *  type="object",
+	 *  properties={
+	 *  	@OA\Property(property="id", type="string"),
+	 *  	@OA\Property(property="city_id", type="string"),
+	 *  	@OA\Property(property="name", type="string"),
+	 *  	@OA\Property(property="address", type="string", nullable=true),
+	 *  	@OA\Property(property="phone", type="string", nullable=true),
+	 *  	@OA\Property(property="email", type="string", nullable=true),
+	 *  	@OA\Property(property="delivery", type="boolean"),
+	 *  	@OA\Property(property="takeout", type="boolean"),
+	 *  	@OA\Property(property="geo_lat", type="number", nullable=true),
+	 *  	@OA\Property(property="geo_long", type="number", nullable=true),
+	 *  	@OA\Property(property="city_name", type="string", nullable=true),
+	 *  }
+	 * )
+	 */
 	class RestaurantEntity extends Entity
 	{
 		public string  $id;

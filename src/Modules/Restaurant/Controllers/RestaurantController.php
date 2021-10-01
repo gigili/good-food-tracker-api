@@ -24,6 +24,54 @@
 
 	class RestaurantController extends BaseController
 	{
+
+		/**
+		 * Endpoint used for filtering a list of restaurants
+		 *
+		 * @param Request $request
+		 *
+		 * @OA\Get  (
+		 *     path="/restaurant",
+		 *     summary="Fetch a list of restaurants",
+		 *     description="Endpoint used for getting a list of restaurants",
+		 *     tags={"Restaurant"},
+		 *     @OA\Parameter(
+		 *            in="query",
+		 *            name="search",
+		 *            description="Value used to filter the result",
+		 *            required=true
+		 *     ),
+		 *     @OA\Parameter(
+		 *            in="query",
+		 *            name="start",
+		 *            description="Pagination start offset",
+		 *            required=false
+		 *     ),
+		 *     @OA\Parameter(
+		 *            in="query",
+		 *            name="limit",
+		 *            description="Pagination end offset",
+		 *            required=false
+		 *     ),
+		 *		@OA\Response(
+		 *        response="200",
+		 *        description="Successfull response",
+		 *			@OA\JsonContent(
+		 *                type="object",
+		 *                properties={
+		 *     			  @OA\Property(
+		 *                property="data",
+		 *                type="array",
+		 *                  @OA\Items(
+		 *                        ref="#/components/schemas/RestaurantEntity"
+		 *                   )
+		 *                 ),
+		 *            },
+		 *       )
+		 *     )
+		 * )
+		 *
+		 */
 		public function get_all(Request $request) {
 			$search = $request->get("search");
 			$start = $request->get("start") ?? 0;
@@ -35,8 +83,39 @@
 		}
 
 		/**
+		 * Endpoint used for getting information about a single restaurant
+		 *
 		 * @throws RestaurantNotFoundExceptions
 		 * @throws InvalidUUIDException
+		 *
+		 * @OA\Get  (
+		 *     path="/restaurant/{restaurantID}",
+		 *     summary="Fetch a single restaurant",
+		 *     description="Endpoint used for getting a single restaurant information",
+		 *     tags={"Restaurant"},
+		 *     @OA\Parameter(
+		 *            in="path",
+		 *            name="restaurantID",
+		 *            description="ID of a restaurant to fetch the information for",
+		 *            required=true
+		 *     ),
+		 *		@OA\Response(
+		 *        response="200",
+		 *        description="Successfull response",
+		 *			@OA\JsonContent(
+		 *                type="object",
+		 *                properties={
+		 *     			  @OA\Property(
+		 *                property="data",
+		 *                type="array",
+		 *                  @OA\Items(
+		 *                        ref="#/components/schemas/RestaurantEntity"
+		 *                   )
+		 *                 ),
+		 *            },
+		 *       )
+		 *     )
+		 * )
 		 */
 		public function get(Request $request, string $restaurantID) {
 			$restaurant = RestaurantModel::get($restaurantID);
@@ -44,6 +123,8 @@
 		}
 
 		/**
+		 * Endpoint used for creating or updating a restaurant
+		 *
 		 * @throws MaximumLengthException
 		 * @throws InvalidUUIDException
 		 * @throws RequiredFieldException
@@ -53,6 +134,107 @@
 		 * @throws FieldsDoNotMatchException
 		 * @throws ReflectionException
 		 * @throws RestaurantNotFoundExceptions
+		 *
+		 * @OA\Post (
+		 *     path="/restaurant",
+		 *     summary="Create a restaurant",
+		 *     description="Endpoint used for creating a restaurant",
+		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
+		 *     @OA\RequestBody(
+		 *         description="Required parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="city_id", type="string"),
+		 *     				@OA\Property(property="name", type="string"),
+		 *     				@OA\Property(property="adress", type="string"),
+		 *     				@OA\Property(property="phone", type="string"),
+		 *     				@OA\Property(property="email", type="string"),
+		 *     				@OA\Property(property="delivery", type="number"),
+		 *     				@OA\Property(property="takeout", type="number"),
+		 *     				@OA\Property(property="geo_lat", type="number"),
+		 *     				@OA\Property(property="geo_long", type="number"),
+		 *                },
+		 *              ),
+		 *            ),
+		 *     ),
+		 *		@OA\Response(
+		 *        response="201",
+		 *        description="Successfull response",
+		 *			@OA\JsonContent(
+		 *            properties = {
+		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
+		 *           }
+		 *       )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Missing required arguments",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 * )
+		 *
+		 * @OA\Patch  (
+		 *     path="/restaurant/{restaurantID}",
+		 *     summary="Update a restaurant",
+		 *     description="Endpoint used for updating a restaurant",
+		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
+		 *     @OA\Parameter(
+		 *        in="path",
+		 *        name="restaurantID",
+		 *        description="ID of a restaurant to update the information for",
+		 *        required=true
+		 *     ),
+		 *     @OA\RequestBody(
+		 *         description="Required parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="city_id", type="string"),
+		 *     				@OA\Property(property="name", type="string"),
+		 *     				@OA\Property(property="adress", type="string", nullable=true),
+		 *     				@OA\Property(property="phone", type="string", nullable=true),
+		 *     				@OA\Property(property="email", type="string", nullable=true),
+		 *     				@OA\Property(property="delivery", type="number", nullable=true),
+		 *     				@OA\Property(property="takeout", type="number", nullable=true),
+		 *     				@OA\Property(property="geo_lat", type="number", nullable=true),
+		 *     				@OA\Property(property="geo_long", type="number", nullable=true),
+		 *                },
+		 *              ),
+		 *            ),
+		 *     ),
+		 *		@OA\Response(
+		 *        response="200",
+		 *        description="Successfull response",
+		 *			@OA\JsonContent(
+		 *            properties = {
+		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
+		 *           }
+		 *       )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Missing required arguments",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 * )
+		 *
 		 */
 		public function create_or_update(Request $request, ?string $restaurantID) {
 			Validation::validate([
@@ -64,8 +246,48 @@
 		}
 
 		/**
+		 * Endpoint used for deleting a restaurant
+		 *
 		 * @throws RestaurantNotFoundExceptions
 		 * @throws InvalidUUIDException
+		 *
+		 * @OA\Delete   (
+		 *     path="/restaurant/{restaurantID}",
+		 *     summary="Delete a restaurant",
+		 *     description="Endpoint used for deleting a restaurant",
+		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
+		 *     @OA\Parameter(
+		 *        in="path",
+		 *        name="restaurantID",
+		 *        description="ID of a restaurant to delete from the database",
+		 *        required=true
+		 *     ),
+		 *		@OA\Response(
+		 *        response="200",
+		 *        description="Successfull response",
+		 *			@OA\JsonContent(
+		 *            properties = {
+		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
+		 *           }
+		 *       )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="400",
+		 *        description="Invalid UUID provided for restaurant ID",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="404",
+		 *        description="Restaurat not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 * )
 		 */
 		public function delete(Request $request, string $restaurantID) {
 			$restaurant = RestaurantModel::delete($restaurantID);
