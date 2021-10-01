@@ -1,18 +1,20 @@
 <?php
-	/**
-	 * Author: Igor Ilić <github@igorilic.net>
-	 * Date: 2021-10-01
-	 * Project: good-food-tracker-api
-	 */
 
-	namespace Gac\GoodFoodTracker\Modules\Restaurant\Exceptions;
+    /**
+     * Author: Igor Ilić <github@igorilic.net>
+     * Date: 2021-10-01
+     * Project: good-food-tracker-api
+     */
 
-	use Exception;
-	use JetBrains\PhpStorm\Pure;
+    namespace Gac\GoodFoodTracker\Modules\Restaurant\Exceptions;
 
-	class RestaurantNotFoundExceptions extends Exception
-	{
-		#[Pure] public function __construct() {
-			parent::__construct("Restaurant not found", 404);
-		}
-	}
+    use Exception;
+    use JetBrains\PhpStorm\Pure;
+
+    class RestaurantNotFoundExceptions extends Exception
+    {
+        #[Pure] public function __construct()
+        {
+            parent::__construct("Restaurant not found", 404);
+        }
+    }

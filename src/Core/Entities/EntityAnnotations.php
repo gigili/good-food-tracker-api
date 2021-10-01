@@ -1,13 +1,14 @@
 <?php
-	/**
-	 * Author: Igor Ilić <github@igorilic.net>
-	 * Date: 2021-09-29
-	 * Project: good-food-tracker-api
-	 */
 
-	namespace Gac\GoodFoodTracker\Core\Entities;
+    /**
+     * Author: Igor Ilić <github@igorilic.net>
+     * Date: 2021-09-29
+     * Project: good-food-tracker-api
+     */
 
-	class EntityAnnotations
-	{
-		const Relationship = "Relationship";
-	}
+    namespace Gac\GoodFoodTracker\Core\Entities;
+
+    class EntityAnnotations
+    {
+        public const Relationship = "Relationship";
+    }
