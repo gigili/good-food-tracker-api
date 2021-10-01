@@ -1,15 +1,15 @@
 <?php
-	/**
-	 * Author: Igor Ilić <github@igorilic.net>
-	 * Date: 2021-08-08
-	 * Project: API
-	 */
 
-	namespace Gac\GoodFoodTracker\Core\Exceptions;
+    /**
+     * Author: Igor Ilić <github@igorilic.net>
+     * Date: 2021-08-08
+     * Project: API
+     */
 
-	use Exception;
+    namespace Gac\GoodFoodTracker\Core\Exceptions;
 
-	class AppNotInitializedException extends Exception
-	{
+    use Exception;
 
-	}
+    class AppNotInitializedException extends Exception
+    {
+    }
