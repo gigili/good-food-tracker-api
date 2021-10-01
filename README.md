@@ -76,10 +76,11 @@ List of currently completed or still being developed feature:
     * [x] List of cities
     * [x] Add / edit city
     * [x] Delete city
-* [ ] Restaurants
-    * [ ] List of all the restaurants
-    * [ ] Add / edit restaurant
-    * [ ] Delete restaurant
+* [x] Restaurants
+    * [x] List of all the restaurants
+    * [x] Fetch info about single restaurant
+    * [x] Add / edit restaurant
+    * [x] Delete restaurant
 * [ ] Reviews
     * [ ] List of users reviews
     * [ ] Add / edit your review
