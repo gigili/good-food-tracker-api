@@ -1,383 +1,434 @@
 <?php
-	/**
-	 * Author: Igor Ilić <github@igorilic.net>
-	 * Date: 2021-08-13
-	 * Project: Good Food Tracker - API
-	 */
 
-	include_once __DIR__ . "/classes/autoload.php";
-	include_once __DIR__ . "/drivers/autoload.php";
+    /**
+     * Author: Igor Ilić <github@igorilic.net>
+     * Date: 2021-08-13
+     * Project: Good Food Tracker - API
+     */
 
-	use JetBrains\PhpStorm\NoReturn;
+    include_once __DIR__ . "/classes/autoload.php";
+    include_once __DIR__ . "/drivers/autoload.php";
 
-	$shortOptions = "";
+    use JetBrains\PhpStorm\NoReturn;
 
-	$longOptions = [
-		"driver::" => "Which database driver is going to be used to establish a database connection (available: PGSQL,MySQL,MSSQL).",
-		"host::" => "Database host name or IP",
-		"port::" => "Database port",
-		"username::" => "Database login username",
-		"password::" => "Database login password",
-		"database::" => "On which database should the changes be applied to",
-		"folder::" => "Location of the migrations folder (def: ./migrations)",
-		"init::" => "Initialize migrations for the first time by creating the migrations table",
-		"create::" => "Create a new migration",
-		"up::" => "Run all the UP migrations, you can also do --up=\"migration-name\" to run a specific migration",
-		"down::" => "Run all the DOWN migrations, you can also do --down=\"migration-id\" to run all the migrations up until the specified one (not running the specified one)",
-		"help::" => "Prints this help text",
-	];
+    $shortOptions = "";
 
-	$options = getopt($shortOptions, array_keys($longOptions));
-	main($options);
+    $longOptions = [
+        "driver::" => "Which database driver is going to be used to establish a database connection (available: PGSQL,MySQL,MSSQL).",
+        "host::" => "Database host name or IP",
+        "port::" => "Database port",
+        "username::" => "Database login username",
+        "password::" => "Database login password",
+        "database::" => "On which database should the changes be applied to",
+        "folder::" => "Location of the migrations folder (def: ./migrations)",
+        "init::" => "Initialize migrations for the first time by creating the migrations table",
+        "create::" => "Create a new migration",
+        "up::" => "Run all the UP migrations, you can also do --up=\"migration-name\" to run a specific migration",
+        "down::" => "Run all the DOWN migrations, you can also do --down=\"migration-id\" to run all the migrations up until the specified one (not running the specified one)",
+        "help::" => "Prints this help text",
+    ];
 
-	/**
-	 * Main function that gets called when the cli runs this file
-	 *
-	 * @param array|null $args arguments that get passed down from the cli
-	 */
-	#[NoReturn] function main(array|null $args) : void {
-		if ( file_exists(__DIR__ . "/../.migration.conf") ) {
-			output("Loading data from config file");
-			import_config_data();
-		}
-		$_ENV["args"] = array_merge($args, $_ENV["args"]);
+    $options = getopt($shortOptions, array_keys($longOptions));
+    main($options);
 
-		foreach ( $args as $key => $value ) {
-			switch ( mb_strtolower($key) ) {
-				case CLICommands::INIT:
-					init_migrations();
-				case CLICommands::CREATE:
-					create_new_migration($value);
-				case CLICommands::UP:
-				case CLICommands::DOWN:
-					migrate($key, !empty($value) ? mb_strtolower($value) : NULL);
-				case CLICommands::HELP:
-					print_help_menu();
-			}
-		}
+    /**
+     * Main function that gets called when the cli runs this file
+     *
+     * @param array|null $args arguments that get passed down from the cli
+     */
+    #[NoReturn] function main(array|null $args): void
+    {
+        if (file_exists(__DIR__ . "/../.migration.conf")) {
+            output("Loading data from config file");
+            import_config_data();
+        }
+        $_ENV["args"] = array_merge($args, $_ENV["args"]);
 
-		print( "Try using --help\r\n" );
-		exit(1);
-	}
+        foreach ($args as $key => $value) {
+            switch (mb_strtolower($key)) {
+                case CLICommands::INIT:
+                    init_migrations();
+                    // no break
+                case CLICommands::CREATE:
+                    create_new_migration($value);
+                    // no break
+                case CLICommands::UP:
+                case CLICommands::DOWN:
+                    migrate($key, !empty($value) ? mb_strtolower($value) : null);
+                    // no break
+                case CLICommands::HELP:
+                    print_help_menu();
+            }
+        }
 
-	/**
-	 * Import configuration information from the .migration.conf file
-	 */
-	function import_config_data() {
-		$file = file_get_contents(__DIR__ . "/../.migration.conf");
-		$options = explode("\n", $file);
+        print("Try using --help\r\n");
+        exit(1);
+    }
 
-		foreach ( $options as $option ) {
-			$item = explode("=", $option);
-			if ( empty($item[0]) ) continue;
-			$_ENV["args"][strtolower(trim($item[0]))] = trim($item[1]);
-		}
-	}
+    /**
+     * Import configuration information from the .migration.conf file
+     */
+    function import_config_data()
+    {
+        $file = file_get_contents(__DIR__ . "/../.migration.conf");
+        $options = explode("\n", $file);
 
-	/**
-	 * Method used for printing out the help text in the cli
-	 */
-	#[NoReturn] function print_help_menu() {
-		global $longOptions;
-		print( "To run the migrations: " . PHP_EOL );
-		print( "php migrate.php [arguments] " . PHP_EOL . PHP_EOL );
+        foreach ($options as $option) {
+            $item = explode("=", $option);
+            if (empty($item[0])) {
+                continue;
+            }
+            $_ENV["args"][strtolower(trim($item[0]))] = trim($item[1]);
+        }
+    }
 
-		print( "Arguments: " . PHP_EOL );
-		foreach ( $longOptions as $key => $argument ) {
-			$key = str_replace("::", "", $key);
-			print( "--$key $argument" . PHP_EOL );
-		}
-		exit(0);
-	}
+    /**
+     * Method used for printing out the help text in the cli
+     */
+    #[NoReturn] function print_help_menu()
+    {
+        global $longOptions;
+        print("To run the migrations: " . PHP_EOL);
+        print("php migrate.php [arguments] " . PHP_EOL . PHP_EOL);
 
-	/**
-	 * Method used for running migration either up or down based on the selected option
-	 *
-	 * @param int|string $key Direction of the migrations (up/down)
-	 * @param string|null $migrationName Name of the migration file to execute or run all migration for up, and
-	 * when doing down it should be the ID from the migrations table up until you wish to downgrade or all
-	 */
-	#[NoReturn] function migrate(int|string $key, string|null $migrationName = NULL) : void {
-		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
-			output("No database driver specified", LogLevel::ERROR);
-			exit(1);
-		}
+        print("Arguments: " . PHP_EOL);
+        foreach ($longOptions as $key => $argument) {
+            $key = str_replace("::", "", $key);
+            print("--$key $argument" . PHP_EOL);
+        }
+        exit(0);
+    }
 
-		try {
-			output("Starting to migrate $key");
-			$nameOrID = $migrationName ?? "all";
-			if ( $key == "up" ) cli_migrate_up($nameOrID);
-			if ( $key == "down" ) cli_migrate_down($nameOrID === "all" ? NULL : $nameOrID);
-		} catch ( Exception $ex ) {
-			output("Migration failed because: {$ex->getMessage()}", LogLevel::ERROR);
-			exit(1);
-		}
+    /**
+     * Method used for running migration either up or down based on the selected option
+     *
+     * @param int|string $key Direction of the migrations (up/down)
+     * @param string|null $migrationName Name of the migration file to execute or run all migration for up, and
+     * when doing down it should be the ID from the migrations table up until you wish to downgrade or all
+     */
+    #[NoReturn] function migrate(int|string $key, string|null $migrationName = null): void
+    {
+        if (!isset($_ENV["args"][CLIArgs::DRIVER])) {
+            output("No database driver specified", LogLevel::ERROR);
+            exit(1);
+        }
 
-		exit(0);
-	}
+        try {
+            output("Starting to migrate $key");
+            $nameOrID = $migrationName ?? "all";
+            if ($key == "up") {
+                cli_migrate_up($nameOrID);
+            }
+            if ($key == "down") {
+                cli_migrate_down($nameOrID === "all" ? null : $nameOrID);
+            }
+        } catch (Exception $ex) {
+            output("Migration failed because: {$ex->getMessage()}", LogLevel::ERROR);
+            exit(1);
+        }
 
-	/**
-	 * Method used to handle the up migration logic
-	 *
-	 * @param string $migrationName Name of the migration file to be executed or `all` for all un run migrations to execute
-	 *
-	 * @throws Exception Throws an exception when there is an error running migrations
-	 */
-	function cli_migrate_up(string $migrationName = "all") : void {
-		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
-		output('Getting migration driver');
-		$driver = get_migration_driver();
+        exit(0);
+    }
 
-		if ( $migrationName === "all" ) {
-			$executedMigrations = $driver->get_migrations();
-			$migrationFiles = get_migration_files();
-		} else {
-			$migrationName .= ".sql";
-			if ( !file_exists("$folder/up/$migrationName") ) throw new Exception("Migration file $migrationName not found");
+    /**
+     * Method used to handle the up migration logic
+     *
+     * @param string $migrationName Name of the migration file to be executed or `all` for all un run migrations to execute
+     *
+     * @throws Exception Throws an exception when there is an error running migrations
+     */
+    function cli_migrate_up(string $migrationName = "all"): void
+    {
+        $folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
+        output('Getting migration driver');
+        $driver = get_migration_driver();
 
-			$executedMigrations = $driver->get_migrations($migrationName);
+        if ($migrationName === "all") {
+            $executedMigrations = $driver->get_migrations();
+            $migrationFiles = get_migration_files();
+        } else {
+            $migrationName .= ".sql";
+            if (!file_exists("$folder/up/$migrationName")) {
+                throw new Exception("Migration file $migrationName not found");
+            }
 
-			if ( count($executedMigrations) > 0 ) throw new Exception("Migration $migrationName already executed");
-			$migrationFiles = [ "$folder/$migrationName" ];
-		}
+            $executedMigrations = $driver->get_migrations($migrationName);
 
-		if ( count($migrationFiles) === 0 ) {
-			output("No migrations found", LogLevel::WARNING);
-			exit(0);
-		}
+            if (count($executedMigrations) > 0) {
+                throw new Exception("Migration $migrationName already executed");
+            }
+            $migrationFiles = [ "$folder/$migrationName" ];
+        }
 
-		$cnt = 0;
-		output("Found " . count($migrationFiles) . " migration(s)");
-		foreach ( $migrationFiles as $migrationFile ) {
-			$migrationFileName = pathinfo($migrationFile, PATHINFO_FILENAME) . ".sql";
-			if ( array_search($migrationFileName, array_column($executedMigrations, 'file_name')) !== false ) continue;
-			if ( !file_exists($migrationFile) ) throw new Exception("Migration file $migrationFile not found");
-			output("Found migration $migrationFileName");
+        if (count($migrationFiles) === 0) {
+            output("No migrations found", LogLevel::WARNING);
+            exit(0);
+        }
 
-			$path = ( pathinfo($migrationFile, PATHINFO_DIRNAME) );
-			$sql = file_get_contents("$path/$migrationFileName");
-			$driver->run_migration($sql);
-			$driver->store_migration_info(CLICommands::UP, $migrationFileName);
+        $cnt = 0;
+        output("Found " . count($migrationFiles) . " migration(s)");
+        foreach ($migrationFiles as $migrationFile) {
+            $migrationFileName = pathinfo($migrationFile, PATHINFO_FILENAME) . ".sql";
+            if (array_search($migrationFileName, array_column($executedMigrations, 'file_name')) !== false) {
+                continue;
+            }
+            if (!file_exists($migrationFile)) {
+                throw new Exception("Migration file $migrationFile not found");
+            }
+            output("Found migration $migrationFileName");
 
-			output("Executed migration $migrationFileName successfully", LogLevel::SUCCESS);
-			$cnt++;
-		}
+            $path = (pathinfo($migrationFile, PATHINFO_DIRNAME));
+            $sql = file_get_contents("$path/$migrationFileName");
+            $driver->run_migration($sql);
+            $driver->store_migration_info(CLICommands::UP, $migrationFileName);
 
-		if ( $cnt > 0 ) {
-			output("Successfully executed $cnt migration(s)", LogLevel::SUCCESS);
-		} else {
-			output("All migrations have been executed");
-		}
-	}
+            output("Executed migration $migrationFileName successfully", LogLevel::SUCCESS);
+            $cnt++;
+        }
 
-	/**
-	 * Method used to handle the up migration logic
-	 *
-	 * @param int|null $migrationID ID of migration to run the down method until (not running down for that one) or null tu run all down migrations
-	 *
-	 * @throws Exception  Throws an exception when there is an error running migrations
-	 */
-	function cli_migrate_down(int $migrationID = NULL) : void {
-		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
-		$driver = get_migration_driver();
-		if ( is_null($migrationID) ) {
-			$migrations = $driver->get_migrations();
-		} else {
-			$migrations = $driver->execute_query("SELECT * FROM migrations WHERE id > ?", [ $migrationID ]);
-		}
+        if ($cnt > 0) {
+            output("Successfully executed $cnt migration(s)", LogLevel::SUCCESS);
+        } else {
+            output("All migrations have been executed");
+        }
+    }
 
-		output("Found " . count($migrations) . " migration(s) to run");
-		$cnt = 0;
-		foreach ( $migrations as $migration ) {
-			$migrationName = $migration->file_name;
-			if ( !file_exists("$folder/down/$migrationName") ) throw new Exception("Migration file $migrationName not found");
-			output("Running down migration for $migrationName");
+    /**
+     * Method used to handle the up migration logic
+     *
+     * @param int|null $migrationID ID of migration to run the down method until (not running down for that one) or null tu run all down migrations
+     *
+     * @throws Exception  Throws an exception when there is an error running migrations
+     */
+    function cli_migrate_down(int $migrationID = null): void
+    {
+        $folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
+        $driver = get_migration_driver();
+        if (is_null($migrationID)) {
+            $migrations = $driver->get_migrations();
+        } else {
+            $migrations = $driver->execute_query("SELECT * FROM migrations WHERE id > ?", [ $migrationID ]);
+        }
 
-			$sql = file_get_contents("$folder/down/$migrationName");
-			$driver->run_migration($sql);
-			$driver->store_migration_info(CLICommands::DOWN, $migrationName);
+        output("Found " . count($migrations) . " migration(s) to run");
+        $cnt = 0;
+        foreach ($migrations as $migration) {
+            $migrationName = $migration->file_name;
+            if (!file_exists("$folder/down/$migrationName")) {
+                throw new Exception("Migration file $migrationName not found");
+            }
+            output("Running down migration for $migrationName");
 
-			output("Down migration $migrationName executed successfully", LogLevel::SUCCESS);
-			$cnt++;
-		}
+            $sql = file_get_contents("$folder/down/$migrationName");
+            $driver->run_migration($sql);
+            $driver->store_migration_info(CLICommands::DOWN, $migrationName);
 
-		if ( $cnt > 0 ) {
-			output('Successfully executed ' . count($migrations) . ' migration(s)', LogLevel::SUCCESS);
-		} else {
-			output('All migrations have been executed');
-		}
-	}
+            output("Down migration $migrationName executed successfully", LogLevel::SUCCESS);
+            $cnt++;
+        }
 
-	/**
-	 * Method used to get all the migrations files in the migrations folder
-	 *
-	 * @throws Exception Throws an exception when the migration folder is not found
-	 *
-	 * @return array Returns a list of migration files or an empty array if there aren't any
-	 */
-	function get_migration_files() : array {
-		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
-		if ( !is_dir($folder) ) throw new Exception("Migrations folder doesn't exist");
+        if ($cnt > 0) {
+            output('Successfully executed ' . count($migrations) . ' migration(s)', LogLevel::SUCCESS);
+        } else {
+            output('All migrations have been executed');
+        }
+    }
 
-		$result = [];
-		$folder = rtrim($folder, "/") . "/up/";
-		foreach ( glob($folder . '*.*') as $file ) {
-			if ( $file === "." || $file === ".." ) continue;
-			$result[] = $file;
-		}
+    /**
+     * Method used to get all the migrations files in the migrations folder
+     *
+     * @throws Exception Throws an exception when the migration folder is not found
+     *
+     * @return array Returns a list of migration files or an empty array if there aren't any
+     */
+    function get_migration_files(): array
+    {
+        $folder = $_ENV['args'][CLIArgs::FOLDER] ?? __DIR__ . '/migrations';
+        if (!is_dir($folder)) {
+            throw new Exception("Migrations folder doesn't exist");
+        }
 
-		sort($result);
-		return $result;
-	}
+        $result = [];
+        $folder = rtrim($folder, "/") . "/up/";
+        foreach (glob($folder . '*.*') as $file) {
+            if ($file === "." || $file === "..") {
+                continue;
+            }
+            $result[] = $file;
+        }
 
-	/**
-	 * Method used for creating new migration files
-	 *
-	 * @param string|null $migrationName Name of the new migration to be created, if none is provided it will use `new-migration` for name
-	 */
-	#[NoReturn] function create_new_migration(mixed $migrationName) : void {
-		$migrationName = preg_replace("/\s/", "-", mb_strtolower($migrationName) ?? "new-migration");
-		output("Creating new migration $migrationName");
+        sort($result);
+        return $result;
+    }
 
-		$now = time();
-		$name = "$now-" . $migrationName;
-		$folder = $_ENV['args'][CLIArgs::FOLDER] ?? './migrations';
+    /**
+     * Method used for creating new migration files
+     *
+     * @param string|null $migrationName Name of the new migration to be created, if none is provided it will use `new-migration` for name
+     */
+    #[NoReturn] function create_new_migration(mixed $migrationName): void
+    {
+        $migrationName = preg_replace("/\s/", "-", mb_strtolower($migrationName) ?? "new-migration");
+        output("Creating new migration $migrationName");
 
-		try {
-			if ( !is_dir($folder) ) {
-				output("Creating migrations folder");
-				mkdir($folder, 0644, true);
-			}
+        $now = time();
+        $name = "$now-" . $migrationName;
+        $folder = $_ENV['args'][CLIArgs::FOLDER] ?? './migrations';
 
-			if ( !is_dir($folder . "/up/") ) {
-				output('Creating migrations up folder');
-				mkdir($folder . "/up", 0644, true);
-			}
+        try {
+            if (!is_dir($folder)) {
+                output("Creating migrations folder");
+                mkdir($folder, 0644, true);
+            }
 
-			if ( !is_dir($folder . '/down/') ) {
-				output('Creating migrations down folder');
-				mkdir($folder . '/down', 0644, true);
-			}
+            if (!is_dir($folder . "/up/")) {
+                output('Creating migrations up folder');
+                mkdir($folder . "/up", 0644, true);
+            }
 
-			$sqlName = "$name.sql";
+            if (!is_dir($folder . '/down/')) {
+                output('Creating migrations down folder');
+                mkdir($folder . '/down', 0644, true);
+            }
 
-			$resultUp = file_put_contents("$folder/up/$sqlName", "-- Migration created on: " . date("Y-m-d H:i:s"));
-			if ( $resultUp === false ) throw new Exception("Unable to create file $folder/up/$sqlName");
+            $sqlName = "$name.sql";
 
-			$resultDown = file_put_contents("$folder/down/$sqlName",
-				"-- Migration created on: " . date("Y-m-d H:i:s"));
-			if ( $resultDown === false ) throw new Exception("Unable to create file $folder/down/$sqlName");
+            $resultUp = file_put_contents("$folder/up/$sqlName", "-- Migration created on: " . date("Y-m-d H:i:s"));
+            if ($resultUp === false) {
+                throw new Exception("Unable to create file $folder/up/$sqlName");
+            }
 
-			output("New migration $migrationName created successfully", LogLevel::SUCCESS);
-		} catch ( Exception $ex ) {
-			if ( file_exists("$folder/up/$name.sql") ) unlink("$folder/up/$name.sql");
-			if ( file_exists("$folder/down/$name.sql") ) unlink("$folder/down/$name.sql");
+            $resultDown = file_put_contents(
+                "$folder/down/$sqlName",
+                "-- Migration created on: " . date("Y-m-d H:i:s")
+            );
+            if ($resultDown === false) {
+                throw new Exception("Unable to create file $folder/down/$sqlName");
+            }
 
-			output("Unable to create new migration because: {$ex->getMessage()}", LogLevel::ERROR);
-			exit(1);
-		}
+            output("New migration $migrationName created successfully", LogLevel::SUCCESS);
+        } catch (Exception $ex) {
+            if (file_exists("$folder/up/$name.sql")) {
+                unlink("$folder/up/$name.sql");
+            }
+            if (file_exists("$folder/down/$name.sql")) {
+                unlink("$folder/down/$name.sql");
+            }
 
-		exit(0);
-	}
+            output("Unable to create new migration because: {$ex->getMessage()}", LogLevel::ERROR);
+            exit(1);
+        }
 
-	/**
-	 * Method used for creating the migrations table to track of all the migrations
-	 */
-	#[NoReturn] function init_migrations() : void {
-		if ( !isset($_ENV["args"][CLIArgs::DRIVER]) ) {
-			output("No database driver specified", LogLevel::ERROR);
-			exit(1);
-		}
+        exit(0);
+    }
 
-		output("Initializing migrations table");
-		output("Creating new DB driver");
-		try {
-			$driver = get_migration_driver();
-			output("DB driver created", LogLevel::SUCCESS);
-			$res = $driver->initialize();
+    /**
+     * Method used for creating the migrations table to track of all the migrations
+     */
+    #[NoReturn] function init_migrations(): void
+    {
+        if (!isset($_ENV["args"][CLIArgs::DRIVER])) {
+            output("No database driver specified", LogLevel::ERROR);
+            exit(1);
+        }
 
-			if ( $res !== true ) {
-				output($res, LogLevel::ERROR);
-				exit(1);
-			}
+        output("Initializing migrations table");
+        output("Creating new DB driver");
+        try {
+            $driver = get_migration_driver();
+            output("DB driver created", LogLevel::SUCCESS);
+            $res = $driver->initialize();
 
-			output('Migrations table created successfully', LogLevel::SUCCESS);
+            if ($res !== true) {
+                output($res, LogLevel::ERROR);
+                exit(1);
+            }
 
-			if ( isset($_ENV['args'][CLIArgs::FOLDER]) ) {
-				$folder = $_ENV['args'][CLIArgs::FOLDER];
+            output('Migrations table created successfully', LogLevel::SUCCESS);
 
-				if ( !is_dir($folder) ) {
-					output("Creating migrations folder [$folder]");
-					mkdir($folder, 0644, true);
-				}
+            if (isset($_ENV['args'][CLIArgs::FOLDER])) {
+                $folder = $_ENV['args'][CLIArgs::FOLDER];
 
-				if ( !is_dir($folder . '/up/') ) {
-					output("Creating migrations up folder [$folder/up]");
-					mkdir($folder . '/up', 0644, true);
-				}
+                if (!is_dir($folder)) {
+                    output("Creating migrations folder [$folder]");
+                    mkdir($folder, 0644, true);
+                }
 
-				if ( !is_dir($folder . '/down/') ) {
-					output("Creating migrations down folder [$folder/down]");
-					mkdir($folder . '/down', 0644, true);
-				}
+                if (!is_dir($folder . '/up/')) {
+                    output("Creating migrations up folder [$folder/up]");
+                    mkdir($folder . '/up', 0644, true);
+                }
 
-				output("Migrations folders created successfully", LogLevel::SUCCESS);
-			}
-			exit(0);
-		} catch ( Exception $ex ) {
-			$cls = new ReflectionClass($ex);
-			output("[{$cls->getShortName()}] " . $ex->getMessage(), LogLevel::ERROR);
-			exit(1);
-		}
-	}
+                if (!is_dir($folder . '/down/')) {
+                    output("Creating migrations down folder [$folder/down]");
+                    mkdir($folder . '/down', 0644, true);
+                }
 
-	/**
-	 * Method used for getting the database driver based on the cli argument
-	 *
-	 * @throws Exception Throws an exception when it can't find the specified database driver
-	 *
-	 * @return DatabaseInterface Returns an instance of a selected database driver class
-	 */
-	function get_migration_driver() : DatabaseInterface {
-		if ( !isset(DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]]) ) throw new Exception('Invalid driver selected');
-		return new ( DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]] );
-	}
+                output("Migrations folders created successfully", LogLevel::SUCCESS);
+            }
+            exit(0);
+        } catch (Exception $ex) {
+            $cls = new ReflectionClass($ex);
+            output("[{$cls->getShortName()}] " . $ex->getMessage(), LogLevel::ERROR);
+            exit(1);
+        }
+    }
 
-	/**
-	 * Method used for showing preformatted messages with colors in the cli
-	 *
-	 * @param string $msg Message to be printed
-	 * @param string $lvl Type of message being printed (info, warning, error)
-	 * @param bool $silent Should the output be hidden unless it's level is error
-	 * @param bool $newLine Should it output a new line after the message
-	 */
-	function output(string $msg, string $lvl = LogLevel::INFO, bool $silent = false, bool $newLine = true) : void {
-		$color = "\e[37m";
-		$prefix = "[INFO]";
+    /**
+     * Method used for getting the database driver based on the cli argument
+     *
+     * @throws Exception Throws an exception when it can't find the specified database driver
+     *
+     * @return DatabaseInterface Returns an instance of a selected database driver class
+     */
+    function get_migration_driver(): DatabaseInterface
+    {
+        if (!isset(DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]])) {
+            throw new Exception('Invalid driver selected');
+        }
+        return new (DBDrivers::getConstants()[$_ENV['args'][CLIArgs::DRIVER]]);
+    }
 
-		switch ( $lvl ) {
-			case LogLevel::SUCCESS:
-				$color = "\e[32m";
-				$prefix = "[SUCCESS]";
-				break;
+    /**
+     * Method used for showing preformatted messages with colors in the cli
+     *
+     * @param string $msg Message to be printed
+     * @param string $lvl Type of message being printed (info, warning, error)
+     * @param bool $silent Should the output be hidden unless it's level is error
+     * @param bool $newLine Should it output a new line after the message
+     */
+    function output(string $msg, string $lvl = LogLevel::INFO, bool $silent = false, bool $newLine = true): void
+    {
+        $color = "\e[37m";
+        $prefix = "[INFO]";
 
-			case LogLevel::WARNING:
-				$color = "\e[93m";
-				$prefix = "[WARNING]";
-				break;
+        switch ($lvl) {
+            case LogLevel::SUCCESS:
+                $color = "\e[32m";
+                $prefix = "[SUCCESS]";
+                break;
 
-			case LogLevel::ERROR:
-				$color = "\e[91m";
-				$prefix = "[ERROR]";
-				break;
+            case LogLevel::WARNING:
+                $color = "\e[93m";
+                $prefix = "[WARNING]";
+                break;
 
-			case LogLevel::INFO:
-				$color = "\e[37m";
-				$prefix = "[INFO]";
-				break;
-		}
+            case LogLevel::ERROR:
+                $color = "\e[91m";
+                $prefix = "[ERROR]";
+                break;
 
-		if ( $silent && $lvl !== LogLevel::ERROR ) return;
-		print "$color$prefix $msg \e[0m";
-		if ( $newLine ) print "\r\n";
-	}
+            case LogLevel::INFO:
+                $color = "\e[37m";
+                $prefix = "[INFO]";
+                break;
+        }
+
+        if ($silent && $lvl !== LogLevel::ERROR) {
+            return;
+        }
+        print "$color$prefix $msg \e[0m";
+        if ($newLine) {
+            print "\r\n";
+        }
+    }
