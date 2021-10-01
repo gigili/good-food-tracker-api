@@ -85,6 +85,7 @@
 
 				foreach ( $properties as $property ) {
 					if ( $property->class === Entity::class ) continue;
+					if ( $property->getName() === 'ignoredColumns' ) continue;
 					$column = $property->getName();
 					if ( in_array($column, $this->ignoredColumns) ) continue;
 					$rfProperty = new ReflectionProperty($property->class, $property->getName());
@@ -92,6 +93,11 @@
 					if ( !$rfProperty->isInitialized($this) ) continue;
 					$value = $this->{$property->getName()};
 					$query .= "$column = ?, ";
+
+					if ( is_bool($value) ) {
+						$value = $value === true ? "TRUE" : "FALSE";
+					}
+
 					$params[] = $value;
 				}
 
@@ -113,6 +119,11 @@
 					$value = $this->{$property->getName()};
 					$columns .= "$column, ";
 					$values .= "?,";
+
+					if ( is_bool($value) ) {
+						$value = $value === true ? "TRUE" : "FALSE";
+					}
+
 					$params[] = $value;
 				}
 				$columns = rtrim($columns, ", ");
@@ -127,7 +138,7 @@
 				$this->{$this->primaryKey} = $res->{$this->primaryKey};
 			}
 
-			return $this;
+			return $this->get($this->{$this->primaryKey});
 		}
 
 		/**
@@ -255,7 +266,7 @@
 				$doc = $property->getDocComment();
 				preg_match_all($matchPattern, $doc, $annotations);
 				if ( count($annotations[1] ?? 0) > 0 ) {
-					preg_match_all("/[(,\s](.+?)=\"(.+?)\"/", $annotations[1][0], $matches);
+					preg_match_all("/[(,\s](.+?)=[\"'](.+?)[\"']/", $annotations[1][0], $matches);
 					preg_match_all("/(.+?)\(/", $annotations[1][0], $annotationKeys);
 					$data = [];
 					for ( $index = 0; $index < count($matches[1]); $index++ ) {

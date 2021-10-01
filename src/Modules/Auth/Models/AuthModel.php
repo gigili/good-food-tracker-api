@@ -72,7 +72,7 @@
 			$newUser->set_activation_key($activationKey);
 			$user = $newUser->save();
 
-			if ( !isset($user->id) && !isset($result->id) ) throw new RegistrationFailedException();
+			if ( !isset($user->id) ) throw new RegistrationFailedException();
 
 			$activationLink = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/activate/$activationKey";
 			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Good Food Tracker team";

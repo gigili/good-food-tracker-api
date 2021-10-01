@@ -530,7 +530,7 @@
           "City"
         ],
         "summary": "Fetch a list of cities",
-        "description": "Endpoint used for get a list of cities",
+        "description": "Endpoint used for getting a list of cities",
         "operationId": "e8d501fe8bfdc517ca4673c0d2a0e768",
         "parameters": [
           {
@@ -1119,6 +1119,357 @@
         ]
       }
     },
+    "/restaurant": {
+      "get": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Fetch a list of restaurants",
+        "description": "Endpoint used for getting a list of restaurants",
+        "operationId": "c392f8b3211f6ae14145a081130f2bae",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Value used to filter the result",
+            "required": true
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Pagination start offset",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination end offset",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/RestaurantEntity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Create a restaurant",
+        "description": "Endpoint used for creating a restaurant",
+        "operationId": "13d68ed6899784ad0c0d32fca4112ff1",
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "city_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "adress": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "delivery": {
+                    "type": "number"
+                  },
+                  "takeout": {
+                    "type": "number"
+                  },
+                  "geo_lat": {
+                    "type": "number"
+                  },
+                  "geo_long": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/RestaurantEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/restaurant/{restaurantID}": {
+      "get": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Fetch a single restaurant",
+        "description": "Endpoint used for getting a single restaurant information",
+        "operationId": "158be7735fca0d1e121d8a25b34ee990",
+        "parameters": [
+          {
+            "name": "restaurantID",
+            "in": "path",
+            "description": "ID of a restaurant to fetch the information for",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/RestaurantEntity"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Delete a restaurant",
+        "description": "Endpoint used for deleting a restaurant",
+        "operationId": "b08188848487544ae76cb956a8a3849c",
+        "parameters": [
+          {
+            "name": "restaurantID",
+            "in": "path",
+            "description": "ID of a restaurant to delete from the database",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/RestaurantEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID provided for restaurant ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Restaurat not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Restaurant"
+        ],
+        "summary": "Update a restaurant",
+        "description": "Endpoint used for updating a restaurant",
+        "operationId": "7bc43a01164b851b1ac41edc30be24be",
+        "parameters": [
+          {
+            "name": "restaurantID",
+            "in": "path",
+            "description": "ID of a restaurant to update the information for",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Required parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "city_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "adress": {
+                    "nullable": true,
+                    "type": "string"
+                  },
+                  "phone": {
+                    "nullable": true,
+                    "type": "string"
+                  },
+                  "email": {
+                    "nullable": true,
+                    "type": "string"
+                  },
+                  "delivery": {
+                    "nullable": true,
+                    "type": "number"
+                  },
+                  "takeout": {
+                    "nullable": true,
+                    "type": "number"
+                  },
+                  "geo_lat": {
+                    "nullable": true,
+                    "type": "number"
+                  },
+                  "geo_long": {
+                    "nullable": true,
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/RestaurantEntity"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/user": {
       "get": {
         "tags": [
@@ -1395,6 +1746,51 @@
             "type": "string"
           },
           "code": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RestaurantEntity": {
+        "description": "RestaurantEntity Class",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "city_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "nullable": true,
+            "type": "string"
+          },
+          "phone": {
+            "nullable": true,
+            "type": "string"
+          },
+          "email": {
+            "nullable": true,
+            "type": "string"
+          },
+          "delivery": {
+            "type": "boolean"
+          },
+          "takeout": {
+            "type": "boolean"
+          },
+          "geo_lat": {
+            "nullable": true,
+            "type": "number"
+          },
+          "geo_long": {
+            "nullable": true,
+            "type": "number"
+          },
+          "city_name": {
+            "nullable": true,
             "type": "string"
           }
         },
