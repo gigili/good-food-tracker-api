@@ -124,19 +124,19 @@
             "time": "2021-06-23T19:00:23+00:00"
         },
         {
-            "name": "gac/routing",
-            "version": "v2.0.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gigili/PHP-routing.git",
-                "reference": "6f037d09d6b6b16c4c8fc7911ea352fb5a43cd3e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/6f037d09d6b6b16c4c8fc7911ea352fb5a43cd3e",
-                "reference": "6f037d09d6b6b16c4c8fc7911ea352fb5a43cd3e",
-                "shasum": ""
-            },
+          "name": "gac/routing",
+          "version": "v2.0.6",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/gigili/PHP-routing.git",
+            "reference": "32c06985af540326bccb33f344584cb291a5359a"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/32c06985af540326bccb33f344584cb291a5359a",
+            "reference": "32c06985af540326bccb33f344584cb291a5359a",
+            "shasum": ""
+          },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
@@ -175,7 +175,7 @@
             "support": {
                 "email": "github@igorilic.net",
                 "issues": "https://github.com/gigili/PHP-routing",
-                "source": "https://github.com/gigili/PHP-routing/tree/v2.0.5.2"
+              "source": "https://github.com/gigili/PHP-routing/tree/v2.0.6"
             },
             "funding": [
                 {
@@ -187,7 +187,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2021-09-17T20:49:17+00:00"
+          "time": "2021-10-01T12:24:13+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -1531,5 +1531,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+  "plugin-api-version": "2.0.0"
 }
