@@ -1,86 +1,86 @@
 <?php
 
-    /** @noinspection PhpUnused */
+	/** @noinspection PhpUnused */
 
-    /**
-     * Author: Igor Ilić <github@igorilic.net>
-     * Date: 2021-08-10
-     * Project: Good Food Tracker - API
-     */
+	/**
+	 * Author: Igor Ilić <github@igorilic.net>
+	 * Date: 2021-08-10
+	 * Project: Good Food Tracker - API
+	 */
 
-    namespace Gac\GoodFoodTracker\Core\DB;
+	namespace Gac\GoodFoodTracker\Core\DB;
 
-    use PDO;
+	use PDO;
 
-    class Database
-    {
-        private static Database|null $instance = null;
-        private PDO                  $db;
+	class Database
+	{
+		private static Database|null $instance = NULL;
+		private PDO                  $db;
 
-        private function __construct(
-            ?string $dbHost = null,
-            ?int $dbPort = null,
-            ?string $dbUsername = null,
-            ?string $dbPassword = null,
-            ?string $db = null
-        ) {
-            $dbHost = $dbHost ?? $_ENV["DB_HOST"];
-            $dbPort = $dbPort ?? $_ENV["DB_PORT"];
-            $dbUsername = $dbUsername ?? $_ENV["DB_USERNAME"];
-            $dbPassword = $dbPassword ?? $_ENV["DB_PASSWORD"];
-            $db = $db ?? $_ENV['DB'];
+		private function __construct(
+			?string $dbHost = NULL,
+			?int    $dbPort = NULL,
+			?string $dbUsername = NULL,
+			?string $dbPassword = NULL,
+			?string $db = NULL
+		) {
+			$dbHost = $dbHost ?? $_ENV["DB_HOST"];
+			$dbPort = $dbPort ?? $_ENV["DB_PORT"];
+			$dbUsername = $dbUsername ?? $_ENV["DB_USERNAME"];
+			$dbPassword = $dbPassword ?? $_ENV["DB_PASSWORD"];
+			$db = $db ?? $_ENV['DB'];
 
-            $this->db = new PDO("pgsql:dbname=$db host=$dbHost port=$dbPort", $dbUsername, $dbPassword);
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
+			$this->db = new PDO("pgsql:dbname=$db host=$dbHost port=$dbPort", $dbUsername, $dbPassword);
+			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		}
 
-        public static function getInstance(
-            ?string $dbHost = null,
-            ?int $dbPort = null,
-            ?string $dbUsername = null,
-            ?string $dbPassword = null,
-            ?string $db = null
-        ): Database {
-            if (self::$instance == null) {
-                self::$instance = new Database(
-                    $dbHost,
-                    $dbPort,
-                    $dbUsername,
-                    $dbPassword,
-                    $db,
-                );
-            }
+		public static function getInstance(
+			?string $dbHost = NULL,
+			?int    $dbPort = NULL,
+			?string $dbUsername = NULL,
+			?string $dbPassword = NULL,
+			?string $db = NULL
+		) : Database {
+			if ( self::$instance == NULL ) {
+				self::$instance = new Database(
+					$dbHost,
+					$dbPort,
+					$dbUsername,
+					$dbPassword,
+					$db,
+				);
+			}
 
-            return self::$instance;
-        }
+			return self::$instance;
+		}
 
-        public static function execute_query(
-            string $query,
-            array $params = [],
-            bool $singleResult = false
-        ): array|object {
-            $db = Database::getInstance();
-            return $db->get_result($query, $params, $singleResult, $db->db);
-        }
+		public static function execute_query(
+			string $query,
+			array  $params = [],
+			bool   $singleResult = false
+		) : array|object {
+			$db = Database::getInstance();
+			return $db->get_result($query, $params, $singleResult, $db->db);
+		}
 
-        public function get_result(
-            string $query,
-            array $params = [],
-            bool $singleResult = false,
-            ?PDO $db = null
-        ): array|object {
-            if (is_null($db)) {
-                $db = self::getInstance()->db;
-            }
-            $stm = $db->prepare($query);
+		public function get_result(
+			string $query,
+			array  $params = [],
+			bool   $singleResult = false,
+			?PDO   $db = NULL
+		) : array|object {
+			if ( is_null($db) ) {
+				$db = self::getInstance()->db;
+			}
+			$stm = $db->prepare($query);
 
-            if (count($params) > 0) {
-                $stm->execute($params);
-            } else {
-                $stm->execute();
-            }
+			if ( count($params) > 0 ) {
+				$stm->execute($params);
+			} else {
+				$stm->execute();
+			}
 
-            $result = $stm->fetchAll(PDO::FETCH_OBJ);
-            return $singleResult === false ? $result : $result[0] ?? (object) [];
-        }
-    }
+			$result = $stm->fetchAll(PDO::FETCH_OBJ);
+			return $singleResult === false ? $result : $result[0] ?? (object) [];
+		}
+	}
