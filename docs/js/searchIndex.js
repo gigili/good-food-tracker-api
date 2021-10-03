@@ -166,6 +166,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Core-Exceptions-AppNotInitializedException.html"
         },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Exceptions\\FileDeletionException",
+            "name": "FileDeletionException",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-Exceptions-FileDeletionException.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Exceptions\\FileDeletionException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "FileDeletionException\u0020constructor.",
+            "url": "classes/Gac-GoodFoodTracker-Core-Exceptions-FileDeletionException.html#method___construct"
+        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Exceptions\\InvalidFileTypeException",
             "name": "InvalidFileTypeException",
             "summary": "",
@@ -405,6 +415,11 @@ Search.appendIndex(
             "name": "set_max_upload_size",
             "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Core-Utility-FileHandler.html#method_set_max_upload_size"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Utility\\FileHandler\u003A\u003Adelete_image_from_disk\u0028\u0029",
+            "name": "delete_image_from_disk",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-Utility-FileHandler.html#method_delete_image_from_disk"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Utility\\FileHandler\u003A\u003AALLOWED_TYPES_IMAGES",
             "name": "ALLOWED_TYPES_IMAGES",
