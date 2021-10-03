@@ -11,6 +11,7 @@
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
+	use Gac\GoodFoodTracker\Core\Utility\FileHandler;
 	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
@@ -94,6 +95,9 @@
 			if ( ( $user instanceof UserEntity ) === false ) {
 				throw new UserNotFoundException();
 			}
+			
+			$imagePath = $_ENV('UPLOAD_PATH').$user['image'];
+			FileHandler::delete_image_from_disk($imagePath);
 			$user->delete();
 
 			//TODO: send an account deleted notification email with a proper template
