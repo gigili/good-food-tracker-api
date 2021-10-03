@@ -9,9 +9,11 @@
 	namespace Gac\GoodFoodTracker\Modules\User\Models;
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
+	use Gac\GoodFoodTracker\Core\Exceptions\FileDeletionException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
 	use Gac\GoodFoodTracker\Core\Utility\FileHandler;
+	use Gac\GoodFoodTracker\Core\Utility\Logger;
 	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
@@ -73,6 +75,13 @@
 			$user->name = $request->get('name');
 			$user->email = $request->get('email');
 			if ( !is_null($profileImage) ) {
+				try {
+					FileHandler::delete_image_from_disk(BASE_PATH.$user->image, true);
+				} catch (FileDeletionException $e){
+					$message = "Failed to delete image: ".BASE_PATH.$user->image." Message: ".$e->getMessage();
+					Logger::error($message);
+				}
+
 				$user->image = str_replace(BASE_PATH, "", $profileImage);
 			}
 

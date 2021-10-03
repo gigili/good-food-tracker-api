@@ -95,9 +95,9 @@
 		 */
 		public static function delete_image_from_disk(?string $imagePath, bool $throwExceptionOnFailure = false): void {
 			if(file_exists($imagePath)) {
-				$status = unlink($imagePath);
+				$deleted = unlink($imagePath);
 
-				if($throwExceptionOnFailure && !$status){
+				if(!$deleted && $throwExceptionOnFailure){
 					throw new FileDeletionException();
 				}
 			}
