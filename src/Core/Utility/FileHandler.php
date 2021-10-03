@@ -8,6 +8,7 @@
 
 	namespace Gac\GoodFoodTracker\Core\Utility;
 
+	use Gac\GoodFoodTracker\Core\Exceptions\FileDeletionException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidFileTypeException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotFoundException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotSavedException;
@@ -87,5 +88,18 @@
 
 		public static function set_max_upload_size(int $maxUploadSize) {
 			self::$maxUploadSize = $maxUploadSize;
+		}
+
+		/**
+		 * @throws FileDeletionException
+		 */
+		public static function delete_image_from_disk(?string $imagePath, bool $throwExceptionOnFailure = false): void {
+			if(file_exists($imagePath)) {
+				$status = unlink($imagePath);
+
+				if($throwExceptionOnFailure && !$status){
+					throw new FileDeletionException();
+				}
+			}
 		}
 	}

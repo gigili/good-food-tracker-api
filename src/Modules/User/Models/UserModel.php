@@ -9,9 +9,9 @@
 	namespace Gac\GoodFoodTracker\Modules\User\Models;
 
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
-	use Gac\GoodFoodTracker\Core\Exceptions\FileDeletionException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
+	use Gac\GoodFoodTracker\Core\Utility\FileHandler;
 	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
@@ -95,7 +95,9 @@
 			if ( ( $user instanceof UserEntity ) === false ) {
 				throw new UserNotFoundException();
 			}
-			static::delete_image_from_disk($user['image']);
+			
+			$imagePath = $_ENV('UPLOAD_PATH').$user['image'];
+			FileHandler::delete_image_from_disk($imagePath);
 			$user->delete();
 
 			//TODO: send an account deleted notification email with a proper template
@@ -105,21 +107,6 @@
 				"Dear $userEntity->name, your account has been deleted successfully from our application."
 			) ) {
 				throw new EmailNotSentException();
-			}
-		}
-
-		/**
-		 * @throws FileDeletionException
-		 */
-		private static function delete_image_from_disk(?string $imageName, bool $throwExceptionOnFailure = false): void {
-			$imagePath = $_ENV('UPLOAD_PATH');
-
-			if(file_exists($imagePath.$imageName)) {
-				$status = unlink($imagePath.$imageName);
-
-				if($throwExceptionOnFailure && !$status){
-					throw new FileDeletionException();
-				}
 			}
 		}
 	}
