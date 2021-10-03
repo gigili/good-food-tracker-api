@@ -95,8 +95,8 @@
 			if ( ( $user instanceof UserEntity ) === false ) {
 				throw new UserNotFoundException();
 			}
-			
-			$imagePath = $_ENV('UPLOAD_PATH').$user['image'];
+
+			$imagePath = BASE_PATH.$user->image;
 			FileHandler::delete_image_from_disk($imagePath);
 			$user->delete();
 
