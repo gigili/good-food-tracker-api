@@ -40,6 +40,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "skrrra",
+      "name": "skrrra",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34629038?v=4",
+      "profile": "https://github.com/skrrra",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
