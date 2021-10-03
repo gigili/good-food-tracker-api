@@ -8,7 +8,7 @@
 <!--![Stars badge](https://img.shields.io/github/stars/gigili/good-food-tracker-api?style=for-the-badge)-->
 <!--![Top language badge](https://img.shields.io/github/languages/top/gigili/good-food-tracker-api?style=for-the-badge)-->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
@@ -104,10 +104,11 @@ Thanks go to these wonderful people ([emoji key](https://allcontributors.org/doc
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://negue.github.io"><img src="https://avatars3.githubusercontent.com/u/842273?v=4?s=100" width="100px;" alt=""/><br /><sub><b>negue</b></sub></a><br /><a href="http://negue.github.io/" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://negue.github.io"><img src="https://avatars3.githubusercontent.com/u/842273?v=4?s=100" width="100px;" alt=""/><br /><sub><b>negue</b></sub></a><br /><a href="#ideas-negue" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://subhamsahu.me"><img src="https://avatars1.githubusercontent.com/u/43654114?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Subham Sahu</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=subhamX" title="Code">💻</a></td>
     <td align="center"><a href="http://kabartolo.com"><img src="https://avatars3.githubusercontent.com/u/11848944?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kate Bartolo</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=kabartolo" title="Documentation">📖</a></td>
     <td align="center"><a href="http://rajie.space"><img src="https://avatars.githubusercontent.com/u/37059749?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rajakavitha1</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=Rajakavitha1" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/skrrra"><img src="https://avatars.githubusercontent.com/u/34629038?v=4?s=100" width="100px;" alt=""/><br /><sub><b>skrrra</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=skrrra" title="Code">💻</a></td>
   </tr>
 </table>
 
