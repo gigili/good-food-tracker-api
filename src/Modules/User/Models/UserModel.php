@@ -95,7 +95,7 @@
 			if ( ( $user instanceof UserEntity ) === false ) {
 				throw new UserNotFoundException();
 			}
-			static::delete_image_from_disk($user['image'], false);
+			static::delete_image_from_disk($user['image']);
 			$user->delete();
 
 			//TODO: send an account deleted notification email with a proper template
