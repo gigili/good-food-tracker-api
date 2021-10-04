@@ -124,29 +124,29 @@
             "time": "2021-06-23T19:00:23+00:00"
         },
         {
-          "name": "gac/routing",
-          "version": "v2.0.7",
-          "source": {
-            "type": "git",
-            "url": "https://github.com/gigili/PHP-routing.git",
-            "reference": "5f3e1a0eae7d60967a3796024c4e58c0afa8d393"
-          },
-          "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/5f3e1a0eae7d60967a3796024c4e58c0afa8d393",
-            "reference": "5f3e1a0eae7d60967a3796024c4e58c0afa8d393",
-            "shasum": ""
-          },
-          "require": {
-            "ext-json": "*",
-            "ext-mbstring": "*",
-            "php": ">=8.0"
-          },
-          "require-dev": {
-            "phpunit/phpunit": "^9.5"
-          },
-          "type": "library",
-          "autoload": {
+            "name": "gac/routing",
+            "version": "v2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gigili/PHP-routing.git",
+                "reference": "5f3e1a0eae7d60967a3796024c4e58c0afa8d393"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/5f3e1a0eae7d60967a3796024c4e58c0afa8d393",
+                "reference": "5f3e1a0eae7d60967a3796024c4e58c0afa8d393",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
                 "psr-4": {
                     "Gac\\Routing\\": "./",
                     "Gac\\Routing\\Exceptions\\": "./"
@@ -175,7 +175,7 @@
             "support": {
                 "email": "github@igorilic.net",
                 "issues": "https://github.com/gigili/PHP-routing",
-              "source": "https://github.com/gigili/PHP-routing/tree/v2.0.7"
+                "source": "https://github.com/gigili/PHP-routing/tree/v2.0.7"
             },
             "funding": [
                 {
@@ -187,7 +187,7 @@
                     "type": "paypal"
                 }
             ],
-          "time": "2021-10-02T19:07:15+00:00"
+            "time": "2021-10-02T19:07:15+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -963,31 +963,31 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v5.3.0",
+            "version": "v5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "b3eac5c7ac896e52deab4a99068e3f4ab12d9e56"
+                "reference": "accaddf133651d4b5cf81a119f25296736ffc850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/b3eac5c7ac896e52deab4a99068e3f4ab12d9e56",
-                "reference": "b3eac5c7ac896e52deab4a99068e3f4ab12d9e56",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/accaddf133651d4b5cf81a119f25296736ffc850",
+                "reference": "accaddf133651d4b5cf81a119f25296736ffc850",
                 "shasum": ""
             },
             "require": {
                 "ext-pcre": "*",
-                "graham-campbell/result-type": "^1.0.1",
+                "graham-campbell/result-type": "^1.0.2",
                 "php": "^7.1.3 || ^8.0",
-                "phpoption/phpoption": "^1.7.4",
-                "symfony/polyfill-ctype": "^1.17",
-                "symfony/polyfill-mbstring": "^1.17",
-                "symfony/polyfill-php80": "^1.17"
+                "phpoption/phpoption": "^1.8",
+                "symfony/polyfill-ctype": "^1.23",
+                "symfony/polyfill-mbstring": "^1.23.1",
+                "symfony/polyfill-php80": "^1.23.1"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.4.1",
                 "ext-filter": "*",
-                "phpunit/phpunit": "^7.5.20 || ^8.5.14 || ^9.5.1"
+                "phpunit/phpunit": "^7.5.20 || ^8.5.21 || ^9.5.10"
             },
             "suggest": {
                 "ext-filter": "Required to use the boolean validator."
@@ -1010,13 +1010,11 @@
             "authors": [
                 {
                     "name": "Graham Campbell",
-                    "email": "graham@alt-three.com",
-                    "homepage": "https://gjcampbell.co.uk/"
+                    "email": "hello@gjcampbell.co.uk"
                 },
                 {
                     "name": "Vance Lucas",
-                    "email": "vance@vancelucas.com",
-                    "homepage": "https://vancelucas.com/"
+                    "email": "vance@vancelucas.com"
                 }
             ],
             "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
@@ -1027,7 +1025,7 @@
             ],
             "support": {
                 "issues": "https://github.com/vlucas/phpdotenv/issues",
-                "source": "https://github.com/vlucas/phpdotenv/tree/v5.3.0"
+                "source": "https://github.com/vlucas/phpdotenv/tree/v5.3.1"
             },
             "funding": [
                 {
@@ -1039,7 +1037,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-20T15:23:13+00:00"
+            "time": "2021-10-02T19:24:42+00:00"
         }
     ],
     "packages-dev": [
@@ -1531,5 +1529,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": [],
-  "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
