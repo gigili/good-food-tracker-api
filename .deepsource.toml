@@ -1,0 +1,17 @@
+version = 1
+
+exclude_patterns = [
+  "docs/**",
+  "src/migrations/**",
+  "src/languages/**",
+  "src/assets/**",
+  "src/uploads/**"
+]
+
+[[analyzers]]
+name = "php"
+enabled = true
+
+[[analyzers]]
+name = "shell"
+enabled = true
