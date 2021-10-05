@@ -39,9 +39,11 @@
 			if ( !$user instanceof UserEntity ) {
 				throw new UserNotFoundException();
 			}
+
 			if ( !isset($user->id) ) {
 				throw new UserNotFoundException();
 			}
+
 			if ( !$user->is_active() ) {
 				throw new UserNotActiveException();
 			}
@@ -84,11 +86,13 @@
 			$newUser->set_activation_key($activationKey);
 			$user = $newUser->save();
 
-			if ( !isset($user->id) ) {
+			if ( ( $user instanceof UserEntity ) === false || !isset($user->id) ) {
 				throw new RegistrationFailedException();
 			}
 
-			$activationLink = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/activate/$activationKey";
+			$schema = $_SERVER["REQUEST_SCHEME"] ?? "http";
+			$host = $_SERVER["HTTP_HOST"] ?? "localhost";
+			$activationLink = "$schema://$host/activate/$activationKey";
 			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$email,

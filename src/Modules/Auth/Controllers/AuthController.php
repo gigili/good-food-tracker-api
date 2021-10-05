@@ -9,14 +9,28 @@
 
 	namespace Gac\GoodFoodTracker\Modules\Auth\Controllers;
 
-	use Exception;
 	use Gac\GoodFoodTracker\Core\Controllers\BaseController;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidEmailException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidNumericValueException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MaximumLengthException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MinimumLengthException;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\InvalidActivationKeyException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\InvalidDataProvidedException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\RegistrationFailedException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotActiveException;
+	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
 	use Gac\GoodFoodTracker\Modules\Auth\Models\AuthModel;
 	use Gac\Routing\Request;
-	use ReflectionClass;
+	use ReflectionException;
 
 	class AuthController extends BaseController
 	{
@@ -24,6 +38,16 @@
 		 * Login endpoint
 		 *
 		 * @param Request $request
+		 *
+		 * @throws FieldsDoNotMatchException
+		 * @throws InvalidEmailException
+		 * @throws InvalidNumericValueException
+		 * @throws InvalidUUIDException
+		 * @throws MaximumLengthException
+		 * @throws MinimumLengthException
+		 * @throws RequiredFieldException
+		 * @throws UserNotActiveException
+		 * @throws UserNotFoundException
 		 *
 		 * @OA\Post (
 		 *     path="/auth/login",
@@ -76,30 +100,19 @@
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     )
 		 * )
-		 *
 		 */
 		public function login(Request $request) {
-			try {
-				Validation::validate([
-					"username" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 70 ], ],
-					"password" => [ ValidationRules::REQUIRED ],
-				], $request);
+			Validation::validate([
+				"username" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 70 ], ],
+				"password" => [ ValidationRules::REQUIRED ],
+			], $request);
 
-				$username = $request->get("username");
-				$password = $request->get("password");
+			$username = $request->get("username");
+			$password = $request->get("password");
 
-				$result = AuthModel::login($username, $password);
+			$result = AuthModel::login($username, $password);
 
-				$request->send($result);
-			} catch ( Exception $ex ) {
-				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Registration failed',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
-					],
-				]);
-			}
+			$request->send($result);
 		}
 
 		/**
@@ -107,6 +120,18 @@
 		 *
 		 * @param Request $request
 		 *
+		 * @throws FieldsDoNotMatchException
+		 * @throws InvalidEmailException
+		 * @throws InvalidNumericValueException
+		 * @throws InvalidUUIDException
+		 * @throws MaximumLengthException
+		 * @throws MinimumLengthException
+		 * @throws RequiredFieldException
+		 * @throws EmailNotSentException
+		 * @throws EmailTakenException
+		 * @throws RegistrationFailedException
+		 * @throws UsernameTakenException
+		 * @throws ReflectionException
 		 * @OA\Post (
 		 *     path="/auth/register",
 		 *     summary="Register endpoint",
@@ -154,7 +179,6 @@
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     )
 		 * )
-		 *
 		 */
 		public function register(Request $request) {
 			$name = $request->get("name");
@@ -162,33 +186,23 @@
 			$username = $request->get('username');
 			$password = $request->get('password');
 
-			try {
-				Validation::validate([
-					"name" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
-					'email' => [
-						ValidationRules::REQUIRED,
-						[ ValidationRules::MAX_LENGTH => 200 ],
-						ValidationRules::VALID_EMAIL,
-					],
-					'username' => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
-					'password' => [
-						ValidationRules::REQUIRED,
-						[ ValidationRules::MIN_LENGTH => 10 ],
-						[ ValidationRules::SAME_AS => "password_again" ],
-					],
-				], $request);
+			Validation::validate([
+				"name" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
+				'email' => [
+					ValidationRules::REQUIRED,
+					[ ValidationRules::MAX_LENGTH => 200 ],
+					ValidationRules::VALID_EMAIL,
+				],
+				'username' => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
+				'password' => [
+					ValidationRules::REQUIRED,
+					[ ValidationRules::MIN_LENGTH => 10 ],
+					[ ValidationRules::SAME_AS => "password_again" ],
+				],
+			], $request);
 
-				$newUser = AuthModel::register($name, $email, $username, $password);
-				$request->status(201)->send([ "message" => "registration successful", "data" => $newUser ]);
-			} catch ( Exception $ex ) {
-				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						"class" => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? "Registration failed",
-						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
-					],
-				]);
-			}
+			$newUser = AuthModel::register($name, $email, $username, $password);
+			$request->status(201)->send([ "message" => "registration successful", "data" => $newUser ]);
 		}
 
 		/**
@@ -196,6 +210,16 @@
 		 *
 		 * @param Request $request
 		 *
+		 * @throws FieldsDoNotMatchException
+		 * @throws InvalidEmailException
+		 * @throws InvalidNumericValueException
+		 * @throws InvalidUUIDException
+		 * @throws MaximumLengthException
+		 * @throws MinimumLengthException
+		 * @throws RequiredFieldException
+		 * @throws UserNotFoundException
+		 * @throws InvalidActivationKeyException
+		 * @throws ReflectionException
 		 * @OA\Post (
 		 *     path="/auth/verify",
 		 *     summary="Verify account endpoint",
@@ -229,30 +253,19 @@
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     )
 		 * )
-		 *
 		 */
 		public function verify_account(Request $request) {
-			try {
-				Validation::validate([
-					"activationKey" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 10 ] ],
-				], $request);
+			Validation::validate([
+				"activationKey" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 10 ] ],
+			], $request);
 
-				$activationKey = $request->get("activationKey");
+			$activationKey = $request->get("activationKey");
 
-				AuthModel::verify_account($activationKey);
+			AuthModel::verify_account($activationKey);
 
-				$request->send([
-					"message" => "Account verified successfully",
-				]);
-			} catch ( Exception $ex ) {
-				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Account verification failed',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
-					],
-				]);
-			}
+			$request->send([
+				"message" => "Account verified successfully",
+			]);
 		}
 
 		/**
@@ -260,6 +273,17 @@
 		 *
 		 * @param Request $request
 		 *
+		 * @throws EmailNotSentException
+		 * @throws FieldsDoNotMatchException
+		 * @throws InvalidEmailException
+		 * @throws InvalidNumericValueException
+		 * @throws InvalidUUIDException
+		 * @throws MaximumLengthException
+		 * @throws MinimumLengthException
+		 * @throws ReflectionException
+		 * @throws RequiredFieldException
+		 * @throws UserNotFoundException
+		 * @throws InvalidDataProvidedException
 		 * @OA\Post (
 		 *     path="/auth/request-password-reset",
 		 *     summary="Request password reset code endpoint",
@@ -298,27 +322,16 @@
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     )
 		 * )
-		 *
 		 */
 		public function request_password_reset(Request $request) {
-			try {
-				Validation::validate([
-					"emailOrUsername" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
-				], $request);
+			Validation::validate([
+				"emailOrUsername" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
+			], $request);
 
-				$emailOrUsername = $request->get("emailOrUsername");
-				AuthModel::generate_password_reset_code($emailOrUsername);
+			$emailOrUsername = $request->get("emailOrUsername");
+			AuthModel::generate_password_reset_code($emailOrUsername);
 
-				$request->send([ "message" => "Password reset code sent to the email address linked to the account" ]);
-			} catch ( Exception $ex ) {
-				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Failed generating password reset code',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
-					],
-				]);
-			}
+			$request->send([ "message" => "Password reset code sent to the email address linked to the account" ]);
 		}
 
 		/**
@@ -326,6 +339,16 @@
 		 *
 		 * @param Request $request
 		 *
+		 * @throws EmailNotSentException
+		 * @throws FieldsDoNotMatchException
+		 * @throws InvalidEmailException
+		 * @throws InvalidNumericValueException
+		 * @throws InvalidUUIDException
+		 * @throws MaximumLengthException
+		 * @throws MinimumLengthException
+		 * @throws ReflectionException
+		 * @throws RequiredFieldException
+		 * @throws UserNotFoundException
 		 * @OA\Post (
 		 *     path="/auth/reset-password",
 		 *     summary="Reset password endpoint",
@@ -368,34 +391,24 @@
 		 * )
 		 */
 		public function reset_password(Request $request) {
-			try {
-				Validation::validate([
-					"passwordResetCode" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
-					"newPassword" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ] ],
-					"newPasswordAgain" => [
-						ValidationRules::REQUIRED,
-						[ ValidationRules::MIN_LENGTH => 10 ],
-						[ ValidationRules::SAME_AS => "newPassword" ],
-					],
-				], $request);
+			Validation::validate([
+				"passwordResetCode" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 3 ] ],
+				"newPassword" => [ ValidationRules::REQUIRED, [ ValidationRules::MIN_LENGTH => 10 ] ],
+				"newPasswordAgain" => [
+					ValidationRules::REQUIRED,
+					[ ValidationRules::MIN_LENGTH => 10 ],
+					[ ValidationRules::SAME_AS => "newPassword" ],
+				],
+			], $request);
 
-				$passwordResetCode = $request->get("passwordResetCode");
-				$newPassword = $request->get("newPassword");
+			$passwordResetCode = $request->get("passwordResetCode");
+			$newPassword = $request->get("newPassword");
 
-				AuthModel::reset_password($passwordResetCode, $newPassword);
+			AuthModel::reset_password($passwordResetCode, $newPassword);
 
-				$request->send([
-					"message" => "Password reset successfully",
-				]);
-			} catch ( Exception $ex ) {
-				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Password reset failed',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
-					],
-				]);
-			}
+			$request->send([
+				"message" => "Password reset successfully",
+			]);
 		}
 
 		/**

@@ -12,7 +12,6 @@
 	use Firebase\JWT\SignatureInvalidException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\MissingTokenException;
-	use Gac\Routing\Request;
 	use JetBrains\PhpStorm\ArrayShape;
 	use Predis\Client as RedisClient;
 
@@ -24,7 +23,7 @@
 		 * @param bool $generateRefreshToken Indicated if the refresh token should be generated and returned as well
 		 * @param bool $forceTokenRegeneration
 		 *
-		 * @return array<string,string|null> Returns an array containing the access token and refresh token if $generateRefreshToken is set to True values
+		 * @return array Returns an array containing the access token and refresh token if $generateRefreshToken is set to True values
 		 */
 		#[ArrayShape( [ 'accessToken' => 'string', 'refreshToken' => 'null|string' ] )] function generate_token(
 			string $userID,
@@ -39,8 +38,8 @@
 			]);
 
 			$payload = [
-				'iss' => $_SERVER['HTTP_HOST'],
-				'aud' => $_SERVER['HTTP_HOST'],
+				'iss' => $_SERVER['HTTP_HOST'] ?? "localhost",
+				'aud' => $_SERVER['HTTP_HOST'] ?? "localhost",
 				'iat' => $currentTime,
 				'nbf' => $currentTime,
 				'jti' => $userID,

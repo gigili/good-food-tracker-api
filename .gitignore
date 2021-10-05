@@ -161,3 +161,6 @@ cli/output/
 redis-data/
 .phpdoc/
 src/uploads/
+
+.phpunit.result.cache
+phpunit.xml.bak
