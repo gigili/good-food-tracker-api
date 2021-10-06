@@ -8,6 +8,7 @@
 
 	namespace Gac\GoodFoodTracker\Modules\User\Controllers;
 
+	use Gac\GoodFoodTracker\Core\Exceptions\FileDeletionException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidFileTypeException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\UploadFileNotFoundException;
@@ -239,6 +240,7 @@
 		 * @throws InvalidTokenException
 		 * @throws UserNotFoundException
 		 * @throws EmailNotSentException
+		 * @throws FileDeletionException
 		 *
 		 * @OA\Delete  (
 		 *     path="/user",
