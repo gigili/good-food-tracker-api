@@ -292,7 +292,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Restaurant/Controllers/RestaurantController.php"><a href="files/src-modules-restaurant-controllers-restaurantcontroller.html"><abbr title="src/Modules/Restaurant/Controllers/RestaurantController.php">RestaurantController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">239</span>
+    <span class="phpdocumentor-element-found-in__line">267</span>
 
     </aside>
 
@@ -536,7 +536,7 @@ description=&quot;Invalid or missing token&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Restaurant/Controllers/RestaurantController.php"><a href="files/src-modules-restaurant-controllers-restaurantcontroller.html"><abbr title="src/Modules/Restaurant/Controllers/RestaurantController.php">RestaurantController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">292</span>
+    <span class="phpdocumentor-element-found-in__line">324</span>
 
     </aside>
 
@@ -604,7 +604,11 @@ security={{&quot;bearer&quot;: }}},
 in=&quot;path&quot;,
 name=&quot;restaurantID&quot;,
 description=&quot;ID of a restaurant to delete from the database&quot;,
-required=true
+required=true,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -621,13 +625,13 @@ description=&quot;Invalid UUID provided for restaurant ID&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
 @OA\Response(
-response=&quot;404&quot;,
-description=&quot;Restaurat not found&quot;,
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
 @OA\Response(
-response=&quot;401&quot;,
-description=&quot;Invalid or missing token&quot;,
+response=&quot;404&quot;,
+description=&quot;Restaurat not found&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
 )</p>
@@ -655,7 +659,7 @@ description=&quot;Invalid or missing token&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Restaurant/Controllers/RestaurantController.php"><a href="files/src-modules-restaurant-controllers-restaurantcontroller.html"><abbr title="src/Modules/Restaurant/Controllers/RestaurantController.php">RestaurantController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">120</span>
+    <span class="phpdocumentor-element-found-in__line">148</span>
 
     </aside>
 
@@ -718,11 +722,16 @@ path=&quot;/restaurant/{restaurantID}&quot;,
 summary=&quot;Fetch a single restaurant&quot;,
 description=&quot;Endpoint used for getting a single restaurant information&quot;,
 tags={&quot;Restaurant&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter(
 in=&quot;path&quot;,
 name=&quot;restaurantID&quot;,
 description=&quot;ID of a restaurant to fetch the information for&quot;,
-required=true
+required=true,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -739,7 +748,12 @@ ref=&quot;#/components/schemas/RestaurantEntity&quot;
 ),
 },
 )
-)
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
 )</p>
 </section>
 
@@ -765,7 +779,7 @@ ref=&quot;#/components/schemas/RestaurantEntity&quot;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Restaurant/Controllers/RestaurantController.php"><a href="files/src-modules-restaurant-controllers-restaurantcontroller.html"><abbr title="src/Modules/Restaurant/Controllers/RestaurantController.php">RestaurantController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">75</span>
+    <span class="phpdocumentor-element-found-in__line">93</span>
 
     </aside>
 
@@ -803,23 +817,36 @@ path=&quot;/restaurant&quot;,
 summary=&quot;Fetch a list of restaurants&quot;,
 description=&quot;Endpoint used for getting a list of restaurants&quot;,
 tags={&quot;Restaurant&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;search&quot;,
 description=&quot;Value used to filter the result&quot;,
-required=true
+required=false,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;start&quot;,
 description=&quot;Pagination start offset&quot;,
-required=false
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;limit&quot;,
 description=&quot;Pagination end offset&quot;,
-required=false
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -836,7 +863,12 @@ ref=&quot;#/components/schemas/RestaurantEntity&quot;
 ),
 },
 )
-)
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
 )</p>
 </section>
 

@@ -38,23 +38,36 @@
 		 *     summary="Fetch a list of cities",
 		 *     description="Endpoint used for getting a list of cities",
 		 *     tags={"City"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
 		 *            description="Value used to filter the cities",
-		 *            required=true
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="start",
 		 *            description="Pagination start offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="limit",
 		 *            description="Pagination end offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -71,7 +84,12 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -101,11 +119,16 @@
 		 *     summary="Fetch a single city",
 		 *     description="Endpoint used for get information about a single city",
 		 *     tags={"City"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="cityID",
 		 *            description="ID of a city we are looking for",
-		 *            required=true
+		 *            required=true,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -124,6 +147,11 @@
 		 *     @OA\Response(
 		 *        response="404",
 		 *        description="City not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -234,7 +262,11 @@
 		 *            in="path",
 		 *            required=true,
 		 *            name="cityID",
-		 *            description="ID of a city being updated"
+		 *            description="ID of a city being updated",
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -304,7 +336,11 @@
 		 *            in="path",
 		 *            required=true,
 		 *            name="cityID",
-		 *            description="ID of a city being updated"
+		 *            description="ID of a city being updated",
+		 *     			@OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
