@@ -35,6 +35,7 @@
 		 *     summary="Fetch a list of restaurants",
 		 *     description="Endpoint used for getting a list of restaurants",
 		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -105,6 +106,7 @@
 		 *     summary="Fetch a single restaurant",
 		 *     description="Endpoint used for getting a single restaurant information",
 		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="restaurantID",

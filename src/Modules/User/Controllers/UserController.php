@@ -43,6 +43,7 @@
 		 *     summary="Filter users endpoint",
 		 *     description="Endpoint used to filters users based on the value of search parameter",
 		 *     tags={"User"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -52,6 +53,18 @@
 		 *                type="string",
 		 *                additionalProperties=false
 		 *             ),
+		 *     security={{"bearer": {}}},
+		 *     @OA\RequestBody(
+		 *         description="Required parameters",
+		 *         required=true,
+		 *         @OA\MediaType(
+		 *            mediaType="application/json",
+		 *			  @OA\Schema(
+		 *                properties={
+		 *     				@OA\Property(property="search", type="string"),
+		 *                },
+		 *              ),
+		 *            ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
@@ -110,6 +123,7 @@
 		 *     summary="Fetch information about a specific user",
 		 *     description="Endpoint used for fetch information about a specific user",
 		 *     tags={"User"},
+		 *     security={{"bearer": {}}},
 		 * 	   @OA\Parameter(
 		 *         name="userID",
 		 *         description="",

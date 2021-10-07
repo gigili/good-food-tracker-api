@@ -37,6 +37,7 @@
 		 *     summary="Fetch a list of countries",
 		 *     description="Endpoint used for get a list of countries",
 		 *     tags={"Country"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -108,6 +109,7 @@
 		 *     summary="Fetch a information about a specific country",
 		 *     description="Endpoint used for getting information about a specific country",
 		 *     tags={"Country"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="countryID",
@@ -304,6 +306,7 @@
 		 *     security={{"bearer": {}}},
 		 *     description="Endpoint used for deleting a country",
 		 *     tags={"Country"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter (
 		 *            in="path",
 		 *            required=true,

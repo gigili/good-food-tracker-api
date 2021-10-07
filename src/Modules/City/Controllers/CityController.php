@@ -38,6 +38,7 @@
 		 *     summary="Fetch a list of cities",
 		 *     description="Endpoint used for getting a list of cities",
 		 *     tags={"City"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -113,6 +114,7 @@
 		 *     summary="Fetch a single city",
 		 *     description="Endpoint used for get information about a single city",
 		 *     tags={"City"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="cityID",
