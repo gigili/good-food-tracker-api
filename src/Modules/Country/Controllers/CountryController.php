@@ -72,6 +72,7 @@
 		 *        response="200",
 		 *        description="Successfully filtered countries",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                type="object",
 		 *                  properties={
 		 *     			  @OA\Property(
@@ -88,7 +89,12 @@
 		 *        response="401",
 		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function filter_countries(Request $request) {
@@ -128,6 +134,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -142,7 +149,12 @@
 		 *        response="401",
 		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function get_country(Request $request, string $countryID) {
@@ -177,6 +189,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="code", type="string"),
@@ -188,6 +201,7 @@
 		 *        response="201",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -201,6 +215,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -256,6 +275,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="code", type="string"),
@@ -267,6 +287,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -285,6 +306,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -332,6 +358,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -350,6 +377,11 @@
 		 *     @OA\Response(
 		 *        response="404",
 		 *        description="Country not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

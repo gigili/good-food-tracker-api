@@ -70,6 +70,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                type="object",
 		 *                properties={
 		 *     			  @OA\Property(
@@ -85,6 +86,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -125,6 +131,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                type="object",
 		 *                properties={
 		 *     			  @OA\Property(
@@ -140,6 +147,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -174,6 +186,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="city_id", type="string"),
 		 *     				@OA\Property(property="name", type="string"),
@@ -192,6 +205,7 @@
 		 *        response="201",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
 		 *           }
@@ -205,6 +219,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -230,6 +249,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="city_id", type="string"),
 		 *     				@OA\Property(property="name", type="string"),
@@ -248,6 +268,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
 		 *           }
@@ -261,6 +282,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -300,6 +326,7 @@
 		 *        response="200",
 		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
 		 *           }
@@ -318,6 +345,11 @@
 		 *     @OA\Response(
 		 *        response="404",
 		 *        description="Restaurant not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

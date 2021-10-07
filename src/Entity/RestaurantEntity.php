@@ -16,6 +16,7 @@
 	 * @OA\Schema (
 	 *  schema="RestaurantEntity",
 	 *  type="object",
+	 *  additionalProperties=false,
 	 *  properties={
 	 *  	@OA\Property(property="id", type="string"),
 	 *  	@OA\Property(property="city_id", type="string"),

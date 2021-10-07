@@ -42,7 +42,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -69,7 +70,8 @@
                       "type": "object"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -96,6 +98,16 @@
           },
           "423": {
             "description": "Account not active",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -138,7 +150,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -157,7 +170,8 @@
                       "$ref": "#/components/schemas/UserEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -191,6 +205,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Any other undocumented error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         }
       }
@@ -214,7 +238,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -249,6 +274,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Any other undocumented error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         }
       }
@@ -272,7 +307,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -317,6 +353,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Any other undocumented error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         }
       }
@@ -346,7 +392,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -391,6 +438,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Any other undocumented error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         }
       }
@@ -411,6 +468,8 @@
             "required": true,
             "schema": {
               "type": "string",
+              "maxLength": 32,
+              "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
               "additionalProperties": false
             }
           }
@@ -455,6 +514,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Any other undocumented error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         }
       }
@@ -475,6 +544,8 @@
             "required": true,
             "schema": {
               "type": "string",
+              "maxLength": 32,
+              "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
               "additionalProperties": false
             }
           }
@@ -521,6 +592,16 @@
           },
           "500": {
             "description": "Invalid or incorrect token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -586,13 +667,24 @@
                       }
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -629,7 +721,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -645,7 +738,8 @@
                       "$ref": "#/components/schemas/CityEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -662,6 +756,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -708,7 +812,8 @@
                       "$ref": "#/components/schemas/CityEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -735,6 +840,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -779,7 +894,8 @@
                       "$ref": "#/components/schemas/CityEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -796,6 +912,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -840,7 +966,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -856,7 +983,8 @@
                       "$ref": "#/components/schemas/CityEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -873,6 +1001,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -943,13 +1081,24 @@
                       }
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -986,7 +1135,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -1002,7 +1152,8 @@
                       "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1019,6 +1170,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1065,7 +1226,8 @@
                       "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1082,6 +1244,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1126,7 +1298,8 @@
                       "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1153,6 +1326,16 @@
           },
           "404": {
             "description": "Country not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1200,7 +1383,8 @@
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -1216,7 +1400,8 @@
                       "$ref": "#/components/schemas/CountryEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1243,6 +1428,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1313,13 +1508,24 @@
                       }
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1377,7 +1583,8 @@
                     "type": "number"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -1393,7 +1600,8 @@
                       "$ref": "#/components/schemas/RestaurantEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1410,6 +1618,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1459,13 +1677,24 @@
                       }
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1510,7 +1739,8 @@
                       "$ref": "#/components/schemas/RestaurantEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1537,6 +1767,16 @@
           },
           "404": {
             "description": "Restaurant not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1612,7 +1852,8 @@
                     "type": "number"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
               }
             }
           }
@@ -1628,7 +1869,8 @@
                       "$ref": "#/components/schemas/RestaurantEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1645,6 +1887,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1681,6 +1933,16 @@
             }
           },
           {
+            "name": "serch",
+            "in": "query",
+            "description": "Value to filter the results with",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
+          },
+          {
             "name": "start",
             "in": "query",
             "description": "Pagination start offset",
@@ -1701,22 +1963,6 @@
             }
           }
         ],
-        "requestBody": {
-          "description": "Required parameters",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "search": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful result",
@@ -1731,13 +1977,24 @@
                       }
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1771,7 +2028,8 @@
                       "$ref": "#/components/schemas/UserEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1835,6 +2093,16 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Any other undocumented error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1861,7 +2129,8 @@
                       "$ref": "#/components/schemas/response_with_message_only"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1898,6 +2167,16 @@
           },
           "500": {
             "description": "Email not sent or any other exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1944,7 +2223,8 @@
                       "$ref": "#/components/schemas/UserEntity"
                     }
                   },
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": false
                 }
               }
             }
@@ -1971,6 +2251,16 @@
           },
           "401": {
             "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Any other undocumented error",
             "content": {
               "application/json": {
                 "schema": {
@@ -2007,7 +2297,8 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "CountryEntity": {
         "description": "CountryEntity Class",
@@ -2022,7 +2313,8 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "RestaurantEntity": {
         "description": "RestaurantEntity Class",
@@ -2067,7 +2359,8 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "UserEntity": {
         "description": "UserEntity class",
@@ -2089,7 +2382,8 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "error_response": {
         "properties": {
@@ -2118,6 +2412,7 @@
       "uuid_parameter": {
         "description": "Swagger doc block",
         "type": "string",
+        "maxLength": 32,
         "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
         "additionalProperties": false
       }

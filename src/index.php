@@ -55,9 +55,10 @@
 	 *
 	 * @OA\Schema(
 	 *     schema="uuid_parameter",
-	 *       type="string",
-	 *       additionalProperties=false,
-	 *     pattern="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+	 *     type="string",
+	 *     additionalProperties=false,
+	 *     pattern="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+	 *     maxLength=32
 	 * )
 	 */
 
