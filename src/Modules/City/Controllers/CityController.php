@@ -42,19 +42,31 @@
 		 *            in="query",
 		 *            name="search",
 		 *            description="Value used to filter the cities",
-		 *            required=true
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="start",
 		 *            description="Pagination start offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="limit",
 		 *            description="Pagination end offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -105,7 +117,11 @@
 		 *            in="path",
 		 *            name="cityID",
 		 *            description="ID of a city we are looking for",
-		 *            required=true
+		 *            required=true,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -234,7 +250,11 @@
 		 *            in="path",
 		 *            required=true,
 		 *            name="cityID",
-		 *            description="ID of a city being updated"
+		 *            description="ID of a city being updated",
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -304,7 +324,11 @@
 		 *            in="path",
 		 *            required=true,
 		 *            name="cityID",
-		 *            description="ID of a city being updated"
+		 *            description="ID of a city being updated",
+		 *     			@OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",

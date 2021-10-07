@@ -413,7 +413,11 @@
 		 *            in="header",
 		 *            name="Authorization",
 		 *            description="Refresh or access token",
-		 *            required=true
+		 *            required=true,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
@@ -465,7 +469,11 @@
 		 *            in="header",
 		 *            name="Authorization",
 		 *            description="Refresh token",
-		 *            required=true
+		 *            required=true,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
