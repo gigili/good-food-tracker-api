@@ -299,7 +299,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">197</span>
+    <span class="phpdocumentor-element-found-in__line">209</span>
 
     </aside>
 
@@ -468,7 +468,7 @@ description=&quot;Invalid or missing token&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">343</span>
+    <span class="phpdocumentor-element-found-in__line">356</span>
 
     </aside>
 
@@ -540,6 +540,7 @@ summary=&quot;Delete country&quot;,
 security={{&quot;bearer&quot;: }}},
 description=&quot;Endpoint used for deleting a country&quot;,
 tags={&quot;Country&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter (
 in=&quot;path&quot;,
 required=true,
@@ -599,7 +600,7 @@ description=&quot;Country not found&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">88</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
@@ -637,6 +638,7 @@ path=&quot;/country&quot;,
 summary=&quot;Fetch a list of countries&quot;,
 description=&quot;Endpoint used for get a list of countries&quot;,
 tags={&quot;Country&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;search&quot;,
@@ -681,7 +683,12 @@ ref=&quot;#/components/schemas/CountryEntity&quot;
 )
 ),
 },
-)
+),
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 )
 )</p>
 </section>
@@ -708,7 +715,7 @@ ref=&quot;#/components/schemas/CountryEntity&quot;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">137</span>
+    <span class="phpdocumentor-element-found-in__line">149</span>
 
     </aside>
 
@@ -771,6 +778,7 @@ path=&quot;/country/{countryID}&quot;,
 summary=&quot;Fetch a information about a specific country&quot;,
 description=&quot;Endpoint used for getting information about a specific country&quot;,
 tags={&quot;Country&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter(
 in=&quot;path&quot;,
 name=&quot;countryID&quot;,
@@ -795,6 +803,11 @@ response=&quot;400&quot;,
 description=&quot;Missing required arguments&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+)
 )</p>
 </section>
 
@@ -820,7 +833,7 @@ description=&quot;Missing required arguments&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">278</span>
+    <span class="phpdocumentor-element-found-in__line">290</span>
 
     </aside>
 
