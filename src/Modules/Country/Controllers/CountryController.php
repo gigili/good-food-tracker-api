@@ -37,6 +37,7 @@
 		 *     summary="Fetch a list of countries",
 		 *     description="Endpoint used for get a list of countries",
 		 *     tags={"Country"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -81,7 +82,12 @@
 		 *                   )
 		 *                 ),
 		 *            },
-		 *       )
+		 *       ),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     )
 		 * )
 		 */
@@ -108,6 +114,7 @@
 		 *     summary="Fetch a information about a specific country",
 		 *     description="Endpoint used for getting information about a specific country",
 		 *     tags={"Country"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="countryID",
@@ -131,6 +138,11 @@
 		 *        description="Missing required arguments",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     )
 		 * )
 		 */
 		public function get_country(Request $request, string $countryID) {
@@ -306,6 +318,7 @@
 		 *     security={{"bearer": {}}},
 		 *     description="Endpoint used for deleting a country",
 		 *     tags={"Country"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter (
 		 *            in="path",
 		 *            required=true,

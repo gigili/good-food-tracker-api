@@ -14,12 +14,9 @@
 	}
 
 	$routes->prefix("/restaurant")
+		   ->middleware([ "decode_token" ])
 		   ->get("/", [ RestaurantController::class, "get_all" ])
 		   ->get("/{string:restaurantID}", [ RestaurantController::class, "get" ])
-		   ->save();
-
-	$routes->prefix("/restaurant")
-		   ->middleware([ "decode_token" ])
 		   ->post("/", [ RestaurantController::class, "create_or_update" ])
 		   ->patch("/{string:restaurantID}", [ RestaurantController::class, "create_or_update" ])
 		   ->delete("/{string:restaurantID}", [ RestaurantController::class, "delete" ])

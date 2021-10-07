@@ -183,7 +183,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">298</span>
+    <span class="phpdocumentor-element-found-in__line">321</span>
 
     </aside>
 
@@ -313,7 +313,7 @@ properties={
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">146</span>
+    <span class="phpdocumentor-element-found-in__line">169</span>
 
     </aside>
 
@@ -376,6 +376,7 @@ path=&quot;/user/{userID}&quot;,
 summary=&quot;Fetch information about a specific user&quot;,
 description=&quot;Endpoint used for fetch information about a specific user&quot;,
 tags={&quot;User&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter(
 name=&quot;userID&quot;,
 description=&quot;&quot;,
@@ -406,6 +407,11 @@ properties={
    description=&quot;User not found&quot;,
 @OA\JsonContent( ref=&quot;#/components/schemas/error_response&quot;)
 ),
+@OA\Response(
+   response=&quot;401&quot;,
+   description=&quot;Invalid or missing token&quot;,
+	@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
 </code></pre>
 <p>)</p>
 </section>
@@ -432,7 +438,7 @@ properties={
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">91</span>
+    <span class="phpdocumentor-element-found-in__line">108</span>
 
     </aside>
 
@@ -479,6 +485,7 @@ path=&quot;/user&quot;,
 summary=&quot;Filter users endpoint&quot;,
 description=&quot;Endpoint used to filters users based on the value of search parameter&quot;,
 tags={&quot;User&quot;},
+security={{&quot;bearer&quot;: }}},
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;search&quot;,
@@ -487,6 +494,18 @@ required=false,
 @OA\Schema (
 type=&quot;string&quot;,
 additionalProperties=false
+),
+security={{&quot;bearer&quot;: }}},
+@OA\RequestBody(
+description=&quot;Required parameters&quot;,
+required=true,
+@OA\MediaType(
+mediaType=&quot;application/json&quot;,
+@OA\Schema(
+properties={
+@OA\Property(property=&quot;search&quot;, type=&quot;string&quot;),
+},
+),
 ),
 ),
 @OA\Parameter(
@@ -519,8 +538,13 @@ type=&quot;array&quot;,
 @OA\Items(ref=&quot;#/components/schemas/UserEntity&quot;)
 )
 )
-),</p>
-<p>)</p>
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+)</p>
 </section>
 
                                     </dd>
@@ -545,7 +569,7 @@ type=&quot;array&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">230</span>
+    <span class="phpdocumentor-element-found-in__line">253</span>
 
     </aside>
 

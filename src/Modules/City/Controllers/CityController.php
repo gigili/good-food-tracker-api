@@ -38,6 +38,7 @@
 		 *     summary="Fetch a list of cities",
 		 *     description="Endpoint used for getting a list of cities",
 		 *     tags={"City"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -83,7 +84,12 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -113,6 +119,7 @@
 		 *     summary="Fetch a single city",
 		 *     description="Endpoint used for get information about a single city",
 		 *     tags={"City"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="cityID",
@@ -139,6 +146,11 @@
 		 *     @OA\Response(
 		 *        response="404",
 		 *        description="City not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
