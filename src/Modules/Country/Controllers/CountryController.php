@@ -82,7 +82,12 @@
 		 *                   )
 		 *                 ),
 		 *            },
-		 *       )
+		 *       ),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     )
 		 * )
 		 */
@@ -134,6 +139,11 @@
 		 *        description="Missing required arguments",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     )
 		 * )
 		 */
 		public function get_country(Request $request, string $countryID) {

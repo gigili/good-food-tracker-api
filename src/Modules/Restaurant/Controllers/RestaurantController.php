@@ -81,7 +81,12 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -132,7 +137,12 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function get(Request $request, string $restaurantID) {
