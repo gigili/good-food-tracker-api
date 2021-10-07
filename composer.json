@@ -39,6 +39,7 @@
   },
   "require-dev": {
     "zircote/swagger-php": "^3.0",
+    "jetbrains/phpstorm-attributes": "^1.0",
     "phpunit/phpunit": "^9.5"
   }
 }

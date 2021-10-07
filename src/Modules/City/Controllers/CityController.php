@@ -19,6 +19,8 @@
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
+	use Gac\GoodFoodTracker\Modules\City\Exceptions\CityFailedDeletingException;
+	use Gac\GoodFoodTracker\Modules\City\Exceptions\CityFailedSavingException;
 	use Gac\GoodFoodTracker\Modules\City\Exceptions\CityNotFoundException;
 	use Gac\GoodFoodTracker\Modules\City\Models\CityModel;
 	use Gac\Routing\Request;
@@ -220,6 +222,7 @@
 		 * @throws MinimumLengthException
 		 * @throws ReflectionException
 		 * @throws RequiredFieldException
+		 * @throws CityFailedSavingException
 		 *
 		 * @OA\Patch (
 		 *     path="/city/{cityID}",
@@ -288,6 +291,8 @@
 		 *
 		 * @throws CityNotFoundException
 		 * @throws InvalidUUIDException
+		 * @throws CityFailedSavingException
+		 * @throws CityFailedDeletingException
 		 *
 		 * @OA\Delete (
 		 *     path="/city/{cityID}",

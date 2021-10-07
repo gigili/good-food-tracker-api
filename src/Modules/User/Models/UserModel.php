@@ -92,6 +92,7 @@
 		 * @throws InvalidTokenException
 		 * @throws UserNotFoundException
 		 * @throws EmailNotSentException
+		 * @throws FileDeletionException
 		 */
 		public static function delete_account() {
 			if ( !isset($_SESSION["userID"]) ) {

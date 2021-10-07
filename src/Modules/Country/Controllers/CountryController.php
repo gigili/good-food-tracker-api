@@ -18,6 +18,8 @@
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
+	use Gac\GoodFoodTracker\Modules\Country\Exceptions\CountryFailedDeletingException;
+	use Gac\GoodFoodTracker\Modules\Country\Exceptions\CountryFailedSavingException;
 	use Gac\GoodFoodTracker\Modules\Country\Exceptions\CountryNotFoundException;
 	use Gac\GoodFoodTracker\Modules\Country\Models\CountryModel;
 	use Gac\Routing\Request;
@@ -142,6 +144,7 @@
 		 * @throws MinimumLengthException
 		 * @throws FieldsDoNotMatchException
 		 * @throws ReflectionException
+		 * @throws CountryFailedSavingException
 		 *
 		 * @OA\Post   (
 		 *     path="/country",
@@ -206,6 +209,7 @@
 		 * @throws MinimumLengthException
 		 * @throws FieldsDoNotMatchException
 		 * @throws CountryNotFoundException
+		 * @throws CountryFailedSavingException
 		 *
 		 * @OA\Patch    (
 		 *     path="/country/{countryID}",
@@ -274,6 +278,7 @@
 		 *
 		 * @throws InvalidUUIDException
 		 * @throws CountryNotFoundException
+		 * @throws CountryFailedDeletingException
 		 *
 		 * @OA\Delete (
 		 *     path="/country/{countryID}",

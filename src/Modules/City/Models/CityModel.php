@@ -11,6 +11,8 @@
 	use Gac\GoodFoodTracker\Core\Entities\Entity;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException;
 	use Gac\GoodFoodTracker\Entity\CityEntity;
+	use Gac\GoodFoodTracker\Modules\City\Exceptions\CityFailedDeletingException;
+	use Gac\GoodFoodTracker\Modules\City\Exceptions\CityFailedSavingException;
 	use Gac\GoodFoodTracker\Modules\City\Exceptions\CityNotFoundException;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
 	use ReflectionException;
@@ -53,13 +55,17 @@
 		 */
 		public static function add(string $name, string $countryID) : CityEntity {
 			$cityEntity = new CityEntity($countryID, $name);
-			return $cityEntity->save();
+			$newCity = $cityEntity->save();
+
+			if ( ( $newCity instanceof CityEntity ) === false ) return new CityEntity();
+			return $newCity;
 		}
 
 		/**
 		 * @throws InvalidUUIDException
 		 * @throws CityNotFoundException
 		 * @throws ReflectionException
+		 * @throws CityFailedSavingException
 		 */
 		public static function update(string $cityID, string $name) : CityEntity|array {
 			if ( empty($cityID) || !UuidV4::isValid($cityID) ) {
@@ -74,7 +80,10 @@
 			}
 
 			$city->name = $name;
-			return $city->save();
+			$updatedCity = $city->save();
+
+			if ( ( $updatedCity instanceof CityEntity ) === false ) throw new CityFailedSavingException();
+			return $updatedCity;
 		}
 
 		/**
@@ -82,10 +91,11 @@
 		 *
 		 * @throws CityNotFoundException
 		 * @throws InvalidUUIDException
-		 *
-		 * @return Entity|array
+		 * @throws CityFailedSavingException
+		 * @throws CityFailedDeletingException
+		 * @return CityEntity
 		 */
-		public static function delete(string $cityID) : Entity|array {
+		public static function delete(string $cityID) : CityEntity {
 			if ( empty($cityID) || !UuidV4::isValid($cityID) ) {
 				throw new InvalidUUIDException();
 			}
@@ -97,6 +107,9 @@
 				throw new CityNotFoundException();
 			}
 
-			return $city->delete();
+			$deletedCity = $city->delete();
+
+			if ( ( $deletedCity instanceof CityEntity ) === false ) throw new CityFailedDeletingException();
+			return $deletedCity;
 		}
 	}

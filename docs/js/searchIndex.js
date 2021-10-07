@@ -976,6 +976,26 @@ Search.appendIndex(
             "summary": "Endpoint\u0020used\u0020for\u0020deleting\u0020a\u0020city",
             "url": "classes/Gac-GoodFoodTracker-Modules-City-Controllers-CityController.html#method_delete_city"
         },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\City\\Exceptions\\CityFailedDeletingException",
+            "name": "CityFailedDeletingException",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-City-Exceptions-CityFailedDeletingException.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\City\\Exceptions\\CityFailedDeletingException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-City-Exceptions-CityFailedDeletingException.html#method___construct"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\City\\Exceptions\\CityFailedSavingException",
+            "name": "CityFailedSavingException",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-City-Exceptions-CityFailedSavingException.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\City\\Exceptions\\CityFailedSavingException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-City-Exceptions-CityFailedSavingException.html#method___construct"
+        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\City\\Exceptions\\CityNotFoundException",
             "name": "CityNotFoundException",
             "summary": "",
@@ -1045,6 +1065,26 @@ Search.appendIndex(
             "name": "delete_country",
             "summary": "Endpoint\u0020for\u0020deleting\u0020a\u0020country",
             "url": "classes/Gac-GoodFoodTracker-Modules-Country-Controllers-CountryController.html#method_delete_country"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Country\\Exceptions\\CountryFailedDeletingException",
+            "name": "CountryFailedDeletingException",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Country-Exceptions-CountryFailedDeletingException.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Country\\Exceptions\\CountryFailedDeletingException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Country-Exceptions-CountryFailedDeletingException.html#method___construct"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Country\\Exceptions\\CountryFailedSavingException",
+            "name": "CountryFailedSavingException",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Country-Exceptions-CountryFailedSavingException.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Country\\Exceptions\\CountryFailedSavingException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Modules-Country-Exceptions-CountryFailedSavingException.html#method___construct"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Modules\\Country\\Exceptions\\CountryNotFoundException",
             "name": "CountryNotFoundException",
