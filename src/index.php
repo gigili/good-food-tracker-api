@@ -28,6 +28,7 @@
 	 *             securityScheme="bearer",
 	 *             type="http",
 	 *             scheme="bearer",
+	 *               bearerFormat="JWT",
 	 *         ),
 	 *     )
 	 *

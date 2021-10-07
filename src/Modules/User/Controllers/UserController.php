@@ -53,7 +53,7 @@
 		 *                type="string",
 		 *                additionalProperties=false
 		 *             ),
-		 *     security={{"bearer": {}}},
+		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
 		 *         required=true,
