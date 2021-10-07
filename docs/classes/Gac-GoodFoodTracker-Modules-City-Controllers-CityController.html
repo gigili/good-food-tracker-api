@@ -299,7 +299,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/City/Controllers/CityController.php"><a href="files/src-modules-city-controllers-citycontroller.html"><abbr title="src/Modules/City/Controllers/CityController.php">CityController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">194</span>
+    <span class="phpdocumentor-element-found-in__line">210</span>
 
     </aside>
 
@@ -459,7 +459,7 @@ description=&quot;Invalid or missing token&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/City/Controllers/CityController.php"><a href="files/src-modules-city-controllers-citycontroller.html"><abbr title="src/Modules/City/Controllers/CityController.php">CityController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">330</span>
+    <span class="phpdocumentor-element-found-in__line">354</span>
 
     </aside>
 
@@ -541,7 +541,11 @@ security={{&quot;bearer&quot;: }}},
 in=&quot;path&quot;,
 required=true,
 name=&quot;cityID&quot;,
-description=&quot;ID of a city being updated&quot;
+description=&quot;ID of a city being updated&quot;,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -587,7 +591,7 @@ description=&quot;Invalid or missing token&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/City/Controllers/CityController.php"><a href="files/src-modules-city-controllers-citycontroller.html"><abbr title="src/Modules/City/Controllers/CityController.php">CityController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
@@ -629,19 +633,31 @@ tags={&quot;City&quot;},
 in=&quot;query&quot;,
 name=&quot;search&quot;,
 description=&quot;Value used to filter the cities&quot;,
-required=true
+required=false,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;start&quot;,
 description=&quot;Pagination start offset&quot;,
-required=false
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;limit&quot;,
 description=&quot;Pagination end offset&quot;,
-required=false
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -684,7 +700,7 @@ ref=&quot;#/components/schemas/CityEntity&quot;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/City/Controllers/CityController.php"><a href="files/src-modules-city-controllers-citycontroller.html"><abbr title="src/Modules/City/Controllers/CityController.php">CityController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">132</span>
+    <span class="phpdocumentor-element-found-in__line">148</span>
 
     </aside>
 
@@ -753,7 +769,11 @@ tags={&quot;City&quot;},
 in=&quot;path&quot;,
 name=&quot;cityID&quot;,
 description=&quot;ID of a city we are looking for&quot;,
-required=true
+required=true,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -799,7 +819,7 @@ description=&quot;City not found&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/City/Controllers/CityController.php"><a href="files/src-modules-city-controllers-citycontroller.html"><abbr title="src/Modules/City/Controllers/CityController.php">CityController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">272</span>
+    <span class="phpdocumentor-element-found-in__line">292</span>
 
     </aside>
 
@@ -929,7 +949,11 @@ security={{&quot;bearer&quot;: }}},
 in=&quot;path&quot;,
 required=true,
 name=&quot;cityID&quot;,
-description=&quot;ID of a city being updated&quot;
+description=&quot;ID of a city being updated&quot;,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\RequestBody(
 description=&quot;Required parameters&quot;,

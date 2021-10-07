@@ -299,7 +299,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">184</span>
+    <span class="phpdocumentor-element-found-in__line">197</span>
 
     </aside>
 
@@ -438,6 +438,11 @@ response=&quot;400&quot;,
 description=&quot;Missing required arguments&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
 )</p>
 </section>
 
@@ -463,7 +468,7 @@ description=&quot;Missing required arguments&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">316</span>
+    <span class="phpdocumentor-element-found-in__line">343</span>
 
     </aside>
 
@@ -540,6 +545,10 @@ in=&quot;path&quot;,
 required=true,
 name=&quot;countryID&quot;,
 description=&quot;ID of a country being updated&quot;,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -553,6 +562,11 @@ properties = {
 @OA\Response(
 response=&quot;400&quot;,
 description=&quot;Missing required arguments&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
 @OA\Response(
@@ -585,7 +599,7 @@ description=&quot;Country not found&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">84</span>
+    <span class="phpdocumentor-element-found-in__line">88</span>
 
     </aside>
 
@@ -603,8 +617,7 @@ description=&quot;Country not found&quot;,
                 : <span class="phpdocumentor-signature__argument__return-type"><abbr title="\Gac\Routing\Request">Request</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"></section>
-
+                
             </dd>
             </dl>
 
@@ -615,62 +628,6 @@ description=&quot;Country not found&quot;,
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-MaximumLengthException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\MaximumLengthException">MaximumLengthException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-InvalidUUIDException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidUUIDException">InvalidUUIDException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-RequiredFieldException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException">RequiredFieldException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-InvalidEmailException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidEmailException">InvalidEmailException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-InvalidNumericValueException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidNumericValueException">InvalidNumericValueException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-MinimumLengthException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\MinimumLengthException">MinimumLengthException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                            <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">throws</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                <span class="phpdocumentor-tag-link"><a href="classes/Gac-GoodFoodTracker-Core-Exceptions-Validation-FieldsDoNotMatchException.html"><abbr title="\Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException">FieldsDoNotMatchException</abbr></a></span>
-                                                            
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
                     <span class="phpdocumentor-tag__name">OA\Get</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
@@ -684,19 +641,31 @@ tags={&quot;Country&quot;},
 in=&quot;query&quot;,
 name=&quot;search&quot;,
 description=&quot;Value used to filter the countries&quot;,
-required=true
+required=false,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;start&quot;,
 description=&quot;Pagination start offset&quot;,
-required=false
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Parameter(
 in=&quot;query&quot;,
 name=&quot;limit&quot;,
 description=&quot;Pagination end offset&quot;,
-required=false
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -739,7 +708,7 @@ ref=&quot;#/components/schemas/CountryEntity&quot;
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 
     </aside>
 
@@ -806,7 +775,11 @@ tags={&quot;Country&quot;},
 in=&quot;path&quot;,
 name=&quot;countryID&quot;,
 description=&quot;ID of a country&quot;,
-required=true
+required=true,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -847,7 +820,7 @@ description=&quot;Missing required arguments&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Country/Controllers/CountryController.php"><a href="files/src-modules-country-controllers-countrycontroller.html"><abbr title="src/Modules/Country/Controllers/CountryController.php">CountryController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">260</span>
+    <span class="phpdocumentor-element-found-in__line">278</span>
 
     </aside>
 
@@ -1011,6 +984,11 @@ description=&quot;Missing required arguments&quot;,
 @OA\Response(
 response=&quot;404&quot;,
 description=&quot;Country not found&quot;,
+@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+@OA\Response(
+response=&quot;401&quot;,
+description=&quot;Invalid or missing token&quot;,
 @OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
 )</p>

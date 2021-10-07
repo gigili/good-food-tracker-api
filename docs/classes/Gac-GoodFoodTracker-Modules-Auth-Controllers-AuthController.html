@@ -421,7 +421,7 @@ description=&quot;Account not active&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">440</span>
+    <span class="phpdocumentor-element-found-in__line">444</span>
 
     </aside>
 
@@ -471,7 +471,11 @@ tags={&quot;Auth&quot;},
 in=&quot;header&quot;,
 name=&quot;Authorization&quot;,
 description=&quot;Refresh or access token&quot;,
-required=true
+required=true,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -518,7 +522,7 @@ description=&quot;Invalid or inccorent token provided: InvalidArgumentException 
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/Auth/Controllers/AuthController.php"><a href="files/src-modules-auth-controllers-authcontroller.html"><abbr title="src/Modules/Auth/Controllers/AuthController.php">AuthController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">497</span>
+    <span class="phpdocumentor-element-found-in__line">505</span>
 
     </aside>
 
@@ -568,7 +572,11 @@ tags={&quot;Auth&quot;},
 in=&quot;header&quot;,
 name=&quot;Authorization&quot;,
 description=&quot;Refresh token&quot;,
-required=true
+required=true,
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,

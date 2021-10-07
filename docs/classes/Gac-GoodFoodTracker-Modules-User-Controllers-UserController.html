@@ -183,7 +183,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">280</span>
+    <span class="phpdocumentor-element-found-in__line">298</span>
 
     </aside>
 
@@ -265,6 +265,12 @@ properties={
 )
 ),</p>
 <pre class="prettyprint"><code class="prettyprint">@OA\Response(
+   response=&quot;401&quot;,
+   description=&quot;Invalid or missing token&quot;,
+	@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
+),
+
+@OA\Response(
    response=&quot;498&quot;,
    description=&quot;Invalid token provided&quot;,
   @OA\JsonContent( ref=&quot;#/components/schemas/error_response&quot;)
@@ -307,7 +313,7 @@ properties={
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">140</span>
+    <span class="phpdocumentor-element-found-in__line">146</span>
 
     </aside>
 
@@ -375,9 +381,10 @@ name=&quot;userID&quot;,
 description=&quot;&quot;,
 in=&quot;path&quot;,
 required=true,
-@OA\Schema(
-type=&quot;string&quot;
-)
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
 ),
 @OA\Response(
 response=&quot;200&quot;,
@@ -425,7 +432,7 @@ properties={
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">91</span>
 
     </aside>
 
@@ -472,29 +479,34 @@ path=&quot;/user&quot;,
 summary=&quot;Filter users endpoint&quot;,
 description=&quot;Endpoint used to filters users based on the value of search parameter&quot;,
 tags={&quot;User&quot;},
-@OA\RequestBody(
-description=&quot;Required parameters&quot;,
-required=true,
-@OA\MediaType(
-mediaType=&quot;application/json&quot;,
-@OA\Schema(
-properties={
-@OA\Property(property=&quot;search&quot;, type=&quot;string&quot;),
-},
-),
-),
-),
-@OA\RequestBody(
-description=&quot;Optional pagination parameters&quot;,
+@OA\Parameter(
+in=&quot;query&quot;,
+name=&quot;search&quot;,
+description=&quot;Value used to filter the result&quot;,
 required=false,
-@OA\MediaType(
-mediaType=&quot;application/json&quot;,
-@OA\Schema(
-properties={
-@OA\Property(property=&quot;start&quot;, type=&quot;int&quot;),
-@OA\Property(property=&quot;limit&quot;, type=&quot;int&quot;)
-},
+@OA\Schema (
+type=&quot;string&quot;,
+additionalProperties=false
 ),
+),
+@OA\Parameter(
+in=&quot;query&quot;,
+name=&quot;start&quot;,
+description=&quot;Pagination start offset&quot;,
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
+),
+),
+@OA\Parameter(
+in=&quot;query&quot;,
+name=&quot;limit&quot;,
+description=&quot;Pagination end offset&quot;,
+required=false,
+@OA\Schema (
+type=&quot;integer&quot;,
+additionalProperties=false
 ),
 ),
 @OA\Response(
@@ -533,7 +545,7 @@ type=&quot;array&quot;,
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="src/Modules/User/Controllers/UserController.php"><a href="files/src-modules-user-controllers-usercontroller.html"><abbr title="src/Modules/User/Controllers/UserController.php">UserController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">218</span>
+    <span class="phpdocumentor-element-found-in__line">230</span>
 
     </aside>
 
@@ -672,8 +684,8 @@ type=&quot;array&quot;,
                                                                                 
                                                  <section class="phpdocumentor-description"><p>(
 path=&quot;/user&quot;,
-summary=&quot;Update information about a specific user&quot;,
-description=&quot;Endpoint used for updating information about a specific user&quot;,
+summary=&quot;Update information about currently logged in user&quot;,
+description=&quot;Endpoint used for updating information about currently logged in user based on the JWT token value&quot;,
 tags={&quot;User&quot;},
 security={{&quot;bearer&quot;: }}},
 @OA\Response(
@@ -689,6 +701,12 @@ properties={
    response=&quot;400&quot;,
    description=&quot;Failed parameter validation&quot;,
   @OA\JsonContent( ref=&quot;#/components/schemas/error_response&quot;)
+),
+
+@OA\Response(
+   response=&quot;401&quot;,
+   description=&quot;Invalid or missing token&quot;,
+	@OA\JsonContent(ref=&quot;#/components/schemas/error_response&quot;),
 ),
 
 @OA\Response(
