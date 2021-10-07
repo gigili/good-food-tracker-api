@@ -15,11 +15,9 @@
 	}
 
 	$routes->prefix("/city")
-		   ->route("/", [ CityController::class, "filter_cities" ], [ Routes::GET ])
-		   ->add("/{string:cityID}", [ CityController::class, "get_city" ], [ Routes::GET ]);
-
-	$routes->prefix("/city")
 		   ->middleware([ "decode_token" ])
+		   ->route("/", [ CityController::class, "filter_cities" ], [ Routes::GET ])
+		   ->route("/{string:cityID}", [ CityController::class, "get_city" ], [ Routes::GET ])
 		   ->route("/", [ CityController::class, "add_city" ], [ Routes::POST ])
 		   ->route("/{string:cityID}", [ CityController::class, "update_city" ], [ Routes::PATCH ])
 		   ->add("/{string:cityID}", [ CityController::class, "delete_city" ], [ Routes::DELETE ]);

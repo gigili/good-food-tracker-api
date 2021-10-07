@@ -15,11 +15,9 @@
 	}
 
 	$routes->prefix("/country")
-		   ->route("/", [ CountryController::class, "filter_countries" ], [ Routes::GET ])
-		   ->add("/{string:countryID}", [ CountryController::class, "get_country" ], [ Routes::GET ]);
-
-	$routes->prefix("/country")
 		   ->middleware([ "decode_token" ])
+		   ->route("/", [ CountryController::class, "filter_countries" ], [ Routes::GET ])
+		   ->route("/{string:countryID}", [ CountryController::class, "get_country" ], [ Routes::GET ])
 		   ->route("/", [ CountryController::class, "add_country" ], [ Routes::POST ])
 		   ->route("/{string:countryID}", [ CountryController::class, "update_country" ], [ Routes::PATCH ])
 		   ->add("/{string:countryID}", [ CountryController::class, "delete_country" ], [ Routes::DELETE ]);

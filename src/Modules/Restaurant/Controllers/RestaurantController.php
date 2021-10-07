@@ -35,6 +35,7 @@
 		 *     summary="Fetch a list of restaurants",
 		 *     description="Endpoint used for getting a list of restaurants",
 		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="search",
@@ -80,7 +81,12 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -105,6 +111,7 @@
 		 *     summary="Fetch a single restaurant",
 		 *     description="Endpoint used for getting a single restaurant information",
 		 *     tags={"Restaurant"},
+		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter(
 		 *            in="path",
 		 *            name="restaurantID",
@@ -130,7 +137,12 @@
 		 *                 ),
 		 *            },
 		 *       )
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function get(Request $request, string $restaurantID) {
