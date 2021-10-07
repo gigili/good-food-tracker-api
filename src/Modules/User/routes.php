@@ -14,9 +14,9 @@
 		throw new AppNotInitializedException();
 	}
 
-	$routes->prefix('/user')
+	$routes->prefix("/user")
 		   ->middleware([ "decode_token" ])
-		   ->route('/', [ UserController::class, "get_users" ], [ Routes::GET ])
-		   ->route('/', [ UserController::class, "update_user_account" ], [ Routes::PATCH ])
-		   ->route('/', [ UserController::class, "delete_user_account" ], [ Routes::DELETE ])
-		   ->add('/{string:userID}', [ UserController::class, "get_user" ], [ Routes::GET ]);
+		   ->route("/", [ UserController::class, "get_users" ], [ Routes::GET ])
+		   ->route("/", [ UserController::class, "update_user_account" ], [ Routes::PATCH ])
+		   ->route("/", [ UserController::class, "delete_user_account" ], [ Routes::DELETE ])
+		   ->add("/{string:userID}", [ UserController::class, "get_user" ], [ Routes::GET ]);

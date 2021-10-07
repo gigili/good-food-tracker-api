@@ -4,7 +4,7 @@
     "title": "Good Food Tracker API",
     "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\r\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
     "contact": {
-      "name": "Igor Ilic",
+      "name": "Igor Ilić",
       "email": "github@igorilic.net"
     },
     "version": "1.0.0"
@@ -49,7 +49,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successfull login",
+            "description": "Successful login",
             "content": {
               "application/json": {
                 "schema": {
@@ -75,7 +75,7 @@
             }
           },
           "400": {
-            "description": "Missing required fileds in the request body",
+            "description": "Missing required fields in the request body",
             "content": {
               "application/json": {
                 "schema": {
@@ -163,7 +163,7 @@
             }
           },
           "400": {
-            "description": "Missing required fileds in the request body",
+            "description": "Missing required fields in the request body",
             "content": {
               "application/json": {
                 "schema": {
@@ -201,7 +201,7 @@
           "Auth"
         ],
         "summary": "Verify account endpoint",
-        "description": "Endpoint used for verifing user accounts after registration",
+        "description": "Endpoint used for verifying  user accounts after registration",
         "operationId": "7b08c8dfe317bea9f1c37a266e9f3ee0",
         "requestBody": {
           "description": "Parameters",
@@ -231,7 +231,7 @@
             }
           },
           "400": {
-            "description": "Missing required fileds in the request body",
+            "description": "Missing required fields in the request body",
             "content": {
               "application/json": {
                 "schema": {
@@ -289,7 +289,7 @@
             }
           },
           "400": {
-            "description": "Missing required fileds in the request body",
+            "description": "Missing required fields in the request body",
             "content": {
               "application/json": {
                 "schema": {
@@ -363,7 +363,7 @@
             }
           },
           "400": {
-            "description": "Missing required fileds in the request body",
+            "description": "Missing required fields in the request body",
             "content": {
               "application/json": {
                 "schema": {
@@ -401,7 +401,7 @@
           "Auth"
         ],
         "summary": "Logout endpoint",
-        "description": "Endpoint used for loggin user out and invalidating tokens",
+        "description": "Endpoint used for logging user out and invalidating tokens",
         "operationId": "a658b3822483da1e072726837721c1b1",
         "parameters": [
           {
@@ -417,7 +417,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Logout successfull",
+            "description": "Logout Successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -447,7 +447,7 @@
             }
           },
           "500": {
-            "description": "Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "description": "Invalid or incorrect token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
             "content": {
               "application/json": {
                 "schema": {
@@ -481,7 +481,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfull generated new access token",
+            "description": "Successful generated new access token",
             "content": {
               "application/json": {
                 "schema": {
@@ -520,7 +520,7 @@
             }
           },
           "500": {
-            "description": "Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+            "description": "Invalid or incorrect token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
             "content": {
               "application/json": {
                 "schema": {
@@ -574,7 +574,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -621,7 +621,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -678,14 +678,13 @@
             "description": "ID of a city we are looking for",
             "required": true,
             "schema": {
-              "type": "string",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -735,14 +734,13 @@
             "description": "ID of a city being updated",
             "required": true,
             "schema": {
-              "type": "string",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -797,8 +795,7 @@
             "description": "ID of a city being updated",
             "required": true,
             "schema": {
-              "type": "string",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
@@ -820,7 +817,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -904,7 +901,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfull filtered countries",
+            "description": "Successfully filtered countries",
             "content": {
               "application/json": {
                 "schema": {
@@ -951,7 +948,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1008,14 +1005,13 @@
             "description": "ID of a country",
             "required": true,
             "schema": {
-              "type": "string",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1055,14 +1051,13 @@
             "description": "ID of a country being updated",
             "required": true,
             "schema": {
-              "type": "integer",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1118,14 +1113,17 @@
           "Country"
         ],
         "summary": "Update country",
-        "description": "Endpoint used for updateing country information",
+        "description": "Endpoint used for updating country information",
         "operationId": "69646430a79ad2e443a3df9538d77022",
         "parameters": [
           {
             "name": "countryID",
             "in": "path",
             "description": "ID of a country being updated",
-            "required": true
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/uuid_parameter"
+            }
           }
         ],
         "requestBody": {
@@ -1149,7 +1147,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1243,7 +1241,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1282,7 +1280,7 @@
                   "name": {
                     "type": "string"
                   },
-                  "adress": {
+                  "address": {
                     "type": "string"
                   },
                   "phone": {
@@ -1311,7 +1309,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1368,14 +1366,13 @@
             "description": "ID of a restaurant to fetch the information for",
             "required": true,
             "schema": {
-              "type": "string",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1408,14 +1405,13 @@
             "description": "ID of a restaurant to delete from the database",
             "required": true,
             "schema": {
-              "type": "string",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1450,7 +1446,7 @@
             }
           },
           "404": {
-            "description": "Restaurat not found",
+            "description": "Restaurant not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -1478,7 +1474,10 @@
             "name": "restaurantID",
             "in": "path",
             "description": "ID of a restaurant to update the information for",
-            "required": true
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/uuid_parameter"
+            }
           }
         ],
         "requestBody": {
@@ -1494,7 +1493,7 @@
                   "name": {
                     "type": "string"
                   },
-                  "adress": {
+                  "address": {
                     "nullable": true,
                     "type": "string"
                   },
@@ -1530,7 +1529,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successfull response",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
@@ -1614,7 +1613,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfull result",
+            "description": "Successful result",
             "content": {
               "application/json": {
                 "schema": {
@@ -1642,7 +1641,7 @@
         "operationId": "2df612e584ab8bd4a619fb6947ae57b6",
         "responses": {
           "200": {
-            "description": "Successfull result",
+            "description": "Successful result",
             "content": {
               "application/json": {
                 "schema": {
@@ -1732,7 +1731,7 @@
         "operationId": "34206cdcf43ef1c515c6abc086c0f883",
         "responses": {
           "200": {
-            "description": "Successfull result",
+            "description": "Successful result",
             "content": {
               "application/json": {
                 "schema": {
@@ -1777,7 +1776,7 @@
             }
           },
           "500": {
-            "description": "Email not sent or any other excpetion",
+            "description": "Email not sent or any other exception",
             "content": {
               "application/json": {
                 "schema": {
@@ -1809,14 +1808,13 @@
             "description": "",
             "required": true,
             "schema": {
-              "type": "integer",
-              "additionalProperties": false
+              "$ref": "#/components/schemas/uuid_parameter"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfull result",
+            "description": "Successful result",
             "content": {
               "application/json": {
                 "schema": {
@@ -1969,16 +1967,23 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
       },
       "response_with_message_only": {
-        "description": "Swagger doc block",
         "properties": {
           "message": {
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "additionalProperties": false
+      },
+      "uuid_parameter": {
+        "description": "Swagger doc block",
+        "type": "string",
+        "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+        "additionalProperties": false
       }
     },
     "securitySchemes": {

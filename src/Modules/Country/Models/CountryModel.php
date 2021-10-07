@@ -22,7 +22,7 @@
 		public static function filter(?string $search = NULL, int $start = 0, int $limit = 10) : array|null {
 			$countryEntity = new CountryEntity();
 			return $countryEntity->filter(
-				filters : is_null($search) ? [] : [ 'name' => $search, 'code' => $search ],
+				filters : is_null($search) ? [] : [ "name" => $search, "code" => $search ],
 				singleResult : false,
 				useOr : true,
 				start : $start,

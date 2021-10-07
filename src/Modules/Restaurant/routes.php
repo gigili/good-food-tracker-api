@@ -22,5 +22,5 @@
 		   ->middleware([ "decode_token" ])
 		   ->post("/", [ RestaurantController::class, "create_or_update" ])
 		   ->patch("/{string:restaurantID}", [ RestaurantController::class, "create_or_update" ])
-		   ->delete('/{string:restaurantID}', [ RestaurantController::class, 'delete' ])
+		   ->delete("/{string:restaurantID}", [ RestaurantController::class, "delete" ])
 		   ->save();

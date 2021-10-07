@@ -21,7 +21,7 @@
 		   ->route("/request-password-reset", [ AuthController::class, "request_password_reset" ], [ Routes::POST ])
 		   ->add("/reset-password", [ AuthController::class, "reset_password" ], [ Routes::POST ]);
 
-	$routes->prefix('/auth')
-		   ->middleware([ 'decode_token' ])
+	$routes->prefix("/auth")
+		   ->middleware([ "decode_token" ])
 		   ->route("/logout", [ AuthController::class, "logout" ], [ Routes::POST ])
-		   ->add('/refresh', [ AuthController::class, 'refresh_token' ], [ Routes::POST ]);
+		   ->add("/refresh", [ AuthController::class, "refresh_token" ], [ Routes::POST ]);

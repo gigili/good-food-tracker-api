@@ -34,7 +34,7 @@
 			mixed $password
 		) : array {
 			$userEntity = new UserEntity();
-			$user = $userEntity->filter([ 'username' => $username, 'password' => $password ], true);
+			$user = $userEntity->filter([ "username" => $username, "password" => $password ], true);
 
 			if ( !$user instanceof UserEntity ) {
 				throw new UserNotFoundException();
@@ -60,7 +60,7 @@
 		 */
 		public static function register(string $name, string $email, string $username, string $password) : UserEntity {
 			$userEntity = new UserEntity();
-			$existingUsers = $userEntity->filter([ 'username' => $username, 'email' => $email ], useOr : true);
+			$existingUsers = $userEntity->filter([ "username" => $username, "email" => $email ], useOr : true);
 
 			foreach ( $existingUsers as $existingUser ) {
 				if ( !$existingUser instanceof UserEntity ) {
@@ -74,7 +74,7 @@
 				}
 			}
 
-			$activationKey = str_replace('-', '', mb_substr(Uuid::uuid4(), 0, 10));
+			$activationKey = str_replace("-", '', mb_substr(Uuid::uuid4(), 0, 10));
 
 			$newUser = $userEntity;
 			$newUser->name = $name;
@@ -88,19 +88,19 @@
 				throw new RegistrationFailedException();
 			}
 
-			$activationLink = "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/activate/$activationKey";
+			$activationLink = "{$_SERVER["REQUEST_SCHEME"]}://{$_SERVER["HTTP_HOST"]}/activate/$activationKey";
 			$emailBody = "Dear $name<br/><br/>to confirm your account, please click on the button that says Confirm account or copy the link below it and open it in your browser. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$email,
 				"Confirm your account",
 				$emailBody,
 				emailTemplate : [
-					'file' => 'confirm_email',
-					'args' => [
-						'emailTitle' => "Confirm your account",
-						'emailPreview' => strip_tags($emailBody),
-						'emailConfirmText' => "Confirm your account",
-						'emailActivationLink' => $activationLink,
+					"file" => "confirm_email",
+					"args" => [
+						"emailTitle" => "Confirm your account",
+						"emailPreview" => strip_tags($emailBody),
+						"emailConfirmText" => "Confirm your account",
+						"emailActivationLink" => $activationLink,
 					],
 				]
 			);
@@ -170,15 +170,15 @@
 			$emailBody = "Dear $user->name<br/><br/>to resset your password, please click on the button that says Reset password or copy the password reset code below and enter it in the app. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$user->email,
-				'Password reset code',
+				"Password reset code",
 				$emailBody,
 				emailTemplate : [
-					'file' => 'confirm_email',
-					'args' => [
-						'emailTitle' => 'Password reset code',
-						'emailPreview' => strip_tags($emailBody),
-						'emailConfirmText' => 'Reset password',
-						'emailActivationLink' => $activationLink,
+					"file" => "confirm_email",
+					"args" => [
+						"emailTitle" => "Password reset code",
+						"emailPreview" => strip_tags($emailBody),
+						"emailConfirmText" => "Reset password",
+						"emailActivationLink" => $activationLink,
 					],
 				]
 			);
@@ -217,15 +217,15 @@
 			$emailBody = "Dear $user->name<br/><br/>your password was reset successfully. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$user->email,
-				'Password reset successfully',
+				"Password reset successfully",
 				$emailBody,
 				emailTemplate : [
-					'file' => 'confirm_email',
-					'args' => [
-						'emailTitle' => 'Password reset successfully',
-						'emailPreview' => strip_tags($emailBody),
-						'emailConfirmText' => 'Reset password',
-						'emailActivationLink' => $activationLink,
+					"file" => "confirm_email",
+					"args" => [
+						"emailTitle" => "Password reset successfully",
+						"emailPreview" => strip_tags($emailBody),
+						"emailConfirmText" => "Reset password",
+						"emailActivationLink" => $activationLink,
 					],
 				]
 			);

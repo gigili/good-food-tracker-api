@@ -70,7 +70,7 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *                type="object",
 		 *                properties={
@@ -119,13 +119,12 @@
 		 *            description="ID of a city we are looking for",
 		 *            required=true,
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *            ref="#/components/schemas/uuid_parameter"
+		 *         ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
@@ -188,7 +187,7 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="201",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
@@ -252,9 +251,8 @@
 		 *            name="cityID",
 		 *            description="ID of a city being updated",
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *            ref="#/components/schemas/uuid_parameter"
+		 *         ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -270,7 +268,7 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
@@ -325,14 +323,13 @@
 		 *            required=true,
 		 *            name="cityID",
 		 *            description="ID of a city being updated",
-		 *     			@OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *     		  @OA\Schema (
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *            ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),

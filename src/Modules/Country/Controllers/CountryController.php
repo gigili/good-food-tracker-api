@@ -69,7 +69,7 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull filtered countries",
+		 *        description="Successfully filtered countries",
 		 *			@OA\JsonContent(
 		 *                type="object",
 		 *                  properties={
@@ -114,13 +114,12 @@
 		 *            description="ID of a country",
 		 *            required=true,
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *              ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
@@ -175,7 +174,7 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="201",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
@@ -227,7 +226,7 @@
 		 * @OA\Patch    (
 		 *     path="/country/{countryID}",
 		 *     summary="Update country",
-		 *     description="Endpoint used for updateing country information",
+		 *     description="Endpoint used for updating country information",
 		 *     tags={"Country"},
 		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter (
@@ -235,6 +234,9 @@
 		 *            required=true,
 		 *            name="countryID",
 		 *            description="ID of a country being updated",
+		 *     		  @OA\Schema (
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *            ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -251,7 +253,7 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
@@ -310,13 +312,12 @@
 		 *            name="countryID",
 		 *            description="ID of a country being updated",
 		 *     		  @OA\Schema (
-		 *                type="integer",
-		 *                additionalProperties=false
-		 *             ),
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *              ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),

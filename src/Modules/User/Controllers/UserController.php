@@ -75,7 +75,7 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
 		 *     			@OA\Property (
 		 *                    property="data",
@@ -116,13 +116,12 @@
 		 *         in="path",
 		 *         required=true,
 		 *         @OA\Schema (
-		 *           type="integer",
-		 *           additionalProperties=false
+		 *            ref="#/components/schemas/uuid_parameter"
 		 *        ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
 		 *                properties={
 		 *					@OA\Property (property="data", ref="#/components/schemas/UserEntity"),
@@ -182,7 +181,7 @@
 		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
 		 *                properties={
 		 *					@OA\Property (property="data", ref="#/components/schemas/UserEntity"),
@@ -262,7 +261,7 @@
 		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
 		 *                properties={
 		 *					@OA\Property (property="data", ref="#/components/schemas/response_with_message_only"),
@@ -290,7 +289,7 @@
 		 *
 		 *     @OA\Response(
 		 *        response="500",
-		 *        description="Email not sent or any other excpetion",
+		 *        description="Email not sent or any other exception",
 		 *		  @OA\JsonContent( ref="#/components/schemas/error_response")
 		 *     )
 		 * )
