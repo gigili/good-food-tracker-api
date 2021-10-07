@@ -39,19 +39,31 @@
 		 *            in="query",
 		 *            name="search",
 		 *            description="Value used to filter the result",
-		 *            required=true
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="start",
 		 *            description="Pagination start offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="limit",
 		 *            description="Pagination end offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -97,7 +109,11 @@
 		 *            in="path",
 		 *            name="restaurantID",
 		 *            description="ID of a restaurant to fetch the information for",
-		 *            required=true
+		 *            required=true,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -261,7 +277,11 @@
 		 *        in="path",
 		 *        name="restaurantID",
 		 *        description="ID of a restaurant to delete from the database",
-		 *        required=true
+		 *        required=true,
+		 *     	  @OA\Schema (
+		 *           type="string",
+		 *           additionalProperties=false
+		 *       ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -278,13 +298,13 @@
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
-		 *        response="404",
-		 *        description="Restaurat not found",
+		 *        response="401",
+		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
-		 *        response="401",
-		 *        description="Invalid or missing token",
+		 *        response="404",
+		 *        description="Restaurat not found",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

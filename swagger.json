@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Good Food Tracker API",
-    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
+    "description": "The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit\r\n\tin order to be able to reference it later when they try to pick were they want to go eat out or order from.",
     "contact": {
       "name": "Igor Ilic",
       "email": "github@igorilic.net"
@@ -408,7 +408,11 @@
             "name": "Authorization",
             "in": "header",
             "description": "Refresh or access token",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -468,7 +472,11 @@
             "name": "Authorization",
             "in": "header",
             "description": "Refresh token",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -537,19 +545,31 @@
             "name": "search",
             "in": "query",
             "description": "Value used to filter the cities",
-            "required": true
+            "required": false,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           },
           {
             "name": "start",
             "in": "query",
             "description": "Pagination start offset",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Pagination end offset",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -656,7 +676,11 @@
             "name": "cityID",
             "in": "path",
             "description": "ID of a city we are looking for",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -709,7 +733,11 @@
             "name": "cityID",
             "in": "path",
             "description": "ID of a city being updated",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -767,7 +795,11 @@
             "name": "cityID",
             "in": "path",
             "description": "ID of a city being updated",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "requestBody": {
@@ -843,19 +875,31 @@
             "name": "search",
             "in": "query",
             "description": "Value used to filter the countries",
-            "required": true
+            "required": false,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           },
           {
             "name": "start",
             "in": "query",
             "description": "Pagination start offset",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Pagination end offset",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -930,6 +974,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -952,7 +1006,11 @@
             "name": "countryID",
             "in": "path",
             "description": "ID of a country",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -995,7 +1053,11 @@
             "name": "countryID",
             "in": "path",
             "description": "ID of a country being updated",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -1016,6 +1078,16 @@
           },
           "400": {
             "description": "Missing required arguments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
             "content": {
               "application/json": {
                 "schema": {
@@ -1110,6 +1182,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1132,19 +1214,31 @@
             "name": "search",
             "in": "query",
             "description": "Value used to filter the result",
-            "required": true
+            "required": false,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           },
           {
             "name": "start",
             "in": "query",
             "description": "Pagination start offset",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Pagination end offset",
-            "required": false
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -1272,7 +1366,11 @@
             "name": "restaurantID",
             "in": "path",
             "description": "ID of a restaurant to fetch the information for",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -1308,7 +1406,11 @@
             "name": "restaurantID",
             "in": "path",
             "description": "ID of a restaurant to delete from the database",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
           }
         ],
         "responses": {
@@ -1337,8 +1439,8 @@
               }
             }
           },
-          "404": {
-            "description": "Restaurat not found",
+          "401": {
+            "description": "Invalid or missing token",
             "content": {
               "application/json": {
                 "schema": {
@@ -1347,8 +1449,8 @@
               }
             }
           },
-          "401": {
-            "description": "Invalid or missing token",
+          "404": {
+            "description": "Restaurat not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -1478,22 +1580,38 @@
         "summary": "Filter users endpoint",
         "description": "Endpoint used to filters users based on the value of search parameter",
         "operationId": "080c0fa8d56c8d9f1cd023294c4bf571",
-        "requestBody": {
-          "description": "Required parameters",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "search": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
-              }
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Value used to filter the result",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "additionalProperties": false
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Pagination start offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Pagination end offset",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "additionalProperties": false
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successfull result",
@@ -1519,8 +1637,8 @@
         "tags": [
           "User"
         ],
-        "summary": "Update information about a specific user",
-        "description": "Endpoint used for updating information about a specific user",
+        "summary": "Update information about currently logged in user",
+        "description": "Endpoint used for updating information about currently logged in user based on the JWT token value",
         "operationId": "2df612e584ab8bd4a619fb6947ae57b6",
         "responses": {
           "200": {
@@ -1540,6 +1658,16 @@
           },
           "400": {
             "description": "Failed parameter validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing token",
             "content": {
               "application/json": {
                 "schema": {
@@ -1618,6 +1746,16 @@
               }
             }
           },
+          "401": {
+            "description": "Invalid or missing token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_response"
+                }
+              }
+            }
+          },
           "498": {
             "description": "Invalid token provided",
             "content": {
@@ -1671,7 +1809,8 @@
             "description": "",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "additionalProperties": false
             }
           }
         ],

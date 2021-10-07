@@ -31,14 +31,7 @@
 		/**
 		 * Endpoint used for filtering countries
 		 *
-		 * @throws MaximumLengthException
-		 * @throws InvalidUUIDException
-		 * @throws RequiredFieldException
-		 * @throws InvalidEmailException
-		 * @throws InvalidNumericValueException
-		 * @throws MinimumLengthException
-		 * @throws FieldsDoNotMatchException
-		 *
+		 * @param Request $request
 		 * @OA\Get  (
 		 *     path="/country",
 		 *     summary="Fetch a list of countries",
@@ -48,19 +41,31 @@
 		 *            in="query",
 		 *            name="search",
 		 *            description="Value used to filter the countries",
-		 *            required=true
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="start",
 		 *            description="Pagination start offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
 		 *            name="limit",
 		 *            description="Pagination end offset",
-		 *            required=false
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -79,7 +84,6 @@
 		 *       )
 		 *     )
 		 * )
-		 *
 		 */
 		public function filter_countries(Request $request) {
 			$search = $request->get("search");
@@ -108,7 +112,11 @@
 		 *            in="path",
 		 *            name="countryID",
 		 *            description="ID of a country",
-		 *            required=true
+		 *            required=true,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -177,6 +185,11 @@
 		 *     @OA\Response(
 		 *        response="400",
 		 *        description="Missing required arguments",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -255,6 +268,11 @@
 		 *        description="Country not found",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function update_country(Request $request, string $countryID) {
@@ -291,6 +309,10 @@
 		 *            required=true,
 		 *            name="countryID",
 		 *            description="ID of a country being updated",
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
@@ -304,6 +326,11 @@
 		 *     @OA\Response(
 		 *        response="400",
 		 *        description="Missing required arguments",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *	   @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(

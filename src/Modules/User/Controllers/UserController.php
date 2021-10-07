@@ -43,30 +43,35 @@
 		 *     summary="Filter users endpoint",
 		 *     description="Endpoint used to filters users based on the value of search parameter",
 		 *     tags={"User"},
-		 *     @OA\RequestBody(
-		 *         description="Required parameters",
-		 *         required=true,
-		 *         @OA\MediaType(
-		 *            mediaType="application/json",
-		 *			  @OA\Schema(
-		 *                properties={
-		 *     				@OA\Property(property="search", type="string"),
-		 *                },
-		 *              ),
-		 *            ),
+		 *     @OA\Parameter(
+		 *            in="query",
+		 *            name="search",
+		 *            description="Value used to filter the result",
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
-		 *     @OA\RequestBody(
-		 *         description="Optional pagination parameters",
-		 *         required=false,
-		 *         @OA\MediaType(
-		 *            mediaType="application/json",
-		 *			  @OA\Schema(
-		 *                properties={
-		 *     				@OA\Property(property="start", type="int"),
-		 *     				@OA\Property(property="limit", type="int")
-		 *                },
-		 *              ),
-		 *            ),
+		 *     @OA\Parameter(
+		 *            in="query",
+		 *            name="start",
+		 *            description="Pagination start offset",
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
+		 *     ),
+		 *     @OA\Parameter(
+		 *            in="query",
+		 *            name="limit",
+		 *            description="Pagination end offset",
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="integer",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
@@ -110,9 +115,10 @@
 		 *         description="",
 		 *         in="path",
 		 *         required=true,
-		 *         @OA\Schema(
-		 *             type="string"
-		 *         )
+		 *         @OA\Schema (
+		 *           type="integer",
+		 *           additionalProperties=false
+		 *        ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
@@ -170,8 +176,8 @@
 		 *
 		 * @OA\Put (
 		 *     path="/user",
-		 *     summary="Update information about a specific user",
-		 *     description="Endpoint used for updating information about a specific user",
+		 *     summary="Update information about currently logged in user",
+		 *     description="Endpoint used for updating information about currently logged in user based on the JWT token value",
 		 *     tags={"User"},
 		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
@@ -188,6 +194,12 @@
 		 *        response="400",
 		 *        description="Failed parameter validation",
 		 *		  @OA\JsonContent( ref="#/components/schemas/error_response")
+		 *     ),
+		 *
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *
 		 *     @OA\Response(
@@ -256,6 +268,12 @@
 		 *					@OA\Property (property="data", ref="#/components/schemas/response_with_message_only"),
 		 *                }
 		 *            )
+		 *     ),
+		 *
+		 *     @OA\Response(
+		 *        response="401",
+		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *
 		 *     @OA\Response(
