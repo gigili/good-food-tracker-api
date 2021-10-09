@@ -31,10 +31,19 @@ To get started on development follow these steps:
 * Create `postgres` database;
     * To create the database you can use the `pgAdmin` web UI;
         * `pgAdmin` web UI can be accessed at: `localhost:${PGADMIN_PORT}`;
+        * login with `${PGADMIN_DEFAULT_EMAIL}` and `${DB_PASSWORD}`
+        * create a server with these connection properties:
+            * Host : `gft-postgres`
+            * Port : `${DB_PORT}`
+        * create a database with these properties:
+            * name : `${DB}`
+            * username : `${DB_USERNAME}`
+            * password : `${DB_PASSWORD}`
     * Rename `.migration.example.config` into `.migration.config`;
         * Add your values to the `.migration.config` file;
-    * Run `php ./cli/migrate.php --init` to initialize the migrations table;
-    * Run `php ./cli/migrate.php --up` to run all the migrations;
+    * Run `docker-compose exec app php ./cli/migrate.php --init` to initialize the migrations table;
+    * Run `docker-compose exec app php ./cli/migrate.php --up` to run all the migrations;
+    * Run `docker-compose exec app composer install` to install php dependencies
 * Visit `localhost:${APACHE_PORT}` to see if everything is working;
 
 ## Contribution guidelines ###
