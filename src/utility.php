@@ -12,7 +12,6 @@
 	use Firebase\JWT\SignatureInvalidException;
 	use Gac\GoodFoodTracker\Core\Exceptions\InvalidTokenException;
 	use Gac\GoodFoodTracker\Core\Exceptions\MissingTokenException;
-	use Gac\Routing\Request;
 	use JetBrains\PhpStorm\ArrayShape;
 	use Predis\Client as RedisClient;
 

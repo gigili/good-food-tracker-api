@@ -32,6 +32,7 @@
 		public string     $username;
 		public ?string    $image               = NULL;
 		public int        $status              = 0;
+		public ?string    $role_id             = NULL;
 		protected ?string $password;
 		protected ?string $activation_key      = NULL;
 		protected ?string $password_reset_code = NULL;
@@ -80,5 +81,20 @@
 		 */
 		public function set_password_reset_code(?string $password_reset_code) : void {
 			$this->password_reset_code = $password_reset_code;
+		}
+
+		/**
+		 * Returns the value that indicates which role the user has assigned
+		 *
+		 * @return int  Return the user's role level
+		 */
+		public function get_user_role() : int {
+			if ( is_null($this->role_id) ) return 0;
+
+			$roleEntity = new RoleEntity();
+			$role = $roleEntity->get($this->role_id);
+			if ( ( $role instanceof RoleEntity ) == false ) return 0;
+
+			return $role->level;
 		}
 	}

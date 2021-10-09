@@ -342,4 +342,11 @@
 
 			return [ "select" => "$select ", "from" => "$from ", "join" => "$join " ];
 		}
+
+		/**
+		 * @return Database
+		 */
+		public function get_db() : Database {
+			return $this->db;
+		}
 	}
