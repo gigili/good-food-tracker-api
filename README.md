@@ -8,7 +8,7 @@
 <!--![Stars badge](https://img.shields.io/github/stars/gigili/good-food-tracker-api?style=for-the-badge)-->
 <!--![Top language badge](https://img.shields.io/github/languages/top/gigili/good-food-tracker-api?style=for-the-badge)-->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
@@ -119,6 +119,7 @@ Thanks go to these wonderful people ([emoji key](https://allcontributors.org/doc
     <td align="center"><a href="http://rajie.space"><img src="https://avatars.githubusercontent.com/u/37059749?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rajakavitha1</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=Rajakavitha1" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/skrrra"><img src="https://avatars.githubusercontent.com/u/34629038?v=4?s=100" width="100px;" alt=""/><br /><sub><b>skrrra</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=skrrra" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ishan-deepsource"><img src="https://avatars.githubusercontent.com/u/88525625?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ishan Vyas</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/commits?author=ishan-deepsource" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/abilogos"><img src="https://avatars.githubusercontent.com/u/17473661?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Abilogos</b></sub></a><br /><a href="https://github.com/gigili/good-food-tracker-api/issues?q=author%3Aabilogos" title="Bug reports">🐛</a> <a href="https://github.com/gigili/good-food-tracker-api/commits?author=abilogos" title="Documentation">📖</a></td>
   </tr>
 </table>
 
