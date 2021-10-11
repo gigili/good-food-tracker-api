@@ -68,7 +68,7 @@
 		 */
 		public static function update_user(Request $request, ?string $profileImage = NULL) : Entity {
 			$userEntity = new UserEntity();
-			$user = $userEntity->get($_SESSION['userID']);
+			$user = $userEntity->get($_SESSION['userID'] ?? NULL);
 
 			if ( ( $user instanceof UserEntity ) === false || !isset($user->id) ) throw new UserNotFoundException();
 
@@ -76,9 +76,9 @@
 			$user->email = $request->get('email');
 			if ( !is_null($profileImage) ) {
 				try {
-					FileHandler::delete_image_from_disk(BASE_PATH.$user->image, true);
-				} catch (FileDeletionException $e){
-					$message = "Failed to delete image: ".BASE_PATH.$user->image." Message: ".$e->getMessage();
+					FileHandler::delete_image_from_disk(BASE_PATH . $user->image, true);
+				} catch ( FileDeletionException $e ) {
+					$message = "Failed to delete image: " . BASE_PATH . $user->image . " Message: " . $e->getMessage();
 					Logger::error($message);
 				}
 
@@ -106,21 +106,24 @@
 				throw new UserNotFoundException();
 			}
 
-			$imagePath = BASE_PATH.$user->image;
-			FileHandler::delete_image_from_disk($imagePath);
+			if ( !is_null($user->image) ) {
+				$imagePath = BASE_PATH . $user->image;
+				FileHandler::delete_image_from_disk($imagePath);
+			}
+
 			$user->delete();
 
 			$emailBody = "Dear $user->name<br/><br/> your account has been deleted successfully from our application. <br/><br/> Good Food Tracker team";
-            if (!send_email(
-                $user->email,
-                "Account deleted successfully",
-                $emailBody,
-                emailTemplate : [
-                    'file' => 'delete_user_email',
-                    'args' => [ 'emailPreview' => strip_tags($emailBody) ]
-                ]
-            )) {
-                throw new EmailNotSentException();
-            }
+			if ( !send_email(
+				$user->email,
+				"Account deleted successfully",
+				$emailBody,
+				emailTemplate : [
+					'file' => 'delete_user_email',
+					'args' => [ 'emailPreview' => strip_tags($emailBody) ],
+				]
+			) ) {
+				throw new EmailNotSentException();
+			}
 		}
 	}

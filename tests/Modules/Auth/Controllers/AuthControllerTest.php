@@ -8,6 +8,7 @@
 	namespace Modules\Auth\Controllers;
 
 	use Gac\GoodFoodTracker\Core\DB\Database;
+	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
 	use Gac\GoodFoodTracker\Modules\Auth\Controllers\AuthController;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UsernameTakenException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotActiveException;
@@ -52,6 +53,13 @@
 		}
 
 		/** @test */
+		public function register_account_fails_because_of_missing_required_arguments() {
+			$this->expectException(RequiredFieldException::class);
+			$this->controller->register($this->requestMock);
+			$this->fail("Should have thrown RequiredFieldException");
+		}
+
+		/** @test */
 		public function registration_fails_because_username_is_taken() {
 			$this->expectException(UsernameTakenException::class);
 
@@ -88,7 +96,7 @@
 				}));
 
 			$this->controller->login($this->requestMock);
-			$this->fail('Should have thrown an exception');
+			$this->fail('Should have thrown UserNotFoundException exception');
 		}
 
 		/** @test */
@@ -107,7 +115,7 @@
 				}));
 
 			$this->controller->login($this->requestMock);
-			$this->fail('Should have thrown an exception');
+			$this->fail('Should have thrown UserNotActiveException exception');
 		}
 
 		/** @test */

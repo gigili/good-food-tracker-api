@@ -22,7 +22,7 @@
         <env name="DB_PASSWORD" value="postgres"/>
         <env name="ENVIRONMENT" value="tests"/>
         <env name="EMAIL_HOST" value="localhost"/>
-        <env name="EMAIL_PORT" value="25"/>
+        <env name="EMAIL_PORT" value="1025"/>
         <env name="EMAIL_SENDER" value="test@test.com"/>
         <env name="REDIS_HOST" value="localhost"/>
         <env name="REDIS_PORT" value="6379"/>
