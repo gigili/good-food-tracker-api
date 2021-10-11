@@ -164,3 +164,4 @@ src/uploads/
 
 .phpunit.result.cache
 phpunit.xml.bak
+phpunit.local.xml
