@@ -14,4 +14,18 @@
         </testsuite>
     </testsuites>
     <logging/>
+    <php>
+        <env name="DB" value=""/>
+        <env name="DB_HOST" value=""/>
+        <env name="DB_PORT" value=""/>
+        <env name="DB_USERNAME" value=""/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="ENVIRONMENT" value=""/>
+        <env name="EMAIL_HOST" value=""/>
+        <env name="EMAIL_PORT" value=""/>
+        <env name="EMAIL_SENDER" value=""/>
+        <env name="REDIS_HOST" value=""/>
+        <env name="REDIS_PORT" value=""/>
+        <env name="JWT_KEY" value=""/>
+    </php>
 </phpunit>
