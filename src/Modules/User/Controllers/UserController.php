@@ -24,6 +24,7 @@
 	use Gac\GoodFoodTracker\Core\Utility\FileHandler;
 	use Gac\GoodFoodTracker\Core\Utility\Validation;
 	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
+	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\UserNotFoundException;
 	use Gac\GoodFoodTracker\Modules\User\Exceptions\InvalidSearchTermException;
@@ -169,7 +170,7 @@
 		public function get_user(Request $request, string $userID) {
 			$result = UserModel::get_user($userID);
 
-			if ( is_null($result) ) {
+			if ( ($result instanceof UserEntity)  == false || !isset($result->id)) {
 				throw new UserNotFoundException();
 			}
 

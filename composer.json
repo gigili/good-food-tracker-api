@@ -12,7 +12,8 @@
     }
   ],
   "scripts": {
-    "swagger": "php ./vendor/bin/openapi -o swagger.json ./src --bootstrap swagger-constants.php"
+    "swagger": "php ./vendor/bin/openapi -o swagger.json ./src --bootstrap swagger-constants.php",
+    "test": "php ./vendor/bin/phpunit"
   },
   "autoload": {
     "psr-4": {
