@@ -61,7 +61,7 @@
 	session_start();
 	date_default_timezone_set("Europe/Belgrade");
 
-	include_once "../vendor/autoload.php";
+	include_once __DIR__ . "/../vendor/autoload.php";
 
 	use Dotenv\Dotenv;
 	use Exception;

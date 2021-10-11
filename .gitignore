@@ -163,4 +163,5 @@ redis-data/
 src/uploads/
 
 .phpunit.result.cache
+phpunit.xml
 phpunit.xml.bak
