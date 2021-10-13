@@ -21,6 +21,8 @@
 		public ?string   $user_name = NULL;
 		protected string $created_at;
 
+		protected array $ignoredColumns = [ "user_name" ];
+
 		public function __construct() {
 			$this->created_at = date("c");
 			parent::__construct("reviews.review_image");

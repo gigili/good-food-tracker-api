@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS reviews.review
     delivery_time  numeric      NULL,
     takeout        bool
         CONSTRAINT DF_Review_Takeout   DEFAULT false,
+    private        bool
+        CONSTRAINT DF_Review_Private   DEFAULT true,
     order_date     timestamptz
         CONSTRAINT DF_Review_OrderDate DEFAULT current_timestamp,
     created_at     timestamptz

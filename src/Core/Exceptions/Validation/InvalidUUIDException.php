@@ -16,7 +16,10 @@
 		/**
 		 * InvalidUUIDException constructor.
 		 */
-		#[Pure] public function __construct() {
-			parent::__construct("Invalid UUID value provided", 400);
+		#[Pure] public function __construct(string $field = "") {
+			if ( !empty($field) ) {
+				$field = "for: $field";
+			}
+			parent::__construct("Invalid UUID value provided $field", 400);
 		}
 	}

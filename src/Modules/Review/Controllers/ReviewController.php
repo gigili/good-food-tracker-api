@@ -9,6 +9,8 @@
 	namespace Gac\GoodFoodTracker\Modules\Review\Controllers;
 
 	use Gac\GoodFoodTracker\Core\Controllers\BaseController;
+	use Gac\GoodFoodTracker\Core\Exceptions\ForbiddenException;
+	use Gac\GoodFoodTracker\Core\Exceptions\InvalidInstanceException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\FieldsDoNotMatchException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidEmailException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\InvalidNumericValueException;
@@ -16,11 +18,10 @@
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MaximumLengthException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\MinimumLengthException;
 	use Gac\GoodFoodTracker\Core\Exceptions\Validation\RequiredFieldException;
-	use Gac\GoodFoodTracker\Core\Utility\Validation;
-	use Gac\GoodFoodTracker\Core\Utility\ValidationRules;
 	use Gac\GoodFoodTracker\Modules\Review\Exceptions\ReviewNotFoundException;
 	use Gac\GoodFoodTracker\Modules\Review\Models\ReviewModel;
 	use Gac\Routing\Request;
+	use ReflectionException;
 
 	class ReviewController extends BaseController
 	{
@@ -43,15 +44,32 @@
 		}
 
 		/**
-		 * @throws MaximumLengthException
-		 * @throws InvalidUUIDException
-		 * @throws InvalidEmailException
-		 * @throws RequiredFieldException
-		 * @throws InvalidNumericValueException
-		 * @throws MinimumLengthException
+		 * @param Request $request
+		 * @param string|null $reviewID
+		 *
 		 * @throws FieldsDoNotMatchException
+		 * @throws InvalidEmailException
+		 * @throws InvalidInstanceException
+		 * @throws InvalidNumericValueException
+		 * @throws InvalidUUIDException
+		 * @throws MaximumLengthException
+		 * @throws MinimumLengthException
+		 * @throws ReflectionException
+		 * @throws RequiredFieldException
+		 * @throws ReviewNotFoundException
 		 */
-		public function create(Request $request) {
-			$review = ReviewModel::create($request);
+		public function save_review(Request $request, ?string $reviewID = NULL) {
+			$review = ReviewModel::save_review($request, $reviewID);
+			$request->status(is_null($reviewID) ? 201 : 200)->send([ "review" => $review ]);
+		}
+
+		/**
+		 * @throws ForbiddenException
+		 * @throws InvalidUUIDException
+		 * @throws ReviewNotFoundException
+		 */
+		public function delete(Request $request, string $reviewID) {
+			$review = ReviewModel::delete($reviewID);
+			$request->send([ "review" => $review ]);
 		}
 	}

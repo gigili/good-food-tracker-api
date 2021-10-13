@@ -22,6 +22,7 @@
 		public ?float  $delivery_price = 0;
 		public ?int    $delivery_time  = 0;
 		public bool    $takeout        = false;
+		public bool    $private        = true;
 		public string  $order_date;
 		public array   $images         = [];
 
@@ -41,6 +42,8 @@
 		public ?string $rating_name = NULL;
 
 		protected string $created_at;
+
+		protected array $ignoredColumns = [ "user_name", "restaurant_name", "rating_name", "images" ];
 
 		public function __construct() {
 			$this->created_at = date("c");

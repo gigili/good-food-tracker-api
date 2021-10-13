@@ -17,7 +17,7 @@
 		->middleware([ "decode_token" ])
 		->get("/", [ ReviewController::class, "filter" ])
 		->get("/{string:reviewID}", [ ReviewController::class, "get" ])
-		->post("/", [ ReviewController::class, "create" ])
-		->patch("/{string:reviewID}", [ ReviewController::class, "update" ])
+		->post("/", [ ReviewController::class, "save_review" ])
+		->patch("/{string:reviewID}", [ ReviewController::class, "save_review" ])
 		->delete("/", [ ReviewController::class, "delete" ])
 		->save();
