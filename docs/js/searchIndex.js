@@ -1,6 +1,71 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App",
+            "name": "App",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method___construct"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Arun\u0028\u0029",
+            "name": "run",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_run"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Aget_instance\u0028\u0029",
+            "name": "get_instance",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_get_instance"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Aget_db\u0028\u0029",
+            "name": "get_db",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_get_db"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Aset_db\u0028\u0029",
+            "name": "set_db",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_set_db"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Aset_routes\u0028\u0029",
+            "name": "set_routes",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_set_routes"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Aget_redis\u0028\u0029",
+            "name": "get_redis",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_get_redis"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003Aset_redis\u0028\u0029",
+            "name": "set_redis",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#method_set_redis"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003A\u0024instance",
+            "name": "instance",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#property_instance"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003A\u0024redis",
+            "name": "redis",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#property_redis"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003A\u0024routes",
+            "name": "routes",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#property_routes"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\App\u003A\u003A\u0024db",
+            "name": "db",
+            "summary": "",
+            "url": "classes/Gac-GoodFoodTracker-Core-App.html#property_db"
+        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Controllers\\BaseController",
             "name": "BaseController",
             "summary": "",
@@ -8,7 +73,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Controllers\\BaseController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "BaseController\u0020constructor.",
+            "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Core-Controllers-BaseController.html#method___construct"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Controllers\\BaseController\u003A\u003A\u0024redis",
@@ -31,10 +96,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Gac-GoodFoodTracker-Core-DB-Database.html#method___construct"
         },                {
-            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\DB\\Database\u003A\u003AgetInstance\u0028\u0029",
-            "name": "getInstance",
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\DB\\Database\u003A\u003Aget_instance\u0028\u0029",
+            "name": "get_instance",
             "summary": "",
-            "url": "classes/Gac-GoodFoodTracker-Core-DB-Database.html#method_getInstance"
+            "url": "classes/Gac-GoodFoodTracker-Core-DB-Database.html#method_get_instance"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\DB\\Database\u003A\u003Aexecute_query\u0028\u0029",
             "name": "execute_query",
@@ -1261,15 +1326,15 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
-            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Controllers",
-            "name": "Controllers",
-            "summary": "",
-            "url": "namespaces/gac-goodfoodtracker-core-controllers.html"
-        },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core",
             "name": "Core",
             "summary": "",
             "url": "namespaces/gac-goodfoodtracker-core.html"
+        },                {
+            "fqsen": "\\Gac\\GoodFoodTracker\\Core\\Controllers",
+            "name": "Controllers",
+            "summary": "",
+            "url": "namespaces/gac-goodfoodtracker-core-controllers.html"
         },                {
             "fqsen": "\\Gac\\GoodFoodTracker\\Core\\DB",
             "name": "DB",
