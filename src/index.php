@@ -75,8 +75,6 @@
 	use Predis\Client as PredisClient;
 	use ReflectionClass;
 
-	Logger::error("Should only be logged once " . $_SERVER["REQUEST_METHOD"]);
-
 	$routes = new Routes();
 	try {
 		$app = new App();

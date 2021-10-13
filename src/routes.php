@@ -6,8 +6,9 @@
 	 * Project: Good Food Tracker - API
 	 */
 
-	require_once "./Modules/Auth/routes.php";
-	require_once "./Modules/User/routes.php";
-	require_once "./Modules/Country/routes.php";
-	require_once "./Modules/City/routes.php";
-	require_once "./Modules/Restaurant/routes.php";
+	require_once __DIR__ . "/Modules/Auth/routes.php";
+	require_once __DIR__ . "/Modules/User/routes.php";
+	require_once __DIR__ . "/Modules/Country/routes.php";
+	require_once __DIR__ . "/Modules/City/routes.php";
+	require_once __DIR__ . "/Modules/Restaurant/routes.php";
+	require_once __DIR__ . "/Modules/Review/routes.php";

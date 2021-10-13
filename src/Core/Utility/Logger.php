@@ -20,6 +20,11 @@
 			fclose($handle);
 		}
 
+		public static function info(string $message = "", string $logFileName = "app_log.log") {
+			$prefix = '[' . date('Y-m-d H:i:s') . ' | INFO] ';
+			self::log($prefix . $message, $logFileName);
+		}
+
 		public static function warning(string $message = '', string $logFileName = 'app_log.log') {
 			$prefix = '[' . date('Y-m-d H:i:s') . ' | WARNING] ';
 			self::log($prefix . $message, $logFileName);
