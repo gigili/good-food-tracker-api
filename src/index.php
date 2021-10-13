@@ -63,20 +63,30 @@
 
 	include_once "../vendor/autoload.php";
 
-	use Dotenv\Dotenv;
 	use Exception;
+	use Gac\GoodFoodTracker\Core\App;
+	use Gac\GoodFoodTracker\Core\DB\Database;
 	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
 	use Gac\GoodFoodTracker\Core\Utility\Logger;
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
 	use Gac\Routing\Routes;
 	use OpenApi\Generator;
+	use Predis\Client as PredisClient;
 	use ReflectionClass;
+
+	Logger::error("Should only be logged once " . $_SERVER["REQUEST_METHOD"]);
 
 	$routes = new Routes();
 	try {
-		$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
-		$dotenv->load();
+		$app = new App();
+
+		$app->set_routes($routes);
+		$app->set_db(Database::get_instance());
+		$app->set_redis(new PredisClient([
+			'host' => $_ENV['REDIS_HOST'],
+			'port' => $_ENV['REDIS_PORT'],
+		]));
 
 		$routes->add("/", function (Request $request) {
 			$name = $request->get("name");
@@ -101,8 +111,9 @@
 
 		require_once __DIR__ . "/routes.php";
 
-		$routes->handle();
+		$app->run();
 	} catch ( RouteNotFoundException $ex ) {
+		Logger::error($ex->getMessage());
 		$routes->request
 			->status(404)
 			->send([
@@ -112,6 +123,7 @@
 				],
 			]);
 	} catch ( AppNotInitializedException $ex ) {
+		Logger::error($ex->getMessage());
 		$routes->request
 			->status(500)
 			->send([

@@ -8,6 +8,7 @@
 
 	namespace Gac\GoodFoodTracker\Core\Entities;
 
+	use Gac\GoodFoodTracker\Core\App;
 	use Gac\GoodFoodTracker\Core\DB\Database;
 	use JetBrains\PhpStorm\ArrayShape;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
@@ -46,7 +47,7 @@
 			$this->table = $table;
 			$this->primaryKey = $primaryKey;
 			$this->annotations = $this->get_annotations();
-			$this->db = Database::getInstance();
+			$this->db = (App::get_instance())->get_db();
 		}
 
 		/**

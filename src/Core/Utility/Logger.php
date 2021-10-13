@@ -11,12 +11,11 @@
 	class Logger
 	{
 		public static function log(string $message = '', string $logFileName = 'app_log.log') {
-			if ( is_dir($_SERVER['DOCUMENT_ROOT'] . '/../logs') === false ) {
-				mkdir($_SERVER['DOCUMENT_ROOT'] . '/../logs', 0644);
+			if ( is_dir(BASE_PATH . '/../logs') === false ) {
+				mkdir(BASE_PATH . '/../logs', 0644);
 			}
 
-			$handle = fopen($_SERVER['DOCUMENT_ROOT'] . "/../logs/$logFileName", 'a+');
-			fwrite($handle, $message . "\n");
+			$handle = fopen(BASE_PATH . "/../logs/$logFileName", 'a+');
 			fwrite($handle, $message . "\n");
 			fclose($handle);
 		}
