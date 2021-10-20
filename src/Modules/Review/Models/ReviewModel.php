@@ -120,7 +120,6 @@
 			$review = $newReview->save();
 
 			//TODO: Handle uploading and storing of review images and their comments
-
 			if ( ( $review instanceof ReviewEntity ) == false || !isset($review->id) ) throw new InvalidInstanceException(ReviewEntity::class);
 
 			return $review;
