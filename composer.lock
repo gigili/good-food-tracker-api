@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a11f2b9f163a2f5b63b1090346a88f9a",
+    "content-hash": "fefe2e54da6b0d40babbc394d79c760d",
     "packages": [
         {
             "name": "brick/math",
@@ -125,16 +125,16 @@
         },
         {
             "name": "gac/routing",
-            "version": "v2.0.7",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gigili/PHP-routing.git",
-                "reference": "5f3e1a0eae7d60967a3796024c4e58c0afa8d393"
+                "reference": "fe629a4c81a4a467a56a3f84578db0dbf2863204"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/5f3e1a0eae7d60967a3796024c4e58c0afa8d393",
-                "reference": "5f3e1a0eae7d60967a3796024c4e58c0afa8d393",
+                "url": "https://api.github.com/repos/gigili/PHP-routing/zipball/fe629a4c81a4a467a56a3f84578db0dbf2863204",
+                "reference": "fe629a4c81a4a467a56a3f84578db0dbf2863204",
                 "shasum": ""
             },
             "require": {
@@ -175,7 +175,7 @@
             "support": {
                 "email": "github@igorilic.net",
                 "issues": "https://github.com/gigili/PHP-routing",
-                "source": "https://github.com/gigili/PHP-routing/tree/v2.0.7"
+                "source": "https://github.com/gigili/PHP-routing/tree/v3.0.0"
             },
             "funding": [
                 {
@@ -187,7 +187,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2021-10-02T19:07:15+00:00"
+            "time": "2021-10-26T12:31:09+00:00"
         },
         {
             "name": "graham-campbell/result-type",

@@ -29,7 +29,7 @@
   "require": {
     "php": ">=8.0",
     "ext-json": "*",
-    "gac/routing": "^v2.0",
+    "gac/routing": "^v3.0",
     "firebase/php-jwt": "^5.2",
     "vlucas/phpdotenv": "^5.3",
     "ramsey/uuid": "^4.1",
