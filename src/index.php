@@ -57,8 +57,6 @@
 	namespace Gac\GoodFoodTracker;
 
 	defined("BASE_PATH") or define("BASE_PATH", __DIR__);
-
-	session_start();
 	date_default_timezone_set("Europe/Belgrade");
 
 	include_once "../vendor/autoload.php";
@@ -66,7 +64,6 @@
 	use Exception;
 	use Gac\GoodFoodTracker\Core\App;
 	use Gac\GoodFoodTracker\Core\DB\Database;
-	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
 	use Gac\GoodFoodTracker\Core\Utility\Logger;
 	use Gac\Routing\Exceptions\RouteNotFoundException;
 	use Gac\Routing\Request;
@@ -74,8 +71,6 @@
 	use OpenApi\Generator;
 	use Predis\Client as PredisClient;
 	use ReflectionClass;
-
-	Logger::error("Should only be logged once " . $_SERVER["REQUEST_METHOD"]);
 
 	$routes = new Routes();
 	try {
@@ -119,16 +114,6 @@
 			->send([
 				"error" => [
 					"message" => $ex->getMessage(),
-					"field" => "",
-				],
-			]);
-	} catch ( AppNotInitializedException $ex ) {
-		Logger::error($ex->getMessage());
-		$routes->request
-			->status(500)
-			->send([
-				"error" => [
-					"message" => "The app wasn't initialized properly {$ex->getMessage()}",
 					"field" => "",
 				],
 			]);

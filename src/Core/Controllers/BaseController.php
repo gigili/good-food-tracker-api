@@ -11,18 +11,17 @@
 	use Exception;
 	use Gac\GoodFoodTracker\Core\App;
 	use Gac\GoodFoodTracker\Core\Utility\Logger;
-	use Predis\Client as RedisClient;
 
 	class BaseController implements ControllerInterface
 	{
 		/**
-		 * @var RedisClient Instance of a redis cache
+		 * @var App Instance of the app class
 		 */
-		protected RedisClient $redis;
+		protected App $app;
 
 		public function __construct() {
 			try {
-				$this->redis = ( App::get_instance() )->get_redis();
+				$this->app = App::get_instance();
 			} catch ( Exception $ex ) {
 				Logger::error("Redis error: {$ex->getMessage()}");
 			}
