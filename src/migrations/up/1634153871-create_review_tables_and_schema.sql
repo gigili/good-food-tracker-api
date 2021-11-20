@@ -2,11 +2,13 @@
 
 CREATE SCHEMA IF NOT EXISTS reviews;
 
+/*
 CREATE TABLE IF NOT EXISTS reviews.rating
 (
     id   SERIAL       NOT NULL PRIMARY KEY,
     name VARCHAR(200) NOT NULL
 );
+*/
 
 CREATE TABLE IF NOT EXISTS reviews.review
 (
@@ -16,8 +18,8 @@ CREATE TABLE IF NOT EXISTS reviews.review
         CONSTRAINT FK_Review_User REFERENCES users."user" (id) ON UPDATE CASCADE ON DELETE CASCADE,
     restaurant_id  UUID         NOT NULL
         CONSTRAINT FK_Review_Restaurant REFERENCES places.restaurant (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    rating_id      int          NULL
-        CONSTRAINT FK_Review_Rating REFERENCES reviews.rating (id) ON UPDATE CASCADE ON DELETE SET NULL,
+    rating_id      int          NULL,
+    --CONSTRAINT FK_Review_Rating REFERENCES reviews.rating (id) ON UPDATE CASCADE ON DELETE SET NULL,
     name           VARCHAR(255) NOT NULL,
     price          numeric(2)   NULL,
     comment        text         NULL,

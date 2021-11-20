@@ -15,7 +15,7 @@
 		public string  $user_id;
 		public string  $restaurant_id;
 		public int     $rating_id;
-		public string  $name; //meal name
+		public string  $name;
 		public ?float  $price          = 0;
 		public ?string $comment        = "";
 		public bool    $delivery       = false;
