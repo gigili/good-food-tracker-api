@@ -34,7 +34,7 @@
 			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 
-		public static function getInstance(
+		public static function get_instance(
 			?string $dbHost = NULL,
 			?int    $dbPort = NULL,
 			?string $dbUsername = NULL,
@@ -59,7 +59,7 @@
 			array  $params = [],
 			bool   $singleResult = false
 		) : array|object {
-			$db = Database::getInstance();
+			$db = Database::get_instance();
 			return $db->get_result($query, $params, $singleResult, $db->db);
 		}
 
@@ -70,7 +70,7 @@
 			?PDO   $db = NULL
 		) : array|object {
 			if ( is_null($db) ) {
-				$db = self::getInstance()->db;
+				$db = self::get_instance()->db;
 			}
 			$stm = $db->prepare($query);
 

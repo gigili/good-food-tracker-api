@@ -8,6 +8,7 @@
 
 	namespace Gac\GoodFoodTracker\Modules\Auth\Models;
 
+	use Gac\GoodFoodTracker\Core\Exceptions\InvalidInstanceException;
 	use Gac\GoodFoodTracker\Entity\UserEntity;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailNotSentException;
 	use Gac\GoodFoodTracker\Modules\Auth\Exceptions\EmailTakenException;
@@ -57,6 +58,7 @@
 		 * @throws UsernameTakenException
 		 * @throws EmailNotSentException
 		 * @throws ReflectionException
+		 * @throws InvalidInstanceException
 		 */
 		public static function register(string $name, string $email, string $username, string $password) : UserEntity {
 			$userEntity = new UserEntity();
@@ -106,10 +108,9 @@
 			);
 
 			//TODO: Should this throw an exception or return success with warning?
-			if ( !$emailSent ) {
-				throw new EmailNotSentException();
-			}
+			if ( !$emailSent ) throw new EmailNotSentException();
 
+			if ( ( $user instanceof UserEntity ) == false ) throw new InvalidInstanceException("Not a valid instance of UserEntity in " . __FILE__ . ' @ ' . __LINE__);
 			return $user;
 		}
 
