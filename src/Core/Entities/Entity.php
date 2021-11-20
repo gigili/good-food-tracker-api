@@ -8,7 +8,9 @@
 
 	namespace Gac\GoodFoodTracker\Core\Entities;
 
+	use Gac\GoodFoodTracker\Core\App;
 	use Gac\GoodFoodTracker\Core\DB\Database;
+	use Gac\GoodFoodTracker\Core\Exceptions\AppNotInitializedException;
 	use JetBrains\PhpStorm\ArrayShape;
 	use Ramsey\Uuid\Rfc4122\UuidV4;
 	use ReflectionClass;
@@ -42,11 +44,14 @@
 		 */
 		private array $annotations;
 
+		/**
+		 * @throws AppNotInitializedException
+		 */
 		public function __construct(string $table, string $primaryKey = "id") {
 			$this->table = $table;
 			$this->primaryKey = $primaryKey;
 			$this->annotations = $this->get_annotations();
-			$this->db = Database::getInstance();
+			$this->db = ( App::get_instance() )->get_db();
 		}
 
 		/**
@@ -56,7 +61,7 @@
 		 *
 		 * @return Entity returns an instance of an Entity class with database columns converted into instance properties
 		 */
-		public function from_result(mixed $result) : Entity {
+		public function from_result(mixed $result) : self {
 			$t = new $this();
 			$reflection = new ReflectionClass($this);
 			$properties = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
@@ -78,7 +83,7 @@
 		 *
 		 * @throws ReflectionException Throws an exception if the class or property does not exist.
 		 */
-		public function save() : Entity {
+		public function save() : self {
 			$ref = new ReflectionClass($this);
 			$properties = $ref->getProperties();
 
@@ -163,7 +168,7 @@
 		 *
 		 * @return Entity Returns the instance of an entity class that was deleted
 		 */
-		public function delete() : Entity {
+		public function delete() : self {
 			$id = $this->{$this->primaryKey};
 			$query = "DELETE FROM " . $this->table . " WHERE " . $this->primaryKey . " = ?";
 			$this->db->get_result($query, [ $id ]);

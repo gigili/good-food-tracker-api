@@ -110,13 +110,17 @@
 			FileHandler::delete_image_from_disk($imagePath);
 			$user->delete();
 
-			//TODO: send an account deleted notification email with a proper template
-			if ( !send_email(
-				$user->email,
-				"Account deleted successfully",
-				"Dear $userEntity->name, your account has been deleted successfully from our application."
-			) ) {
-				throw new EmailNotSentException();
-			}
+			$emailBody = "Dear $user->name<br/><br/> your account has been deleted successfully from our application. <br/><br/> Good Food Tracker team";
+            if (!send_email(
+                $user->email,
+                "Account deleted successfully",
+                $emailBody,
+                emailTemplate : [
+                    'file' => 'delete_user_email',
+                    'args' => [ 'emailPreview' => strip_tags($emailBody) ]
+                ]
+            )) {
+                throw new EmailNotSentException();
+            }
 		}
 	}

@@ -11,18 +11,13 @@
 	class Logger
 	{
 		public static function log(string $message = '', string $logFileName = 'app_log.log') {
-			if ( is_dir($_SERVER['DOCUMENT_ROOT'] . '/../logs') === false ) {
-				mkdir($_SERVER['DOCUMENT_ROOT'] . '/../logs', 0644);
+			if ( is_dir(BASE_PATH . '/../logs') === false ) {
+				mkdir(BASE_PATH . '/../logs', 0644);
 			}
 
-			$handle = fopen($_SERVER['DOCUMENT_ROOT'] . "/../logs/$logFileName", 'a+');
+			$handle = fopen(BASE_PATH . "/../logs/$logFileName", 'a+');
 			fwrite($handle, $message . "\n");
 			fclose($handle);
-		}
-
-		public static function info(string $message = '', string $logFileName = 'app_log.log') {
-			$prefix = '[' . date('Y-m-d H:i:s') . ' | INFO] ';
-			self::log($prefix . $message, $logFileName);
 		}
 
 		public static function warning(string $message = '', string $logFileName = 'app_log.log') {
@@ -32,11 +27,6 @@
 
 		public static function error(string $message = '', string $logFileName = 'app_log.log') {
 			$prefix = '[' . date('Y-m-d H:i:s') . ' | ERROR] ';
-			self::log($prefix . $message, $logFileName);
-		}
-
-		public static function success(string $message = '', string $logFileName = 'app_log.log') {
-			$prefix = '[' . date('Y-m-d H:i:s') . ' | SUCCESS] ';
 			self::log($prefix . $message, $logFileName);
 		}
 

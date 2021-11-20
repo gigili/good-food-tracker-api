@@ -12,4 +12,6 @@
 
 	class AppNotInitializedException extends Exception
 	{
+		protected $message = "The app wasn't initialized properly";
+		protected $code    = 500;
 	}
