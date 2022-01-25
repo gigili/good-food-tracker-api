@@ -30,7 +30,7 @@
     "php": ">=8.0",
     "ext-json": "*",
     "gac/routing": "^v3.0",
-    "firebase/php-jwt": "^5.2",
+    "firebase/php-jwt": "^6.0",
     "vlucas/phpdotenv": "^5.3",
     "ramsey/uuid": "^4.1",
     "phpmailer/phpmailer": "^6.5",
