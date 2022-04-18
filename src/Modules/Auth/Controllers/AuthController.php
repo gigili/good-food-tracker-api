@@ -36,6 +36,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="username", type="string"),
 		 *     				@OA\Property(property="password", type="string")
@@ -45,8 +46,9 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull login",
+		 *        description="Successful login",
 		 *			@OA\JsonContent(
+		 *              additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property(property="user", ref="#/components/schemas/UserEntity"),
 		 *     				@OA\Property(
@@ -62,7 +64,7 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
-		 *        description="Missing required fileds in the request body",
+		 *        description="Missing required fields in the request body",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
@@ -74,7 +76,12 @@
 		 *        response="423",
 		 *        description="Account not active",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -93,10 +100,10 @@
 				$request->send($result);
 			} catch ( Exception $ex ) {
 				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Registration failed',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+					"error" => [
+						"class" => ( new ReflectionClass($ex) )->getShortName(),
+						"message" => $ex->getMessage() ?? "Registration failed",
+						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
 					],
 				]);
 			}
@@ -118,6 +125,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="email", type="string"),
@@ -132,6 +140,7 @@
 		 *        response="201",
 		 *        description="Registration successful",
 		 *			@OA\JsonContent(
+		 *              additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property(property="message", type="string"),
 		 *     				@OA\Property(property="user", ref="#/components/schemas/UserEntity"),
@@ -140,7 +149,7 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
-		 *        description="Missing required fileds in the request body",
+		 *        description="Missing required fields in the request body",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
@@ -152,26 +161,31 @@
 		 *        response="500",
 		 *        description="Registration failed",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
 		public function register(Request $request) {
 			$name = $request->get("name");
 			$email = $request->get("email");
-			$username = $request->get('username');
-			$password = $request->get('password');
+			$username = $request->get("username");
+			$password = $request->get("password");
 
 			try {
 				Validation::validate([
 					"name" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
-					'email' => [
+					"email" => [
 						ValidationRules::REQUIRED,
 						[ ValidationRules::MAX_LENGTH => 200 ],
 						ValidationRules::VALID_EMAIL,
 					],
-					'username' => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
-					'password' => [
+					"username" => [ ValidationRules::REQUIRED, [ ValidationRules::MAX_LENGTH => 200 ] ],
+					"password" => [
 						ValidationRules::REQUIRED,
 						[ ValidationRules::MIN_LENGTH => 10 ],
 						[ ValidationRules::SAME_AS => "password_again" ],
@@ -182,9 +196,9 @@
 				$request->status(201)->send([ "message" => "registration successful", "data" => $newUser ]);
 			} catch ( Exception $ex ) {
 				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
+					"error" => [
 						"class" => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? "Registration failed",
+						"message" => $ex->getMessage() ?? "Registration failed",
 						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
 					],
 				]);
@@ -199,7 +213,7 @@
 		 * @OA\Post (
 		 *     path="/auth/verify",
 		 *     summary="Verify account endpoint",
-		 *     description="Endpoint used for verifing user accounts after registration",
+		 *     description="Endpoint used for verifying  user accounts after registration",
 		 *     tags={"Auth"},
 		 *     @OA\RequestBody(
 		 *         description="Parameters",
@@ -207,6 +221,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="activationKey", type="string"),
 		 *                },
@@ -220,14 +235,19 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
-		 *        description="Missing required fileds in the request body",
+		 *        description="Missing required fields in the request body",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="412",
 		 *        description="Invalid activation key provided",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -246,10 +266,10 @@
 				]);
 			} catch ( Exception $ex ) {
 				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Account verification failed',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+					"error" => [
+						"class" => ( new ReflectionClass($ex) )->getShortName(),
+						"message" => $ex->getMessage() ?? "Account verification failed",
+						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
 					],
 				]);
 			}
@@ -271,6 +291,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="emailOrUsername", type="string"),
 		 *                },
@@ -284,7 +305,7 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
-		 *        description="Missing required fileds in the request body",
+		 *        description="Missing required fields in the request body",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
@@ -296,7 +317,12 @@
 		 *        response="500",
 		 *        description="Unable to send reset code via email",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 *
 		 */
@@ -312,10 +338,10 @@
 				$request->send([ "message" => "Password reset code sent to the email address linked to the account" ]);
 			} catch ( Exception $ex ) {
 				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Failed generating password reset code',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+					"error" => [
+						"class" => ( new ReflectionClass($ex) )->getShortName(),
+						"message" => $ex->getMessage() ?? "Failed generating password reset code",
+						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
 					],
 				]);
 			}
@@ -337,6 +363,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="passwordResetCode", type="string"),
 		 *     				@OA\Property(property="newPassword", type="string"),
@@ -352,7 +379,7 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="400",
-		 *        description="Missing required fileds in the request body",
+		 *        description="Missing required fields in the request body",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 *     @OA\Response(
@@ -364,7 +391,12 @@
 		 *        response="500",
 		 *        description="Unable to send password reset confirmation email",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function reset_password(Request $request) {
@@ -389,10 +421,10 @@
 				]);
 			} catch ( Exception $ex ) {
 				$request->status((int) $ex->getCode() ?? 500)->send([
-					'error' => [
-						'class' => ( new ReflectionClass($ex) )->getShortName(),
-						'message' => $ex->getMessage() ?? 'Password reset failed',
-						'field' => ( method_exists($ex, 'getField') ) ? $ex->getField() : '',
+					"error" => [
+						"class" => ( new ReflectionClass($ex) )->getShortName(),
+						"message" => $ex->getMessage() ?? "Password reset failed",
+						"field" => ( method_exists($ex, "getField") ) ? $ex->getField() : "",
 					],
 				]);
 			}
@@ -407,7 +439,7 @@
 		 * @OA\Post (
 		 *     path="/auth/logout",
 		 *     summary="Logout endpoint",
-		 *     description="Endpoint used for loggin user out and invalidating tokens",
+		 *     description="Endpoint used for logging user out and invalidating tokens",
 		 *     tags={"Auth"},
 		 *     @OA\Parameter(
 		 *            in="header",
@@ -416,12 +448,14 @@
 		 *            required=true,
 		 *     		  @OA\Schema (
 		 *                type="string",
-		 *                additionalProperties=false
+		 *                additionalProperties=false,
+		 *                  pattern="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+		 *                  maxLength=32
 		 *             ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Logout successfull",
+		 *        description="Logout Successful",
 		 *			@OA\JsonContent(ref="#/components/schemas/response_with_message_only"),
 		 *     ),
 		 *     @OA\Response(
@@ -436,7 +470,12 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="500",
-		 *        description="Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+		 *        description="Invalid or incorrect token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -472,12 +511,14 @@
 		 *            required=true,
 		 *     		  @OA\Schema (
 		 *                type="string",
-		 *                additionalProperties=false
+		 *                additionalProperties=false,
+		 *                  pattern="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+		 *                  maxLength=32
 		 *             ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull generated new access token",
+		 *        description="Successful generated new access token",
 		 *			@OA\JsonContent(
 		 *                properties = {
 		 *     				@OA\Property (property="accessToken", type="string"),
@@ -497,7 +538,12 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="500",
-		 *        description="Invalid or inccorent token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+		 *        description="Invalid or incorrect token provided: InvalidArgumentException | UnexpectedValueException | SignatureInvalidException | BeforeValidException | BeforeValidException | ExpiredException",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

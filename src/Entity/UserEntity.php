@@ -14,14 +14,16 @@
 	 * UserEntity class
 	 *
 	 * @OA\Schema (
-	 *    schema="UserEntity",
-	 *    properties={
+	 *  schema="UserEntity",
+	 *  type="object",
+	 *  additionalProperties=false,
+	 *  properties={
 	 *     @OA\Property(property="id", type="string"),
 	 *     @OA\Property(property="name", type="string"),
 	 *     @OA\Property(property="email", type="string"),
 	 *     @OA\Property(property="username", type="string"),
 	 *     @OA\Property(property="image", type="string", nullable=true)
-	 *    }
+	 *  }
 	 * )
 	 */
 	class UserEntity extends Entity

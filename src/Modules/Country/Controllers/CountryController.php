@@ -70,8 +70,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull filtered countries",
+		 *        description="Successfully filtered countries",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                type="object",
 		 *                  properties={
 		 *     			  @OA\Property(
@@ -88,7 +89,12 @@
 		 *        response="401",
 		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function filter_countries(Request $request) {
@@ -121,14 +127,14 @@
 		 *            description="ID of a country",
 		 *            required=true,
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *              ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -143,7 +149,12 @@
 		 *        response="401",
 		 *        description="Invalid or missing token",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function get_country(Request $request, string $countryID) {
@@ -178,6 +189,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="code", type="string"),
@@ -187,8 +199,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="201",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -202,6 +215,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -239,7 +257,7 @@
 		 * @OA\Patch    (
 		 *     path="/country/{countryID}",
 		 *     summary="Update country",
-		 *     description="Endpoint used for updateing country information",
+		 *     description="Endpoint used for updating country information",
 		 *     tags={"Country"},
 		 *     security={{"bearer": {}}},
 		 *     @OA\Parameter (
@@ -247,6 +265,9 @@
 		 *            required=true,
 		 *            name="countryID",
 		 *            description="ID of a country being updated",
+		 *     		  @OA\Schema (
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *            ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -254,6 +275,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="code", type="string"),
@@ -263,8 +285,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -283,6 +306,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -323,14 +351,14 @@
 		 *            name="countryID",
 		 *            description="ID of a country being updated",
 		 *     		  @OA\Schema (
-		 *                type="integer",
-		 *                additionalProperties=false
-		 *             ),
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *              ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                properties = {
 		 *     				@OA\Property (property="data", ref="#/components/schemas/CountryEntity"),
 		 *                }
@@ -349,6 +377,11 @@
 		 *     @OA\Response(
 		 *        response="404",
 		 *        description="Country not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

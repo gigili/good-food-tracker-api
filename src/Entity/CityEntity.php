@@ -16,6 +16,7 @@
 	 * @OA\Schema (
 	 *  schema="CityEntity",
 	 *  type="object",
+	 *  additionalProperties=false,
 	 *  properties={
 	 *  	@OA\Property(property="id", type="string"),
 	 *  	@OA\Property(property="name", type="string"),

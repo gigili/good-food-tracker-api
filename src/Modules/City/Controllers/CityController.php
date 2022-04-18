@@ -71,8 +71,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *              additionalProperties=false,
 		 *                type="object",
 		 *                properties={
 		 *     			  @OA\Property(
@@ -88,6 +89,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -126,14 +132,14 @@
 		 *            description="ID of a city we are looking for",
 		 *            required=true,
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *            ref="#/components/schemas/uuid_parameter"
+		 *         ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *          additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
@@ -152,6 +158,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -191,6 +202,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *     				@OA\Property(property="country_id", type="string"),
@@ -200,8 +212,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="201",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
@@ -215,6 +228,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -264,9 +282,8 @@
 		 *            name="cityID",
 		 *            description="ID of a city being updated",
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *            ref="#/components/schemas/uuid_parameter"
+		 *         ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -274,6 +291,7 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="name", type="string"),
 		 *                },
@@ -282,8 +300,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
@@ -297,6 +316,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -337,15 +361,15 @@
 		 *            required=true,
 		 *            name="cityID",
 		 *            description="ID of a city being updated",
-		 *     			@OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *     		  @OA\Schema (
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *            ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/CityEntity"),
 		 *           }
@@ -359,6 +383,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

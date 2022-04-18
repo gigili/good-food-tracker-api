@@ -53,18 +53,16 @@
 		 *                type="string",
 		 *                additionalProperties=false
 		 *             ),
-		 *     security={{"bearer": {}}},
-		 *     @OA\RequestBody(
-		 *         description="Required parameters",
-		 *         required=true,
-		 *         @OA\MediaType(
-		 *            mediaType="application/json",
-		 *			  @OA\Schema(
-		 *                properties={
-		 *     				@OA\Property(property="search", type="string"),
-		 *                },
-		 *              ),
-		 *            ),
+		 *     ),
+		 *	   @OA\Parameter(
+		 *            in="query",
+		 *            name="serch",
+		 *            description="Value to filter the results with",
+		 *            required=false,
+		 *     		  @OA\Schema (
+		 *                type="string",
+		 *                additionalProperties=false
+		 *             ),
 		 *     ),
 		 *     @OA\Parameter(
 		 *            in="query",
@@ -88,18 +86,24 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *     			@OA\Property (
-		 *                    property="data",
-		 *                    type="array",
+		 *                  property="data",
+		 *                  type="array",
 		 *     				@OA\Items(ref="#/components/schemas/UserEntity")
-		 *                )
-		 *            )
+		 *             )
+		 *         )
 		 *     ),
 		 *		@OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -134,14 +138,14 @@
 		 *         in="path",
 		 *         required=true,
 		 *         @OA\Schema (
-		 *           type="integer",
-		 *           additionalProperties=false
+		 *            ref="#/components/schemas/uuid_parameter"
 		 *        ),
 		 *     ),
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *					@OA\Property (property="data", ref="#/components/schemas/UserEntity"),
 		 *                }
@@ -162,6 +166,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -205,8 +214,9 @@
 		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *					@OA\Property (property="data", ref="#/components/schemas/UserEntity"),
 		 *                }
@@ -248,6 +258,11 @@
 		 *        description="Fail upload failed or any other non specific error",
 		 *		  @OA\JsonContent( ref="#/components/schemas/error_response")
 		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function update_user_account(Request $request) {
@@ -285,8 +300,9 @@
 		 *     security={{"bearer": {}}},
 		 *     @OA\Response(
 		 *        response="200",
-		 *        description="Successfull result",
+		 *        description="Successful result",
 		 *			@OA\JsonContent(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *					@OA\Property (property="data", ref="#/components/schemas/response_with_message_only"),
 		 *                }
@@ -313,9 +329,14 @@
 		 *
 		 *     @OA\Response(
 		 *        response="500",
-		 *        description="Email not sent or any other excpetion",
+		 *        description="Email not sent or any other exception",
 		 *		  @OA\JsonContent( ref="#/components/schemas/error_response")
-		 *     )
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
 		 * )
 		 */
 		public function delete_user_account(Request $request) {

@@ -36,7 +36,7 @@
 
 			$filters = [];
 			if ( !empty($search) ) {
-				$filters = [ 'name' => $search, 'email' => $search, 'username' => $search ];
+				$filters = [ "name" => $search, "email" => $search, "username" => $search ];
 			}
 
 			return $userEntity->filter(
@@ -46,7 +46,7 @@
 				start : $start,
 				limit : $limit,
 				useLike : true,
-				ignoredLikedFields : [ 'email' ]
+				ignoredLikedFields : [ "email" ]
 			);
 		}
 
@@ -68,17 +68,17 @@
 		 */
 		public static function update_user(Request $request, ?string $profileImage = NULL) : Entity {
 			$userEntity = new UserEntity();
-			$user = $userEntity->get($_SESSION['userID']);
+			$user = $userEntity->get($_SESSION["userID"]);
 
 			if ( ( $user instanceof UserEntity ) === false || !isset($user->id) ) throw new UserNotFoundException();
 
-			$user->name = $request->get('name');
-			$user->email = $request->get('email');
+			$user->name = $request->get("name");
+			$user->email = $request->get("email");
 			if ( !is_null($profileImage) ) {
 				try {
-					FileHandler::delete_image_from_disk(BASE_PATH.$user->image, true);
-				} catch (FileDeletionException $e){
-					$message = "Failed to delete image: ".BASE_PATH.$user->image." Message: ".$e->getMessage();
+					FileHandler::delete_image_from_disk(BASE_PATH . $user->image, true);
+				} catch ( FileDeletionException $e ) {
+					$message = "Failed to delete image: " . BASE_PATH . $user->image . " Message: " . $e->getMessage();
 					Logger::error($message);
 				}
 

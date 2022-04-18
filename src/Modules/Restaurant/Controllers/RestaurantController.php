@@ -68,8 +68,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                type="object",
 		 *                properties={
 		 *     			  @OA\Property(
@@ -85,6 +86,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -118,14 +124,14 @@
 		 *            description="ID of a restaurant to fetch the information for",
 		 *            required=true,
 		 *     		  @OA\Schema (
-		 *                type="string",
-		 *                additionalProperties=false
-		 *             ),
+		 *                ref="#/components/schemas/uuid_parameter"
+		 *            ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *                type="object",
 		 *                properties={
 		 *     			  @OA\Property(
@@ -141,6 +147,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -175,10 +186,11 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="city_id", type="string"),
 		 *     				@OA\Property(property="name", type="string"),
-		 *     				@OA\Property(property="adress", type="string"),
+		 *     				@OA\Property(property="address", type="string"),
 		 *     				@OA\Property(property="phone", type="string"),
 		 *     				@OA\Property(property="email", type="string"),
 		 *     				@OA\Property(property="delivery", type="number"),
@@ -191,8 +203,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="201",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
 		 *           }
@@ -206,6 +219,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -220,7 +238,10 @@
 		 *        in="path",
 		 *        name="restaurantID",
 		 *        description="ID of a restaurant to update the information for",
-		 *        required=true
+		 *        required=true,
+		 *     	  @OA\Schema (
+		 *           ref="#/components/schemas/uuid_parameter"
+		 *       ),
 		 *     ),
 		 *     @OA\RequestBody(
 		 *         description="Required parameters",
@@ -228,10 +249,11 @@
 		 *         @OA\MediaType(
 		 *            mediaType="application/json",
 		 *			  @OA\Schema(
+		 *              additionalProperties=false,
 		 *                properties={
 		 *     				@OA\Property(property="city_id", type="string"),
 		 *     				@OA\Property(property="name", type="string"),
-		 *     				@OA\Property(property="adress", type="string", nullable=true),
+		 *     				@OA\Property(property="address", type="string", nullable=true),
 		 *     				@OA\Property(property="phone", type="string", nullable=true),
 		 *     				@OA\Property(property="email", type="string", nullable=true),
 		 *     				@OA\Property(property="delivery", type="number", nullable=true),
@@ -244,8 +266,9 @@
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
 		 *           }
@@ -259,6 +282,11 @@
 		 *     @OA\Response(
 		 *        response="401",
 		 *        description="Invalid or missing token",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )
@@ -291,14 +319,14 @@
 		 *        description="ID of a restaurant to delete from the database",
 		 *        required=true,
 		 *     	  @OA\Schema (
-		 *           type="string",
-		 *           additionalProperties=false
+		 *           ref="#/components/schemas/uuid_parameter"
 		 *       ),
 		 *     ),
 		 *		@OA\Response(
 		 *        response="200",
-		 *        description="Successfull response",
+		 *        description="Successful response",
 		 *			@OA\JsonContent(
+		 *            additionalProperties=false,
 		 *            properties = {
 		 *     			@OA\Property (property="data", ref="#/components/schemas/RestaurantEntity"),
 		 *           }
@@ -316,7 +344,12 @@
 		 *     ),
 		 *     @OA\Response(
 		 *        response="404",
-		 *        description="Restaurat not found",
+		 *        description="Restaurant not found",
+		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
+		 *     ),
+		 *     @OA\Response(
+		 *        response="default",
+		 *        description="Any other undocumented error",
 		 *			@OA\JsonContent(ref="#/components/schemas/error_response"),
 		 *     ),
 		 * )

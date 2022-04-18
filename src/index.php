@@ -15,7 +15,7 @@
 	 *     description="The project aims to allow the users to take pictures and/or leave notes, ratings, comments about restaurants they visit
 	in order to be able to reference it later when they try to pick were they want to go eat out or order from.",
 	 *   @OA\Contact(
-	 *     name="Igor Ilic",
+	 *     name="Igor Ilić",
 	 *     email="github@igorilic.net"
 	 *   ),
 	 * )
@@ -28,6 +28,7 @@
 	 *             securityScheme="bearer",
 	 *             type="http",
 	 *             scheme="bearer",
+	 *               bearerFormat="JWT",
 	 *         ),
 	 *     )
 	 *
@@ -35,6 +36,7 @@
 	 * @OA\Schema (
 	 *     schema="error_response",
 	 *      type="object",
+	 *      additionalProperties=false,
 	 *      properties={
 	 *			@OA\Property(property="class", type="string"),
 	 *     		@OA\Property(property="message", type="string"),
@@ -45,11 +47,19 @@
 	 * @OA\Schema (
 	 *     schema="response_with_message_only",
 	 *     type="object",
+	 *     additionalProperties=false,
 	 *     properties={
 	 *       @OA\Property(property="message", type="string")
 	 *       }
 	 * )
 	 *
+	 * @OA\Schema(
+	 *     schema="uuid_parameter",
+	 *     type="string",
+	 *     additionalProperties=false,
+	 *     pattern="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[1-5]{1}[0-9A-Fa-f]{3}-[ABab89]{1}[0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+	 *     maxLength=32
+	 * )
 	 */
 
 	declare( strict_types=1 );

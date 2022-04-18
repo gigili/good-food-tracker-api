@@ -19,5 +19,5 @@
 		   ->get("/{string:restaurantID}", [ RestaurantController::class, "get" ])
 		   ->post("/", [ RestaurantController::class, "create_or_update" ])
 		   ->patch("/{string:restaurantID}", [ RestaurantController::class, "create_or_update" ])
-		   ->delete('/{string:restaurantID}', [ RestaurantController::class, 'delete' ])
+		   ->delete("/{string:restaurantID}", [ RestaurantController::class, "delete" ])
 		   ->save();
