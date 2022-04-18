@@ -168,17 +168,15 @@
 			$user->save();
 
 			$activationLink = "$passwordResetCode";
-			$emailBody = "Dear $user->name<br/><br/>to resset your password, please click on the button that says Reset password or copy the password reset code below and enter it in the app. <br/><br/> Good Food Tracker team";
+			$emailBody = "Dear $user->name<br/><br/>to resset your password, please click on the button or copy the password reset code below and enter it in the app. <br/><br/> Good Food Tracker team";
 			$emailSent = send_email(
 				$user->email,
 				'Password reset code',
 				$emailBody,
 				emailTemplate : [
-					'file' => 'confirm_email',
+					'file' => 'password_reset_code_email',
 					'args' => [
-						'emailTitle' => 'Password reset code',
 						'emailPreview' => strip_tags($emailBody),
-						'emailConfirmText' => 'Reset password',
 						'emailActivationLink' => $activationLink,
 					],
 				]
